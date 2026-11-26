@@ -14,6 +14,16 @@ import {
   normalizeAndroidState,
 } from "../server/godot/economy";
 
+import {
+  ANDROID_POSITION_LAYOUT,
+  androidTarget,
+  walkableAndroidPoint,
+} from "../server/godot/worldData";
+
+const pyraMob = androidTarget("pyra", "pyra-zone-1-m1")!;
+if (pyraMob.kind !== "monster") throw new Error("Missing canonical Pyra spawn");
+const pyraPoint = { x: pyraMob.x, z: pyraMob.z };
+
 function freshHero(
   race: "legend" | "planetary" | "sage" | "android" = "legend",
   gold = 500,
@@ -306,6 +316,161 @@ describe("Android authoritative economy, city training & progression engine", ()
       { isStaff: false, nowMs: 13_000 },
     );
     expect(g01.state.completedQuests["G-P01"]).toBeTruthy();
+  });
+
+  it("creates a walk-over drop and credits it only once, after a valid pickup", () => {
+    const hero = freshHero();
+    expect(walkableAndroidPoint("pyra", pyraPoint)).toBe(true);
+    const defeat = {
+      type: "pve_defeat",
+      land: "pyra",
+      targetId: "pyra-zone-1-m1",
+      drop: pyraPoint,
+    } as const;
+    const killed = applyAndroidAction(hero, defeat, { isStaff: false, nowMs: 1_000 });
+    expect(killed.gold).toBe(hero.gold);
+    expect(killed.state.backpack).toEqual(hero.state.backpack);
+    expect(killed.state.xp - hero.state.xp).toBe(25);
+    const afterKill = { ...hero, ...killed };
+    expect(() =>
+      applyAndroidAction(afterKill, defeat, { isStaff: false, nowMs: 2_000 }),
+    ).toThrowError(expect.objectContaining({ code: "ARENA_COOLDOWN" }));
+    const token = killed.lootDrop!.token;
+    const pickup = { type: "pickup_loot", token, land: "pyra", position: pyraPoint } as const;
+    expect(() => applyAndroidAction(hero, pickup, { isStaff: false, nowMs: 2_000 })).toThrowError(
+      expect.objectContaining({ code: "NOT_FOUND" }),
+    );
+    expect(() =>
+      applyAndroidAction(
+        afterKill,
+        { ...pickup, position: { ...pyraPoint, x: pyraPoint.x + 50 } },
+        { isStaff: false, nowMs: 2_000 },
+      ),
+    ).toThrowError(expect.objectContaining({ code: "INVALID_ACTION" }));
+
+    const full = structuredClone(afterKill);
+    full.state.backpack.fill({ id: "potion_ki", qty: 999 });
+    expect(() => applyAndroidAction(full, pickup, { isStaff: false, nowMs: 2_000 })).toThrowError(
+      expect.objectContaining({ code: "BACKPACK_FULL" }),
+    );
+    expect(full.state.pendingLoot[0]?.claimed).toBe(false);
+    expect(full.gold).toBe(hero.gold);
+
+    const collected = applyAndroidAction(afterKill, pickup, { isStaff: false, nowMs: 2_000 });
+    expect(collected.gold).toBe(hero.gold + killed.lootDrop!.gold);
+    for (const item of killed.lootDrop!.items)
+      expect(collected.state.backpack).toContainEqual(item);
+    const retried = applyAndroidAction({ ...hero, ...collected }, pickup, {
+      isStaff: false,
+      nowMs: 3_000,
+    });
+    expect(retried.gold).toBe(collected.gold);
+    expect(retried.state.backpack).toEqual(collected.state.backpack);
+    expect(() =>
+      applyAndroidAction(afterKill, pickup, { isStaff: false, nowMs: 122_000 }),
+    ).toThrowError(expect.objectContaining({ code: "NOT_FOUND" }));
+  });
+
+  it("records hunting XP without counting a monster and validates labyrinth loot in its room", () => {
+    const hero = freshHero("legend", 100, 6);
+    const animal = androidTarget("pyra", "animal_A-04_0")!;
+    if (animal.kind !== "animal") throw new Error("Missing canonical animal spawn");
+    const hunt = applyAndroidAction(
+      hero,
+      {
+        type: "pve_defeat",
+        land: "pyra",
+        targetId: "animal_A-04_0",
+        drop: { x: animal.x, z: animal.z },
+      },
+      { isStaff: false, nowMs: 10_000 },
+    );
+    expect(hunt.state.progress.animalsHunted).toBe(1);
+    expect(hunt.state.progress.monsterKills).toBe(0);
+    expect(hunt.state.xp).toBe(14);
+    expect(hunt.gold).toBe(100);
+    expect(hunt.lootDrop!.gold).toBeGreaterThanOrEqual(6);
+    expect(hunt.lootDrop!.gold).toBeLessThanOrEqual(14);
+
+    const room = "lab-pyra-caldera";
+    const point = { x: 111, z: 111 };
+    const kill = applyAndroidAction(
+      { ...hero, ...hunt },
+      {
+        type: "pve_defeat",
+        land: "pyra",
+        targetId: "guard-lab-pyra-caldera-1",
+        drop: point,
+      },
+      { isStaff: false, nowMs: 11_000 },
+    );
+    expect(kill.lootDrop!.room).toBe(room);
+    const pickup = {
+      type: "pickup_loot",
+      token: kill.lootDrop!.token,
+      land: "pyra",
+      position: point,
+    };
+    expect(() =>
+      applyAndroidAction({ ...hero, ...kill }, pickup, { isStaff: false, nowMs: 12_000 }),
+    ).toThrowError(expect.objectContaining({ code: "INVALID_ACTION" }));
+    const claimed = applyAndroidAction(
+      { ...hero, ...kill },
+      { ...pickup, room },
+      {
+        isStaff: false,
+        nowMs: 12_000,
+      },
+    );
+    expect(claimed.gold).toBe(100 + kill.lootDrop!.gold);
+  });
+
+  it("saves only walkable exterior positions and invalidates stale saves after travel and defeat", () => {
+    const hero = freshHero();
+    const save = {
+      type: "save_position",
+      epoch: 0,
+      layout: ANDROID_POSITION_LAYOUT,
+      land: "pyra",
+      position: pyraPoint,
+    } as const;
+    const saved = applyAndroidAction(hero, save, { isStaff: false });
+    expect(saved.state.position).toEqual({
+      ...pyraPoint,
+      land: "pyra",
+      layout: ANDROID_POSITION_LAYOUT,
+    });
+    expect(normalizeAndroidState(saved.state, hero.race, hero.level).position).toEqual(
+      saved.state.position,
+    );
+    expect(() =>
+      applyAndroidAction(hero, { ...save, position: { x: 0, z: 0 } }, { isStaff: false }),
+    ).toThrowError(expect.objectContaining({ code: "INVALID_ACTION" }));
+    const traveled = applyAndroidAction(
+      { ...hero, ...saved },
+      { type: "travel", land: "aether" },
+      {
+        isStaff: false,
+      },
+    );
+    expect(traveled.state.position).toBeNull();
+    const returned = applyAndroidAction(
+      { ...hero, ...traveled },
+      { type: "travel", land: "pyra" },
+      {
+        isStaff: false,
+      },
+    );
+    expect(() =>
+      applyAndroidAction({ ...hero, ...returned }, save, { isStaff: false }),
+    ).toThrowError(expect.objectContaining({ code: "INVALID_ACTION" }));
+    const defeated = applyAndroidAction(
+      { ...hero, ...saved },
+      { type: "hero_defeat" },
+      { isStaff: false },
+    );
+    expect(defeated.state.position).toBeNull();
+    expect(defeated.state.positionEpoch).toBe(1);
   });
 
   it("persists GM actions through the canonical transition and reload normalization", () => {

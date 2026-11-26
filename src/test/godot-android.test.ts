@@ -398,6 +398,49 @@ describe.runIf(url)("Android backend on PostgreSQL", () => {
     expect((await call("GET", "/saves/1", { token: t })).status).toBe(404);
   });
 
+  it("keeps ground loot and coordinates consistent across concurrent pickups and reloads", async () => {
+    const token = tokens["gracz1"]!;
+    const created = await call("POST", "/characters", {
+      token,
+      body: { name: "Lowca Arkos", race: "legend" },
+    });
+    expect(created.status).toBe(201);
+    const initial = created.json!["character"];
+    const path = `/characters/${initial.id}`;
+    const position = { x: 2468.83, z: 1711.23 };
+    const action = (body: unknown) => call("POST", `${path}/action`, { token, body });
+    const defeated = await action({
+      type: "pve_defeat",
+      targetId: "pyra-zone-1-m1",
+      land: "pyra",
+      drop: position,
+    });
+    expect(defeated.status).toBe(200);
+    expect(defeated.json!["character"].gold).toBe(initial.gold);
+    expect(defeated.json!["character"].state).not.toHaveProperty("pendingLoot");
+
+    const loot = defeated.json!["lootDrop"];
+    const pickup = { type: "pickup_loot", token: loot.token, land: "pyra", position };
+    const [one, two] = await Promise.all([action(pickup), action(pickup)]);
+    expect(one.status).toBe(200);
+    expect(two.status).toBe(200);
+    expect(one.json!["character"].gold).toBe(initial.gold + loot.gold);
+    expect(two.json!["character"].gold).toBe(initial.gold + loot.gold);
+    const saved = await action({
+      type: "save_position",
+      land: "pyra",
+      layout: "superior-isometric-v1",
+      epoch: 0,
+      position,
+    });
+    expect(saved.status).toBe(200);
+    const reloaded = await call("GET", path, { token });
+    const hero = reloaded.json!["character"];
+    expect(hero.gold).toBe(initial.gold + loot.gold);
+    expect(hero.state.position).toMatchObject(position);
+    expect(hero.state.backpack).toContainEqual(loot.items[0]);
+  });
+
   it("requires a current staff role for GM actions and stores authorized changes", async () => {
     const create = async (nick: string, name: string) => {
       const response = await call("POST", "/characters", {

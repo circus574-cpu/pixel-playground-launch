@@ -14,6 +14,7 @@ import {
   MAX_PLAYER_ANDROID_CHARACTERS,
   normalizeAndroidState,
   type AndroidCharacterView,
+  type AndroidLootDrop,
   type AndroidHeroState,
   type AndroidLand,
   type AndroidRace,
@@ -414,7 +415,12 @@ export class GodotStore {
     characterId: string,
     rawAction: unknown,
     opts: { isStaff: boolean },
-  ): Promise<{ character: AndroidCharacterView; notice: string; teleportCapital: boolean }> {
+  ): Promise<{
+    character: AndroidCharacterView;
+    notice: string;
+    teleportCapital: boolean;
+    lootDrop?: AndroidLootDrop;
+  }> {
     return this.sql.begin(async (tx) => {
       const [row] = await tx<CharacterDbRow[]>`
         SELECT c.*, u.nick AS owner_nick, u.email AS owner_email
@@ -442,6 +448,7 @@ export class GodotStore {
         character: toCharacterView(updated!),
         notice: res.notice,
         teleportCapital: Boolean(res.teleportCapital),
+        ...(res.lootDrop ? { lootDrop: res.lootDrop } : {}),
       };
     });
   }
@@ -557,9 +564,10 @@ type CharacterDbRow = {
 function toCharacterView(r: CharacterDbRow): AndroidCharacterView {
   const race = r.race as AndroidRace;
   const land = r.land as AndroidLand;
-  const state = normalizeAndroidState(r.state, race, r.level);
-  const stats = computeAndroidStats(race, r.level, state);
-  const goals = listGoalsForCharacter({ race, land, level: r.level, state });
+  const normalized = normalizeAndroidState(r.state, race, r.level);
+  const { pendingLoot: _pendingLoot, ...state } = normalized;
+  const stats = computeAndroidStats(race, r.level, normalized);
+  const goals = listGoalsForCharacter({ race, land, level: r.level, state: normalized });
   return {
     id: r.id,
     accountId: r.account_id,

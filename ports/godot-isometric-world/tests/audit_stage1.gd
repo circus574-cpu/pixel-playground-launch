@@ -15,6 +15,9 @@ class TestWorld extends "res://scripts/world.gd":
 	func layout_minimap() -> void:
 		pass
 
+	func sync_hero(_force_scan: bool = false) -> void:
+		pass
+
 var checks := 0
 var failures := 0
 var staff := false
@@ -128,6 +131,70 @@ func run(world: TestWorld) -> void:
 	expect(hud.hp_potion_count() == 1, "inventory uses confirmed stack")
 	expect(int(agent["dmg_dealt_to_hero"]) == 25, "partial healing preserves remaining and new damage")
 	expect(is_equal_approx(hud.hero_hp, hud.hero_max_hp - 25.0), "HP matches remaining damage")
+
+	world.in_labyrinth = false
+	maze.hide()
+	world.world_size = 512.0
+	world.grid_size = 4
+	world.walkable.resize(16)
+	world.walkable.fill(1)
+	world.server_character = {
+		"land": world.current_land,
+		"state": {"positionEpoch": 2, "position": {
+			"layout": world.POSITION_LAYOUT, "land": world.current_land, "x": 180.0, "z": 211.0,
+		}},
+	}
+	expect(world.restore_server_position() and world.hero_pos == Vector2(180.0, 211.0), "restore exterior coordinates")
+	world.walkable.fill(0)
+	expect(not world.restore_server_position(), "blocked saved point is discarded")
+	world.walkable.fill(1)
+	expected_payload = {
+		"type": "save_position", "land": world.current_land, "epoch": 2,
+		"layout": world.POSITION_LAYOUT, "position": {"x": 180.0, "z": 211.0},
+	}
+	var hp := hud.hero_hp
+	world.save_server_position()
+	pending.call({"ok": true, "character": {"state": {"hp": 1}}})
+	expect(is_equal_approx(hud.hero_hp, hp), "position acknowledgement leaves combat vitals alone")
+	var requests_before := requests
+	world.save_server_position()
+	expect(requests_before == requests, "unchanged position does not send another write")
+
+	var surface_drop := {
+		"token": "surface-token", "land": world.current_land, "x": 148.0, "z": 180.0,
+	}
+	var feedback := func(_notice: String, _ok: bool) -> void: pass
+	expected_payload = {
+		"type": "pickup_loot", "token": surface_drop["token"], "land": world.current_land,
+		"position": {"x": 148.0, "z": 180.0},
+	}
+	world.try_pickup_server_loot(surface_drop, Vector2(190.0, 180.0), feedback)
+	expect(requests_before == requests, "outside pickup radius sends no action")
+	world.try_pickup_server_loot(surface_drop, Vector2(148.0, 180.0), feedback)
+	world.try_pickup_server_loot(surface_drop, Vector2(148.0, 180.0), feedback)
+	expect(requests == requests_before + 1, "standing over drop sends one outstanding pickup")
+	pending.call({"ok": false, "errorCode": "BACKPACK_FULL"})
+	expect(not bool(surface_drop["removed"]) and bool(surface_drop["step_away"]), "full bag keeps surface loot")
+	world.try_pickup_server_loot(surface_drop, Vector2(190.0, 180.0), feedback)
+	expect(not surface_drop.has("step_away"), "stepping away allows later retry")
+
+	maze.lab_data = {"id": "test-maze"}
+	maze.hero_px = Vector2(111.0, 111.0)
+	maze.ground_drops.assign([{
+		"token": "maze-token", "land": world.current_land, "room": "test-maze",
+		"x": 111.0, "z": 111.0, "elapsed": 0.0,
+	}])
+	expected_payload = {
+		"type": "pickup_loot", "token": "maze-token", "land": world.current_land,
+		"room": "test-maze", "position": {"x": 111.0, "z": 111.0},
+	}
+	maze._step_ground_drops(0.4)
+	expect(requests == requests_before + 1, "maze waits for the drop to settle")
+	maze._step_ground_drops(0.1)
+	expect(requests == requests_before + 2, "maze pickup uses room coordinates")
+	pending.call({"ok": true})
+	maze._step_ground_drops(0.1)
+	expect(maze.ground_drops.is_empty(), "confirmed drop disappears from maze")
 
 	world.free()
 	print("Etap 1 — %d/%d kontroli Godot" % [checks - failures, checks])

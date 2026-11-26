@@ -163,3 +163,23 @@ Obecnie odbiór łupu przy śmierci potwora odbywa się w `applyAndroidAction`;
 silnik świata wyświetla go na podstawie zmian plecaka i złota.
 Przy zmianie warto zachować blokadę rekordu postaci w `executeCharacterAction`
 i rozliczać jednorazowy token podniesienia w tej samej transakcji co nagrodę.
+
+### Etap 1, punkt 3 — łup, polowania i pozycja
+
+| Funkcja | Stan w 1.14.32 | Zmiana | Weryfikacja |
+| --- | --- | --- | --- |
+| Łup | Serwer dopisywał złoto i przedmioty przy śmierci potwora. | Nowy klient dostaje znacznik łupu. Odbiór na mapie lub w labiryncie wymaga podejścia i ważnego tokenu dla tej postaci. Jedna transakcja księguje cały łup. Pełny plecak zachowuje łup do ponownego podejścia przez maksymalnie 120 s. | PostgreSQL potwierdza pojedynczą wypłatę przy dwóch równoległych żądaniach. Godot sprawdza promień, blokadę powtórzenia i labirynt. |
+| Polowanie | PD i łup zwierząt były lokalne. | Serwer zapisuje PD i licznik polowań. Złoto i ewentualna mikstura trafiają na ziemię, według dotychczasowych zasad nagrody zwierzęcia. | Vitest potwierdza odrębne liczniki potworów i fauny oraz reguły odbioru. |
+| Pozycja | Relog zaczynał się w stolicy aktualnego lądu. | Cofnięcie zdarzeń przez spóźnioną pozycję blokuje numer wersji odcinka podróży. Klient zapisuje ostatni punkt zewnętrzny co 20 s, przy zmianie postaci i przy przejściu aplikacji w tło. Maska terenu i wersja układu ograniczają zapis oraz odtworzenie. Wnętrza wracają do wejścia na powierzchni. | PostgreSQL sprawdza odczyt punktu po ponownym pobraniu postaci. Godot sprawdza odtworzenie, odrzucenie przeszkody i brak wpływu potwierdzenia zapisu na HP. |
+
+Serwer korzysta z identyfikatorów przeciwników, poziomów i masek przejścia wygenerowanych
+z właściwych danych Godot poleceniem `python3 scripts/godot/export_android_world_data.py`.
+Walka i ruch nadal są symulowane w kliencie. Serwer sprawdza znane źródło łupu, punkt,
+zasięg odbioru, odrodzenie źródła, właściciela tokenu i jednorazowość nagrody.
+Dotychczasowy protokół `monster_kill` jest obsługiwany dla OTA 1.14.32.
+Nowy protokół dotyczy kolejnej paczki klienta i wymaga zgodnego backendu.
+
+Lokalnie zaliczono 36 z 36 kontroli Godot i 25 z 25 testów Androida z PostgreSQL.
+Pełne sprawdzenie TypeScript oraz sprawdzenie składni obu projektów Godot zaliczone.
+W tym podejściu testy obejmują zachowanie transakcji i sterowników,
+a odbiór na fizycznym Androidzie pozostaje do wykonania.

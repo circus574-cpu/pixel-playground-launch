@@ -1,7 +1,16 @@
+import { randomInt, randomUUID } from "node:crypto";
 import { z } from "zod";
 import { KIT_NODES, RACE_BASE } from "../../game/kit/nodes.generated";
 import type { RaceId } from "../../game/world/races";
 import { ANDROID_GOALS_MAP, evaluateGoalForCharacter, type AndroidGoalProgressView } from "./goals";
+import {
+  ANDROID_PICKUP_RADIUS,
+  ANDROID_POSITION_LAYOUT,
+  androidRoom,
+  androidTarget,
+  walkableAndroidPoint,
+  type WorldPoint,
+} from "./worldData";
 
 export const ANDROID_RACES = ["legend", "planetary", "sage", "android"] as const;
 export type AndroidRace = (typeof ANDROID_RACES)[number];
@@ -28,6 +37,8 @@ export const GATHER_NODE_COOLDOWN_MS = 90_000;
 export const GATHER_GLOBAL_COOLDOWN_MS = 1_200;
 export const KILL_WINDOW_MS = 1_000;
 export const MAX_KILLS_PER_WINDOW = 14;
+const LOOT_LIFETIME_MS = 120_000;
+const MAX_PENDING_LOOT = 128;
 export const QUEST_GOLD_REWARD = 80;
 export const QUEST_XP_REWARD = 45;
 export const MAX_PLAYER_ANDROID_CHARACTERS = 12;
@@ -1206,6 +1217,17 @@ export type ActiveBlessing = { kind: BlessingKind; expiresAt: number };
 
 export type ItemStack = { id: string; qty: number };
 
+export type AndroidLootDrop = WorldPoint & {
+  token: string;
+  land: AndroidLand;
+  room?: string | undefined;
+  gold: number;
+  items: ItemStack[];
+  expiresAt: number;
+};
+type StoredLoot = AndroidLootDrop & { claimed: boolean };
+type SavedPosition = WorldPoint & { layout: typeof ANDROID_POSITION_LAYOUT; land: AndroidLand };
+
 export type AndroidProgressState = {
   visitedLands: AndroidLand[];
   craftedCount: number;
@@ -1221,10 +1243,15 @@ export type AndroidProgressState = {
   clearedLabyrinths: string[];
   lastKillAt: number;
   recentKillTimes: number[];
+  recentDefeats: Record<string, number>;
+  animalsHunted: number;
 };
 
 export type AndroidHeroState = {
   version: number;
+  position: SavedPosition | null;
+  positionEpoch: number;
+  pendingLoot: StoredLoot[];
   xp: number;
   bankGold: number;
   hp: number;
@@ -1267,7 +1294,7 @@ export type AndroidCharacterView = {
   level: number;
   gold: number;
   revision: number;
-  state: AndroidHeroState;
+  state: Omit<AndroidHeroState, "pendingLoot">;
   stats: AndroidComputedStats;
   goals?: AndroidGoalProgressView[];
   browserCharacterId: string | null;
@@ -1569,6 +1596,9 @@ export function createInitialAndroidState(
 
   const state: AndroidHeroState = {
     version: 2,
+    position: null,
+    positionEpoch: 0,
+    pendingLoot: [],
     xp: Math.max(0, Math.min(xpNeededForLevel(level) - 1, Math.floor(overrides?.xp ?? 0))),
     bankGold: 0,
     hp: 1,
@@ -1600,6 +1630,8 @@ export function createInitialAndroidState(
       clearedLabyrinths: [],
       lastKillAt: 0,
       recentKillTimes: [],
+      recentDefeats: {},
+      animalsHunted: 0,
     },
   };
   const stats = computeAndroidStats(race, level, state);
@@ -1614,6 +1646,21 @@ const itemStackSchema = z
     qty: z.number().int().min(1).max(999),
   })
   .strict();
+
+const worldPointSchema = z.object({ x: z.number().finite(), z: z.number().finite() }).strict();
+const savedPositionSchema = worldPointSchema.extend({
+  layout: z.literal(ANDROID_POSITION_LAYOUT),
+  land: z.enum(ANDROID_LANDS),
+});
+const storedLootSchema = worldPointSchema.extend({
+  token: z.string().uuid(),
+  land: z.enum(ANDROID_LANDS),
+  room: z.string().min(1).max(64).optional(),
+  gold: z.number().int().min(0).max(MAX_GOLD),
+  items: z.array(itemStackSchema).max(8),
+  expiresAt: z.number().int().positive(),
+  claimed: z.boolean(),
+});
 
 export function normalizeAndroidState(
   raw: unknown,
@@ -1749,11 +1796,38 @@ export function normalizeAndroidState(
     .filter((x) => x > 0)
     .slice(-16);
 
+  const recentDefeats: Record<string, number> = Object.create(null);
+  const rawDefeats = progRaw["recentDefeats"];
+  if (rawDefeats && typeof rawDefeats === "object") {
+    for (const [id, ts] of Object.entries(rawDefeats).slice(-2048)) {
+      if (
+        /^[a-zA-Z0-9_-]{1,64}$/.test(id) &&
+        typeof ts === "number" &&
+        Number.isSafeInteger(ts) &&
+        ts > 0
+      )
+        recentDefeats[id] = ts;
+    }
+  }
+  const pendingLoot = Array.isArray(r["pendingLoot"])
+    ? r["pendingLoot"].slice(-MAX_PENDING_LOOT).flatMap((entry) => {
+        const parsed = storedLootSchema.safeParse(entry);
+        return parsed.success ? [parsed.data] : [];
+      })
+    : [];
+  const position = savedPositionSchema.safeParse(r["position"]);
+
   const trainTotal =
     training.hp + training.ki + training.atk + training.def + training.spd + training.crit;
 
   const state: AndroidHeroState = {
     version: 2,
+    position:
+      position.success && walkableAndroidPoint(position.data.land, position.data)
+        ? position.data
+        : null,
+    positionEpoch: clampInt(r["positionEpoch"], 0, Number.MAX_SAFE_INTEGER - 1, 0),
+    pendingLoot,
     xp: clampInt(r["xp"], 0, 10_000_000, 0),
     bankGold: clampInt(r["bankGold"], 0, MAX_GOLD, 0),
     hp: clampInt(r["hp"], 1, 1_000_000, 100),
@@ -1785,6 +1859,8 @@ export function normalizeAndroidState(
       clearedLabyrinths: normStrList(progRaw["clearedLabyrinths"], 40),
       lastKillAt: clampInt(progRaw["lastKillAt"], 0, Number.MAX_SAFE_INTEGER, 0),
       recentKillTimes,
+      recentDefeats,
+      animalsHunted: clampInt(progRaw["animalsHunted"], 0, 10_000_000, 0),
     },
   };
 
@@ -1989,6 +2065,33 @@ export const androidActionSchema = z.discriminatedUnion("type", [
       land: z.enum(ANDROID_LANDS).optional(),
     })
     .strict(),
+  z
+    .object({
+      type: z.literal("pve_defeat"),
+      targetId: z.string().min(1).max(64),
+      land: z.enum(ANDROID_LANDS),
+      drop: worldPointSchema,
+      hpCost: z.number().int().min(0).max(5000).optional(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("pickup_loot"),
+      token: z.string().uuid(),
+      land: z.enum(ANDROID_LANDS),
+      room: z.string().min(1).max(64).optional(),
+      position: worldPointSchema,
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("save_position"),
+      land: z.enum(ANDROID_LANDS),
+      layout: z.literal(ANDROID_POSITION_LAYOUT),
+      epoch: z.number().int().min(0).max(Number.MAX_SAFE_INTEGER),
+      position: worldPointSchema,
+    })
+    .strict(),
   z.object({ type: z.literal("hero_defeat") }).strict(),
   z.object({ type: z.literal("travel"), land: z.enum(ANDROID_LANDS) }).strict(),
   z
@@ -2028,9 +2131,25 @@ export type ActionResult = {
   state: AndroidHeroState;
   notice: string;
   teleportCapital?: boolean;
+  lootDrop?: AndroidLootDrop;
 };
 
-/** Pure, server-authoritative state transition for every economy & progression action. */
+function monsterLoot(land: AndroidLand, level: number, elite: boolean, kills: number): ItemStack[] {
+  if (elite) return ["mat_elite_core", "potion_hp"].map((id) => ({ id, qty: 1 }));
+  const trophies = REGIONAL_TROPHIES[land];
+  const trophy = level >= 6 ? trophies.high : level >= 3 ? trophies.mid : trophies.low;
+  const items: ItemStack[] = [];
+  if (kills % 3 !== 0) items.push({ id: trophy, qty: 1 });
+  if (kills % 2 === 0 && trophy !== "tusk_beast") items.push({ id: "tusk_beast", qty: 1 });
+  if (kills % 5 === 0) items.push({ id: "crystal_ki", qty: 1 });
+  if (kills % 50 === 0) {
+    const weakPool = ["weapon_recruit_sword", "armor_traveler_vest", "helm_traveler"];
+    items.push({ id: weakPool[(kills / 50) % weakPool.length]!, qty: 1 });
+  }
+  return items;
+}
+
+/** Server-authoritative state transition for economy and progression actions. */
 export function applyAndroidAction(
   current: {
     race: AndroidRace;
@@ -2052,6 +2171,8 @@ export function applyAndroidAction(
   let { land, level, gold } = current;
   let notice = "";
   let teleportCapital = false;
+  let lootDrop: AndroidLootDrop | undefined;
+  state.pendingLoot = state.pendingLoot.filter((drop) => drop.expiresAt > nowMs);
 
   const clampVitals = () => {
     const s = computeAndroidStats(current.race, level, state, nowMs);
@@ -2524,73 +2645,160 @@ export function applyAndroidAction(
       break;
     }
 
+    case "pve_defeat":
     case "monster_kill": {
-      // Sliding 1s window (max 14 kills/s) — lets AoE wipe whole monster packs cleanly without 400ms drops!
-      const recent = (state.progress.recentKillTimes ?? []).filter(
+      const target =
+        action.type === "pve_defeat" ? androidTarget(land, action.targetId) : undefined;
+      const room = target?.kind === "guardian" ? target.room : undefined;
+      const animal = target?.kind === "animal";
+      if (action.type === "pve_defeat") {
+        if (!target || action.land !== land)
+          throw new AndroidEconomyError("INVALID_ACTION", "Nieznany przeciwnik na tym lądzie.");
+        if (room && level < (androidRoom(land, room)?.minLevel ?? MAX_LEVEL))
+          throw new AndroidEconomyError(
+            "GOAL_NOT_MET",
+            "Wejście do tego labiryntu wymaga wyższego poziomu.",
+          );
+        if (
+          !walkableAndroidPoint(land, action.drop, room) ||
+          (target.kind !== "guardian" &&
+            Math.hypot(action.drop.x - target.x, action.drop.z - target.z) > 220)
+        )
+          throw new AndroidEconomyError("INVALID_ACTION", "Łup musi leżeć w obszarze przeciwnika.");
+
+        const respawnMs = animal
+          ? 22_000
+          : target.kind === "monster" && target.elite
+            ? 45_000
+            : target.kind === "guardian"
+              ? 45_000
+              : 11_000;
+        const recentDefeats = state.progress.recentDefeats;
+        for (const [id, ts] of Object.entries(recentDefeats)) {
+          if (nowMs - ts >= 45_000) delete recentDefeats[id];
+        }
+        const key = `${land}-${action.targetId}`;
+        const last = recentDefeats[key];
+        if (last !== undefined && nowMs - last < respawnMs)
+          throw new AndroidEconomyError(
+            "ARENA_COOLDOWN",
+            "Ten przeciwnik jeszcze się nie odrodził.",
+          );
+        recentDefeats[key] = nowMs;
+      }
+
+      const recent = state.progress.recentKillTimes.filter(
         (ts) => nowMs - ts >= 0 && nowMs - ts < KILL_WINDOW_MS,
       );
-      if (recent.length >= MAX_KILLS_PER_WINDOW) {
+      if (recent.length >= MAX_KILLS_PER_WINDOW)
         throw new AndroidEconomyError("ARENA_COOLDOWN", "Zbyt wiele zabójstw w jednej sekundzie.");
-      }
       recent.push(nowMs);
       state.progress.recentKillTimes = recent;
       state.progress.lastKillAt = nowMs;
-      state.progress.monsterKills += 1;
 
-      const isElite = Boolean(action.isElite);
+      const isElite =
+        target?.kind === "monster"
+          ? target.elite
+          : action.type === "monster_kill" && Boolean(action.isElite);
+      if (animal) state.progress.animalsHunted += 1;
+      else state.progress.monsterKills += 1;
       if (isElite) state.progress.eliteKills += 1;
 
-      const lvl = clampInt(action.level, 1, MAX_LEVEL, 1);
+      const lvl =
+        target && target.kind !== "animal"
+          ? target.level
+          : action.type === "monster_kill"
+            ? action.level
+            : 1;
       const eliteMult = isElite ? 3 : 1;
       const baseXp = (18 + lvl * 7) * eliteMult;
       const lvDiff = level - lvl;
       const xpMult = lvDiff >= 5 ? 0.25 : lvDiff >= 3 ? 0.5 : 1.0;
-      const rewardXp = Math.max(4, Math.round(baseXp * xpMult));
-      const rewardGold = (8 + lvl * 4) * eliteMult;
-      gold = Math.min(MAX_GOLD, gold + rewardGold);
-      if (action.hpCost && action.hpCost > 0) {
-        state.hp = Math.max(1, state.hp - action.hpCost);
-      }
+      const rewardXp = animal ? 14 : Math.max(4, Math.round(baseXp * xpMult));
+      const rewardGold = animal ? randomInt(6, 15) : (8 + lvl * 4) * eliteMult;
+      if (action.hpCost && action.hpCost > 0) state.hp = Math.max(1, state.hp - action.hpCost);
+      const dropLand = action.type === "monster_kill" ? (action.land ?? land) : land;
+      const items = animal
+        ? randomInt(100) < 45
+          ? [{ id: "potion_hp_small", qty: 1 }]
+          : []
+        : monsterLoot(dropLand, lvl, isElite, state.progress.monsterKills);
 
-      // Deterministic/reliable crafting trophy drops + Elite guaranteed loot
-      const dropLand: AndroidLand = action.land ?? land;
-      const trophies = REGIONAL_TROPHIES[dropLand];
-      const dropNotes: string[] = [];
-      if (isElite) {
-        if (addItemToSlots(state.backpack, "mat_elite_core", 1)) dropNotes.push("Rdzeń Alfy");
-        if (addItemToSlots(state.backpack, "potion_hp", 1)) dropNotes.push("Wielki Eliksir Życia");
+      let rewardText: string;
+      if (action.type === "pve_defeat") {
+        lootDrop = {
+          ...action.drop,
+          land,
+          ...(room ? { room } : {}),
+          token: randomUUID(),
+          gold: rewardGold,
+          items,
+          expiresAt: nowMs + LOOT_LIFETIME_MS,
+        };
+        state.pendingLoot.push({ ...lootDrop, claimed: false });
+        if (state.pendingLoot.length > MAX_PENDING_LOOT) state.pendingLoot.shift();
+        rewardText = "Podejdź do łupu.";
       } else {
-        const k = state.progress.monsterKills;
-        const trophyId = lvl >= 6 ? trophies.high : lvl >= 3 ? trophies.mid : trophies.low;
-        if (k % 3 !== 0) {
-          // ~66% drop chance for regional crafting trophy
-          if (addItemToSlots(state.backpack, trophyId, 1)) {
-            dropNotes.push(ANDROID_ITEM_MAP.get(trophyId)?.name ?? trophyId);
-          }
-        }
-        if (k % 2 === 0 && trophyId !== "tusk_beast") {
-          // Reliable universal tusk_beast drop for universal Tier 2-3 armors
-          addItemToSlots(state.backpack, "tusk_beast", 1);
-        }
-        if (k % 5 === 0) {
-          addItemToSlots(state.backpack, "crystal_ki", 1);
-        }
-        // Rare 2% drop of weak Tier-1 starter item (matches V2 loot.ts DROP_CHANCE = 0.02!)
-        if (k % 50 === 0) {
-          const weakPool = ["weapon_recruit_sword", "armor_traveler_vest", "helm_traveler"];
-          const weakId = weakPool[(k / 50) % weakPool.length]!;
-          if (addItemToSlots(state.backpack, weakId, 1)) {
-            dropNotes.push(ANDROID_ITEM_MAP.get(weakId)?.name ?? weakId);
-          }
-        }
+        // Compatibility for the currently published Android client until its OTA is replaced.
+        gold = Math.min(MAX_GOLD, gold + rewardGold);
+        const received = items.filter((item) => addItemToSlots(state.backpack, item.id, item.qty));
+        const names = received.map((item) => ANDROID_ITEM_MAP.get(item.id)?.name ?? item.id);
+        rewardText = `+${rewardGold} zł${names.length ? ` • Łup: ${names.join(", ")}` : ""}`;
       }
 
       const res = grantXp(current.race, level, state, rewardXp, nowMs);
       level = res.level;
-      const dropSuffix = dropNotes.length > 0 ? ` • Łup: ${dropNotes.join(", ")}` : "";
-      notice = res.leveledUp
-        ? `${isElite ? "★ Pokonano Elitę" : "Pokonano potwora"} (+${rewardXp} PD, +${rewardGold} zł${dropSuffix}) — AWANS na poziom ${level}!`
-        : `${isElite ? "★ Pokonano Elitę" : "Pokonano potwora"}! +${rewardXp} PD, +${rewardGold} zł${dropSuffix}.`;
+      const defeated = animal
+        ? "Upolowano zwierzę"
+        : isElite
+          ? "★ Pokonano Elitę"
+          : "Pokonano potwora";
+      notice = `${defeated} (+${rewardXp} PD). ${rewardText}${res.leveledUp ? ` Awans na poziom ${level}!` : ""}`;
+      break;
+    }
+
+    case "pickup_loot": {
+      const drop = state.pendingLoot.find((entry) => entry.token === action.token);
+      if (!drop) throw new AndroidEconomyError("NOT_FOUND", "Ten łup wygasł lub został zabrany.");
+      if (
+        drop.land !== land ||
+        action.land !== land ||
+        action.room !== drop.room ||
+        !walkableAndroidPoint(land, action.position, drop.room) ||
+        Math.hypot(action.position.x - drop.x, action.position.z - drop.z) > ANDROID_PICKUP_RADIUS
+      )
+        throw new AndroidEconomyError("INVALID_ACTION", "Podejdź bliżej łupu.");
+
+      if (drop.claimed) {
+        notice = "Łup został już zebrany.";
+        break;
+      }
+      for (const item of drop.items) {
+        if (!addItemToSlots(state.backpack, item.id, item.qty))
+          throw new AndroidEconomyError(
+            "BACKPACK_FULL",
+            "Zwolnij miejsce w plecaku i podejdź po łup ponownie.",
+          );
+      }
+      const collectedGold = Math.min(drop.gold, MAX_GOLD - gold);
+      gold += collectedGold;
+      drop.claimed = true;
+      const names = drop.items.map((item) => ANDROID_ITEM_MAP.get(item.id)?.name ?? item.id);
+      notice = `Zebrano łup: ${[...(collectedGold ? [`+${collectedGold} zł`] : []), ...names].join(", ") || "limit złota"}.`;
+      break;
+    }
+
+    case "save_position": {
+      if (
+        action.land !== land ||
+        action.epoch !== state.positionEpoch ||
+        !walkableAndroidPoint(land, action.position)
+      )
+        throw new AndroidEconomyError(
+          "INVALID_ACTION",
+          "Punkt zapisu jest poza aktualnym terenem.",
+        );
+      state.position = { ...action.position, layout: action.layout, land };
       break;
     }
 
@@ -2606,6 +2814,10 @@ export function applyAndroidAction(
     }
 
     case "travel": {
+      if (land !== action.land) {
+        state.position = null;
+        state.positionEpoch += 1;
+      }
       land = action.land;
       if (!state.progress.visitedLands.includes(land)) {
         state.progress.visitedLands.push(land);
@@ -2724,7 +2936,11 @@ export function applyAndroidAction(
     }
   }
 
-  return { land, level, gold, state, notice, teleportCapital };
+  if (teleportCapital) {
+    state.position = null;
+    state.positionEpoch += 1;
+  }
+  return { land, level, gold, state, notice, teleportCapital, ...(lootDrop ? { lootDrop } : {}) };
 }
 
 export const adminCharacterPatchSchema = z
@@ -2805,6 +3021,10 @@ export function applyAdminCharacterPatch(
     race,
     level,
   );
+  if (land !== current.land) {
+    mergedState.position = null;
+    mergedState.positionEpoch += 1;
+  }
   if (p.xp !== undefined) mergedState.xp = p.xp;
   if (p.bankGold !== undefined) mergedState.bankGold = p.bankGold;
   if (p.freeStatPoints !== undefined) mergedState.freeStatPoints = p.freeStatPoints;

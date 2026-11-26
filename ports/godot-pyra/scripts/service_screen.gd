@@ -1000,7 +1000,7 @@ func _run_server_action(cid: String, payload: Dictionary, done_cb: Callable) -> 
 	var res: Dictionary = {}
 	if ok:
 		var j: Dictionary = ans.json
-		if j.has("character") and j["character"] is Dictionary:
+		if j.get("character") is Dictionary and int(j.character.get("revision", 0)) >= int(active_server_char.get("revision", 0)):
 			active_server_char = j["character"]
 			server_chars[cid] = active_server_char
 		res = {
@@ -1008,10 +1008,13 @@ func _run_server_action(cid: String, payload: Dictionary, done_cb: Callable) -> 
 			"character": j.get("character", {}),
 			"notice": str(j.get("notice", "")),
 			"teleportCapital": bool(j.get("teleportCapital", false)),
+			"lootDrop": j.get("lootDrop", {}),
 		}
 	else:
+		var err: Dictionary = ans.json if ans.get("json") is Dictionary else {}
 		res = {
 			"ok": false,
+			"errorCode": str(err.get("error", "")),
 			"notice": PyraOnline.message_of(ans, "Serwer odrzucił akcję."),
 		}
 	if done_cb.is_valid():
@@ -1110,6 +1113,7 @@ func spawn_world(full: bool) -> void:
 		world.start_land = str(data.get("land", "pyra"))
 		world.start_level = int(data.get("kit", {}).get("level", 1))
 		world.start_gold = int(data.get("gold", 20))
+	if full and char_id != "":
 		autosave.wait_time = 20.0
 		if autosave.get_parent() == null:
 			autosave.timeout.connect(save_progress)
@@ -1134,8 +1138,11 @@ func layout_preview() -> void:
 	close_button.position = Vector2(safe.get_center().x - 160, safe.position.y + 14)
 
 func save_progress() -> void:
-	if not active_server_char.is_empty(): return
-	if world == null or char_id == "" or not full_mode or world.get("rpg_hud") == null: return
+	if not is_instance_valid(world) or char_id == "" or not full_mode or world.get("rpg_hud") == null:
+		return
+	if not active_server_char.is_empty():
+		world.save_server_position()
+		return
 	var Chars = load("res://scripts/characters.gd")
 	var data: Dictionary = Chars.read(Chars.slot_path(char_id))
 	if data.is_empty(): return
@@ -1174,6 +1181,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 
 func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_PAUSED:
+		save_progress()
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
 		if preview != null and world != null and world.has_method("handle_back_request"):
 			world.handle_back_request()

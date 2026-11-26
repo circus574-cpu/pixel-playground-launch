@@ -63,6 +63,8 @@ var exit_px := Vector2(111.0, 111.0)
 var chests: Array[Dictionary] = []
 var guardians: Array[Dictionary] = []
 var float_texts: Array[Dictionary] = []
+var ground_drops: Array[Dictionary] = []
+var _visit_id := 0
 var elapsed := 0.0
 var atk_cd := 0.0
 var nearest_chest: Dictionary = {}
@@ -136,6 +138,8 @@ func _layout_ui() -> void:
 	toast_lbl.position = Vector2(60.0, 78.0)
 
 func enter_labyrinth(land: String, data: Dictionary) -> void:
+	_visit_id += 1
+	ground_drops.clear()
 	current_land = land
 	lab_data = data.duplicate(true)
 	grid_rows.clear()
@@ -321,10 +325,52 @@ func perform_labyrinth_attack() -> void:
 		g["dmg_dealt_to_hero"] = 0
 		if kill_heal_pct > 0.0 and world != null and world.rpg_hud != null:
 			world.rpg_hud.hero_hp = minf(world.rpg_hud.hero_max_hp, world.rpg_hud.hero_hp + world.rpg_hud.hero_max_hp * kill_heal_pct)
-		if world != null and world.has_method("report_monster_kill"):
-			world.report_monster_kill(str(g.get("actor_id", "guardian")), g_lvl, str(g.get("name", "Strażnik")), hp_cost, false)
-		_show_toast("Pokonano: %s (+%d PD, +%d zł)" % [str(g.get("name", "")), int(g.get("xp", 80)), int(g.get("gold", 40))])
+		if world != null and world.is_server_authoritative():
+			_report_guardian_defeat(g, hp_cost)
+		else:
+			if world != null:
+				world.report_monster_kill(str(g["id"]), g_lvl, str(g.get("name", "Strażnik")), hp_cost)
+			_show_toast("Pokonano: %s" % str(g.get("name", "Strażnik")))
 	queue_redraw()
+
+func _report_guardian_defeat(guardian: Dictionary, hp_cost: int) -> void:
+	var visit := _visit_id
+	var point: Vector2 = guardian["px"]
+	if not _can_stand(point):
+		point = hero_px
+	if hero_px.distance_to(point) <= world.LOOT_PICKUP_RADIUS:
+		for direction: Vector2 in [Vector2.UP, Vector2.LEFT, Vector2.DOWN, Vector2.RIGHT]:
+			var candidate := point + direction * 24.0
+			if _can_stand(candidate) and hero_px.distance_to(candidate) > world.LOOT_PICKUP_RADIUS:
+				point = candidate
+				break
+	world.request_pve_defeat(str(guardian["id"]), point, hp_cost, func(res: Dictionary) -> void:
+		if not visible or visit != _visit_id:
+			return
+		var drop: Dictionary = res.get("lootDrop", {})
+		if bool(res.get("ok", false)) and not drop.is_empty():
+			drop["elapsed"] = 0.0
+			drop["label"] = world.server_loot_label(drop)
+			ground_drops.append(drop)
+		_show_toast(str(res.get("notice", "")))
+	)
+
+func _step_ground_drops(delta: float) -> void:
+	if ground_drops.is_empty() or world == null:
+		return
+	var visit := _visit_id
+	var current_drops: Array[Dictionary] = []
+	for drop: Dictionary in ground_drops:
+		drop["elapsed"] = float(drop["elapsed"]) + delta
+		if bool(drop.get("removed", false)) or float(drop["elapsed"]) >= 120.0:
+			continue
+		if float(drop["elapsed"]) >= 0.45:
+			world.try_pickup_server_loot(drop, hero_px, func(notice: String, _ok: bool) -> void:
+				if visible and visit == _visit_id:
+					_show_toast(notice)
+			)
+		current_drops.append(drop)
+	ground_drops = current_drops
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible:
@@ -450,6 +496,7 @@ func _process(delta: float) -> void:
 	btn_potion.modulate = Color(1.0, 1.0, 1.0, 1.0) if pot_cnt > 0 else Color(0.66, 0.66, 0.72, 0.78)
 
 	near_exit = hero_px.distance_to(exit_px) < 42.0
+	_step_ground_drops(delta)
 
 	var kept: Array[Dictionary] = []
 	for ft: Dictionary in float_texts:
@@ -548,6 +595,20 @@ func _draw() -> void:
 		var gtitle := "%s Poz.%d" % [str(g.get("name", "Strażnik")), int(g.get("level", 6))]
 		draw_string_outline(fb, gp + Vector2(-48, -40), gtitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 4, Color(0.04, 0.01, 0.01, 0.96))
 		draw_string(fb, gp + Vector2(-48, -40), gtitle, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.80, 0.62))
+
+	for drop: Dictionary in ground_drops:
+		var point := Vector2(float(drop["x"]), float(drop["z"]))
+		var tile := "%d,%d" % [floori(point.x / TILE_PX), floori(point.y / TILE_PX)]
+		if visited.has(tile):
+			var screen_point := point + cam_off
+			var gold := Color(1.0, 0.86, 0.38)
+			draw_circle(screen_point, 14.0, Color(gold, 0.24))
+			draw_arc(screen_point, 11.0, 0.0, TAU, 16, gold, 2.1, true)
+			var label := str(drop["label"])
+			var width := fb.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
+			var label_point := screen_point + Vector2(-width * 0.5, -18.0)
+			draw_string_outline(fb, label_point, label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 4, Color.BLACK)
+			draw_string(fb, label_point, label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, gold)
 
 	# Draw Hero in center with glowing torch halo
 	var hp_scr := hero_px + cam_off

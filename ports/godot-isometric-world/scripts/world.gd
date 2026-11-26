@@ -151,6 +151,12 @@ var start_gold := -1
 var start_name := ""
 var server_char_id := ""
 var server_character: Dictionary = {}
+const POSITION_LAYOUT := "superior-isometric-v1"
+const LOOT_PICKUP_RADIUS := 16.0
+var _position_sent := {}
+var _position_pending := false
+var _region_load_id := 0
+
 var server_action_fn: Callable = Callable()
 var gm_access_fn: Callable = Callable()
 var _had_gm_access := false
@@ -275,6 +281,7 @@ func _boot_world_async() -> void:
 	switch_region(start_land)
 	if not server_character.is_empty():
 		apply_server_character(server_character)
+		restore_server_position()
 	elif rpg_hud != null:
 		if start_name != "":
 			rpg_hud.hero_custom_name = start_name
@@ -349,7 +356,7 @@ func dispatch_server_action(payload: Dictionary, on_done: Callable = Callable())
 		last_ping_ms = maxi(1, int(Time.get_ticks_msec() - t0))
 		if bool(res.get("ok", false)):
 			var ch: Dictionary = res.get("character", {})
-			if not ch.is_empty():
+			if not ch.is_empty() and str(payload["type"]) != "save_position" and int(ch.get("revision", 0)) >= int(server_character.get("revision", 0)):
 				apply_server_character(ch)
 			if bool(res.get("teleportCapital", false)):
 				teleport_to_capital()
@@ -357,6 +364,47 @@ func dispatch_server_action(payload: Dictionary, on_done: Callable = Callable())
 			on_done.call(res)
 	)
 	return true
+
+func restore_server_position() -> bool:
+	var saved: Variant = (server_character.get("state", {}) as Dictionary).get("position")
+	if not (saved is Dictionary) or saved.get("layout") != POSITION_LAYOUT or saved.get("land") != current_land:
+		return false
+	var pos := Vector2(float(saved.get("x", -1.0)), float(saved.get("z", -1.0)))
+	if not _can_save_world_point(pos):
+		return false
+	hero_pos = pos
+	target_pos = Vector2(-1.0, -1.0)
+	sync_hero(true)
+	return true
+
+func _can_save_world_point(pos: Vector2) -> bool:
+	return pos.is_finite() and not walkable.is_empty() and is_walkable(pos.x, pos.y)
+
+func save_server_position() -> void:
+	if not is_server_authoritative() or is_booting or gm_noclip or _position_pending:
+		return
+	if str(server_character.get("land", "")) != current_land or not _can_save_world_point(hero_pos):
+		return
+	# hero_pos stays at the surface entrance while inside a building or labyrinth.
+	var point := hero_pos.snapped(Vector2(0.01, 0.01))
+	if not _can_save_world_point(point):
+		point = hero_pos
+	var state: Dictionary = server_character.get("state", {})
+	var payload := {
+		"type": "save_position",
+		"land": current_land,
+		"layout": POSITION_LAYOUT,
+		"epoch": int(state.get("positionEpoch", 0)),
+		"position": {"x": point.x, "z": point.y},
+	}
+	if payload == _position_sent:
+		return
+	_position_pending = true
+	dispatch_server_action(payload, func(result: Dictionary) -> void:
+		_position_pending = false
+		if bool(result.get("ok", false)):
+			_position_sent = payload
+	)
 
 func trigger_server_ping() -> void:
 	if _ping_in_flight or not server_ping_fn.is_valid():
@@ -421,6 +469,7 @@ func load_tex(path: String) -> Texture2D:
 func switch_region(land: String) -> void:
 	if not REGION_TITLES.has(land):
 		return
+	_region_load_id += 1
 	current_land = land
 	region_title = REGION_TITLES[land]
 	current_exp_idx = 0
@@ -1546,18 +1595,19 @@ func _clear_ground_loot() -> void:
 			nd.queue_free()
 	ground_loot.clear()
 
-func spawn_ground_loot(origin_world: Vector2, kind: String, label_txt: String, col: Color, icon_name: String, gold_val: int = 0, item_dict: Dictionary = {}, item_qty: int = 1, apply_local: bool = false, is_rare_beam: bool = false) -> void:
-	var ang := randf() * TAU
-	var dist := randf_range(24.0, 44.0)
-	var dest_w := origin_world + Vector2(cos(ang), sin(ang)) * dist
-	# Always land visibly on the ground away from hero boots so you walk onto it to pick up (zero instant mid-air magnet!)
-	if dest_w.distance_to(hero_pos) < 24.0:
-		var away := origin_world - hero_pos
-		var base_ang := away.angle() if away.length_squared() > 0.1 else randf() * TAU
-		var alt_ang := base_ang + randf_range(-0.95, 0.95)
-		dest_w = origin_world + Vector2(cos(alt_ang), sin(alt_ang)) * randf_range(28.0, 46.0)
-	if not is_walkable(dest_w.x, dest_w.y):
-		dest_w = origin_world + Vector2(cos(ang + PI), sin(ang + PI)) * 22.0
+func _ground_loot_point(origin: Vector2) -> Vector2:
+	var base_angle := randf() * TAU
+	if origin.distance_to(hero_pos) < 44.0 and not origin.is_equal_approx(hero_pos):
+		base_angle = (origin - hero_pos).angle()
+	for step in 16:
+		var angle := base_angle + TAU * float(step) / 16.0
+		var point := origin + Vector2.from_angle(angle) * 32.0
+		if is_walkable(point.x, point.y) and point.distance_to(hero_pos) > LOOT_PICKUP_RADIUS:
+			return point
+	return origin
+
+func spawn_ground_loot(origin_world: Vector2, kind: String, label_txt: String, col: Color, icon_name: String, gold_val: int = 0, item_dict: Dictionary = {}, item_qty: int = 1, apply_local: bool = false, is_rare_beam: bool = false, server_drop: Dictionary = {}) -> void:
+	var dest_w := _ground_loot_point(origin_world) if server_drop.is_empty() else Vector2(float(server_drop["x"]), float(server_drop["z"]))
 	var start_s := iso(origin_world.x, origin_world.y, height_at(origin_world.x, origin_world.y))
 	var dest_s := iso(dest_w.x, dest_w.y, height_at(dest_w.x, dest_w.y))
 
@@ -1616,6 +1666,7 @@ func spawn_ground_loot(origin_world: Vector2, kind: String, label_txt: String, c
 		"gold": gold_val,
 		"item": item_dict,
 		"qty": item_qty,
+		"server_drop": server_drop,
 		"apply_local": apply_local,
 		"age": 0.0,
 	})
@@ -1644,8 +1695,18 @@ func _step_ground_loot(delta: float) -> void:
 			if is_instance_valid(ico_n):
 				ico_n.position.y = -16.0 + bob
 			nd.position = d["dest_s"]
-			# True Diablo walk-over pickup: sits solidly on the ground (no remote magnet!) and collects instantly when stepped on
-			if age >= 0.45 and hero_pos.distance_to(d["world_pos"] as Vector2) <= 16.0:
+			var drop: Dictionary = d["server_drop"]
+			if not drop.is_empty():
+				if bool(drop.get("removed", false)):
+					nd.queue_free()
+				else:
+					if age >= 0.45:
+						try_pickup_server_loot(drop, hero_pos, func(notice: String, success: bool) -> void:
+							show_combat_toast(notice, Color(1.0, 0.88, 0.28) if success else Color(1.0, 0.58, 0.38))
+						)
+					alive.append(d)
+				continue
+			if age >= 0.45 and hero_pos.distance_to(d["world_pos"] as Vector2) <= LOOT_PICKUP_RADIUS:
 				var col: Color = d["color"]
 				if str(d["kind"]) == "gold":
 					var gv := int(d["gold"])
@@ -1660,7 +1721,9 @@ func _step_ground_loot(delta: float) -> void:
 					var it_d: Dictionary = d["item"]
 					var q := int(d["qty"])
 					if bool(d["apply_local"]) and rpg_hud != null and not it_d.is_empty() and rpg_hud.has_method("add_item_to_backpack"):
-						rpg_hud.add_item_to_backpack(it_d, q)
+						if not rpg_hud.add_item_to_backpack(it_d, q):
+							alive.append(d)
+							continue
 					if audio != null:
 						audio.sfx("ui/chest", 0.78, 0.06)
 					if hero != null and hero.has_method("show_damage_number"):
@@ -1670,51 +1733,81 @@ func _step_ground_loot(delta: float) -> void:
 		alive.append(d)
 	ground_loot = alive
 
-func _snapshot_bag_counts() -> Dictionary:
-	var out: Dictionary = {}
-	if rpg_hud == null:
-		return out
-	for it: Dictionary in rpg_hud.backpack_items:
-		if not it.is_empty():
-			var iid := str(it.get("id", ""))
-			if not iid.is_empty():
-				out[iid] = int(out.get(iid, 0)) + maxi(1, int(it.get("qty", 1)))
-	return out
+func server_loot_label(drop: Dictionary) -> String:
+	var parts := PackedStringArray()
+	var gold := int(drop.get("gold", 0))
+	if gold > 0:
+		parts.append("%d zł" % gold)
+	for item: Dictionary in drop.get("items", []):
+		var iid := str(item["id"])
+		var item_def: Dictionary = GmPanelScript.find_item(iid)
+		parts.append("%s ×%d" % [str(item_def.get("name", iid)), int(item["qty"])])
+	return " • ".join(parts)
 
-func report_monster_kill(monster_id: String, lvl: int, mname: String, hp_cost: int = 0, is_elite: bool = false, drop_pos: Vector2 = Vector2(-1.0, -1.0)) -> void:
+func try_pickup_server_loot(drop: Dictionary, position: Vector2, feedback: Callable) -> void:
+	var point := Vector2(float(drop["x"]), float(drop["z"]))
+	if position.distance_to(point) > LOOT_PICKUP_RADIUS:
+		drop.erase("step_away")
+		return
+	if bool(drop.get("pending", false)) or bool(drop.get("step_away", false)) or Time.get_ticks_msec() < int(drop.get("retry_at", 0)):
+		return
+	var payload := {
+		"type": "pickup_loot",
+		"token": str(drop["token"]),
+		"land": str(drop["land"]),
+		"position": {"x": position.x, "z": position.y},
+	}
+	if drop.has("room"):
+		payload["room"] = str(drop["room"])
+	drop["pending"] = true
+	dispatch_server_action(payload, func(res: Dictionary) -> void:
+		drop["pending"] = false
+		var ok := bool(res.get("ok", false))
+		var code := str(res.get("errorCode", ""))
+		drop["removed"] = ok or code == "NOT_FOUND"
+		if ok and audio != null:
+			audio.sfx("ui/chest" if not (drop.get("items", []) as Array).is_empty() else "ui/coin", 0.80)
+		if code == "BACKPACK_FULL":
+			drop["step_away"] = true
+		drop["retry_at"] = Time.get_ticks_msec() + 1800
+		if feedback.is_valid():
+			feedback.call(str(res.get("notice", "")), ok)
+	)
+
+func request_pve_defeat(target_id: String, point: Vector2, hp_cost: int, resolved: Callable) -> bool:
+	return dispatch_server_action({
+		"type": "pve_defeat",
+		"targetId": target_id,
+		"land": current_land,
+		"drop": {"x": point.x, "z": point.y},
+		"hpCost": clampi(hp_cost, 0, 5000),
+	}, resolved)
+
+func _report_surface_defeat(agent_id: String, origin: Vector2, hp_cost: int, elite: bool) -> bool:
+	var region_load := _region_load_id
+	return request_pve_defeat(agent_id, _ground_loot_point(origin), hp_cost, func(res: Dictionary) -> void:
+		if region_load != _region_load_id:
+			return
+		var drop: Dictionary = res.get("lootDrop", {})
+		var ok := bool(res.get("ok", false))
+		if ok and not drop.is_empty():
+			var items: Array = drop.get("items", [])
+			var def: Dictionary = GmPanelScript.find_item(str(items[0]["id"])) if not items.is_empty() else {}
+			var icon := str(def.get("icon", "gear-coin.webp"))
+			spawn_ground_loot(origin, "gold" if items.is_empty() else "item", server_loot_label(drop), Color(1.0, 0.88, 0.28), icon, 0, {}, 0, false, elite, drop)
+		show_combat_toast(str(res.get("notice", "")), Color(1.0, 0.84, 0.42) if ok else Color(1.0, 0.55, 0.36))
+	)
+
+func report_monster_kill(spawn_id: String, lvl: int, mname: String, hp_cost: int = 0, is_elite: bool = false, drop_pos: Vector2 = Vector2(-1.0, -1.0)) -> void:
 	var base_xp := (18 + lvl * 7) * (3 if is_elite else 1)
 	var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
 	var lv_diff := hero_lv - lvl
 	var rxp := maxi(5, int(round(float(base_xp) * 0.25))) if lv_diff >= 5 else (maxi(8, int(round(float(base_xp) * 0.50))) if lv_diff >= 3 else base_xp)
 	var rgold := (8 + lvl * 4) * (3 if is_elite else 1)
 	var loot_origin := drop_pos if drop_pos.x >= 0.0 else hero_pos
-	var prev_bag := _snapshot_bag_counts()
-	var prev_gold: int = int(rpg_hud.hero_gold) if rpg_hud != null else 0
-	var sent_srv := dispatch_server_action({
-		"type": "monster_kill",
-		"monsterId": monster_id,
-		"level": lvl,
-		"hpCost": maxi(0, hp_cost),
-		"isElite": is_elite,
-		"land": current_land,
-	}, func(res: Dictionary) -> void:
-		if not bool(res.get("ok", false)):
-			return
-		var new_gold: int = int(rpg_hud.hero_gold) if rpg_hud != null else prev_gold
-		var dg := maxi(rgold, new_gold - prev_gold)
-		if dg > 0:
-			spawn_ground_loot(loot_origin, "gold", "★ %d Złota" % dg, Color(1.0, 0.88, 0.28), "gear-coin.webp", dg, {}, 1, false, is_elite)
-		var new_bag := _snapshot_bag_counts()
-		for iid: String in new_bag.keys():
-			var gained := int(new_bag[iid]) - int(prev_bag.get(iid, 0))
-			if gained > 0:
-				var cdef: Dictionary = GmPanelScript.find_item(iid)
-				var nm := str(cdef.get("name", iid))
-				var ico := str(cdef.get("icon", "gear-gem.webp"))
-				var rcol: Color = cdef.get("rarity", Color(0.56, 0.96, 0.72)) as Color
-				spawn_ground_loot(loot_origin, "item", "★ %s%s" % [nm, (" ×%d" % gained) if gained > 1 else ""], rcol, ico, 0, cdef, gained, false, true)
-	)
-	if not sent_srv and rpg_hud != null:
+	if _report_surface_defeat(spawn_id, loot_origin, hp_cost, is_elite):
+		return
+	if rpg_hud != null:
 		# Offline/local mode: spawn physical Diablo drops that credit gold & items on walk-over!
 		spawn_ground_loot(loot_origin, "gold", "★ %d Złota" % rgold, Color(1.0, 0.88, 0.28), "gear-coin.webp", rgold, {}, 1, true, is_elite)
 		if is_elite:
@@ -1969,26 +2062,30 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0) -> void:
 			if audio != null:
 				audio.play_monster_sfx(str(target.get("actor_id", "")), "die")
 			if is_animal:
-				var aname := str(target.get("name", "Zwierzę"))
-				var agold := randi_range(6, 14)
-				var axp := 14
-				spawn_ground_loot(target["pos"] as Vector2, "gold", "★ %d Złota" % agold, Color(1.0, 0.88, 0.28), "gear-coin.webp", agold, {}, 1, true, false)
-				if randf() < 0.45:
-					var hpot: Dictionary = GmPanelScript.find_item("potion_hp_small")
-					if not hpot.is_empty():
-						spawn_ground_loot(target["pos"] as Vector2, "item", "★ %s" % str(hpot.get("name", "Mikstura")), Color(1.0, 0.52, 0.42), str(hpot.get("icon", "potion-hp.webp")), 0, hpot, 1, true, false)
-				if rpg_hud != null and rpg_hud.has_method("grant_local_xp"):
-					var lvl_up: bool = rpg_hud.grant_local_xp(axp)
-					if lvl_up and audio != null:
-						audio.sfx("common/level-up", 0.95, 0.03)
-				show_combat_toast("⚔ Upolowano: %s (+%d PD) — podejdź po łup!" % [aname, axp], Color(1.0, 0.84, 0.42))
+				if not _report_surface_defeat(str(target["id"]), target["pos"] as Vector2, hp_cost, false):
+					_report_local_animal_kill(target)
 			else:
-				report_monster_kill(str(target.get("actor_id", "monster")), m_lvl, str(target.get("name", "Potwór")), hp_cost, is_el, target["pos"] as Vector2)
+				report_monster_kill(str(target["id"]), m_lvl, str(target.get("name", "Potwór")), hp_cost, is_el, target["pos"] as Vector2)
 		else:
 			if is_instance_valid(mnode) and mnode.has_method("play_action"):
 				mnode.play_action("hit", "hit", 0.28)
 	if any_kill and skill_idx != 5 and hero != null and hero.has_method("play_action"):
 		hero.play_action("victory", "interact", 0.55)
+
+func _report_local_animal_kill(target: Dictionary) -> void:
+	var aname := str(target.get("name", "Zwierzę"))
+	var agold := randi_range(6, 14)
+	var axp := 14
+	spawn_ground_loot(target["pos"] as Vector2, "gold", "★ %d Złota" % agold, Color(1.0, 0.88, 0.28), "gear-coin.webp", agold, {}, 1, true, false)
+	if randf() < 0.45:
+		var hpot: Dictionary = GmPanelScript.find_item("potion_hp_small")
+		if not hpot.is_empty():
+			spawn_ground_loot(target["pos"] as Vector2, "item", "★ %s" % str(hpot.get("name", "Mikstura")), Color(1.0, 0.52, 0.42), str(hpot.get("icon", "potion-hp.webp")), 0, hpot, 1, true, false)
+	if rpg_hud != null and rpg_hud.has_method("grant_local_xp"):
+		var lvl_up: bool = rpg_hud.grant_local_xp(axp)
+		if lvl_up and audio != null:
+			audio.sfx("common/level-up", 0.95, 0.03)
+	show_combat_toast("⚔ Upolowano: %s (+%d PD) — podejdź po łup!" % [aname, axp], Color(1.0, 0.84, 0.42))
 
 func open_npc_dialogue(ag: Dictionary) -> void:
 	if ag.is_empty() or dialogue_strip == null:
