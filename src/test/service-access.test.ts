@@ -27,6 +27,7 @@ const accounts = {
   roles: async (subject: string) =>
     subject === "admin" ? ["admin"] : subject === "gm" ? ["gm"] : [],
   view: async (subject: string) => ({ nick: subject }),
+  assertActive: async () => {},
 } as unknown as AccountService;
 const cleanup: Array<() => Promise<void> | void> = [];
 afterEach(async () => {

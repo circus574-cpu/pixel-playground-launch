@@ -292,7 +292,7 @@ export class GodotLive {
         let guild: { id: string; name: string; tag: string; role: GuildRole } | null = null;
         try {
           await this.admission?.(msg["token"]);
-          await accounts.assertActive(account);
+          await accounts.assertActive?.(account);
           if (modern) {
             character = (await this.readCharacter?.(account, id as string)) ?? null;
             if (!character) throw Error("CHARACTER_NOT_OWNED");
@@ -1060,7 +1060,7 @@ export class GodotLive {
         throw Error("TOKEN_EXPIRED");
       await this.admission?.(peer.token);
       if (now - peer.accountCheckedAt >= CHARACTER_REFRESH_MS) {
-        await accounts.assertActive(peer.account);
+        await accounts.assertActive?.(peer.account);
         peer.accountCheckedAt = now;
       }
       if (
