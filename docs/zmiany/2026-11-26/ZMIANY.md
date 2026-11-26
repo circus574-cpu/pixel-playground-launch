@@ -183,3 +183,25 @@ Lokalnie zaliczono 36 z 36 kontroli Godot i 25 z 25 testów Androida z PostgreSQ
 Pełne sprawdzenie TypeScript oraz sprawdzenie składni obu projektów Godot zaliczone.
 W tym podejściu testy obejmują zachowanie transakcji i sterowników,
 a odbiór na fizycznym Androidzie pozostaje do wykonania.
+
+### Etap 1, punkt 4 — reguły ekonomii PvE
+
+- Serwer wyznacza zawartość skrzyń, poziom dostępu do labiryntu i materiał złoża na podstawie
+  regionu oraz identyfikatora z danych Godot. Nadal przyjmuje dotychczasowy format klienta 1.14.32.
+  Skrzynia pozostaje zamknięta po odrzuconej próbie, a odrzucone zbieranie nie wygasza zasobu w UI.
+- Wspólny czas odnowienia 8 s obejmuje gospodę i ognisko, także przez 8 s po zapisanym zabójstwie.
+  Godot sprawdza również własny czas od ostatniej walki. Zbieranie ma 90 s na złoże i 1,2 s
+  między zbiorami. Nowy klient podaje pozycję, którą serwer sprawdza względem miejsca interakcji.
+- Stary kontrakt rozliczania zabójstw sprawdza kombinację gatunku, lądu, poziomu i elity
+  względem mapy. Nowy kontrakt korzysta z identyfikatora spawnu, czasu odrodzenia i miejsca łupu.
+- Ranga Mistrzostwa w kliencie używa minimum z sześciu dyscyplin oraz tych samych płaskich
+  premii HP, ATK i DEF co serwer. Progi to 3, 6, 10 i 15 treningów w każdej dyscyplinie.
+
+Na kodzie etapu zaliczono 53 z 53 kontroli Godot oraz 28 z 28 testów Androida
+z PostgreSQL. Sprawdzono też pełną konfigurację TypeScript, lint zmienionych plików,
+dokumentację oraz odtwarzalność eksportu świata.
+
+Odbiór fizycznego Androida i aktywacja nowej paczki OTA pozostają otwarte.
+Mechanika walki i bieżąca pozycja nadal pochodzą z klienta. Stary kontrakt
+`monster_kill` nadal rozlicza łup natychmiast dla klienta 1.14.32.
+Po testowym odbiorze i przejściu na nowe OTA można wygasić tę ścieżkę zgodności.

@@ -608,6 +608,8 @@ func apply_server_bank(st: Dictionary) -> void:
 func _srv_act(payload: Dictionary) -> bool:
 	if world != null and world.has_method("dispatch_server_action"):
 		return world.dispatch_server_action(payload, func(res: Dictionary) -> void:
+			if payload.get("type") == "inn_rest" and bool(res.get("ok", false)):
+				world.notify_hero_healed()
 			service_status.text = str(res.get("notice", ""))
 			_refresh_service_ui()
 		)
@@ -992,8 +994,13 @@ func _build_inn_ui(hud_ref) -> void:
 	b_rest.text = "🛏 PEŁNY ODPOCZYNEK I POSIŁEK (100% HP i KI — DARMOWE)"
 	_style_btn(b_rest, Color(0.12, 0.28, 0.18, 0.96), Color(0.46, 0.96, 0.64, 0.98), 15)
 	b_rest.pressed.connect(func() -> void:
-		if _srv_act({"type": "inn_rest"}):
-			return
+		if world != null:
+			if world.recent_world_combat():
+				service_status.text = "Odpocznij po zakończeniu walki."
+				return
+			var point: Vector2 = world.hero_pos
+			if _srv_act({"type": "inn_rest", "siteId": str(building_data["id"]), "position": {"x": point.x, "z": point.y}}):
+				return
 		hud_ref.hero_hp = hud_ref.hero_max_hp
 		hud_ref.hero_ki = hud_ref.hero_max_ki
 		hud_ref.recalc_stats()

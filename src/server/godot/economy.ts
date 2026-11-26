@@ -6,7 +6,11 @@ import { ANDROID_GOALS_MAP, evaluateGoalForCharacter, type AndroidGoalProgressVi
 import {
   ANDROID_PICKUP_RADIUS,
   ANDROID_POSITION_LAYOUT,
+  androidGatherable,
+  androidInn,
+  androidLegacyKillLevel,
   androidRoom,
+  androidTreasure,
   androidTarget,
   walkableAndroidPoint,
   type WorldPoint,
@@ -35,6 +39,8 @@ export const ARENA_COOLDOWN_MS = TRAINING_COOLDOWN_MS;
 export const BLESSING_DURATION_MS = 15 * 60 * 1000;
 export const GATHER_NODE_COOLDOWN_MS = 90_000;
 export const GATHER_GLOBAL_COOLDOWN_MS = 1_200;
+export const REST_COOLDOWN_MS = 8_000;
+const INTERACTION_RADIUS = 100;
 export const KILL_WINDOW_MS = 1_000;
 export const MAX_KILLS_PER_WINDOW = 14;
 const LOOT_LIFETIME_MS = 120_000;
@@ -1237,6 +1243,7 @@ export type AndroidProgressState = {
   monsterKills: number;
   eliteKills: number;
   gatherCount: number;
+  lastGatherAt: number;
   gatheredNodes: Record<string, number>;
   discoveredWaystones: string[];
   openedTreasures: string[];
@@ -1269,6 +1276,7 @@ export type AndroidHeroState = {
   bankItems: (ItemStack | null)[];
   completedQuests: Record<string, string>;
   lastArenaAt: number;
+  lastRestAt: number;
   progress: AndroidProgressState;
 };
 
@@ -1615,6 +1623,7 @@ export function createInitialAndroidState(
     bankItems,
     completedQuests: {},
     lastArenaAt: 0,
+    lastRestAt: 0,
     progress: {
       visitedLands: [HOME_LAND_BY_RACE[race]],
       craftedCount: 0,
@@ -1624,6 +1633,7 @@ export function createInitialAndroidState(
       monsterKills: 0,
       eliteKills: 0,
       gatherCount: 0,
+      lastGatherAt: 0,
       gatheredNodes: {},
       discoveredWaystones: [],
       openedTreasures: [],
@@ -1780,11 +1790,13 @@ export function normalizeAndroidState(
   ) as Record<string, unknown>;
   const gatheredNodes: Record<string, number> = {};
   let gnCnt = 0;
+  let recentGather = 0;
   for (const [k, v] of Object.entries(gNodesRaw)) {
     if (k.length <= 64 && gnCnt < 300) {
       const ts = clampInt(v, 0, Number.MAX_SAFE_INTEGER, 0);
       if (ts > 0) {
         gatheredNodes[k] = ts;
+        recentGather = Math.max(recentGather, ts);
         gnCnt += 1;
       }
     }
@@ -1844,6 +1856,7 @@ export function normalizeAndroidState(
     bankItems: normalizeSlots(r["bankItems"], BANK_SIZE),
     completedQuests,
     lastArenaAt: clampInt(r["lastArenaAt"], 0, Number.MAX_SAFE_INTEGER, 0),
+    lastRestAt: clampInt(r["lastRestAt"], 0, Number.MAX_SAFE_INTEGER, 0),
     progress: {
       visitedLands,
       craftedCount: clampInt(progRaw["craftedCount"], 0, 1_000_000, 0),
@@ -1853,6 +1866,10 @@ export function normalizeAndroidState(
       monsterKills: clampInt(progRaw["monsterKills"], 0, 10_000_000, 0),
       eliteKills: clampInt(progRaw["eliteKills"], 0, 1_000_000, 0),
       gatherCount: clampInt(progRaw["gatherCount"], 0, 1_000_000, 0),
+      lastGatherAt: Math.max(
+        recentGather,
+        clampInt(progRaw["lastGatherAt"], 0, Number.MAX_SAFE_INTEGER, 0),
+      ),
       gatheredNodes,
       discoveredWaystones: normStrList(progRaw["discoveredWaystones"], 40),
       openedTreasures: normStrList(progRaw["openedTreasures"], 200),
@@ -1948,13 +1965,6 @@ const REGIONAL_TROPHIES: Record<AndroidLand, { low: string; mid: string; high: s
   nexus: { low: "mat_sensor", mid: "mat_armor_plate", high: "mat_energy_core" },
 };
 
-const REGIONAL_GATHER_DEFAULT: Record<AndroidLand, readonly string[]> = {
-  pyra: ["mat_ember", "mat_obsidian", "mat_ash_herb"],
-  verdant: ["mat_shroom", "mat_amber", "mat_seeds"],
-  aether: ["mat_rune", "mat_lightdust", "mat_parchment"],
-  nexus: ["mat_plasma", "mat_coil", "mat_optic"],
-};
-
 export const androidActionSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("shop_buy"), itemId: z.string().min(1).max(60) }).strict(),
   z
@@ -2023,14 +2033,27 @@ export const androidActionSchema = z.discriminatedUnion("type", [
   z
     .object({ type: z.literal("unlock_talent"), nodeId: z.string().regex(/^[A-Z0-9_-]{1,8}$/) })
     .strict(),
-  z.object({ type: z.literal("inn_rest") }).strict(),
-  z.object({ type: z.literal("campfire_rest") }).strict(),
+  z
+    .object({
+      type: z.literal("inn_rest"),
+      siteId: z.string().min(2).max(64).optional(),
+      position: worldPointSchema.optional(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("campfire_rest"),
+      siteId: z.string().min(2).max(64).optional(),
+      position: worldPointSchema.optional(),
+    })
+    .strict(),
   z.object({ type: z.literal("arena_train"), stat: z.enum(STAT_KEYS).optional() }).strict(),
   z.object({ type: z.literal("city_train"), stat: z.enum(STAT_KEYS) }).strict(),
   z.object({ type: z.literal("city_blessing"), kind: z.enum(BLESSING_KINDS) }).strict(),
   z
     .object({
       type: z.literal("gather_node"),
+      position: worldPointSchema.optional(),
       nodeId: z.string().min(2).max(64),
       itemId: z.string().min(1).max(60).optional(),
       land: z.enum(ANDROID_LANDS).optional(),
@@ -2047,6 +2070,7 @@ export const androidActionSchema = z.discriminatedUnion("type", [
   z
     .object({
       type: z.literal("claim_treasure"),
+      position: worldPointSchema.optional(),
       treasureId: z.string().min(2).max(64),
       labyrinthId: z.string().min(2).max(64).optional(),
       minLevel: z.number().int().min(1).max(MAX_LEVEL).optional(),
@@ -2147,6 +2171,19 @@ function monsterLoot(land: AndroidLand, level: number, elite: boolean, kills: nu
     items.push({ id: weakPool[(kills / 50) % weakPool.length]!, qty: 1 });
   }
   return items;
+}
+
+function requireNearWorldPoint(
+  land: AndroidLand,
+  position: WorldPoint,
+  site: WorldPoint,
+  room?: string,
+): void {
+  if (
+    !walkableAndroidPoint(land, position, room) ||
+    Math.hypot(position.x - site.x, position.z - site.z) > INTERACTION_RADIUS
+  )
+    throw new AndroidEconomyError("INVALID_ACTION", "Podejdź do miejsca interakcji.");
 }
 
 /** Server-authoritative state transition for economy and progression actions. */
@@ -2413,19 +2450,36 @@ export function applyAndroidAction(
       break;
     }
 
-    case "inn_rest": {
-      const stats = computeAndroidStats(current.race, level, state, nowMs);
-      state.hp = stats.maxHp;
-      state.ki = stats.maxKi;
-      notice = "Wypoczęto w gospodzie! Przywrócono 100% HP i 100% KI.";
-      break;
-    }
-
+    case "inn_rest":
     case "campfire_rest": {
+      if (action.siteId !== undefined || action.position !== undefined) {
+        const node =
+          action.siteId && action.type === "campfire_rest"
+            ? androidGatherable(land, action.siteId)
+            : undefined;
+        const site =
+          node?.kind === "campfire"
+            ? node
+            : action.type === "inn_rest" && action.siteId
+              ? androidInn(land, action.siteId)
+              : undefined;
+        if (!site || !action.position)
+          throw new AndroidEconomyError("INVALID_ACTION", "Nieznane miejsce odpoczynku.");
+        requireNearWorldPoint(land, action.position, site);
+      }
+      const recent = Math.max(state.lastRestAt, state.progress.lastKillAt);
+      if (recent > 0 && nowMs - recent < REST_COOLDOWN_MS) {
+        const seconds = Math.ceil((REST_COOLDOWN_MS - (nowMs - recent)) / 1000);
+        throw new AndroidEconomyError("ARENA_COOLDOWN", `Możesz odpocząć za ${seconds} s.`);
+      }
       const stats = computeAndroidStats(current.race, level, state, nowMs);
       state.hp = stats.maxHp;
       state.ki = stats.maxKi;
-      notice = "Odpoczynek przy ognisku! Przywrócono 100% HP i 100% KI.";
+      state.lastRestAt = nowMs;
+      notice =
+        action.type === "inn_rest"
+          ? "Wypoczęto w gospodzie! Przywrócono 100% HP i 100% KI."
+          : "Odpoczynek przy ognisku! Przywrócono 100% HP i 100% KI.";
       break;
     }
 
@@ -2494,6 +2548,17 @@ export function applyAndroidAction(
 
     case "gather_node": {
       const nid = action.nodeId.trim();
+      const node = androidGatherable(land, nid);
+      if (
+        (action.land !== undefined && action.land !== land) ||
+        !node ||
+        !node.itemId ||
+        node.kind === "campfire" ||
+        ANDROID_ITEM_MAP.get(node.itemId)?.cat !== "material"
+      )
+        throw new AndroidEconomyError("INVALID_ACTION", "Nieznane złoże na tym lądzie.");
+      if (action.position) requireNearWorldPoint(land, action.position, node);
+
       const prevNodeTs = state.progress.gatheredNodes[nid] ?? 0;
       if (prevNodeTs > 0 && nowMs - prevNodeTs < GATHER_NODE_COOLDOWN_MS) {
         const waitS = Math.ceil((GATHER_NODE_COOLDOWN_MS - (nowMs - prevNodeTs)) / 1000);
@@ -2502,18 +2567,17 @@ export function applyAndroidAction(
           `To złoże odnawia się jeszcze przez ${waitS} s.`,
         );
       }
-      const gLand: AndroidLand = action.land ?? land;
-      const fallbackPool = REGIONAL_GATHER_DEFAULT[gLand];
-      const requestedId =
-        action.itemId && ANDROID_ITEM_MAP.get(action.itemId)?.cat === "material"
-          ? action.itemId
-          : fallbackPool[state.progress.gatherCount % fallbackPool.length]!;
+      const lastGather = state.progress.lastGatherAt;
+      if (lastGather > 0 && nowMs - lastGather < GATHER_GLOBAL_COOLDOWN_MS)
+        throw new AndroidEconomyError("ARENA_COOLDOWN", "Odczekaj chwilę przed następnym zbiorem.");
+      const requestedId = node.itemId;
       if (!addItemToSlots(state.backpack, requestedId, 1))
         throw new AndroidEconomyError(
           "BACKPACK_FULL",
           "Plecak jest pełny — zwolnij miejsce przed zbiorem!",
         );
       state.progress.gatheredNodes[nid] = nowMs;
+      state.progress.lastGatherAt = nowMs;
       state.progress.gatherCount += 1;
       let bonusNote = "";
       if (state.progress.gatherCount % 2 === 0 && addItemToSlots(state.backpack, "crystal_ki", 1)) {
@@ -2602,39 +2666,47 @@ export function applyAndroidAction(
 
     case "claim_treasure": {
       const tid = action.treasureId.trim();
-      if (state.progress.openedTreasures.includes(tid)) {
+      const treasure = androidTreasure(land, tid);
+      if (!treasure || treasure.room !== action.labyrinthId)
+        throw new AndroidEconomyError("INVALID_ACTION", "Nieznana skrzynia w tej lokacji.");
+      if (action.position) requireNearWorldPoint(land, action.position, treasure, treasure.room);
+      if (state.progress.openedTreasures.includes(tid))
         throw new AndroidEconomyError("QUEST_ALREADY_COMPLETED", "Ten skarb został już otwarty.");
-      }
-      if (action.minLevel && level < action.minLevel) {
-        throw new AndroidEconomyError(
-          "GOAL_NOT_MET",
-          `Wymagany poziom ${action.minLevel}, aby otworzyć ten skarb (masz ${level}).`,
-        );
-      }
+      const requiredLevel = Math.max(
+        treasure.minLevel,
+        treasure.room ? (androidRoom(land, treasure.room)?.minLevel ?? MAX_LEVEL) : 1,
+      );
+      if (level < requiredLevel)
+        throw new AndroidEconomyError("GOAL_NOT_MET", `Skarb wymaga poziomu ${requiredLevel}.`);
+
       state.progress.openedTreasures.push(tid);
-      const rewardGold = clampInt(action.gold ?? 120, 20, 600, 120);
-      const rewardXp = clampInt(action.xp ?? 90, 20, 520, 90);
+      const { gold: rewardGold, xp: rewardXp } = treasure;
       gold = Math.min(MAX_GOLD, gold + rewardGold);
       let itemNote = "";
-      if (action.itemId && ANDROID_ITEM_MAP.has(action.itemId)) {
-        const def = ANDROID_ITEM_MAP.get(action.itemId)!;
-        if (addItemToSlots(state.backpack, def.id, 1)) {
+      if (treasure.itemId) {
+        const def = ANDROID_ITEM_MAP.get(treasure.itemId);
+        if (def) {
+          if (!addItemToSlots(state.backpack, def.id, 1))
+            throw new AndroidEconomyError(
+              "BACKPACK_FULL",
+              "Zwolnij miejsce w plecaku przed otwarciem skrzyni.",
+            );
           itemNote = ` + ${def.name}`;
         }
       }
-      if (action.labyrinthId) {
-        const prefix = `chest-${action.labyrinthId}-`;
+      if (treasure.room) {
+        const prefix = `chest-${treasure.room}-`;
         const labChests = state.progress.openedTreasures.filter((id) =>
           id.startsWith(prefix),
         ).length;
-        if (labChests >= 4 && !state.progress.clearedLabyrinths.includes(action.labyrinthId)) {
-          state.progress.clearedLabyrinths.push(action.labyrinthId);
+        if (labChests >= 4 && !state.progress.clearedLabyrinths.includes(treasure.room)) {
+          state.progress.clearedLabyrinths.push(treasure.room);
           if (
-            addItemToSlots(state.backpack, "mat_labyrinth_relic", 1) ||
-            addItemToSlots(state.bankItems, "mat_labyrinth_relic", 1)
-          ) {
-            itemNote += " + Relikt Labiryntu";
-          }
+            !addItemToSlots(state.backpack, "mat_labyrinth_relic", 1) &&
+            !addItemToSlots(state.bankItems, "mat_labyrinth_relic", 1)
+          )
+            throw new AndroidEconomyError("BACKPACK_FULL", "Zwolnij miejsce na relikt labiryntu.");
+          itemNote += " + Relikt Labiryntu";
         }
       }
       const res = grantXp(current.race, level, state, rewardXp, nowMs);
@@ -2647,6 +2719,24 @@ export function applyAndroidAction(
 
     case "pve_defeat":
     case "monster_kill": {
+      if (action.type === "monster_kill") {
+        const minLevel = androidLegacyKillLevel(
+          land,
+          action.monsterId,
+          action.level,
+          Boolean(action.isElite),
+        );
+        if ((action.land !== undefined && land !== action.land) || minLevel === undefined)
+          throw new AndroidEconomyError(
+            "INVALID_ACTION",
+            "Potwór nie występuje tu na podanym poziomie.",
+          );
+        if (level < minLevel)
+          throw new AndroidEconomyError(
+            "GOAL_NOT_MET",
+            "Wejście do tego labiryntu wymaga wyższego poziomu.",
+          );
+      }
       const target =
         action.type === "pve_defeat" ? androidTarget(land, action.targetId) : undefined;
       const room = target?.kind === "guardian" ? target.room : undefined;

@@ -232,6 +232,13 @@ func _try_open_nearest_chest() -> void:
 			_show_toast("⚔ Strażnik (%s) broni tej komnaty! Pokonaj go, aby otworzyć skrzynię." % str(g.get("name", "Strażnik")))
 			return
 	var lab_id := str(lab_data.get("id", ""))
+	if world != null and world.is_server_authoritative():
+		var visit := _visit_id
+		world.claim_treasure_reward(nearest_chest, lab_id, func(notice: String) -> void:
+			if visible and visit == _visit_id:
+				_show_toast(notice)
+		)
+		return
 	var claimed := true
 	if world != null and world.has_method("claim_treasure_reward"):
 		claimed = bool(world.claim_treasure_reward(nearest_chest, lab_id))

@@ -524,29 +524,34 @@ func get_total_training_sessions() -> int:
 		tot += maxi(0, int(training_ranks.get(k, 0)))
 	return tot
 
+func _training_mastery_rank() -> int:
+	var rank := int(training_ranks.get("hp", 0))
+	for stat in ["ki", "atk", "def", "spd", "crit"]:
+		rank = mini(rank, int(training_ranks.get(stat, 0)))
+	return rank
+
 func get_training_mastery_title() -> String:
-	var tot := get_total_training_sessions()
-	if tot >= 36:
+	var rank := _training_mastery_rank()
+	if rank >= 15:
 		return "Mistrz Ki"
-	if tot >= 24:
+	if rank >= 10:
 		return "Weteran Stolicy"
-	if tot >= 14:
+	if rank >= 6:
 		return "Wojownik Miasta"
-	if tot >= 6:
+	if rank >= 3:
 		return "Adept Miasta"
 	return "Rekrut"
 
-func get_training_mastery_mult() -> float:
-	var tot := get_total_training_sessions()
-	if tot >= 36:
-		return 1.08
-	if tot >= 24:
-		return 1.06
-	if tot >= 14:
-		return 1.04
-	if tot >= 6:
-		return 1.02
-	return 1.0
+# HP, ATK and DEF, matching computeTrainingBonuses on the server.
+func _training_mastery_bonus() -> Vector3i:
+	var rank := _training_mastery_rank()
+	if rank >= 15:
+		return Vector3i(50, 8, 6)
+	if rank >= 10:
+		return Vector3i(25, 4, 4)
+	if rank >= 6:
+		return Vector3i(10, 2, 2)
+	return Vector3i.ZERO
 
 func get_active_blessing_kind() -> String:
 	if active_blessing.is_empty():
@@ -624,10 +629,9 @@ func get_total_attack() -> int:
 	var per_lv: Dictionary = rd.get("perLevel", {})
 	var lv_off := float(hero_level - 1)
 	var p := get_talent_passives()
-	var mastery := get_training_mastery_mult()
 	var b_mult := 1.10 if get_active_blessing_kind() == "might" else 1.0
-	var raw := float(base.get("attack", 14)) + float(per_lv.get("attack", 4)) * lv_off + float(bonus_stat_pts.get("atk", 0)) * 5.0 + float(training_ranks.get("atk", 0)) * 2.0 + _equip_bonus("atk")
-	return maxi(1, int(round(raw * (1.0 + float(p["atkPct"])) * mastery * b_mult)))
+	var raw := float(base.get("attack", 14)) + float(per_lv.get("attack", 4)) * lv_off + float(bonus_stat_pts.get("atk", 0)) * 5.0 + float(training_ranks.get("atk", 0)) * 2.0 + _training_mastery_bonus().y + _equip_bonus("atk")
+	return maxi(1, int(round(raw * (1.0 + float(p["atkPct"])) * b_mult)))
 
 func get_total_defense() -> int:
 	var rd := _race_data()
@@ -635,10 +639,9 @@ func get_total_defense() -> int:
 	var per_lv: Dictionary = rd.get("perLevel", {})
 	var lv_off := float(hero_level - 1)
 	var p := get_talent_passives()
-	var mastery := get_training_mastery_mult()
 	var b_mult := 1.10 if get_active_blessing_kind() == "might" else 1.0
-	var raw := float(base.get("defense", 5)) + float(per_lv.get("defense", 2.2)) * lv_off + float(bonus_stat_pts.get("def", 0)) * 4.0 + float(training_ranks.get("def", 0)) * 1.5 + _equip_bonus("def")
-	return maxi(0, int(round(raw * (1.0 + float(p["defPct"])) * mastery * b_mult)))
+	var raw := float(base.get("defense", 5)) + float(per_lv.get("defense", 2.2)) * lv_off + float(bonus_stat_pts.get("def", 0)) * 4.0 + ceilf(float(training_ranks.get("def", 0)) * 1.5) + _training_mastery_bonus().z + _equip_bonus("def")
+	return maxi(0, int(round(raw * (1.0 + float(p["defPct"])) * b_mult)))
 
 func get_total_speed() -> int:
 	var rd := _race_data()
@@ -714,12 +717,11 @@ func recalc_stats(refill: bool = false) -> void:
 	var per_lv: Dictionary = rd.get("perLevel", {})
 	var lv_off := float(hero_level - 1)
 	var p := get_talent_passives()
-	var mastery := get_training_mastery_mult()
 	var old_mhp := hero_max_hp
 	var old_mki := hero_max_ki
-	var raw_hp := float(base.get("hp", 140)) + float(per_lv.get("hp", 35)) * lv_off + float(bonus_stat_pts.get("hp", 0)) * 25.0 + float(training_ranks.get("hp", 0)) * 12.0 + _equip_bonus("hp")
+	var raw_hp := float(base.get("hp", 140)) + float(per_lv.get("hp", 35)) * lv_off + float(bonus_stat_pts.get("hp", 0)) * 25.0 + float(training_ranks.get("hp", 0)) * 12.0 + _training_mastery_bonus().x + _equip_bonus("hp")
 	var raw_ki := float(base.get("ki", 45)) + float(per_lv.get("ki", 4)) * lv_off + float(bonus_stat_pts.get("ki", 0)) * 15.0 + float(training_ranks.get("ki", 0)) * 8.0 + _equip_bonus("ki")
-	hero_max_hp = maxf(10.0, round(raw_hp * (1.0 + float(p["hpPct"])) * mastery))
+	hero_max_hp = maxf(10.0, round(raw_hp * (1.0 + float(p["hpPct"]))))
 	hero_max_ki = maxf(0.0, round(raw_ki * (1.0 + float(p["kiPct"]))))
 	if refill:
 		hero_hp = hero_max_hp

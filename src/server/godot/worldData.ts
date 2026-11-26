@@ -15,6 +15,13 @@ type AndroidRegion = {
   walkable: string;
   targets: Record<string, AndroidTarget>;
   rooms: Record<string, { minLevel: number; grid: string[] }>;
+  legacyKills: Record<string, number>;
+  treasures: Record<
+    string,
+    WorldPoint & { minLevel: number; gold: number; xp: number; itemId?: string; room?: string }
+  >;
+  gatherables: Record<string, WorldPoint & { kind: string; itemId?: string }>;
+  inns: Record<string, WorldPoint>;
 };
 
 const regions = generated as Record<AndroidLand, AndroidRegion>;
@@ -31,6 +38,30 @@ export function androidTarget(land: AndroidLand, id: string): AndroidTarget | un
 export function androidRoom(land: AndroidLand, room: string) {
   const rooms = regions[land].rooms;
   return Object.hasOwn(rooms, room) ? rooms[room] : undefined;
+}
+
+export function androidLegacyKillLevel(
+  land: AndroidLand,
+  actorId: string,
+  level: number,
+  elite: boolean,
+) {
+  return regions[land].legacyKills[`${actorId}:${level}:${elite ? 1 : 0}`];
+}
+
+export function androidTreasure(land: AndroidLand, id: string) {
+  const treasures = regions[land].treasures;
+  return Object.hasOwn(treasures, id) ? treasures[id] : undefined;
+}
+
+export function androidGatherable(land: AndroidLand, id: string) {
+  const nodes = regions[land].gatherables;
+  return Object.hasOwn(nodes, id) ? nodes[id] : undefined;
+}
+
+export function androidInn(land: AndroidLand, id: string) {
+  const inns = regions[land].inns;
+  return Object.hasOwn(inns, id) ? inns[id] : undefined;
 }
 
 export function walkableAndroidPoint(

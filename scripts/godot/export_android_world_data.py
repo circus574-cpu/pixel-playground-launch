@@ -22,6 +22,8 @@ def export_region(land):
             bits[idx // 8] |= 1 << (idx % 8)
 
     targets = {}
+    legacy_kills = {}
+    treasures = {}
 
     def add(target_id, target):
         if target_id in targets:
@@ -29,14 +31,30 @@ def export_region(land):
         targets[target_id] = target
 
     half = size / 2
+
+    def global_point(entry):
+        return {"x": round(entry["x"] + half, 3), "z": round(entry["z"] + half, 3)}
+
+    def treasure(entry, point, room=None):
+        reward = {
+            **point, "minLevel": entry["min_level"], "gold": entry["gold"], "xp": entry["xp"],
+            **({"itemId": entry["item_id"]} if entry.get("item_id") else {}),
+        }
+        if room:
+            reward["room"] = room
+        treasures[entry["id"]] = reward
+
+    for entry in data["treasures"]:
+        treasure(entry, global_point(entry))
     for enemy in data["monsters"]:
+        elite = enemy.get("is_elite", False)
         add(enemy["id"], {
-            "kind": "monster", "level": enemy["level"], "elite": enemy.get("is_elite", False),
-            "x": round(enemy["x"] + half, 3), "z": round(enemy["z"] + half, 3),
+            "kind": "monster", "level": enemy["level"], "elite": elite, **global_point(enemy),
         })
+        legacy_kills[f"{enemy['actor_id']}:{enemy['level']}:{int(elite)}"] = 1
     for index, animal in enumerate(data["fauna"]):
         add(f"animal_{animal['actor_id']}_{index}", {
-            "kind": "animal", "x": round(animal["x"] + half, 3), "z": round(animal["z"] + half, 3),
+            "kind": "animal", **global_point(animal),
         })
 
     rooms = {}
@@ -45,11 +63,29 @@ def export_region(land):
         rooms[room] = {"minLevel": maze["level"], "grid": maze["grid"]}
         for enemy in maze["guardians"]:
             add(enemy["id"], {"kind": "guardian", "room": room, "level": enemy["level"]})
+            key = f"{enemy['actor_id']}:{enemy['level']}:0"
+            legacy_kills[key] = min(legacy_kills.get(key, maze["level"]), maze["level"])
+        for entry in maze["chests"]:
+            treasure(entry, {"x": (entry["tx"] + 0.5) * 74, "z": (entry["ty"] + 0.5) * 74}, room)
+
+    gatherables = {
+        entry["id"]: {
+            **global_point(entry), "kind": entry["kind"],
+            **({"itemId": entry["item_id"]} if entry.get("item_id") else {}),
+        }
+        for entry in data["gatherables"]
+    }
+    inns = {}
+    for entry in data["buildings"]:
+        if entry["role"] == "inn":
+            x, z = entry.get("entrance", [entry["x"], entry["z"]])
+            inns[entry["id"]] = global_point({"x": x, "z": z})
 
     return {
         "size": size, "gridSize": grid,
         "walkable": base64.b64encode(zlib.compress(bits, 9)).decode(),
-        "targets": targets, "rooms": rooms,
+        "targets": targets, "rooms": rooms, "legacyKills": legacy_kills,
+        "treasures": treasures, "gatherables": gatherables, "inns": inns,
     }
 
 

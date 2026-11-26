@@ -98,6 +98,8 @@ var wind_shader: Shader
 var wind_mats: Array[ShaderMaterial] = []
 var treasure_nodes: Dictionary = {}
 var opened_treasures: Dictionary = {}
+var _treasure_pending := {}
+var _gather_pending := {}
 var gatherable_nodes: Dictionary = {}
 var gatherable_cd: Dictionary = {}
 var waystone_nodes: Dictionary = {}
@@ -1471,54 +1473,78 @@ func show_combat_toast(msg: String, col: Color = Color(1.0, 0.90, 0.44)) -> void
 	combat_toast_lbl.visible = not (in_interior or in_labyrinth)
 	combat_toast_t = 3.8
 
+func recent_world_combat() -> bool:
+	return world_time - last_combat_time < 8.0
+
+func _show_campfire_rest(title: String) -> void:
+	notify_hero_healed()
+	if combat_vfx != null and hero != null:
+		combat_vfx.spawn_heal_aura(hero.position, Color(0.38, 0.98, 0.62))
+	if hero != null and hero.has_method("show_damage_number"):
+		hero.show_damage_number("+100% HP / KI", Color(0.42, 1.0, 0.64), true)
+	if audio != null:
+		audio.sfx("ui/open", 0.85)
+	show_combat_toast("🔥 Odpoczynek przy %s — odzyskano 100%% HP i KI!" % title, Color(0.46, 0.98, 0.68))
+
+func _mark_gathered(gid: String) -> void:
+	gatherable_cd[gid] = 90.0
+	var node: Node2D = gatherable_nodes.get(gid, null)
+	if is_instance_valid(node):
+		node.modulate = Color(0.46, 0.46, 0.50, 0.42)
+		if combat_vfx != null:
+			combat_vfx.spawn_heal_aura(node.position, Color(1.0, 0.88, 0.34))
+
 func interact_gatherable(g: Dictionary) -> void:
 	var gid := str(g.get("id", ""))
-	if gid.is_empty() or float(gatherable_cd.get(gid, 0.0)) > 0.0:
+	if gid.is_empty() or _gather_pending.has(gid) or float(gatherable_cd.get(gid, 0.0)) > 0.0:
 		return
 	var gkind := str(g.get("kind", "gather"))
 	var gtitle := str(g.get("title", "Surowiec"))
+	var is_camp := gkind == "campfire"
+	if is_camp and recent_world_combat():
+		show_combat_toast("Odpocznij po zakończeniu walki.", Color(1.0, 0.58, 0.38))
+		return
 	if hero != null and hero.has_method("play_action"):
 		hero.play_action("interact", "victory", 0.55)
-	if gkind == "campfire":
+	if is_server_authoritative():
+		var region_load := _region_load_id
+		var point := {"x": hero_pos.x, "z": hero_pos.y}
+		var payload := {"type": "campfire_rest", "siteId": gid, "position": point} if is_camp else {
+			"type": "gather_node", "nodeId": gid, "land": current_land, "position": point,
+		}
+		_gather_pending[gid] = true
+		dispatch_server_action(payload, func(res: Dictionary) -> void:
+			_gather_pending.erase(gid)
+			if region_load != _region_load_id:
+				return
+			if not bool(res.get("ok", false)):
+				show_combat_toast(str(res.get("notice", "")), Color(1.0, 0.58, 0.38))
+			elif is_camp:
+				gatherable_cd[gid] = 8.0
+				_show_campfire_rest(gtitle)
+			else:
+				_mark_gathered(gid)
+				if audio != null:
+					audio.sfx("crafting/harvest-ore", 0.84, 0.07)
+				show_combat_toast(str(res.get("notice", "")), Color(0.78, 0.94, 0.56))
+		)
+		return
+	if is_camp:
 		gatherable_cd[gid] = 8.0
-		notify_hero_healed()
-		if not dispatch_server_action({"type": "campfire_rest"}):
-			if rpg_hud != null:
-				rpg_hud.hero_hp = rpg_hud.hero_max_hp
-				rpg_hud.hero_ki = rpg_hud.hero_max_ki
-				rpg_hud._sync_bar_uniforms()
-				rpg_hud._refresh_visuals()
-		if combat_vfx != null and hero != null:
-			combat_vfx.spawn_heal_aura(hero.position, Color(0.38, 0.98, 0.62))
-		if hero != null and hero.has_method("show_damage_number"):
-			hero.show_damage_number("+100% HP / KI", Color(0.42, 1.0, 0.64), true)
-		if audio != null:
-			audio.sfx("ui/open", 0.85)
-		show_combat_toast("🔥 Odpoczynek przy %s — odzyskano 100%% HP i KI!" % gtitle, Color(0.46, 0.98, 0.68))
+		if rpg_hud != null:
+			rpg_hud.hero_hp = rpg_hud.hero_max_hp
+			rpg_hud.hero_ki = rpg_hud.hero_max_ki
+			rpg_hud._sync_bar_uniforms()
+			rpg_hud._refresh_visuals()
+		_show_campfire_rest(gtitle)
 	else:
-		gatherable_cd[gid] = 90.0
-		var gnode: Node2D = gatherable_nodes.get(gid, null)
-		if is_instance_valid(gnode):
-			gnode.modulate = Color(0.46, 0.46, 0.50, 0.42)
-			if combat_vfx != null:
-				combat_vfx.spawn_heal_aura(gnode.position, Color(1.0, 0.88, 0.34))
+		_mark_gathered(gid)
 		var rxp := int(g.get("xp", 22))
 		var rgold := int(g.get("gold", 12))
 		var item_id := str(g.get("item_id", gid))
 		var iname := str(g.get("item_name", gtitle))
 		var iicon := str(g.get("icon", "emblem_scroll.webp"))
-		var sent_srv := dispatch_server_action({
-			"type": "gather_node",
-			"nodeId": gid,
-			"itemId": item_id,
-			"land": current_land,
-		}, func(res: Dictionary) -> void:
-			if not bool(res.get("ok", false)):
-				var err_txt := str(res.get("error", ""))
-				if not err_txt.is_empty():
-					show_combat_toast(err_txt, Color(1.0, 0.52, 0.36))
-		)
-		if not sent_srv and rpg_hud != null:
+		if rpg_hud != null:
 			rpg_hud.hero_gold += rgold
 			if rpg_hud.has_method("add_item_to_backpack"):
 				var cat_it: Dictionary = GmPanelScript.find_item(item_id)
@@ -1546,9 +1572,9 @@ func interact_gatherable(g: Dictionary) -> void:
 		show_combat_toast("✦ Zebrano: %s (+%d PD, +%d zł)" % [iname, rxp, rgold], Color(0.56, 0.98, 0.72))
 	sync_hero()
 
-func claim_treasure_reward(tr: Dictionary, lab_id: String = "") -> bool:
+func claim_treasure_reward(tr: Dictionary, lab_id: String = "", on_done: Callable = Callable()) -> bool:
 	var tid := str(tr.get("id", ""))
-	if tid.is_empty() or opened_treasures.has(tid):
+	if tid.is_empty() or opened_treasures.has(tid) or _treasure_pending.has(tid):
 		return false
 	var req_lv := maxi(1, int(tr.get("min_level", 1)))
 	var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
@@ -1557,6 +1583,31 @@ func claim_treasure_reward(tr: Dictionary, lab_id: String = "") -> bool:
 			audio.sfx("ui/locked", 0.85, 0.04)
 		show_combat_toast("🔒 Wymagany Poziom %d, aby otworzyć: %s (masz Poz. %d)!" % [req_lv, str(tr.get("title", "Skarb")), hero_lv], Color(1.0, 0.45, 0.32))
 		return false
+	if is_server_authoritative():
+		var region_load := _region_load_id
+		var point: Vector2 = labyrinth_room.hero_px if not lab_id.is_empty() and labyrinth_room != null else hero_pos
+		var payload := {"type": "claim_treasure", "treasureId": tid, "position": {"x": point.x, "z": point.y}}
+		if not lab_id.is_empty():
+			payload["labyrinthId"] = lab_id
+		_treasure_pending[tid] = true
+		dispatch_server_action(payload, func(res: Dictionary) -> void:
+			_treasure_pending.erase(tid)
+			if region_load != _region_load_id:
+				return
+			var ok := bool(res.get("ok", false))
+			var notice := str(res.get("notice", ""))
+			if ok:
+				if hero != null and hero.has_method("play_action"):
+					hero.play_action("interact", "victory", 0.55)
+				if audio != null:
+					audio.sfx("ui/chest", 0.92, 0.04)
+			if on_done.is_valid():
+				on_done.call(notice)
+			else:
+				show_combat_toast(notice, Color(1.0, 0.92, 0.40) if ok else Color(1.0, 0.58, 0.38))
+			sync_hero()
+		)
+		return true
 	opened_treasures[tid] = true
 	_refresh_treasure_nodes_visibility()
 	if hero != null and hero.has_method("play_action"):
@@ -1564,24 +1615,18 @@ func claim_treasure_reward(tr: Dictionary, lab_id: String = "") -> bool:
 	var rgold := int(tr.get("gold", 150))
 	var rxp := int(tr.get("xp", 95))
 	var ritem := str(tr.get("item_id", ""))
-	var payload := {"type": "claim_treasure", "treasureId": tid, "gold": rgold, "xp": rxp, "minLevel": req_lv}
-	if not lab_id.is_empty():
-		payload["labyrinthId"] = lab_id
-	if not ritem.is_empty():
-		payload["itemId"] = ritem
-	if not dispatch_server_action(payload):
-		if rpg_hud != null:
-			rpg_hud.hero_gold += rgold
-			if not ritem.is_empty() and rpg_hud.has_method("add_item_to_backpack"):
-				var cat_it: Dictionary = GmPanelScript.find_item(ritem)
-				if not cat_it.is_empty():
-					rpg_hud.add_item_to_backpack(cat_it, 1)
-			if rpg_hud.has_method("grant_local_xp"):
-				var lvl_up: bool = rpg_hud.grant_local_xp(rxp)
-				if lvl_up and audio != null:
-					audio.sfx("common/level-up", 0.95, 0.03)
-			else:
-				rpg_hud._refresh_visuals()
+	if rpg_hud != null:
+		rpg_hud.hero_gold += rgold
+		if not ritem.is_empty() and rpg_hud.has_method("add_item_to_backpack"):
+			var cat_it: Dictionary = GmPanelScript.find_item(ritem)
+			if not cat_it.is_empty():
+				rpg_hud.add_item_to_backpack(cat_it, 1)
+		if rpg_hud.has_method("grant_local_xp"):
+			var lvl_up: bool = rpg_hud.grant_local_xp(rxp)
+			if lvl_up and audio != null:
+				audio.sfx("common/level-up", 0.95, 0.03)
+		else:
+			rpg_hud._refresh_visuals()
 	if audio != null:
 		audio.sfx("ui/chest", 0.92, 0.04)
 	show_combat_toast("★ ODKRYTO SKARB: %s (+%d zł, +%d PD)" % [str(tr.get("title", "Skarb")), rgold, rxp], Color(1.0, 0.92, 0.40))

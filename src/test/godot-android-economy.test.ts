@@ -9,6 +9,7 @@ import {
   applyAdminCharacterPatch,
   applyAndroidAction,
   computeAndroidStats,
+  computeTrainingBonuses,
   createInitialAndroidState,
   maxTrainingPerStat,
   normalizeAndroidState,
@@ -94,7 +95,7 @@ describe("Android authoritative economy, city training & progression engine", ()
       race: "legend",
       ...applyAndroidAction(
         cur,
-        { type: "gather_node", nodeId: "pyra-obs-1", itemId: "mat_obsidian", land: "pyra" },
+        { type: "gather_node", nodeId: "pyra-gather-2", itemId: "mat_obsidian", land: "pyra" },
         { isStaff: false, nowMs: 10_000 },
       ),
     };
@@ -102,7 +103,7 @@ describe("Android authoritative economy, city training & progression engine", ()
       race: "legend",
       ...applyAndroidAction(
         cur,
-        { type: "gather_node", nodeId: "pyra-obs-2", itemId: "mat_obsidian", land: "pyra" },
+        { type: "gather_node", nodeId: "pyra-gather-5", itemId: "mat_obsidian", land: "pyra" },
         { isStaff: false, nowMs: 15_000 },
       ),
     };
@@ -111,7 +112,7 @@ describe("Android authoritative economy, city training & progression engine", ()
       race: "legend",
       ...applyAndroidAction(
         cur,
-        { type: "monster_kill", monsterId: "pyra-byk", level: 1, land: "pyra" },
+        { type: "monster_kill", monsterId: "pyra-wegielek", level: 1, land: "pyra" },
         { isStaff: false, nowMs: 20_000 },
       ),
     };
@@ -119,7 +120,7 @@ describe("Android authoritative economy, city training & progression engine", ()
       race: "legend",
       ...applyAndroidAction(
         cur,
-        { type: "monster_kill", monsterId: "pyra-byk", level: 1, land: "pyra" },
+        { type: "monster_kill", monsterId: "pyra-wegielek", level: 1, land: "pyra" },
         { isStaff: false, nowMs: 21_000 },
       ),
     };
@@ -231,7 +232,7 @@ describe("Android authoritative economy, city training & progression engine", ()
     for (let i = 0; i < 6; i++) {
       const res = applyAndroidAction(
         cur,
-        { type: "monster_kill", monsterId: `mob-${i}`, level: 4, land: "pyra" },
+        { type: "monster_kill", monsterId: "pyra-popielny-wilk", level: 4, land: "pyra" },
         { isStaff: false, nowMs: 100_000 },
       );
       cur = { race: "legend", ...res };
@@ -243,7 +244,13 @@ describe("Android authoritative economy, city training & progression engine", ()
     const goldPre = cur.gold;
     const el = applyAndroidAction(
       cur,
-      { type: "monster_kill", monsterId: "pyra-elite-1", level: 5, isElite: true, land: "pyra" },
+      {
+        type: "monster_kill",
+        monsterId: "pyra-popielny-wilk",
+        level: 5,
+        isElite: true,
+        land: "pyra",
+      },
       { isStaff: false, nowMs: 105_000 },
     );
     expect(el.state.xp - xpPre).toBe((18 + 5 * 7) * 3); // 159 XP!
@@ -471,6 +478,162 @@ describe("Android authoritative economy, city training & progression engine", ()
     );
     expect(defeated.state.position).toBeNull();
     expect(defeated.state.positionEpoch).toBe(1);
+  });
+
+  it("uses world-defined chest and gathering rewards and keeps the two gathering cooldowns", () => {
+    const hero = freshHero();
+    const chest = applyAndroidAction(
+      hero,
+      {
+        type: "claim_treasure",
+        treasureId: "tr-pyra-1",
+        gold: 300,
+        xp: 300,
+        itemId: "pouch_gold",
+      },
+      { isStaff: false, nowMs: 20_000 },
+    );
+    expect(chest.gold - hero.gold).toBe(95);
+    expect(chest.state.xp - hero.state.xp).toBe(45);
+    expect(chest.state.backpack).toContainEqual({ id: "potion_hp", qty: 1 });
+    expect(chest.state.backpack.some((item) => item?.id === "pouch_gold")).toBe(false);
+    expect(() =>
+      applyAndroidAction(
+        hero,
+        {
+          type: "claim_treasure",
+          treasureId: "chest-lab-pyra-caldera-1",
+          labyrinthId: "lab-pyra-caldera",
+          minLevel: 1,
+        },
+        { isStaff: false },
+      ),
+    ).toThrowError(expect.objectContaining({ code: "GOAL_NOT_MET" }));
+    expect(() =>
+      applyAndroidAction(
+        hero,
+        {
+          type: "claim_treasure",
+          treasureId: "tr-aether-1",
+        },
+        { isStaff: false },
+      ),
+    ).toThrowError(expect.objectContaining({ code: "INVALID_ACTION" }));
+
+    const gathered = applyAndroidAction(
+      hero,
+      {
+        type: "gather_node",
+        nodeId: "pyra-gather-2",
+        itemId: "mat_elite_core",
+      },
+      { isStaff: false, nowMs: 20_000 },
+    );
+    expect(gathered.state.backpack).toContainEqual({ id: "mat_obsidian", qty: 1 });
+    const afterGather = { ...hero, ...gathered };
+    expect(() =>
+      applyAndroidAction(
+        afterGather,
+        {
+          type: "gather_node",
+          nodeId: "pyra-gather-5",
+        },
+        { isStaff: false, nowMs: 21_199 },
+      ),
+    ).toThrowError(expect.objectContaining({ code: "ARENA_COOLDOWN" }));
+    expect(
+      applyAndroidAction(
+        afterGather,
+        {
+          type: "gather_node",
+          nodeId: "pyra-gather-5",
+        },
+        { isStaff: false, nowMs: 21_200 },
+      ).state.progress.gatherCount,
+    ).toBe(2);
+    expect(() =>
+      applyAndroidAction(
+        afterGather,
+        {
+          type: "gather_node",
+          nodeId: "pyra-gather-2",
+        },
+        { isStaff: false, nowMs: 25_000 },
+      ),
+    ).toThrowError(expect.objectContaining({ code: "ARENA_COOLDOWN" }));
+  });
+
+  it("shares the rest cooldown between sites and validates the old client monster catalogue", () => {
+    const hero = freshHero();
+    const rested = applyAndroidAction(
+      hero,
+      { type: "inn_rest" },
+      { isStaff: false, nowMs: 20_000 },
+    );
+    const afterRest = { ...hero, ...rested };
+    expect(() =>
+      applyAndroidAction(afterRest, { type: "campfire_rest" }, { isStaff: false, nowMs: 27_999 }),
+    ).toThrowError(expect.objectContaining({ code: "ARENA_COOLDOWN" }));
+    expect(
+      applyAndroidAction(afterRest, { type: "campfire_rest" }, { isStaff: false, nowMs: 28_000 })
+        .state.lastRestAt,
+    ).toBe(28_000);
+    expect(() =>
+      applyAndroidAction(
+        hero,
+        {
+          type: "inn_rest",
+          siteId: "pyra-inn",
+          position: { x: 0, z: 0 },
+        },
+        { isStaff: false },
+      ),
+    ).toThrowError(expect.objectContaining({ code: "INVALID_ACTION" }));
+    expect(() =>
+      applyAndroidAction(
+        hero,
+        {
+          type: "monster_kill",
+          monsterId: "pyra-wegielek",
+          level: 100,
+        },
+        { isStaff: false, nowMs: 20_000 },
+      ),
+    ).toThrowError(expect.objectContaining({ code: "INVALID_ACTION" }));
+    const killed = applyAndroidAction(
+      hero,
+      {
+        type: "monster_kill",
+        monsterId: "pyra-wegielek",
+        level: 1,
+      },
+      { isStaff: false, nowMs: 20_000 },
+    );
+    expect(() =>
+      applyAndroidAction(
+        { ...hero, ...killed },
+        { type: "inn_rest" },
+        { isStaff: false, nowMs: 20_100 },
+      ),
+    ).toThrowError(expect.objectContaining({ code: "ARENA_COOLDOWN" }));
+  });
+
+  it("awards flat mastery bonuses only after every discipline reaches the threshold", () => {
+    const ranks = (n: number) => ({ hp: n, ki: n, atk: n, def: n, spd: n, crit: n });
+    expect(computeTrainingBonuses({ ...ranks(20), hp: 2 }).masteryTitle).toBe("Rekrut");
+    for (const [rank, title, hp, atk, def] of [
+      [3, "Adept Miasta", 0, 0, 0],
+      [6, "Wojownik Miasta", 10, 2, 2],
+      [10, "Weteran Stolicy", 25, 4, 4],
+      [15, "Mistrz Ki", 50, 8, 6],
+    ] as const) {
+      expect(computeTrainingBonuses(ranks(rank))).toMatchObject({
+        masteryTitle: title,
+        hp: rank * 12 + hp,
+        atk: rank * 2 + atk,
+        def: Math.ceil(rank * 1.5) + def,
+      });
+    }
   });
 
   it("persists GM actions through the canonical transition and reload normalization", () => {

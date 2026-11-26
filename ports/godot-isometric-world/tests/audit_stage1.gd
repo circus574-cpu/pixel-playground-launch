@@ -196,6 +196,45 @@ func run(world: TestWorld) -> void:
 	maze._step_ground_drops(0.1)
 	expect(maze.ground_drops.is_empty(), "confirmed drop disappears from maze")
 
+	for tier: Array in [
+		[3, "Adept Miasta", Vector3i.ZERO],
+		[6, "Wojownik Miasta", Vector3i(10, 2, 2)],
+		[10, "Weteran Stolicy", Vector3i(25, 4, 4)],
+		[15, "Mistrz Ki", Vector3i(50, 8, 6)],
+	]:
+		for stat: String in hud.training_ranks:
+			hud.training_ranks[stat] = tier[0]
+		expect(hud.get_training_mastery_title() == tier[1] and hud._training_mastery_bonus() == tier[2], "canonical mastery threshold and flat bonus")
+	hud.training_ranks["def"] = 2
+	expect(hud.get_training_mastery_title() == "Rekrut" and hud._training_mastery_bonus() == Vector3i.ZERO, "weakest discipline determines mastery")
+
+	var tr := {"id": "fixture-chest", "title": "Skrzynia testowa", "gold": 900, "xp": 80}
+	expected_payload = {
+		"type": "claim_treasure", "treasureId": "fixture-chest",
+		"position": {"x": world.hero_pos.x, "z": world.hero_pos.y},
+	}
+	var requests_before_chest := requests
+	expect(world.claim_treasure_reward(tr), "chest request sent")
+	expect(not world.claim_treasure_reward(tr) and requests == requests_before_chest + 1, "outstanding chest request is deduplicated")
+	expect(not world.is_treasure_opened("fixture-chest"), "chest awaits server confirmation")
+	pending.call({"ok": false, "notice": "Plecak pełny"})
+	expect(not world.is_treasure_opened("fixture-chest"), "rejected chest stays closed")
+	expect(world.claim_treasure_reward(tr), "rejected chest is retryable")
+	pending.call({"ok": true, "character": {"state": {"progress": {"openedTreasures": ["fixture-chest"]}}}})
+	expect(world.is_treasure_opened("fixture-chest"), "confirmed progress opens chest")
+
+	var gather := {"id": "fixture-gather", "kind": "gather"}
+	expected_payload = {
+		"type": "gather_node", "nodeId": "fixture-gather", "land": world.current_land,
+		"position": {"x": world.hero_pos.x, "z": world.hero_pos.y},
+	}
+	world.interact_gatherable(gather)
+	pending.call({"ok": false, "notice": "Odczekaj"})
+	expect(not world.gatherable_cd.has("fixture-gather"), "server rejection leaves resource available")
+	world.interact_gatherable(gather)
+	pending.call({"ok": true})
+	expect(float(world.gatherable_cd.get("fixture-gather", 0.0)) == 90.0, "accepted gathering starts respawn timer")
+
 	world.free()
 	print("Etap 1 — %d/%d kontroli Godot" % [checks - failures, checks])
 	quit(1 if failures > 0 else 0)
