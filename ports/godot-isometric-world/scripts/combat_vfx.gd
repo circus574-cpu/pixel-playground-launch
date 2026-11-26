@@ -300,6 +300,86 @@ func spawn_heal_aura(pos: Vector2, col: Color = Color(0.36, 0.98, 0.62)) -> void
 	})
 	queue_redraw()
 
+func spawn_beam(from_pos: Vector2, to_pos: Vector2, race_k: String, width: float = 24.0, dur: float = 0.50) -> void:
+	var pal := _pal(race_k)
+	effects.append({
+		"kind": "beam",
+		"from": from_pos + Vector2(0.0, -38.0),
+		"to": to_pos + Vector2(0.0, -34.0),
+		"width": clampf(width, 10.0, 44.0),
+		"main": pal["main"],
+		"core": pal["core"],
+		"edge": pal["edge"],
+		"age": 0.0,
+		"dur": maxf(dur, 0.25),
+	})
+	queue_redraw()
+
+func spawn_light_circle(pos: Vector2, radius: float, race_k: String, dur: float = 4.5, circle_kind: String = "light") -> void:
+	var pal := _pal(race_k)
+	var main_c: Color = pal["main"]
+	var edge_c: Color = pal["edge"]
+	if circle_kind == "slow":
+		main_c = Color(0.46, 0.62, 1.0, 1.0)
+		edge_c = Color(0.70, 0.40, 1.0, 1.0)
+	elif circle_kind == "temple":
+		main_c = Color(1.0, 0.90, 0.44, 1.0)
+		edge_c = Color(0.36, 0.92, 1.0, 1.0)
+	elif circle_kind == "burn":
+		main_c = Color(1.0, 0.46, 0.14, 1.0)
+		edge_c = Color(1.0, 0.22, 0.08, 1.0)
+	effects.append({
+		"kind": "light_circle",
+		"pos": pos,
+		"radius": radius,
+		"main": main_c,
+		"core": pal["core"],
+		"edge": edge_c,
+		"age": 0.0,
+		"dur": maxf(dur, 1.0),
+	})
+	queue_redraw()
+
+func spawn_dash_afterimage(from_pos: Vector2, to_pos: Vector2, race_k: String) -> void:
+	var pal := _pal(race_k)
+	effects.append({
+		"kind": "dash",
+		"from": from_pos + Vector2(0.0, -28.0),
+		"to": to_pos + Vector2(0.0, -28.0),
+		"main": pal["main"],
+		"core": pal["core"],
+		"edge": pal["edge"],
+		"age": 0.0,
+		"dur": 0.38,
+	})
+	queue_redraw()
+
+func spawn_target_reticle(pos: Vector2, race_k: String, dur: float = 1.1) -> void:
+	var pal := _pal(race_k)
+	effects.append({
+		"kind": "reticle",
+		"pos": pos + Vector2(0.0, -36.0),
+		"main": pal["main"],
+		"core": pal["core"],
+		"edge": pal["edge"],
+		"age": 0.0,
+		"dur": maxf(dur, 0.4),
+	})
+	queue_redraw()
+
+func spawn_channel_ring(pos: Vector2, race_k: String, dur: float = 1.6) -> void:
+	var pal := _pal(race_k)
+	effects.append({
+		"kind": "channel",
+		"pos": pos,
+		"main": pal["main"],
+		"core": pal["core"],
+		"edge": pal["edge"],
+		"age": 0.0,
+		"dur": maxf(dur, 0.5),
+	})
+	queue_redraw()
+
 func _process(delta: float) -> void:
 	if effects.is_empty():
 		return
@@ -612,3 +692,63 @@ func _draw() -> void:
 				var my := pos.y + float(m["oy"]) - float(m["rise"]) * p
 				draw_circle(Vector2(mx, my), float(m["sz"]) * (1.0 - p * 0.45) + 1.2, Color(main_c.r, main_c.g, main_c.b, 0.82 * fade))
 				draw_circle(Vector2(mx, my), float(m["sz"]) * (1.0 - p * 0.45), Color(core_c.r, core_c.g, core_c.b, 0.96 * fade))
+
+		elif kind == "beam":
+			var from_p: Vector2 = fx["from"]
+			var to_p: Vector2 = fx["to"]
+			var e_col: Color = fx.get("edge", main_c) as Color
+			var bw: float = float(fx.get("width", 26.0))
+			var pulse_b := 0.82 + 0.18 * sin(age * 46.0)
+			var bfade := clampf((1.0 - p) * 2.2, 0.0, 1.0)
+			draw_line(from_p, to_p, Color(e_col.r, e_col.g, e_col.b, 0.42 * bfade), bw * pulse_b * bfade, true)
+			draw_line(from_p, to_p, Color(main_c.r, main_c.g, main_c.b, 0.82 * bfade), bw * 0.50 * pulse_b * bfade, true)
+			draw_line(from_p, to_p, Color(core_c.r, core_c.g, core_c.b, 0.98 * bfade), maxf(3.6, bw * 0.19) * pulse_b * bfade, true)
+			_draw_glow(from_p, 42.0 * bfade, 42.0 * bfade, Color(core_c.r, core_c.g, core_c.b, 0.88 * bfade))
+			_draw_glow(to_p, 64.0 * pulse_b * bfade, 64.0 * pulse_b * bfade, Color(main_c.r, main_c.g, main_c.b, 0.90 * bfade))
+
+		elif kind == "light_circle":
+			var pos: Vector2 = fx["pos"]
+			var rad: float = float(fx["radius"])
+			var e_col: Color = fx.get("edge", main_c) as Color
+			var lfade := clampf(minf(p * 6.0, (1.0 - p) * 4.0), 0.0, 1.0)
+			draw_set_transform(pos, 0.0, Vector2(1.0, 0.45))
+			draw_circle(Vector2.ZERO, rad, Color(main_c.r, main_c.g, main_c.b, 0.16 * lfade))
+			draw_arc(Vector2.ZERO, rad, 0.0, TAU, 44, Color(main_c.r, main_c.g, main_c.b, 0.86 * lfade), 4.0, true)
+			draw_arc(Vector2.ZERO, rad * 0.72, 0.0, TAU, 36, Color(e_col.r, e_col.g, e_col.b, 0.62 * lfade), 2.2, true)
+			for seg in 6:
+				var a0 := age * 1.4 + float(seg) * (TAU / 6.0)
+				draw_arc(Vector2.ZERO, rad * 0.86, a0, a0 + 0.42, 8, Color(core_c.r, core_c.g, core_c.b, 0.90 * lfade), 2.8, true)
+			draw_set_transform(Vector2.ZERO)
+
+		elif kind == "dash":
+			var from_p: Vector2 = fx["from"]
+			var to_p: Vector2 = fx["to"]
+			var e_col: Color = fx.get("edge", main_c) as Color
+			draw_line(from_p, to_p, Color(e_col.r, e_col.g, e_col.b, 0.44 * fade), 24.0 * fade, true)
+			draw_line(from_p, to_p, Color(main_c.r, main_c.g, main_c.b, 0.78 * fade), 11.0 * fade, true)
+			draw_line(from_p, to_p, Color(core_c.r, core_c.g, core_c.b, 0.95 * fade), 3.6 * fade, true)
+			for ghost_i in 4:
+				var gpos := from_p.lerp(to_p, float(ghost_i) / 3.5)
+				_draw_glow(gpos, 32.0 * fade, 48.0 * fade, Color(main_c.r, main_c.g, main_c.b, 0.42 * fade))
+
+		elif kind == "reticle":
+			var pos: Vector2 = fx["pos"]
+			var r_rot := age * 3.2
+			var rad := lerpf(54.0, 28.0, clampf(p * 3.0, 0.0, 1.0))
+			var rfade := clampf((1.0 - p) * 2.5, 0.0, 1.0)
+			draw_arc(pos, rad, 0.0, TAU, 28, Color(main_c.r, main_c.g, main_c.b, 0.92 * rfade), 2.6, true)
+			for ti in 4:
+				var ta := r_rot + float(ti) * (PI * 0.5)
+				var d := Vector2(cos(ta), sin(ta))
+				draw_line(pos + d * (rad * 0.55), pos + d * (rad * 1.32), Color(core_c.r, core_c.g, core_c.b, 0.96 * rfade), 2.4, true)
+
+		elif kind == "channel":
+			var pos: Vector2 = fx["pos"]
+			var cfade := sin(p * PI)
+			draw_set_transform(pos, 0.0, Vector2(1.0, 0.44))
+			for ring_i in 2:
+				var rph := fposmod(age * 1.4 + float(ring_i) * 0.5, 1.0)
+				var rad := lerpf(92.0, 16.0, rph)
+				draw_arc(Vector2.ZERO, rad, 0.0, TAU, 32, Color(main_c.r, main_c.g, main_c.b, rph * 0.85 * cfade), 3.2, true)
+			draw_set_transform(Vector2.ZERO)
+			_draw_glow(pos + Vector2(0.0, -34.0), 64.0 * cfade, 88.0 * cfade, Color(core_c.r, core_c.g, core_c.b, 0.46 * cfade))

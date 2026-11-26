@@ -740,4 +740,54 @@ describe("Android authoritative economy, city training & progression engine", ()
     expect(patched.state.training.hp).toBe(4);
     expect(ANDROID_ITEM_CATALOG.filter((i) => i.shopPrice !== null && i.slot >= 0).length).toBe(6);
   });
+
+  it("supports Stage 3 assignable hotbar slots [1-4], duplicate swapping, validation, and auto-slotting", () => {
+    const hero = freshHero("legend", 200, 10);
+    expect(hero.state.hotbarSlots).toEqual(["A1", "B1", "C1", "A4"]);
+
+    // Rejects assigning a locked skill
+    expect(() =>
+      applyAndroidAction(hero, { type: "set_hotbar", slot: 0, nodeId: "B4" }, { isStaff: false }),
+    ).toThrowError(AndroidEconomyError);
+
+    // Unlock path B1 -> B2 -> B4: B4 should auto-slot into first locked slot (slot 0 = A1 which is still locked!)
+    let cur = hero;
+    for (const nid of ["B1", "B2", "B4"]) {
+      const res = applyAndroidAction(
+        cur,
+        { type: "unlock_talent", nodeId: nid },
+        { isStaff: false },
+      );
+      cur = { ...cur, ...res };
+    }
+    expect(cur.state.unlockedNodes).toContain("B4");
+    expect(cur.state.hotbarSlots).toContain("B4");
+
+    // Assign B4 explicitly to slot 3 and swap duplicates cleanly
+    const assigned = applyAndroidAction(
+      cur,
+      { type: "set_hotbar", slot: 3, nodeId: "B4" },
+      { isStaff: false },
+    );
+    expect(assigned.state.hotbarSlots?.[3]).toBe("B4");
+    expect(new Set(assigned.state.hotbarSlots ?? []).size).toBe(4);
+
+    // Swapping B1 into slot 3 puts B4 back where B1 was
+    const swapped = applyAndroidAction(
+      { ...cur, ...assigned },
+      { type: "set_hotbar", slot: 3, nodeId: "B1" },
+      { isStaff: false },
+    );
+    expect(swapped.state.hotbarSlots?.[3]).toBe("B1");
+    expect(swapped.state.hotbarSlots).toContain("B4");
+    expect(new Set(swapped.state.hotbarSlots ?? []).size).toBe(4);
+
+    // GM reset_talents restores default hotbarSlots
+    const reset = applyAndroidAction(
+      { ...cur, ...swapped },
+      { type: "gm_action", op: "reset_talents" },
+      { isStaff: true },
+    );
+    expect(reset.state.hotbarSlots).toEqual(["A1", "B1", "C1", "A4"]);
+  });
 });

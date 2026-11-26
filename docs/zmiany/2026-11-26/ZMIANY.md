@@ -255,6 +255,38 @@ w panelu `/admin`):
 
 Pełny TypeScript (`tsconfig`, `tsconfig.e2e.json`, `tsconfig.tools.json`), ESLint
 zmienionych plików oraz `scripts/docs/check_documentation.py` zakończyły się
-wynikiem pozytywnym. Wdrożenie produkcyjne na Aruba VPS, publikacja paczki OTA
-oraz testy na fizycznym telefonie Android pozostają do osobnej decyzji
-właściciela.
+wynikiem pozytywnym.
+
+### Wdrożenie Etapu 1 + Etapu 2 i OTA `1.14.33` (po akceptacji właściciela)
+
+Po wyraźnej decyzji właściciela z 2026-11-26 scalono Etap 1 + Etap 2 do gałęzi
+`feat/isometric-world-2d-terrain3d-20261118` (`905768dc`), zbudowano paczkę
+`deliveries/godot-content-1.14.33` (`core-c101-b91d5a92d2a6.pck`, 13.4 MB, 424 pliki,
+z zachowaniem wszystkich 8 paczek światów i 29 paczek historycznych) oraz
+przeprowadzono pełne wdrożenie produkcyjne:
+- `multiplayer-database.yml` (`45865383317`) — kopia zapasowa i migracja `010-godot-android-social.sql` (`success`).
+- `aruba-production.yml` (`45866793261`) — pełna bramka jakości i wdrożenie backendu Coolify na Aruba VPS (`success`).
+- `godot-content-upload.yml` (`45869870009`) — wgranie, publikacja i aktywacja `OTA 1.14.33` (`success`).
+
+## Etap 3 — pełna walka Ki Legends, wszystkie 29 węzłów, pasek `1–4`, Unik, Ładowanie Ki i 4 mechaniki rasowe
+
+Prace na gałęzi `feat/android-audit-stage3-20261126` (od `905768dc`) domykają cały
+Etap 3 planu audytu — bez rozbudowy o zewnętrzne silniki, na zasobach 47 klipów
+każdej z 4 ras:
+
+| Obszar | Zmiana | Weryfikacja |
+| --- | --- | --- |
+| Przypisywalny pasek `1–4` i serwer (`economy.ts`, `rpg_hud.gd`) | Dodano `hotbarSlots` w stanie postaci (`createInitialAndroidCharacter`, `normalizeAndroidState`), akcję serwerową `set_hotbar` (`slot: 0..3`, `nodeId: A1..C9`, walidacja odblokowania i zamiana duplikatów), automatyczne przypisywanie nowo odblokowanego skilla w pierwszy zablokowany slot oraz przyciski `[1] [2] [3] [4]` w inspektorze drzewka `[K]`. Naprawiono podwójne liczenie `dmgMult`/`rangeMult` (baza `0.0` zamiast `1.0`) oraz rozmiar węzła `type: "ki-mode"` (`T`). | `godot-android-economy.test.ts` (17/17), `audit_stage3.gd` (60/60) oraz zrzut OpenGL3 `[K]`. |
+| Unik (`UNIK [V/Shift]`), Ładowanie Ki (`KI+ [X]`) i Target Lock (`[N]` / klik) | Dodano kule `UNIK [V]` (`0.35 s` klatek nietykalności + szybki zryw + `dodge`/`kidodge` + afterimage) i `KI+ [X]` (`2.0 s` kanałowania +28% KI przerywanego ruchem + `channel`/`kichannel`) na HUDzie. Dodano blokowanie celu (`Target Lock`) z pulsującym złotym pierścieniem na ziemi, górnym paskiem HP/statusów (`PODPAL.`, `OGŁUSZ.`, `SPOWOL.`, `NAMIERZ.`, `PIECZĘĆ`), automatycznym przesunięciem komunikatu `combat_toast_lbl` poniżej paska celu oraz przyciskiem `[×]`. | `audit_stage3.gd` potwierdza `0` obrażeń podczas i-frames Uniku, przyrost KI w trakcie kanałowania oraz celowanie i zrzut OpenGL3 `1600×720` bez kolizji HUD. |
+| 4 autentyczne mechaniki rasowe i 10 skilli na rasę (`world.gd`) | **Legendy:** `Żar 0–100` (`+4/+6` tylko na realnym trafieniu, spadek OOC, `100` w Formie KI, `C4` spalające cały Żar, `B4` Gniew, `B9` Ostatni Płomień ratujący przed śmiercią z 30% HP, `A2/C3` podpalenie). **Androidy:** `Ładunek` (`100/150/70`) z **Przegrzaniem** blokującym skille do czasu `C4` Awaryjnego Chłodzenia, `A1` Namierzanie, `C1` Promień Plazmowy, `A8` Multishot, `A9` Egzekucja `<30% HP`, `B9` Fortyfikacja, `C9` Przeciążenie `0 KI`. **Planetarni:** `Adaptacja Terenowa` (`Las +30% KI`, `Skała +10% OBR`, `Woda +8% SZYB`), 3. cios `×1.3`, `A1` Szybki Unik, `B1+B5` podwójny Impuls Ziemi, `C1` HoT, `C9` Odrodzenie. **Mędrcy:** naziemne **Kręgi Światła** (`B2/B4/B9`), `A1` opóźniona `Pieczęć Energii` (bezpieczna po wczesnej śmierci celu), `C1/C4` kanałowanie, `C9` Oświecenie `0 KI`. | `audit_stage3.gd` testuje każdą z 4 ras, w tym `B9` lethal-save, Przegrzanie+`C4`, zmianę terenu `Las↔Skała` oraz wczesną śmierć celu pod Pieczęcią `A1` bez wyjątku. |
+| Komplet 47 animacji, Forma KI, 5 nowych VFX i ucieczka fauny | Dodano `KI_CLIP_MAP` w `actor_view.gd`, dzięki czemu `sk_A1..sk_C9`, `attack3`, `finisher` i `guard` w Formie KI zawsze utrzymują klipy `ki*` (`kiskill*`, `kiattack2`, `kifinisher`, `kiguard`). Dodano 5 proceduralnych VFX w `combat_vfx.gd` (`spawn_beam`, `spawn_light_circle`, `spawn_dash_afterimage`, `spawn_target_reticle`, `spawn_channel_ring`), płynne zanikanie alfa po śmierci potworów oraz ucieczkę rannych zwierząt w biegu (`run`). | `audit_stage3.gd` weryfikuje mapowanie na prawdziwym manifeście `pyra.hero` (`actors.json`), wszystkie 5 VFX oraz sprint uciekającej fauny. |
+| Pełna walka w Labiryntach (`labyrinth_room.gd`) | Dodano pełny pasek 4 przypisywalnych skilli `[1]–[4]`, `UNIK [V]` i `FORMA KI [R]` (przyciski + klawisze), klatki nietykalności, statusy strażników (`stun_t`, `burn_t`, `slow_t`), pierścienie VFX oraz odliczanie `ki_mode_timer` wewnątrz labiryntu. | `audit_stage3.gd` i zrzut OpenGL3 `1600×720` potwierdzają działanie skilli, uniku i czytelny układ dolnego paska. |
+
+Weryfikacja lokalna Etapu 3: `audit_stage1.gd` (`53/53`), `audit_stage2.gd` (`27/27`),
+`audit_stage3.gd` (`60/60`), 38/38 testów Vitest na PostgreSQL 17 z dwoma natywnymi
+klientami Godot (`15/15 godot-android.test.ts` + `17/17 godot-android-economy.test.ts`
++ `6/6 service-access.test.ts`), relokacja OTA `prepare_service_preview.py` (`1558`
+plików + `--check-only` wszystkich 5 skryptów w `res://service_preview/pyra/`),
+pełne sprawdzenie 3 konfiguracji TypeScript, ESLint, `check_documentation.py` oraz
+wizualna weryfikacja 3 zrzutów OpenGL3 `1600×720`.
+

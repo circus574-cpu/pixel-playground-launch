@@ -67,12 +67,64 @@ const LAND_META := {
 }
 
 const HOTBAR_NODE_IDS := ["R", "A1", "B1", "C1", "A4", "T"]
+const ASSIGNABLE_NODES := ["A1", "B1", "C1", "A4", "B4", "C4", "A9", "B9", "C9"]
 const HOTBAR_KEYS := ["Q", "1", "2", "3", "4", "R"]
-const HOTBAR_CDS := [0.65, 4.5, 6.0, 9.0, 8.5, 120.0]
-const HOTBAR_KI_COSTS := [0.0, 8.0, 10.0, 12.0, 18.0, 50.0]
+const HOTBAR_CDS := [0.65, 6.0, 7.0, 9.0, 10.0, 90.0]
+const HOTBAR_KI_COSTS := [0.0, 10.0, 10.0, 12.0, 18.0, 45.0]
 const BACKPACK_SLOTS := 24
 const TRAINING_COOLDOWN_MS := 8000
 const BLESSING_DURATION_MS := 900000
+
+const SKILL_SPECS := {
+	"legend": {
+		"A1": {"cd": 6.0, "ki": 10.0, "mult": 1.80, "radius": 135.0, "clip": "sk_A1", "fb": "skill"},
+		"B1": {"cd": 7.0, "ki": 10.0, "mult": 1.50, "radius": 135.0, "clip": "sk_B1", "fb": "skillb"},
+		"C1": {"cd": 9.0, "ki": 14.0, "mult": 1.80, "radius": 175.0, "clip": "sk_C1", "fb": "skillc", "aoe": true},
+		"A4": {"cd": 10.0, "ki": 16.0, "mult": 2.20, "radius": 240.0, "clip": "sk_A4", "fb": "skill"},
+		"B4": {"cd": 16.0, "ki": 18.0, "mult": 0.0, "radius": 120.0, "clip": "sk_B4", "fb": "skillb", "self": true},
+		"C4": {"cd": 14.0, "ki": 20.0, "mult": 2.00, "radius": 185.0, "clip": "sk_C4", "fb": "skillc", "aoe": true},
+		"A9": {"cd": 28.0, "ki": 35.0, "mult": 4.20, "radius": 155.0, "clip": "sk_A9", "fb": "finisher"},
+		"B9": {"cd": 35.0, "ki": 35.0, "mult": 0.0, "radius": 150.0, "clip": "sk_B9", "fb": "guard", "self": true},
+		"C9": {"cd": 30.0, "ki": 35.0, "mult": 4.50, "radius": 250.0, "clip": "sk_C9", "fb": "skillc", "aoe": true},
+		"T":  {"cd": 90.0, "ki": 45.0, "mult": 0.0, "radius": 240.0, "clip": "transform", "fb": "kitransform", "self": true},
+	},
+	"planetary": {
+		"A1": {"cd": 6.0, "ki": 8.0, "mult": 0.0, "radius": 160.0, "clip": "dodge", "fb": "dodge", "self": true},
+		"B1": {"cd": 6.0, "ki": 10.0, "mult": 1.40, "radius": 155.0, "clip": "sk_B1", "fb": "skillc", "aoe": true},
+		"C1": {"cd": 12.0, "ki": 12.0, "mult": 0.0, "radius": 110.0, "clip": "channel", "fb": "channel", "self": true},
+		"A4": {"cd": 10.0, "ki": 18.0, "mult": 1.80, "radius": 175.0, "clip": "sk_A4", "fb": "skill", "aoe": true},
+		"B4": {"cd": 10.0, "ki": 18.0, "mult": 2.00, "radius": 230.0, "clip": "sk_B4", "fb": "skillb", "aoe": true},
+		"C4": {"cd": 12.0, "ki": 16.0, "mult": 0.0, "radius": 120.0, "clip": "guard", "fb": "guard", "self": true},
+		"A9": {"cd": 30.0, "ki": 35.0, "mult": 4.00, "radius": 185.0, "clip": "sk_A9", "fb": "finisher", "aoe": true},
+		"B9": {"cd": 30.0, "ki": 35.0, "mult": 4.00, "radius": 235.0, "clip": "sk_B9", "fb": "skillb", "aoe": true},
+		"C9": {"cd": 32.0, "ki": 35.0, "mult": 0.0, "radius": 160.0, "clip": "sk_C9", "fb": "skillc", "self": true},
+		"T":  {"cd": 90.0, "ki": 45.0, "mult": 0.0, "radius": 240.0, "clip": "transform", "fb": "kitransform", "self": true},
+	},
+	"sage": {
+		"A1": {"cd": 6.0, "ki": 10.0, "mult": 2.00, "radius": 280.0, "clip": "sk_A1", "fb": "skill"},
+		"B1": {"cd": 10.0, "ki": 12.0, "mult": 0.0, "radius": 120.0, "clip": "guard", "fb": "guard", "self": true},
+		"C1": {"cd": 14.0, "ki": 0.0, "mult": 0.0, "radius": 120.0, "clip": "channel", "fb": "channel", "self": true},
+		"A4": {"cd": 10.0, "ki": 18.0, "mult": 2.40, "radius": 290.0, "clip": "sk_A4", "fb": "channel"},
+		"B4": {"cd": 12.0, "ki": 16.0, "mult": 0.60, "radius": 270.0, "clip": "sk_B4", "fb": "skillc", "aoe": true},
+		"C4": {"cd": 14.0, "ki": 16.0, "mult": 0.0, "radius": 120.0, "clip": "channel", "fb": "channel", "self": true},
+		"A9": {"cd": 28.0, "ki": 35.0, "mult": 4.20, "radius": 290.0, "clip": "sk_A9", "fb": "skillb", "aoe": true},
+		"B9": {"cd": 32.0, "ki": 35.0, "mult": 0.0, "radius": 230.0, "clip": "sk_B9", "fb": "skillb", "self": true},
+		"C9": {"cd": 32.0, "ki": 35.0, "mult": 0.0, "radius": 150.0, "clip": "sk_C9", "fb": "skillc", "self": true},
+		"T":  {"cd": 90.0, "ki": 45.0, "mult": 0.0, "radius": 240.0, "clip": "transform", "fb": "kitransform", "self": true},
+	},
+	"android": {
+		"A1": {"cd": 6.0, "ki": 8.0, "mult": 1.15, "radius": 285.0, "clip": "sk_A1", "fb": "skill"},
+		"B1": {"cd": 10.0, "ki": 12.0, "mult": 0.0, "radius": 120.0, "clip": "guard", "fb": "guard", "self": true},
+		"C1": {"cd": 8.0, "ki": 15.0, "mult": 1.85, "radius": 300.0, "clip": "sk_C1", "fb": "skillc", "aoe": true},
+		"A4": {"cd": 10.0, "ki": 16.0, "mult": 2.20, "radius": 285.0, "clip": "sk_A4", "fb": "attack2"},
+		"B4": {"cd": 12.0, "ki": 16.0, "mult": 1.25, "radius": 180.0, "clip": "sk_B4", "fb": "skillc", "aoe": true},
+		"C4": {"cd": 12.0, "ki": 0.0, "mult": 0.0, "radius": 120.0, "clip": "channel", "fb": "channel", "self": true},
+		"A9": {"cd": 28.0, "ki": 35.0, "mult": 4.00, "radius": 295.0, "clip": "sk_A9", "fb": "finisher"},
+		"B9": {"cd": 32.0, "ki": 35.0, "mult": 0.0, "radius": 150.0, "clip": "sk_B9", "fb": "skillb", "self": true},
+		"C9": {"cd": 32.0, "ki": 35.0, "mult": 0.0, "radius": 160.0, "clip": "sk_C9", "fb": "skillc", "self": true},
+		"T":  {"cd": 90.0, "ki": 45.0, "mult": 0.0, "radius": 240.0, "clip": "transform", "fb": "kitransform", "self": true},
+	},
+}
 
 const BRANCH_COLORS := {
 	"A": Color(0.98, 0.44, 0.24),
@@ -89,6 +141,7 @@ const TYPE_LABELS := {
 	"choice": "WYBÓR ROZŁĄCZNY",
 	"ultimate": "ULTIMATE GAŁĘZI",
 	"transformation": "TRANSFORMACJA TRYBU KI",
+	"ki-mode": "TRANSFORMACJA TRYBU KI",
 }
 
 const EQUIP_SLOT_NAMES := ["Hełm", "Amulet", "Broń", "Rękawice", "Pancerz", "Tarcza", "Pierścień", "Buty"]
@@ -120,6 +173,8 @@ var hero_max_hp := 140.0
 var hero_ki := 45.0
 var hero_max_ki := 45.0
 var hero_res := 0.0
+var hero_res_label := ""
+var hero_res_ratio := -1.0
 var hero_shield_hp := 0.0
 var hero_shield_timer := 0.0
 var hero_xp := 0.0
@@ -135,7 +190,11 @@ var active_blessing: Dictionary = {} # {"kind": "march"|"might"|"focus", "expire
 var stat_plus_hitboxes: Array[Dictionary] = []
 var backpack_hitboxes: Array[Dictionary] = []
 var equip_hitboxes: Array[Dictionary] = []
+var hotbar_nodes: Array[String] = ["R", "A1", "B1", "C1", "A4", "T"]
 var cooldowns: Array[float] = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+var dodge_cd := 0.0
+var channel_cd := 0.0
+var talent_slot_rects: Array[Dictionary] = []
 
 # Per-race unlocked node sets (clean Lv. 1 starting state — only R unlocked by default!)
 var unlocked_by_race: Dictionary = {
@@ -562,6 +621,9 @@ func get_active_blessing_kind() -> String:
 		return ""
 	return str(active_blessing.get("kind", ""))
 
+func has_talent(nid: String) -> bool:
+	return bool(_unlocked_map().get(nid, false))
+
 func get_talent_passives() -> Dictionary:
 	var p := {
 		"hpPct": 0.0,
@@ -571,13 +633,14 @@ func get_talent_passives() -> Dictionary:
 		"spdPct": 0.0,
 		"critFlat": 0.0,
 		"kiRegenPct": 0.0,
-		"dmgMult": 1.0,
+		"dmgMult": 0.0,
 		"kiCostMult": 1.0,
 		"shieldMult": 1.0,
 		"a1CdMult": 1.0,
 		"b1CdMult": 1.0,
+		"dodgeCdMult": 1.0,
 		"atkIntervalMult": 1.0,
-		"rangeMult": 1.0,
+		"rangeMult": 0.0,
 		"resGainMult": 1.0,
 		"burnBonus": 0.0,
 		"killHealPct": 0.0,
@@ -588,6 +651,9 @@ func get_talent_passives() -> Dictionary:
 	if rk == "planetary":
 		if umap.get("A2", false): p["spdPct"] += 0.06
 		if umap.get("A6", false): p["critFlat"] += 5.0
+		if umap.get("A8", false):
+			p["a1CdMult"] *= 0.70
+			p["dodgeCdMult"] *= 0.70
 		if umap.get("B2", false): p["kiRegenPct"] += 0.15
 		if umap.get("B3", false): p["defPct"] += 0.08
 		if umap.get("C2", false): p["hpPct"] += 0.10
@@ -606,6 +672,7 @@ func get_talent_passives() -> Dictionary:
 		if umap.get("A2", false): p["critFlat"] += 6.0
 		if umap.get("A3", false): p["rangeMult"] += 0.15
 		if umap.get("A6", false): p["atkIntervalMult"] *= 0.92
+		if umap.get("A7", false): p["atkIntervalMult"] *= 1.10
 		if umap.get("B2", false): p["defPct"] += 0.08
 		if umap.get("B3", false): p["shieldMult"] += 0.25
 		if umap.get("B6", false): p["oocHpRegenBonus"] += 0.005
@@ -745,6 +812,8 @@ func recalc_stats(refill: bool = false) -> void:
 func reset_cooldowns_gm() -> void:
 	for i in cooldowns.size():
 		cooldowns[i] = 0.0
+	dodge_cd = 0.0
+	channel_cd = 0.0
 	_refresh_visuals()
 
 const XP_NEEDED_BY_LEVEL := [
@@ -836,6 +905,14 @@ func apply_server_character(ch: Dictionary) -> void:
 		umap.clear()
 		for n in nodes_arr:
 			umap[str(n)] = true
+	var hb_raw: Variant = st.get("hotbarSlots", null)
+	if hb_raw is Array and (hb_raw as Array).size() >= 4:
+		var hb_arr: Array = hb_raw as Array
+		for hbi in 4:
+			var nid := str(hb_arr[hbi])
+			if nid in ASSIGNABLE_NODES:
+				hotbar_nodes[hbi + 1] = nid
+		_refresh_hotbar_icons()
 	var eq_raw: Dictionary = st.get("equipment", {})
 	for si in equip_slots.size():
 		var sk := str(si)
@@ -1048,6 +1125,21 @@ func use_backpack_slot(idx: int, on_done: Callable = Callable()) -> void:
 	if on_done.is_valid():
 		on_done.call(true, item_name, hero_hp - hp_before, "")
 
+func _refresh_hotbar_icons() -> void:
+	var rk := _race_key()
+	for i in mini(hotbar_icon_rects.size(), hotbar_nodes.size()):
+		if i == 0:
+			hotbar_icon_rects[i].texture = _load_tex("res://assets/ui/obsidian/btn_attack.webp")
+			hotbar_icon_rects[i].material = null
+			hotbar_icon_rects[i].stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			hotbar_ring_rects[i].visible = false
+		else:
+			var nid := get_hotbar_node(i)
+			hotbar_icon_rects[i].texture = _icon_tex("%s-%s.webp" % [rk, nid])
+			hotbar_icon_rects[i].material = hotbar_icon_mats[i]
+			hotbar_icon_rects[i].stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+			hotbar_ring_rects[i].visible = true
+
 func set_region(land: String) -> void:
 	current_land = land
 	var meta: Dictionary = LAND_META.get(_hero_land(), LAND_META["pyra"])
@@ -1057,19 +1149,7 @@ func set_region(land: String) -> void:
 	portrait_rect.texture = _load_tex(str(meta["portrait"]))
 	char_portrait_rect.texture = _load_tex(str(meta["portrait"]))
 	race_badge_rect.texture = _icon_tex(str(meta["race_icon"]))
-	var rk := _race_key()
-	for i in mini(hotbar_icon_rects.size(), HOTBAR_NODE_IDS.size()):
-		if i == 0:
-			hotbar_icon_rects[i].texture = _load_tex("res://assets/ui/obsidian/btn_attack.webp")
-			hotbar_icon_rects[i].material = null
-			hotbar_icon_rects[i].stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			hotbar_ring_rects[i].visible = false
-		else:
-			# ALL active skills (A1, B1, C1, A4, T) use their authentic racial icon!
-			hotbar_icon_rects[i].texture = _icon_tex("%s-%s.webp" % [rk, str(HOTBAR_NODE_IDS[i])])
-			hotbar_icon_rects[i].material = hotbar_icon_mats[i]
-			hotbar_icon_rects[i].stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-			hotbar_ring_rects[i].visible = true
+	_refresh_hotbar_icons()
 
 	res_bar_mat.set_shader_parameter("color_dark", meta["res_dark"])
 	res_bar_mat.set_shader_parameter("color_bright", meta["res_bright"])
@@ -1081,7 +1161,8 @@ func set_region(land: String) -> void:
 func _sync_bar_uniforms() -> void:
 	hp_bar_mat.set_shader_parameter("fill_ratio", clampf(hero_hp / maxf(hero_max_hp, 1.0), 0.0, 1.0))
 	ki_bar_mat.set_shader_parameter("fill_ratio", clampf(hero_ki / maxf(hero_max_ki, 1.0), 0.0, 1.0))
-	res_bar_mat.set_shader_parameter("fill_ratio", clampf(hero_res / 100.0, 0.0, 1.0))
+	var res_fill := clampf(hero_res_ratio, 0.0, 1.0) if hero_res_ratio >= 0.0 else clampf(hero_res / 100.0, 0.0, 1.0)
+	res_bar_mat.set_shader_parameter("fill_ratio", res_fill)
 	xp_bar_mat.set_shader_parameter("fill_ratio", clampf(hero_xp / maxf(hero_max_xp, 1.0), 0.0, 1.0))
 
 func sync_status(loc: String, safe: bool) -> void:
@@ -1101,31 +1182,116 @@ func set_time_label(lbl: String) -> void:
 		time_mode_short = "Dzień"
 	_refresh_visuals()
 
+func get_hotbar_node(idx: int) -> String:
+	if idx >= 0 and idx < hotbar_nodes.size():
+		return str(hotbar_nodes[idx])
+	if idx >= 0 and idx < HOTBAR_NODE_IDS.size():
+		return str(HOTBAR_NODE_IDS[idx])
+	return "R"
+
+func get_skill_spec(nid: String) -> Dictionary:
+	var rk := _race_key()
+	var rmap: Dictionary = SKILL_SPECS.get(rk, SKILL_SPECS["legend"])
+	if rmap.has(nid):
+		return rmap[nid] as Dictionary
+	return {"cd": 8.0, "ki": 12.0, "mult": 1.6, "radius": 165.0, "clip": "skill", "fb": "skill"}
+
 func get_hotbar_skill_min_level(idx: int) -> int:
-	if idx <= 0 or idx >= HOTBAR_NODE_IDS.size():
+	if idx <= 0 or idx >= hotbar_nodes.size():
 		return 1
-	var nid := str(HOTBAR_NODE_IDS[idx])
+	var nid := get_hotbar_node(idx)
 	var nd := _node_by_id(nid)
 	if not nd.is_empty():
 		return int(nd.get("minLevel", 20 if nid == "T" else 2))
-	return 20 if nid == "T" else (9 if nid == "A4" else 2)
+	return 20 if nid == "T" else (9 if nid in ["A4", "B4", "C4"] else (17 if nid in ["A9", "B9", "C9"] else 2))
+
+func get_hotbar_skill_cd(idx: int) -> float:
+	if idx == 0:
+		return get_basic_attack_interval()
+	var nid := get_hotbar_node(idx)
+	var spec := get_skill_spec(nid)
+	var cd_val := float(spec.get("cd", HOTBAR_CDS[clampi(idx, 0, HOTBAR_CDS.size() - 1)]))
+	var p := get_talent_passives()
+	if nid == "A1":
+		cd_val *= float(p["a1CdMult"])
+		if _race_key() == "planetary" and has_talent("A8"):
+			cd_val *= 0.70
+	elif nid == "B1":
+		cd_val *= float(p["b1CdMult"])
+	return maxf(1.2, cd_val)
+
+func get_hotbar_skill_ki(idx: int) -> float:
+	if idx == 0:
+		return 0.0
+	if world != null and world.has_method("is_free_ki_active") and world.is_free_ki_active():
+		return 0.0
+	var nid := get_hotbar_node(idx)
+	var spec := get_skill_spec(nid)
+	var base_ki := float(spec.get("ki", HOTBAR_KI_COSTS[clampi(idx, 0, HOTBAR_KI_COSTS.size() - 1)]))
+	return base_ki * float(get_talent_passives()["kiCostMult"])
 
 func is_hotbar_skill_unlocked(idx: int) -> bool:
 	if idx <= 0:
 		return true
-	if idx >= HOTBAR_NODE_IDS.size():
+	if idx >= hotbar_nodes.size():
 		return false
-	var nid := str(HOTBAR_NODE_IDS[idx])
+	var nid := get_hotbar_node(idx)
 	if not bool(_unlocked_map().get(nid, false)):
 		return false
 	return hero_level >= get_hotbar_skill_min_level(idx)
+
+func assign_hotbar_slot(slot_idx: int, nid: String) -> bool:
+	if slot_idx < 1 or slot_idx > 4:
+		return false
+	if not (nid in ASSIGNABLE_NODES):
+		return false
+	if not has_talent(nid):
+		if world != null and world.has_method("show_combat_toast"):
+			world.show_combat_toast("Najpierw odblokuj węzeł [%s], aby przypisać go na pasek!" % nid, Color(1.0, 0.68, 0.34))
+		return false
+	var prev_nid := hotbar_nodes[slot_idx]
+	for k in range(1, 5):
+		if k != slot_idx and hotbar_nodes[k] == nid:
+			hotbar_nodes[k] = prev_nid
+			break
+	hotbar_nodes[slot_idx] = nid
+	_refresh_hotbar_icons()
+	_refresh_visuals()
+	if world != null and world.get("audio") != null:
+		world.audio.sfx("ui/confirm", 0.78, 0.04)
+	if world != null and world.has_method("dispatch_server_action"):
+		world.dispatch_server_action({"type": "set_hotbar", "slot": slot_idx - 1, "nodeId": nid})
+	if world != null and world.has_method("show_combat_toast"):
+		var nd := _node_by_id(nid)
+		world.show_combat_toast("Slot [%d] → %s (%s)" % [slot_idx, str(nd.get("name", nid)), nid], Color(0.56, 0.96, 1.0))
+	return true
+
+func trigger_dodge() -> void:
+	if dodge_cd > 0.05:
+		return
+	dodge_cd = 4.5
+	if world != null and world.has_method("perform_dodge"):
+		world.perform_dodge(false)
+	_refresh_visuals()
+
+func trigger_channel() -> void:
+	if channel_cd > 0.05:
+		return
+	if hero_ki >= hero_max_ki - 0.5:
+		if world != null and world.has_method("show_combat_toast"):
+			world.show_combat_toast("Energia KI jest już pełna!", Color(0.56, 0.90, 1.0))
+		return
+	channel_cd = 2.5
+	if world != null and world.has_method("start_ki_channel"):
+		world.start_ki_channel(2.0, 0.28, 0.0)
+	_refresh_visuals()
 
 func trigger_skill(idx: int) -> void:
 	if idx < 0 or idx >= cooldowns.size():
 		return
 	if cooldowns[idx] > 0.05:
 		return
-	var nid := str(HOTBAR_NODE_IDS[idx])
+	var nid := get_hotbar_node(idx)
 	if idx > 0 and not is_hotbar_skill_unlocked(idx):
 		var req_lv := get_hotbar_skill_min_level(idx)
 		if world != null and world.has_method("show_combat_toast"):
@@ -1134,36 +1300,18 @@ func trigger_skill(idx: int) -> void:
 			else:
 				world.show_combat_toast("Odblokuj talent [%s] (Poz.%d) w drzewku [K], aby użyć tej umiejętności!" % [nid, req_lv], Color(1.0, 0.68, 0.34))
 		return
-	var p := get_talent_passives()
-	var ki_cost := float(HOTBAR_KI_COSTS[idx]) * float(p["kiCostMult"])
+	if world != null and world.has_method("can_hero_cast_skill") and not world.can_hero_cast_skill(nid):
+		return
+	var ki_cost := get_hotbar_skill_ki(idx)
 	if ki_cost > 0.0 and hero_ki < ki_cost:
 		if world != null and world.has_method("show_combat_toast"):
 			world.show_combat_toast("Za mało energii KI (%d / %d)!" % [int(hero_ki), int(ceil(ki_cost))], Color(0.42, 0.84, 1.0))
 		return
-	var cd_val := get_basic_attack_interval() if idx == 0 else float(HOTBAR_CDS[idx])
-	if idx == 1:
-		cd_val *= float(p["a1CdMult"])
-	elif idx == 2:
-		cd_val *= float(p["b1CdMult"])
-	cooldowns[idx] = cd_val
+	cooldowns[idx] = get_hotbar_skill_cd(idx)
 	hero_ki = maxf(0.0, hero_ki - ki_cost)
 
-	# Racial resource build on Q, +30% Surge consumption when >=50 on skills 1..4!
-	var surge_mult := 1.0
-	if idx == 0:
-		hero_res = minf(100.0, hero_res + 14.0 * float(p["resGainMult"]))
-	elif idx >= 1 and idx <= 4 and hero_res >= 50.0:
-		hero_res = maxf(0.0, hero_res - 50.0)
-		surge_mult = 1.30
-
-	# B1 (idx == 2): Activate real Ki Shield absorption!
-	if idx == 2:
-		var sh_val := (32.0 + hero_max_hp * 0.22) * float(p["shieldMult"]) * surge_mult
-		hero_shield_hp = maxf(hero_shield_hp, sh_val)
-		hero_shield_timer = 6.5
-
 	if world != null and world.has_method("perform_combat_attack"):
-		world.perform_combat_attack(idx, surge_mult)
+		world.perform_combat_attack(idx, 1.0, nid)
 	_sync_bar_uniforms()
 	_refresh_visuals()
 
@@ -1221,6 +1369,12 @@ func _process(delta: float) -> void:
 		if cooldowns[i] > 0.0:
 			cooldowns[i] = maxf(0.0, cooldowns[i] - delta)
 			changed = true
+	if dodge_cd > 0.0:
+		dodge_cd = maxf(0.0, dodge_cd - delta)
+		changed = true
+	if channel_cd > 0.0:
+		channel_cd = maxf(0.0, channel_cd - delta)
+		changed = true
 	if hero_shield_timer > 0.0:
 		hero_shield_timer = maxf(0.0, hero_shield_timer - delta)
 		if hero_shield_timer <= 0.0:
@@ -1234,8 +1388,13 @@ func _process(delta: float) -> void:
 		if _perf_refresh_t >= 0.45:
 			_perf_refresh_t = 0.0
 			changed = true
-	if world != null and ("ki_mode_timer" in world) and float(world.ki_mode_timer) > 0.05:
-		changed = true
+	if world != null:
+		if ("ki_mode_timer" in world) and float(world.ki_mode_timer) > 0.05:
+			changed = true
+		if ("ki_channel_t" in world) and float(world.ki_channel_t) > 0.05:
+			changed = true
+		if ("locked_target_id" in world) and not str(world.locked_target_id).is_empty():
+			changed = true
 	if changed:
 		_sync_bar_uniforms()
 		_refresh_visuals()
@@ -1633,7 +1792,7 @@ func _sync_talent_node_styles() -> void:
 		var ring_tr: TextureRect = entry["ring"]
 		var st := _node_state(nd)
 		var ntype := str(nd.get("type", "passive"))
-		var is_major := ntype in ["starting", "ultimate", "transformation"]
+		var is_major := ntype in ["starting", "ultimate", "transformation", "ki-mode"]
 
 		if st == "unlocked":
 			imat.set_shader_parameter("saturation", 1.10)
@@ -1737,7 +1896,7 @@ func _layout_all() -> void:
 		var ntype := str(nd.get("type", "passive"))
 		var pos := _constellation_node_pos(nid, gr)
 		var dia := 37.0
-		if ntype == "transformation":
+		if ntype == "transformation" or ntype == "ki-mode":
 			dia = 50.0
 		elif ntype == "starting":
 			dia = 46.0
@@ -1909,9 +2068,10 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	c.draw_string_outline(fb, Vector2(190.0, 104.0) + p_off, ki_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 4, Color(0.02, 0.03, 0.06, 0.98))
 	c.draw_string(fb, Vector2(190.0, 104.0) + p_off, ki_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.90, 0.97, 1.0))
 
-	var res_str := "%s %d%s" % [str(meta["res_name"]), int(round(hero_res)), " ★" if hero_res >= 50.0 else ""]
-	c.draw_string_outline(fb, Vector2(188.0, 131.0) + p_off, res_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 4, Color(0.02, 0.01, 0.02, 0.98))
-	c.draw_string(fb, Vector2(188.0, 131.0) + p_off, res_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(1.0, 0.96, 0.64) if hero_res >= 50.0 else Color(1.0, 0.96, 0.88))
+	var res_str := hero_res_label if not hero_res_label.is_empty() else ("%s %d%s" % [str(meta["res_name"]), int(round(hero_res)), " ★" if hero_res >= 50.0 else ""])
+	var res_hot := hero_res >= 50.0 or (hero_res_label.find("PRZEGRZ") >= 0) or (hero_res_label.find("KRĄG") >= 0)
+	c.draw_string_outline(fb, Vector2(188.0, 131.0) + p_off, res_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.02, 0.01, 0.02, 0.98))
+	c.draw_string(fb, Vector2(188.0, 131.0) + p_off, res_str, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.44, 0.34) if res_str.find("PRZEGRZ") >= 0 else (Color(1.0, 0.96, 0.64) if res_hot else Color(1.0, 0.96, 0.88)))
 
 	var coin_tex := _icon_tex("gear-coin.webp")
 	if coin_tex != null:
@@ -1934,6 +2094,60 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 
 	# --- A2. BIG 4-Medallion Top-Left Utility Row (draggable as "utils" zone!) ---
 	util_hitboxes.clear()
+
+	# --- A1b. Target Lock Enemy Frame (top-center gap between Portrait & Minimap) ---
+	if not hud_edit_mode and world != null and world.has_method("get_locked_target_info"):
+		var tgt: Dictionary = world.get_locked_target_info()
+		if not tgt.is_empty():
+			var vs_t := _vp_size()
+			var tw := clampf(vs_t.x - 860.0, 320.0, 440.0)
+			var th := 82.0
+			var tx := clampf((vs_t.x - tw) * 0.5, 526.0, maxf(vs_t.x - 304.0 - tw, 526.0))
+			var ty := 14.0
+			var tr := Rect2(tx, ty, tw, th)
+			var is_boss := bool(tgt.get("boss", false))
+			_draw_obsidian_plate(c, tr, Color(1.0, 0.52, 0.24, 0.96) if is_boss else Color(0.96, 0.76, 0.34, 0.94))
+			var t_name := str(tgt.get("name", "Cel"))
+			var t_lv := int(tgt.get("level", 1))
+			var title_t := ("%s  [BOSS Poz.%d]" if is_boss else "%s  [Poz.%d]") % [t_name, t_lv]
+			c.draw_string_outline(f, Vector2(tx + 16.0, ty + 28.0), title_t, HORIZONTAL_ALIGNMENT_LEFT, int(tw - 58.0), 16, 4, Color(0.02, 0.01, 0.02, 0.98))
+			c.draw_string(f, Vector2(tx + 16.0, ty + 28.0), title_t, HORIZONTAL_ALIGNMENT_LEFT, int(tw - 58.0), 16, Color(1.0, 0.78, 0.42) if is_boss else Color(1.0, 0.94, 0.76))
+			var clr_r := Rect2(tx + tw - 34.0, ty + 10.0, 24.0, 24.0)
+			util_hitboxes.append({"rect": clr_r.grow(6.0), "id": "clear_target"})
+			c.draw_rect(clr_r, Color(0.24, 0.08, 0.08, 0.92), true)
+			c.draw_rect(clr_r, Color(0.92, 0.54, 0.36, 0.90), false, 1.4)
+			c.draw_string(f, clr_r.position + Vector2(6.5, 17.5), "×", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.90, 0.80))
+			var thp := float(tgt.get("hp", 0.0))
+			var tmax := maxf(1.0, float(tgt.get("max_hp", 1.0)))
+			var tfrac := clampf(thp / tmax, 0.0, 1.0)
+			var bar_r := Rect2(tx + 16.0, ty + 38.0, tw - 32.0, 18.0)
+			c.draw_rect(bar_r, Color(0.08, 0.04, 0.05, 0.96), true)
+			c.draw_rect(Rect2(bar_r.position + Vector2(1.5, 1.5), Vector2((bar_r.size.x - 3.0) * tfrac, bar_r.size.y - 3.0)), Color(0.94, 0.24, 0.16, 0.96) if is_boss else Color(0.86, 0.26, 0.22, 0.95), true)
+			c.draw_rect(bar_r, Color(0.88, 0.68, 0.34, 0.88), false, 1.4)
+			var hp_lbl := "%d / %d HP" % [int(round(thp)), int(round(tmax))]
+			var hlw := fb.get_string_size(hp_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+			c.draw_string_outline(fb, Vector2(bar_r.position.x + (bar_r.size.x - hlw) * 0.5, bar_r.position.y + 13.5), hp_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 3, Color(0.0, 0.0, 0.0, 0.98))
+			c.draw_string(fb, Vector2(bar_r.position.x + (bar_r.size.x - hlw) * 0.5, bar_r.position.y + 13.5), hp_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.98, 0.94))
+			var st_arr: Array = tgt.get("statuses", [])
+			var sx := tx + 16.0
+			for st_code in st_arr:
+				var sc_str := str(st_code)
+				var s_txt := sc_str.to_upper()
+				var s_col := Color(0.95, 0.85, 0.55)
+				if sc_str == "burn": s_txt = "PODPAL."; s_col = Color(1.0, 0.46, 0.18)
+				elif sc_str == "stun": s_txt = "OGŁUSZ."; s_col = Color(1.0, 0.90, 0.28)
+				elif sc_str == "slow": s_txt = "SPOWOL."; s_col = Color(0.46, 0.88, 1.0)
+				elif sc_str == "marked": s_txt = "NAMIERZ."; s_col = Color(0.32, 0.98, 1.0)
+				elif sc_str == "seal": s_txt = "PIECZĘĆ"; s_col = Color(1.0, 0.88, 0.42)
+				var sw := fb.get_string_size(s_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x + 10.0
+				if sx + sw > tx + tw - 14.0:
+					break
+				var cr := Rect2(sx, ty + 60.0, sw, 16.0)
+				c.draw_rect(cr, Color(s_col.r * 0.25, s_col.g * 0.25, s_col.b * 0.25, 0.92), true)
+				c.draw_rect(cr, s_col, false, 1.1)
+				c.draw_string(fb, Vector2(sx + 5.0, ty + 72.0), s_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, s_col)
+				sx += sw + 6.0
+
 	var ring_obs := _load_tex("res://assets/ui/obsidian/ring_star.webp")
 	var ring_cyan := _load_tex("res://assets/ui/hud_node_ring_avail.png")
 	var gm_active: bool = world != null and bool(world.gm_open)
@@ -2029,6 +2243,60 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	c.draw_string_outline(f, rec_c + Vector2(-rlw * 0.5, rec_r + 18.0), rec_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.02, 0.01, 0.02, 0.98))
 	c.draw_string(f, rec_c + Vector2(-rlw * 0.5, rec_r + 18.0), rec_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.74, 0.96, 1.0))
 
+	# UNIK [V] Tactical Dodge-Roll Orb (4.5s CD, 0.35s i-frames + speed dash!)
+	var dodge_c := pot_c + Vector2(-92.0 * sc, -48.0 * sc)
+	var dodge_r := 34.0 * sc
+	util_hitboxes.append({"rect": Rect2(dodge_c - Vector2(dodge_r, dodge_r), Vector2(dodge_r * 2.0, dodge_r * 2.0)).grow(10.0), "id": "dodge"})
+	c.draw_circle(dodge_c + Vector2(0.0, 3.0), dodge_r + 3.0, Color(0.0, 0.0, 0.0, 0.52))
+	c.draw_circle(dodge_c, dodge_r, Color(0.06, 0.08, 0.09, 0.96))
+	var dodge_ico := _icon_tex("gear-boots.webp")
+	if dodge_ico != null:
+		var d_in := dodge_r * 0.70
+		c.draw_texture_rect(dodge_ico, Rect2(dodge_c - Vector2(d_in, d_in), Vector2(d_in * 2.0, d_in * 2.0)), false)
+	if dodge_cd > 0.05:
+		c.draw_circle(dodge_c, dodge_r - 1.0, Color(0.02, 0.02, 0.05, 0.72))
+		c.draw_arc(dodge_c, dodge_r - 2.0, -PI * 0.5, -PI * 0.5 + TAU * clampf(dodge_cd / 4.5, 0.0, 1.0), 24, Color(0.46, 0.96, 0.72, 0.96), 3.6, true)
+		var dcs := "%.1f" % dodge_cd
+		var dcw := fb.get_string_size(dcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+		c.draw_string(fb, dodge_c + Vector2(-dcw * 0.5, 6.0), dcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.96, 0.98, 0.88))
+	elif ring_obs != null:
+		var rr_d := dodge_r + 8.0 * sc
+		c.draw_texture_rect(ring_obs, Rect2(dodge_c - Vector2(rr_d, rr_d), Vector2(rr_d * 2.0, rr_d * 2.0)), false)
+	var d_lbl := "UNIK [V]"
+	var dlw := f.get_string_size(d_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+	c.draw_string_outline(f, dodge_c + Vector2(-dlw * 0.5, dodge_r + 17.0), d_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 4, Color(0.02, 0.01, 0.02, 0.98))
+	c.draw_string(f, dodge_c + Vector2(-dlw * 0.5, dodge_r + 17.0), d_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.68, 0.98, 0.78))
+
+	# KI+ [X] Active Ki-Channeling Orb (2.0s focus restoring +28% KI!)
+	var chan_c := dodge_c + Vector2(0.0, -96.0 * sc)
+	var chan_r := 32.0 * sc
+	util_hitboxes.append({"rect": Rect2(chan_c - Vector2(chan_r, chan_r), Vector2(chan_r * 2.0, chan_r * 2.0)).grow(10.0), "id": "channel"})
+	c.draw_circle(chan_c + Vector2(0.0, 3.0), chan_r + 3.0, Color(0.0, 0.0, 0.0, 0.52))
+	c.draw_circle(chan_c, chan_r, Color(0.04, 0.07, 0.13, 0.96))
+	var chan_ico := _icon_tex("hud-ki.webp")
+	if chan_ico != null:
+		var ch_in := chan_r * 0.70
+		c.draw_texture_rect(chan_ico, Rect2(chan_c - Vector2(ch_in, ch_in), Vector2(ch_in * 2.0, ch_in * 2.0)), false)
+	var ki_ch_t: float = float(world.ki_channel_t) if (world != null and ("ki_channel_t" in world)) else 0.0
+	if ki_ch_t > 0.05:
+		c.draw_arc(chan_c, chan_r + 3.0, 0.0, TAU, 28, Color(0.40, 0.96, 1.0, 0.98), 4.0, true)
+		var chs := "%.1fs" % ki_ch_t
+		var chw := fb.get_string_size(chs, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
+		c.draw_string_outline(fb, chan_c + Vector2(-chw * 0.5, 5.5), chs, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 4, Color(0.0, 0.0, 0.0, 0.98))
+		c.draw_string(fb, chan_c + Vector2(-chw * 0.5, 5.5), chs, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.46, 0.98, 1.0))
+	elif channel_cd > 0.05:
+		c.draw_circle(chan_c, chan_r - 1.0, Color(0.02, 0.02, 0.05, 0.70))
+		var ccd := "%.1f" % channel_cd
+		var ccdw := fb.get_string_size(ccd, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+		c.draw_string(fb, chan_c + Vector2(-ccdw * 0.5, 5.5), ccd, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.84, 0.92, 1.0))
+	elif ring_cyan != null:
+		var rr_ch := chan_r + 8.0 * sc
+		c.draw_texture_rect(ring_cyan, Rect2(chan_c - Vector2(rr_ch, rr_ch), Vector2(rr_ch * 2.0, rr_ch * 2.0)), false)
+	var ch_lbl := "KI+ [X]"
+	var chlw := f.get_string_size(ch_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+	c.draw_string_outline(f, chan_c + Vector2(-chlw * 0.5, chan_r + 17.0), ch_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 4, Color(0.02, 0.01, 0.02, 0.98))
+	c.draw_string(f, chan_c + Vector2(-chlw * 0.5, chan_r + 17.0), ch_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.56, 0.94, 1.0))
+
 	nav_hitboxes.clear()
 
 	# --- C. BIG Bottom-Center Legible XP Bar Labels (18px bold!) ---
@@ -2052,6 +2320,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		var hit_r := r + 10.0 * sc
 		hotbar_hitboxes.append(Rect2(center - Vector2(hit_r, hit_r), Vector2(hit_r * 2.0, hit_r * 2.0)))
 		var unlocked_skill := is_hotbar_skill_unlocked(i)
+		var slot_nid := get_hotbar_node(i)
 
 		# Glowing Ki-Mode transformation halo on [R] (idx == 5)
 		if i == 5 and ki_active:
@@ -2065,7 +2334,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 
 		if not unlocked_skill:
 			c.draw_circle(center, r - 1.0, Color(0.02, 0.02, 0.04, 0.80))
-			var lk_s := str(HOTBAR_NODE_IDS[i])
+			var lk_s := slot_nid
 			var req_lv := get_hotbar_skill_min_level(i)
 			var lv_s := "Poz.%d" % req_lv
 			var lkw := f.get_string_size(lk_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
@@ -2078,7 +2347,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		# Radial cooldown veil + BOLD 22px numeric timer
 		var cd := cooldowns[i]
 		if cd > 0.01:
-			var max_cd := get_basic_attack_interval() if i == 0 else float(HOTBAR_CDS[i])
+			var max_cd := get_hotbar_skill_cd(i)
 			var frac := clampf(cd / maxf(max_cd, 0.1), 0.0, 1.0)
 			c.draw_circle(center, r - 1.0, Color(0.02, 0.02, 0.05, 0.72))
 			c.draw_arc(center, r - 3.0, -PI * 0.5, -PI * 0.5 + TAU * frac, 28, Color(0.36, 0.88, 1.0, 0.96), 4.0, true)
@@ -2132,8 +2401,8 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		c.draw_string(fb, pill_r.position + Vector2(146.0, 27.0), "PING %s" % ping_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, ping_col)
 
 	# Hover tooltip anchored cleanly above bottom-right Wild Rift combat cluster
-	if hovered_hotbar_idx >= 0 and hovered_hotbar_idx < HOTBAR_NODE_IDS.size() and not (show_talents or show_character or hud_edit_mode):
-		var h_nid := str(HOTBAR_NODE_IDS[hovered_hotbar_idx])
+	if hovered_hotbar_idx >= 0 and hovered_hotbar_idx < hotbar_nodes.size() and not (show_talents or show_character or hud_edit_mode):
+		var h_nid := get_hotbar_node(hovered_hotbar_idx)
 		var h_nd := _node_by_id(h_nid)
 		if not h_nd.is_empty():
 			var vs := _vp_size()
@@ -2142,9 +2411,9 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			var tip_r := Rect2(vs.x - tip_w - 22.0, vs.y - 404.0, tip_w, tip_h)
 			_draw_obsidian_plate(c, tip_r, Color(0.92, 0.72, 0.32, 0.94))
 			var locked_note := "" if is_hotbar_skill_unlocked(hovered_hotbar_idx) else " (ZABLOK. — [K])"
-			var ki_c := int(round(float(HOTBAR_KI_COSTS[hovered_hotbar_idx]) * float(get_talent_passives()["kiCostMult"])))
+			var ki_c := int(round(get_hotbar_skill_ki(hovered_hotbar_idx)))
 			var ki_note := (" • %d KI" % ki_c) if ki_c > 0 else ""
-			c.draw_string(f, tip_r.position + Vector2(18, 28), "%s [%s]%s%s" % [str(h_nd.get("name", "")).to_upper(), str(HOTBAR_KEYS[hovered_hotbar_idx]), ki_note, locked_note], HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.92, 0.56))
+			c.draw_string(f, tip_r.position + Vector2(18, 28), "%s [%s·%s]%s%s" % [str(h_nd.get("name", "")).to_upper(), str(HOTBAR_KEYS[hovered_hotbar_idx]), h_nid, ki_note, locked_note], HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.92, 0.56))
 			c.draw_multiline_string(fb, tip_r.position + Vector2(18, 52), str(h_nd.get("effect", "")), HORIZONTAL_ALIGNMENT_LEFT, tip_w - 36.0, 15, 2, Color(0.94, 0.92, 0.88))
 
 	# --- E. Live On-Screen Drag-and-Drop HUD Editor Overlay ---
@@ -2421,6 +2690,23 @@ func _draw_constellation_tree(c: CanvasItem, f: Font, mr: Rect2) -> void:
 
 		c.draw_string(f, Vector2(ix + 22.0, iy + 250.0), "EFEKT UMIEJĘTNOŚCI", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.88, 0.74, 0.44))
 		c.draw_multiline_string(fb, Vector2(ix + 22.0, iy + 272.0), s_eff, HORIZONTAL_ALIGNMENT_LEFT, iw - 44.0, 14, 8, Color(0.95, 0.92, 0.86))
+
+		# Hotbar Slot Assignment Pills [1] [2] [3] [4] for unlocked active / ultimate skills!
+		talent_slot_rects.clear()
+		if s_st == "unlocked" and (active_id in ASSIGNABLE_NODES):
+			var sl_y := iy + ih - 156.0
+			c.draw_string(f, Vector2(ix + 22.0, sl_y), "PRZYPISZ NA PASEK [1–4]:", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.76, 0.92, 1.0))
+			var sp_gap := 8.0
+			var sp_w := (iw - 40.0 - sp_gap * 3.0) / 4.0
+			for s_i in range(1, 5):
+				var sx_p := ix + 20.0 + float(s_i - 1) * (sp_w + sp_gap)
+				var s_rect := Rect2(sx_p, sl_y + 8.0, sp_w, 34.0)
+				var is_cur := (get_hotbar_node(s_i) == active_id)
+				talent_slot_rects.append({"rect": s_rect.grow(3.0), "slot": s_i, "node": active_id})
+				_draw_forged_pill(c, s_rect, is_cur)
+				var s_lbl := "[%d] %s" % [s_i, get_hotbar_node(s_i)]
+				var slw := fb.get_string_size(s_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
+				c.draw_string(fb, Vector2(s_rect.position.x + (s_rect.size.x - slw) * 0.5, s_rect.position.y + 21.5), s_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.96, 0.72) if is_cur else Color(0.86, 0.88, 0.92))
 
 		# Interactive Unlock / Status Action Plaque at Bottom of Inspector
 		talent_unlock_btn_rect = Rect2(ix + 20.0, iy + ih - 98.0, iw - 40.0, 44.0)
@@ -2838,6 +3124,12 @@ func _try_unlock_node(nid: String) -> void:
 		var umap := _unlocked_map()
 		umap[nid] = true
 		skill_points -= 1
+		if nid in ASSIGNABLE_NODES and not (nid in hotbar_nodes.slice(1, 5)):
+			for s_i in range(1, 5):
+				if not bool(umap.get(hotbar_nodes[s_i], false)):
+					hotbar_nodes[s_i] = nid
+					_refresh_hotbar_icons()
+					break
 		recalc_stats(false)
 		if world != null and world.get("audio") != null:
 			world.audio.sfx("ui/skill-learn", 0.90, 0.04)
@@ -2849,6 +3141,10 @@ func _handle_primary_tap(p: Vector2) -> bool:
 		if talent_close_rect.has_point(p) or not _modal_rect().has_point(p):
 			close_modals()
 			return true
+		for sr_d: Dictionary in talent_slot_rects:
+			if (sr_d["rect"] as Rect2).has_point(p):
+				assign_hotbar_slot(int(sr_d["slot"]), str(sr_d["node"]))
+				return true
 		if talent_unlock_btn_rect.has_point(p):
 			_try_unlock_node(selected_node_id)
 			return true
@@ -2945,7 +3241,7 @@ func _handle_primary_tap(p: Vector2) -> bool:
 	for item: Dictionary in util_hitboxes:
 		if (item["rect"] as Rect2).has_point(p):
 			var uid := str(item["id"])
-			if world != null and world.get("audio") != null and uid != "potion":
+			if world != null and world.get("audio") != null and not (uid in ["potion", "dodge", "channel"]):
 				world.audio.sfx("ui/click")
 			match uid:
 				"talents":
@@ -2985,6 +3281,13 @@ func _handle_primary_tap(p: Vector2) -> bool:
 						world.start_recall_to_capital()
 					elif world != null:
 						world.teleport_to_capital()
+				"dodge":
+					trigger_dodge()
+				"channel":
+					trigger_channel()
+				"clear_target":
+					if world != null and world.has_method("set_locked_target"):
+						world.set_locked_target("")
 				"potion":
 					if not use_quick_hp_potion() and world != null:
 						world.show_combat_toast("Brak eliksirów życia w plecaku — kup w Sklepie lub odpocznij w Gospodzie!", Color(1.0, 0.56, 0.36))

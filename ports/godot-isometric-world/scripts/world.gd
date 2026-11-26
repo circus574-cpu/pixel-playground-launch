@@ -188,6 +188,20 @@ var quit_game_fn: Callable = Callable()
 var combo_step := 0
 var combo_reset_t := 0.0
 var ki_mode_timer := 0.0
+var locked_target_id := ""
+var dodge_invuln_t := 0.0
+var dodge_dash_t := 0.0
+var dodge_dash_dir := Vector2.ZERO
+var ki_channel_t := 0.0
+var ki_channel_ki_rate := 0.0
+var ki_channel_hp_rate := 0.0
+var android_overheat_t := 0.0
+var android_last_shot_t := -99.0
+var legend_streak := 0
+var planetary_combo := 0
+var hero_buffs: Dictionary = {}
+var active_circles: Array[Dictionary] = []
+var delayed_seals: Array[Dictionary] = []
 var audio: Node
 var nearest_enterable: Dictionary = {}
 var nearest_npc_agent: Dictionary = {}
@@ -600,6 +614,7 @@ func switch_region(land: String) -> void:
 	if not REGION_TITLES.has(land):
 		return
 	_region_load_id += 1
+	_clear_transient_combat_state()
 	if live_peers != null:
 		live_peers.clear()
 	current_land = land
@@ -1598,8 +1613,9 @@ func show_combat_toast(msg: String, col: Color = Color(1.0, 0.90, 0.44)) -> void
 	var vp := get_viewport_rect().size
 	var left_x := 492.0
 	var right_x := maxf(vp.x - 306.0, left_x + 240.0)
+	var toast_y := 104.0 if not locked_target_id.is_empty() else 18.0
 	combat_toast_lbl.size = Vector2(right_x - left_x, 56.0)
-	combat_toast_lbl.position = Vector2(left_x, 18.0)
+	combat_toast_lbl.position = Vector2(left_x, toast_y)
 	combat_toast_lbl.visible = not (in_interior or in_labyrinth)
 	combat_toast_t = 3.8
 
@@ -2040,7 +2056,291 @@ func handle_hero_defeat() -> void:
 			hero.play_action("respawn", "interact", 0.65)
 		if audio != null:
 			audio.sfx("common/respawn", 0.85)
+	_clear_transient_combat_state()
 	show_combat_toast("☠ PORAŻKA W WALCE! Tracisz 10% PD i budzisz się w bezpiecznej stolicy.", Color(1.0, 0.36, 0.28))
+
+func _clear_transient_combat_state() -> void:
+	locked_target_id = ""
+	dodge_invuln_t = 0.0
+	dodge_dash_t = 0.0
+	dodge_dash_dir = Vector2.ZERO
+	ki_channel_t = 0.0
+	ki_channel_ki_rate = 0.0
+	ki_channel_hp_rate = 0.0
+	android_overheat_t = 0.0
+	legend_streak = 0
+	planetary_combo = 0
+	hero_buffs.clear()
+	active_circles.clear()
+	delayed_seals.clear()
+	for ag: Dictionary in live_agents:
+		var mnd = ag.get("node", null)
+		if is_instance_valid(mnd) and ("is_locked_target" in mnd):
+			mnd.is_locked_target = false
+
+func _hero_has_talent(nid: String) -> bool:
+	return rpg_hud != null and rpg_hud.has_method("has_talent") and bool(rpg_hud.has_talent(nid))
+
+func _get_planetary_terrain() -> String:
+	if is_in_water(hero_pos.x, hero_pos.y):
+		return "water"
+	if height_at(hero_pos.x, hero_pos.y) >= 18.0 or current_land == "pyra" or current_land == "nexus":
+		return "rock"
+	return "forest"
+
+func _android_max_charge() -> float:
+	if _hero_has_talent("C7"):
+		return 150.0
+	if _hero_has_talent("C8"):
+		return 70.0
+	return 100.0
+
+func is_free_ki_active() -> bool:
+	return float(hero_buffs.get("overload_t", 0.0)) > 0.05 or float(hero_buffs.get("enlighten_t", 0.0)) > 0.05
+
+func can_hero_cast_skill(nid: String) -> bool:
+	if _hero_race_key() == "android" and android_overheat_t > 0.05 and nid != "C4" and nid != "T":
+		show_combat_toast("⚠ PRZEGRZANIE! Użyj Chłodzenia [C4] lub odczekaj %.1fs." % android_overheat_t, Color(1.0, 0.44, 0.32))
+		return false
+	return true
+
+func _find_agent_idx_by_id(aid: String) -> int:
+	if aid.is_empty():
+		return -1
+	for i in live_agents.size():
+		if str(live_agents[i].get("id", "")) == aid:
+			return i
+	return -1
+
+func set_locked_target(target_id: String) -> void:
+	locked_target_id = target_id
+	for ag: Dictionary in live_agents:
+		var mnd = ag.get("node", null)
+		if is_instance_valid(mnd) and ("is_locked_target" in mnd):
+			var want := (not locked_target_id.is_empty()) and (str(ag.get("id", "")) == locked_target_id) and bool(ag.get("alive", true))
+			if bool(mnd.is_locked_target) != want:
+				mnd.is_locked_target = want
+				mnd.queue_redraw()
+	if combat_toast_lbl != null and combat_toast_lbl.visible:
+		combat_toast_lbl.position.y = 104.0 if not locked_target_id.is_empty() else 18.0
+	if rpg_hud != null and rpg_hud.has_method("_refresh_visuals"):
+		rpg_hud._refresh_visuals()
+
+func get_locked_target_info() -> Dictionary:
+	if locked_target_id.is_empty():
+		return {}
+	var idx := _find_agent_idx_by_id(locked_target_id)
+	if idx < 0:
+		locked_target_id = ""
+		return {}
+	var ag: Dictionary = live_agents[idx]
+	if not bool(ag.get("alive", true)) or hero_pos.distance_to(ag["pos"] as Vector2) > 420.0:
+		set_locked_target("")
+		return {}
+	var sts: Array[String] = []
+	if float(ag.get("burn_t", 0.0)) > 0.05: sts.append("burn")
+	if float(ag.get("stun_t", 0.0)) > 0.05: sts.append("stun")
+	if float(ag.get("slow_t", 0.0)) > 0.05: sts.append("slow")
+	if float(ag.get("marked_t", 0.0)) > 0.05: sts.append("marked")
+	if float(ag.get("seal_t", 0.0)) > 0.05: sts.append("seal")
+	return {
+		"id": str(ag.get("id", "")),
+		"name": str(ag.get("name", "Cel")),
+		"level": int(ag.get("level", 1)),
+		"hp": float(ag.get("cur_hp", 0)),
+		"max_hp": float(ag.get("max_hp", 100)),
+		"boss": bool(ag.get("is_elite", false)),
+		"statuses": sts,
+	}
+
+func cycle_locked_target() -> void:
+	var cands: Array[Dictionary] = []
+	for ag: Dictionary in live_agents:
+		var ak := str(ag.get("kind", ""))
+		if (ak != "monster" and ak != "animal") or not bool(ag.get("alive", true)):
+			continue
+		var d := hero_pos.distance_to(ag["pos"] as Vector2)
+		if d <= 280.0:
+			cands.append({"id": str(ag.get("id", "")), "d": d, "node": ag.get("node", null)})
+	if cands.is_empty():
+		set_locked_target("")
+		return
+	cands.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return float(a["d"]) < float(b["d"]))
+	var next_i := 0
+	for i in cands.size():
+		if str(cands[i]["id"]) == locked_target_id:
+			next_i = (i + 1) % cands.size()
+			break
+	set_locked_target(str(cands[next_i]["id"]))
+	var nd = cands[next_i]["node"]
+	if combat_vfx != null and is_instance_valid(nd) and combat_vfx.has_method("spawn_target_reticle"):
+		combat_vfx.spawn_target_reticle(nd.position, _hero_race_key(), 1.2)
+
+func perform_dodge(is_planetary_a1: bool = false) -> void:
+	if in_interior or map_expanded or atlas_expanded:
+		return
+	if in_labyrinth and labyrinth_room != null and labyrinth_room.has_method("perform_labyrinth_dodge"):
+		labyrinth_room.perform_labyrinth_dodge(is_planetary_a1)
+		return
+	recall_channel = 0.0
+	ki_channel_t = 0.0
+	var race_k := _hero_race_key()
+	var s_dir := motion if move_pointer != -1 else Vector2.ZERO
+	if s_dir.length_squared() < 0.01:
+		var kd := Vector2.ZERO
+		if Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT): kd.x -= 1.0
+		if Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT): kd.x += 1.0
+		if Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP): kd.y -= 1.0
+		if Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN): kd.y += 1.0
+		s_dir = kd.normalized() if kd.length_squared() > 0.01 else _hero_aim_screen_dir(-1)
+	dodge_dash_dir = Vector2(s_dir.x + s_dir.y, s_dir.y - s_dir.x).normalized()
+	dodge_dash_t = 0.24
+	dodge_invuln_t = 0.42 if is_planetary_a1 else 0.35
+	if is_planetary_a1:
+		if _hero_has_talent("A3") or _hero_has_talent("A7"):
+			hero_buffs["dodge_empower_t"] = 4.5
+		if _hero_has_talent("A8"):
+			hero_buffs["dodge_def_t"] = 4.5
+	if hero != null:
+		if hero.has_method("play_action"):
+			hero.play_action("dodge", "dodge", 0.36)
+		if hero.has_method("show_damage_number"):
+			hero.show_damage_number("UNIK!", Color(0.46, 0.98, 0.72), false)
+		if combat_vfx != null and combat_vfx.has_method("spawn_dash_afterimage"):
+			var dash_to: Vector2 = (hero.position as Vector2) + Vector2(dodge_dash_dir.x - dodge_dash_dir.y, (dodge_dash_dir.x + dodge_dash_dir.y) * 0.5).normalized() * 68.0
+			combat_vfx.spawn_dash_afterimage(hero.position as Vector2, dash_to, race_k)
+	if audio != null:
+		audio.play_race_skill("planetary", "A1")
+
+func start_ki_channel(dur: float = 2.0, ki_pct: float = 0.28, hp_pct: float = 0.0) -> void:
+	if in_interior or in_labyrinth or map_expanded or atlas_expanded or rpg_hud == null:
+		return
+	recall_channel = 0.0
+	target_pos = Vector2(-1.0, -1.0)
+	ki_channel_t = maxf(0.4, dur)
+	ki_channel_ki_rate = (float(rpg_hud.hero_max_ki) * ki_pct) / ki_channel_t
+	ki_channel_hp_rate = (float(rpg_hud.hero_max_hp) * hp_pct) / ki_channel_t
+	if hero != null:
+		if hero.has_method("play_action"):
+			hero.play_action("channel", "channel", ki_channel_t)
+		if combat_vfx != null and combat_vfx.has_method("spawn_channel_ring"):
+			combat_vfx.spawn_channel_ring(hero.position, _hero_race_key(), ki_channel_t)
+	if audio != null:
+		audio.sfx("development/ki-charge", 0.74)
+
+func _spawn_ground_circle(world_p: Vector2, radius: float, life: float, kind: String, def_bonus: float, slow_pct: float, burn_dps: float) -> void:
+	active_circles.append({
+		"pos": world_p,
+		"radius": radius,
+		"life": life,
+		"max_life": life,
+		"kind": kind,
+		"def_bonus": def_bonus,
+		"slow_pct": slow_pct,
+		"burn_dps": burn_dps,
+		"tick_acc": 0.0,
+	})
+	if combat_vfx != null and combat_vfx.has_method("spawn_light_circle"):
+		combat_vfx.spawn_light_circle(iso(world_p.x, world_p.y, height_at(world_p.x, world_p.y)), radius * 0.72, _hero_race_key(), life, kind)
+
+func _grant_hero_shield(amount: float, dur: float, reflect_pct: float = 0.0) -> void:
+	if rpg_hud == null:
+		return
+	rpg_hud.hero_shield_hp = maxf(float(rpg_hud.hero_shield_hp), amount)
+	rpg_hud.hero_shield_timer = maxf(float(rpg_hud.hero_shield_timer), dur)
+	if reflect_pct > 0.0:
+		hero_buffs["reflect_pct"] = maxf(float(hero_buffs.get("reflect_pct", 0.0)), reflect_pct)
+	if hero != null and combat_vfx != null:
+		combat_vfx.spawn_shield_dome(hero.position, _hero_race_key())
+		if hero.has_method("show_damage_number"):
+			hero.show_damage_number("+%d OSŁONA" % int(round(amount)), Color(0.42, 0.94, 1.0), false)
+
+func _sync_agent_status_flags(ag: Dictionary) -> void:
+	var mnode = ag.get("node", null)
+	if not is_instance_valid(mnode) or not ("status_flags" in mnode):
+		return
+	var flags: Dictionary = {}
+	if float(ag.get("burn_t", 0.0)) > 0.05: flags["burn"] = true
+	if float(ag.get("stun_t", 0.0)) > 0.05: flags["stun"] = true
+	if float(ag.get("slow_t", 0.0)) > 0.05: flags["slow"] = true
+	if float(ag.get("marked_t", 0.0)) > 0.05: flags["marked"] = true
+	if float(ag.get("seal_t", 0.0)) > 0.05: flags["seal"] = true
+	mnode.status_flags = flags
+	mnode.queue_redraw()
+
+func _apply_damage_to_agent(h_idx: int, raw_dmg: int, is_crit: bool, race_k: String, kill_heal_pct: float, apply_burn: float = 0.0, apply_stun: float = 0.0, apply_slow: float = 0.0, apply_mark: float = 0.0) -> bool:
+	if h_idx < 0 or h_idx >= live_agents.size():
+		return false
+	var target: Dictionary = live_agents[h_idx]
+	if not bool(target.get("alive", true)):
+		return false
+	var is_animal := (str(target.get("kind", "")) == "animal")
+	var m_lvl := int(target.get("level", 1))
+	var is_el := bool(target.get("is_elite", false))
+	var dmg := maxi(4, raw_dmg)
+	target["cur_hp"] = maxi(0, int(target.get("cur_hp", 200)) - dmg)
+	if apply_burn > 0.0:
+		target["burn_t"] = maxf(float(target.get("burn_t", 0.0)), apply_burn)
+		target["burn_dps"] = maxf(float(target.get("burn_dps", 0.0)), maxf(8.0, float(dmg) * 0.22))
+	if apply_stun > 0.0 and not is_animal:
+		target["stun_t"] = maxf(float(target.get("stun_t", 0.0)), apply_stun)
+	if apply_slow > 0.0:
+		target["slow_t"] = maxf(float(target.get("slow_t", 0.0)), apply_slow)
+	if apply_mark > 0.0:
+		target["marked_t"] = maxf(float(target.get("marked_t", 0.0)), apply_mark)
+	if is_animal and int(target["cur_hp"]) > 0:
+		target["flee_t"] = 4.5
+	var mnode = target.get("node", null)
+	if is_crit:
+		trigger_camera_shake(4.5, 0.14)
+	if audio != null:
+		audio.sfx("common/hit-crit" if is_crit else "common/hit", 0.82)
+	if is_instance_valid(mnode):
+		mnode.hp_ratio = clampf(float(target["cur_hp"]) / maxf(float(target["max_hp"]), 1.0), 0.0, 1.0)
+		_sync_agent_status_flags(target)
+		if combat_vfx != null:
+			combat_vfx.spawn_impact(mnode.position, race_k, is_crit)
+		if mnode.has_method("show_damage_number"):
+			var tag := "KRYT! -" if is_crit else "-"
+			var dcol := Color(1.0, 0.86, 0.22) if is_crit else Color(1.0, 0.42, 0.26)
+			mnode.show_damage_number("%s%d" % [tag, dmg], dcol, is_crit)
+	if int(target["cur_hp"]) <= 0:
+		var hp_cost := int(target.get("dmg_dealt_to_hero", 0))
+		target["dmg_dealt_to_hero"] = 0
+		target["alive"] = false
+		target["was_aggro"] = false
+		target["burn_t"] = 0.0
+		target["stun_t"] = 0.0
+		target["slow_t"] = 0.0
+		target["marked_t"] = 0.0
+		target["seal_t"] = 0.0
+		target["flee_t"] = 0.0
+		target["death_hide_t"] = 0.85
+		target["respawn_t"] = 22.0 if is_animal else (45.0 if is_el else 11.0)
+		if str(target.get("id", "")) == locked_target_id:
+			set_locked_target("")
+		if kill_heal_pct > 0.0 and rpg_hud != null:
+			rpg_hud.hero_hp = minf(rpg_hud.hero_max_hp, rpg_hud.hero_hp + rpg_hud.hero_max_hp * kill_heal_pct)
+		if race_k == "planetary" and _hero_has_talent("A5"):
+			hero_buffs["kill_spd_t"] = 5.0
+		if is_instance_valid(mnode):
+			mnode.hp_ratio = 0.0
+			_sync_agent_status_flags(target)
+			if is_el and combat_vfx != null:
+				combat_vfx.spawn_ki_burst(mnode.position, race_k, 145.0)
+			if mnode.has_method("play_action"):
+				mnode.play_action("death", "hit", 0.85)
+		if audio != null:
+			audio.play_monster_sfx(str(target.get("actor_id", "")), "die")
+		if is_animal:
+			if not _report_surface_defeat(str(target["id"]), target["pos"] as Vector2, hp_cost, false):
+				_report_local_animal_kill(target)
+		else:
+			report_monster_kill(str(target["id"]), m_lvl, str(target.get("name", "Potwór")), hp_cost, is_el, target["pos"] as Vector2)
+		return true
+	elif is_instance_valid(mnode) and mnode.has_method("play_action"):
+		mnode.play_action("hit", "hit", 0.28)
+	return false
 
 func _hero_race_key() -> String:
 	if rpg_hud != null and rpg_hud.has_method("_race_key"):
@@ -2064,6 +2364,10 @@ func _hero_aim_screen_dir(best_idx: int) -> Vector2:
 
 func _activate_ki_mode_visuals(race_k: String, duration_sec: float = 20.0) -> void:
 	ki_mode_timer = duration_sec
+	if race_k == "legend" and rpg_hud != null:
+		rpg_hud.hero_res = 100.0
+	elif race_k == "android":
+		android_overheat_t = 0.0
 	if hero != null and hero.has_method("set_ki_mode"):
 		hero.ki_race = race_k
 		if bool(hero.ki_mode_active):
@@ -2087,64 +2391,259 @@ func activate_ki_mode_gm(duration_sec: float = 20.0) -> void:
 	_gm_ki_preview = true
 	_activate_ki_mode_visuals(_hero_race_key(), duration_sec)
 
-func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0) -> void:
-	if in_labyrinth and labyrinth_room != null and labyrinth_room.has_method("perform_labyrinth_attack"):
-		labyrinth_room.perform_labyrinth_attack()
+func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: String = "") -> void:
+	var nid := node_id
+	if nid.is_empty():
+		nid = rpg_hud.get_hotbar_node(skill_idx) if (rpg_hud != null and rpg_hud.has_method("get_hotbar_node")) else ("R" if skill_idx == 0 else ("T" if skill_idx == 5 else "A1"))
+	if in_labyrinth and labyrinth_room != null:
+		if labyrinth_room.has_method("perform_labyrinth_skill"):
+			labyrinth_room.perform_labyrinth_skill(skill_idx, nid)
+		elif labyrinth_room.has_method("perform_labyrinth_attack"):
+			labyrinth_room.perform_labyrinth_attack()
 		return
 	if in_interior or map_expanded or atlas_expanded:
 		return
 	recall_channel = 0.0
+	ki_channel_t = 0.0
 	var race_k := _hero_race_key()
+	if not can_hero_cast_skill(nid):
+		return
 	var is_ranged_race := race_k in ["sage", "android"]
 	var passives: Dictionary = rpg_hud.get_talent_passives() if (rpg_hud != null and rpg_hud.has_method("get_talent_passives")) else {}
+	var spec: Dictionary = rpg_hud.get_skill_spec(nid) if (rpg_hud != null and rpg_hud.has_method("get_skill_spec")) else {}
 	var range_mult := 1.0 + float(passives.get("rangeMult", 0.0))
-	var base_reach := (220.0 if is_ranged_race else 125.0) if skill_idx == 0 else (290.0 if skill_idx == 5 else 250.0)
+	var base_reach := (225.0 if is_ranged_race else 130.0) if skill_idx == 0 else float(spec.get("radius", 220.0))
+	if race_k == "legend" and nid == "C4" and _hero_has_talent("C7"):
+		base_reach *= 1.50
+	elif race_k == "planetary" and nid == "B1" and _hero_has_talent("B8"):
+		base_reach *= 1.40
 	var reach := base_reach * range_mult
-	var mult := 1.0 if skill_idx == 0 else (1.45 if skill_idx < 4 else (1.85 if skill_idx == 4 else 2.25))
-	mult *= (1.0 + float(passives.get("dmgMult", 0.0))) * maxf(surge_mult, 1.0)
-	if skill_idx == 1 and float(passives.get("burnBonus", 0.0)) > 0.0:
-		mult *= (1.0 + float(passives.get("burnBonus", 0.0)))
-	if ki_mode_timer > 0.0:
-		mult *= 1.25
-	var base_atk := 34
-	if rpg_hud != null and rpg_hud.has_method("get_total_attack"):
-		base_atk = int(rpg_hud.get_total_attack())
 
-	# Find nearest alive monster OR wildlife animal (and all in AoE for skill 3 / skill 5 Ki burst)
+	# Find target: prioritize locked_target_id if alive & in range, else nearest!
 	var best_idx := -1
 	var best_d := reach
+	var locked_idx := _find_agent_idx_by_id(locked_target_id)
+	if locked_idx >= 0 and bool(live_agents[locked_idx].get("alive", true)):
+		var ld := hero_pos.distance_to(live_agents[locked_idx]["pos"] as Vector2)
+		if ld <= reach * 1.08:
+			best_idx = locked_idx
+			best_d = ld
+	var is_aoe := bool(spec.get("aoe", false)) or nid == "T"
 	var hit_indices: Array[int] = []
+	var nearby_foes := 0
 	for idx in live_agents.size():
 		var ag: Dictionary = live_agents[idx]
 		var ag_k := str(ag.get("kind", ""))
 		if (ag_k != "monster" and ag_k != "animal") or not bool(ag.get("alive", true)):
 			continue
 		var d := hero_pos.distance_to(ag["pos"] as Vector2)
-		if d < best_d:
-			best_d = d
-			best_idx = idx
-		if (skill_idx == 5 or skill_idx == 3) and d < reach:
+		if d <= 165.0:
+			nearby_foes += 1
+		if locked_idx < 0 or best_idx < 0:
+			if d < best_d:
+				best_d = d
+				best_idx = idx
+		if is_aoe and d <= reach:
 			hit_indices.append(idx)
 
-	# Face target immediately before playing attack/skill animation
 	if best_idx >= 0 and hero != null:
 		var tpos: Vector2 = live_agents[best_idx]["pos"]
 		var dv := tpos - hero_pos
 		var s_face := Vector2(dv.x - dv.y, (dv.x + dv.y) * 0.5)
 		if s_face.length_squared() > 0.01 and hero.has_method("face"):
 			hero.face(s_face)
-
 	var aim_dir := _hero_aim_screen_dir(best_idx)
 	var target_node = live_agents[best_idx].get("node", null) if best_idx >= 0 else null
+	var base_atk := int(rpg_hud.get_total_attack()) if (rpg_hud != null and rpg_hud.has_method("get_total_attack")) else 34
+	var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
+	var crit_pct: float = float(rpg_hud.get_total_crit()) if (rpg_hud != null and rpg_hud.has_method("get_total_crit")) else 6.0
+	var kill_heal_pct := float(passives.get("killHealPct", 0.0))
+	var shield_mult := float(passives.get("shieldMult", 1.0))
 
-	# ALWAYS play full 47-clip hero combat animation, racial VFX & skill SFX (even on air swing!)
-	if skill_idx == 5:
+	# Global damage multiplier (passives, Forma KI, racial buffs)
+	var dmg_scale := (1.0 + float(passives.get("dmgMult", 0.0))) * maxf(surge_mult, 1.0)
+	if ki_mode_timer > 0.0:
+		dmg_scale *= 1.25
+	if race_k == "legend" and rpg_hud != null:
+		if world_time - last_combat_time >= 5.0 and _hero_has_talent("C5") and float(rpg_hud.hero_res) < 20.0:
+			rpg_hud.hero_res = 20.0
+		dmg_scale *= (1.0 + float(rpg_hud.hero_res) * 0.001)
+		if float(hero_buffs.get("rage_t", 0.0)) > 0.05:
+			dmg_scale *= (1.40 if _hero_has_talent("B7") else 1.30)
+		if _hero_has_talent("A8") and nearby_foes <= 1:
+			dmg_scale *= 1.25
+	if float(hero_buffs.get("overload_t", 0.0)) > 0.05:
+		dmg_scale *= 1.40
+	if float(hero_buffs.get("enlighten_t", 0.0)) > 0.05:
+		dmg_scale *= 1.30
+	if skill_idx > 0 and float(hero_buffs.get("meditate_emp_t", 0.0)) > 0.05:
+		dmg_scale *= 1.25
+		hero_buffs["meditate_emp_t"] = 0.0
+
+	# ==========================================================================
+	# 1) FORMA KI [T]
+	# ==========================================================================
+	if nid == "T" or skill_idx == 5:
 		if rpg_hud != null and rpg_hud.has_method("is_hotbar_skill_unlocked") and not rpg_hud.is_hotbar_skill_unlocked(5):
 			show_combat_toast("Forma KI [T] odblokowuje się od poz. 20 w drzewku [K] (wymaga A9, B9 lub C9)!", Color(1.0, 0.68, 0.34))
 			return
 		_gm_ki_preview = false
 		_activate_ki_mode_visuals(race_k, 20.0)
-	elif skill_idx == 0:
+		if not hit_indices.is_empty():
+			last_combat_time = world_time
+			for h_idx in hit_indices:
+				var dmg_t := maxi(12, int(round(float(base_atk) * 2.10 * dmg_scale)))
+				_apply_damage_to_agent(h_idx, dmg_t, false, race_k, kill_heal_pct, 3.0 if race_k == "legend" else 0.0, 0.8)
+		return
+
+	# ==========================================================================
+	# 2) SELF / UTILITY / SPECIAL NON-STANDARD SKILLS BY RACE
+	# ==========================================================================
+	if race_k == "legend":
+		if nid == "B4":
+			hero_buffs["rage_t"] = 8.0
+			if hero != null:
+				hero.play_action("sk_B4", "skillb")
+				if hero.has_method("show_damage_number"):
+					hero.show_damage_number("GNIEW +ATK!", Color(1.0, 0.48, 0.18), true)
+				if combat_vfx != null and combat_vfx.has_method("spawn_channel_ring"):
+					combat_vfx.spawn_channel_ring(hero.position, race_k, 1.0)
+			if audio != null: audio.play_race_skill(race_k, "B4")
+			return
+		if nid == "B9":
+			hero_buffs["last_flame_t"] = 5.0
+			_grant_hero_shield((40.0 + float(rpg_hud.hero_max_hp) * 0.28) * shield_mult, 5.5)
+			if hero != null:
+				hero.play_action("sk_B9", "guard")
+				if hero.has_method("show_damage_number"):
+					hero.show_damage_number("OSTATNI PŁOMIEŃ!", Color(1.0, 0.78, 0.24), true)
+			if audio != null: audio.play_race_skill(race_k, "B9")
+			return
+	elif race_k == "android":
+		if nid == "B1":
+			var ref_p := 0.25 if (_hero_has_talent("B5") or _hero_has_talent("B7")) else 0.0
+			_grant_hero_shield((36.0 + float(rpg_hud.hero_max_hp) * 0.24) * shield_mult, 6.5, ref_p)
+			if hero != null: hero.play_action("guard", "guard")
+			if audio != null: audio.play_race_skill(race_k, "B1")
+			return
+		if nid == "C4":
+			android_overheat_t = 0.0
+			if rpg_hud != null:
+				rpg_hud.hero_res = 0.0
+				var heal_c4 := float(rpg_hud.hero_max_hp) * 0.10
+				rpg_hud.hero_hp = minf(float(rpg_hud.hero_max_hp), float(rpg_hud.hero_hp) + heal_c4)
+				if hero != null and hero.has_method("show_damage_number"):
+					hero.show_damage_number("CHŁODZENIE +%d" % int(round(heal_c4)), Color(0.32, 0.96, 1.0), false)
+			if hero != null:
+				hero.play_action("channel", "channel", 0.65)
+				if combat_vfx != null and combat_vfx.has_method("spawn_channel_ring"):
+					combat_vfx.spawn_channel_ring(hero.position, race_k, 0.9)
+			if audio != null: audio.play_race_skill(race_k, "C4")
+			return
+		if nid == "B9":
+			hero_buffs["fortify_t"] = 6.0
+			_grant_hero_shield((50.0 + float(rpg_hud.hero_max_hp) * 0.30) * shield_mult, 6.0, 0.25)
+			if hero != null:
+				hero.play_action("sk_B9", "skillb")
+				if hero.has_method("show_damage_number"):
+					hero.show_damage_number("FORTYFIKACJA +60% OBR", Color(0.36, 0.94, 1.0), true)
+			if audio != null: audio.play_race_skill(race_k, "B9")
+			return
+		if nid == "C9":
+			hero_buffs["overload_t"] = 6.0
+			android_overheat_t = 0.0
+			if hero != null:
+				hero.play_action("sk_C9", "skillc")
+				if hero.has_method("show_damage_number"):
+					hero.show_damage_number("PRZECIĄŻENIE 0 KI!", Color(0.28, 0.98, 1.0), true)
+				if combat_vfx != null:
+					combat_vfx.spawn_ki_burst(hero.position, race_k, 160.0)
+			if audio != null: audio.play_race_skill(race_k, "C9")
+			return
+	elif race_k == "planetary":
+		if nid == "A1":
+			perform_dodge(true)
+			return
+		if nid == "C1":
+			var hot_pct := 0.18 if _hero_has_talent("C6") else 0.12
+			hero_buffs["hot_t"] = 4.0
+			hero_buffs["hot_rate"] = (float(rpg_hud.hero_max_hp) * hot_pct) / 4.0 if rpg_hud != null else 6.0
+			if _hero_has_talent("C8") and rpg_hud != null:
+				rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + 15.0)
+			if hero != null:
+				hero.play_action("channel", "channel", 0.65)
+				if hero.has_method("show_damage_number"):
+					hero.show_damage_number("KORZENNY ODDECH", Color(0.42, 0.98, 0.58), false)
+				if combat_vfx != null and combat_vfx.has_method("spawn_channel_ring"):
+					combat_vfx.spawn_channel_ring(hero.position, race_k, 1.2)
+			if audio != null: audio.play_race_skill(race_k, "C1")
+			return
+		if nid == "C4":
+			var ref_p := 0.25 if _hero_has_talent("C7") else 0.0
+			_grant_hero_shield((38.0 + float(rpg_hud.hero_max_hp) * 0.26) * shield_mult, 7.0, ref_p)
+			if hero != null: hero.play_action("guard", "guard")
+			if audio != null: audio.play_race_skill(race_k, "C4")
+			return
+		if nid == "C9":
+			if rpg_hud != null:
+				var h9 := float(rpg_hud.hero_max_hp) * 0.40
+				rpg_hud.hero_hp = minf(float(rpg_hud.hero_max_hp), float(rpg_hud.hero_hp) + h9)
+				_grant_hero_shield(float(rpg_hud.hero_max_hp) * 0.20 * shield_mult, 7.0)
+				if hero != null and hero.has_method("show_damage_number"):
+					hero.show_damage_number("+%d ODRODZENIE!" % int(round(h9)), Color(0.38, 1.0, 0.62), true)
+			_spawn_ground_circle(hero_pos, 145.0, 3.5, "light", 0.12, 0.0, 0.0)
+			if hero != null: hero.play_action("sk_C9", "skillc")
+			if audio != null: audio.play_race_skill(race_k, "C9")
+			return
+	elif race_k == "sage":
+		if nid == "B1":
+			var sh_dur := 8.5 if _hero_has_talent("B3") else 6.5
+			var ref_s := 0.25 if (_hero_has_talent("B5") or _hero_has_talent("B8")) else 0.0
+			_grant_hero_shield((36.0 + float(rpg_hud.hero_max_hp) * 0.25) * shield_mult, sh_dur, ref_s)
+			if hero != null: hero.play_action("guard", "guard")
+			if audio != null: audio.play_race_skill(race_k, "B1")
+			return
+		if nid == "C1":
+			start_ki_channel(1.6, 0.30, 0.0)
+			if _hero_has_talent("C6"):
+				hero_buffs["meditate_emp_t"] = 6.0
+			if audio != null: audio.play_race_skill(race_k, "C1")
+			return
+		if nid == "C4":
+			start_ki_channel(1.8, 0.0, 0.30 if _hero_has_talent("C7") else 0.20)
+			if audio != null: audio.play_race_skill(race_k, "C4")
+			return
+		if nid == "B9":
+			_spawn_ground_circle(hero_pos, 220.0, 8.0, "temple", 0.30, 0.40, 0.0)
+			if hero != null:
+				hero.play_action("sk_B9", "skillb")
+				if hero.has_method("show_damage_number"):
+					hero.show_damage_number("ŚWIĄTYNIA ŚWIATŁA!", Color(1.0, 0.92, 0.48), true)
+			if audio != null: audio.play_race_skill(race_k, "B9")
+			return
+		if nid == "C9":
+			hero_buffs["enlighten_t"] = 8.0
+			if hero != null:
+				hero.play_action("sk_C9", "skillc")
+				if hero.has_method("show_damage_number"):
+					hero.show_damage_number("OŚWIECENIE 0 KI!", Color(0.62, 0.94, 1.0), true)
+				if combat_vfx != null and combat_vfx.has_method("spawn_channel_ring"):
+					combat_vfx.spawn_channel_ring(hero.position, race_k, 1.6)
+			if audio != null: audio.play_race_skill(race_k, "C9")
+			return
+
+	# ==========================================================================
+	# 3) OFFENSIVE ATTACKS & SKILLS (ANIMATION + VFX + RACIAL MECHANICS)
+	# ==========================================================================
+	var skill_mult := 1.0 if skill_idx == 0 else float(spec.get("mult", 1.65))
+	var apply_burn := 0.0
+	var apply_stun := 0.0
+	var apply_slow := 0.0
+	var apply_mark := 0.0
+	var push_back := 0.0
+	var guaranteed_crit := false
+
+	if skill_idx == 0:
 		var combo_clips := ["attack", "attack2", "attack3", "finisher"]
 		var cur_step := combo_step % 4
 		var chosen := str(combo_clips[cur_step])
@@ -2159,91 +2658,241 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0) -> void:
 				combat_vfx.spawn_slash(hero.position, aim_dir, race_k, 1.15 if cur_step == 3 else 0.92, cur_step % 2 == 1)
 		if audio != null:
 			audio.play_race_skill(race_k, "R")
+		if race_k == "planetary":
+			planetary_combo = (planetary_combo + 1) % 3
+			if planetary_combo == 0:
+				skill_mult *= 1.30
+			if float(hero_buffs.get("dodge_empower_t", 0.0)) > 0.05:
+				hero_buffs["dodge_empower_t"] = 0.0
+				if _hero_has_talent("A3"):
+					skill_mult *= 1.25
+				if _hero_has_talent("A7"):
+					guaranteed_crit = true
+		elif race_k == "android" and rpg_hud != null:
+			android_last_shot_t = world_time
+			var charge_add := (4.0 * (0.85 if _hero_has_talent("C3") else 1.0)) * float(passives.get("resGainMult", 1.0))
+			var max_c := _android_max_charge()
+			rpg_hud.hero_res = minf(max_c, float(rpg_hud.hero_res) + charge_add)
+			if float(rpg_hud.hero_res) >= max_c - 0.1 and not _hero_has_talent("C8") and ki_mode_timer <= 0.0:
+				android_overheat_t = 1.0 if _hero_has_talent("C2") else 2.0
+				show_combat_toast("⚠ PRZEGRZANIE RDZENIA (%.1fs)!" % android_overheat_t, Color(1.0, 0.42, 0.28))
+		elif race_k == "sage" and _hero_has_talent("B2"):
+			var near_circle := false
+			for ci: Dictionary in active_circles:
+				if hero_pos.distance_to(ci["pos"] as Vector2) < 95.0:
+					near_circle = true
+					break
+			if not near_circle:
+				_spawn_ground_circle(hero_pos, 118.0, 6.0, "light", 0.10, 0.22 if _hero_has_talent("B6") else 0.0, 0.0)
 	else:
-		var sk_clips := ["sk_A1", "sk_B1", "sk_C1", "sk_A4"]
-		var sk_fbs := ["skill", "skillb", "skillc", "finisher"]
-		var sk_sfx := ["A1", "B1", "C1", "A4"]
-		var si := clampi(skill_idx - 1, 0, 3)
+		var clip_name := str(spec.get("clip", "skill"))
+		var fb_name := str(spec.get("fb", "skill"))
 		if hero != null and hero.has_method("play_action"):
-			hero.play_action(str(sk_clips[si]), str(sk_fbs[si]))
-		if combat_vfx != null and hero != null:
-			if skill_idx == 1:
-				combat_vfx.spawn_slash(hero.position, aim_dir, race_k, 1.38, false)
-				if is_ranged_race and is_instance_valid(target_node):
-					combat_vfx.spawn_bolt(hero.position, target_node.position, race_k, 1.25)
-			elif skill_idx == 2:
-				combat_vfx.spawn_shield_dome(hero.position, race_k)
-				if hero.has_method("show_damage_number"):
-					hero.show_damage_number("OSŁONA KI", Color(0.42, 0.94, 1.0), false)
-			elif skill_idx == 3:
-				combat_vfx.spawn_ki_burst(hero.position, race_k, 170.0)
-			else:
-				var end_pos: Vector2 = (target_node.position as Vector2) if is_instance_valid(target_node) else (hero.position + aim_dir * 135.0)
-				combat_vfx.spawn_bolt(hero.position, end_pos, race_k, 1.35)
-				combat_vfx.spawn_ki_burst(end_pos, race_k, 125.0)
+			hero.play_action(clip_name, fb_name)
 		if audio != null:
-			audio.play_race_skill(race_k, str(sk_sfx[si]))
+			audio.play_race_skill(race_k, nid)
+		var end_pos: Vector2 = (target_node.position as Vector2) if is_instance_valid(target_node) else (hero.position + aim_dir * 165.0)
 
-	if skill_idx != 5 and skill_idx != 3 and best_idx >= 0:
+		if race_k == "legend":
+			if nid == "A1":
+				if _hero_has_talent("A7"): skill_mult *= 1.35
+				if _hero_has_talent("A2"): apply_burn = 3.5
+				if combat_vfx != null and hero != null: combat_vfx.spawn_slash(hero.position, aim_dir, race_k, 1.45, false)
+			elif nid == "B1":
+				apply_stun = 1.2
+				_grant_hero_shield((30.0 + float(rpg_hud.hero_max_hp) * 0.22) * shield_mult, 6.0)
+			elif nid == "C1":
+				if _hero_has_talent("C3"): apply_burn = 4.0
+				if combat_vfx != null and hero != null: combat_vfx.spawn_ki_burst(hero.position, race_k, 175.0)
+			elif nid == "A4":
+				var pre_a4: Vector2 = hero.position if hero != null else Vector2.ZERO
+				if best_idx >= 0:
+					var to_t := ((live_agents[best_idx]["pos"] as Vector2) - hero_pos)
+					if to_t.length() > 28.0:
+						try_move(to_t.normalized() * minf(to_t.length() - 22.0, 120.0))
+						sync_hero()
+				if combat_vfx != null and hero != null:
+					combat_vfx.spawn_dash_afterimage(pre_a4, hero.position, race_k)
+					combat_vfx.spawn_slash(hero.position, aim_dir, race_k, 1.5, true)
+			elif nid == "C4":
+				var spent_z := float(rpg_hud.hero_res) if rpg_hud != null else 0.0
+				if rpg_hud != null and ki_mode_timer <= 0.0:
+					rpg_hud.hero_res = 0.0
+				skill_mult = (1.0 + spent_z / 50.0) * (1.25 if _hero_has_talent("C8") else 1.0)
+				apply_burn = 3.5
+				if combat_vfx != null and hero != null: combat_vfx.spawn_ki_burst(hero.position, race_k, 210.0 if _hero_has_talent("C7") else 160.0)
+			elif nid == "A9":
+				if combat_vfx != null and hero != null:
+					combat_vfx.spawn_slash(hero.position, aim_dir, race_k, 1.75, false)
+					combat_vfx.spawn_ki_burst(end_pos, race_k, 145.0)
+			elif nid == "C9":
+				apply_burn = 5.0
+				if combat_vfx != null and hero != null: combat_vfx.spawn_ki_burst(hero.position, race_k, 240.0)
+		elif race_k == "android":
+			if nid == "A1":
+				apply_mark = 6.0
+				if best_idx >= 0:
+					set_locked_target(str(live_agents[best_idx]["id"]))
+				if combat_vfx != null and hero != null:
+					combat_vfx.spawn_bolt(hero.position, end_pos, race_k, 1.15)
+					combat_vfx.spawn_target_reticle(end_pos, race_k, 1.6)
+			elif nid == "C1":
+				var spent_c := float(rpg_hud.hero_res) if rpg_hud != null else 0.0
+				if rpg_hud != null:
+					rpg_hud.hero_res = 0.0
+				skill_mult = 1.0 + spent_c / 50.0
+				if combat_vfx != null and hero != null:
+					combat_vfx.spawn_beam(hero.position, end_pos, race_k, 26.0, 0.42)
+			elif nid == "A4":
+				if combat_vfx != null and hero != null:
+					combat_vfx.spawn_bolt(hero.position, end_pos, race_k, 1.25)
+					combat_vfx.spawn_bolt(hero.position + Vector2(0, -10), end_pos + Vector2(8, -6), race_k, 1.15)
+					combat_vfx.spawn_bolt(hero.position + Vector2(0, 10), end_pos + Vector2(-8, 6), race_k, 1.15)
+			elif nid == "B4":
+				apply_stun = 1.2
+				push_back = 55.0
+				if combat_vfx != null and hero != null: combat_vfx.spawn_ki_burst(hero.position, race_k, 175.0)
+			elif nid == "A9":
+				if best_idx >= 0:
+					var thp_r := float(live_agents[best_idx].get("cur_hp", 100)) / maxf(1.0, float(live_agents[best_idx].get("max_hp", 100)))
+					if thp_r < 0.30:
+						skill_mult = 6.0
+				if combat_vfx != null and hero != null:
+					combat_vfx.spawn_target_reticle(end_pos, race_k, 1.4)
+					combat_vfx.spawn_beam(hero.position, end_pos, race_k, 32.0, 0.48)
+		elif race_k == "planetary":
+			if nid == "B1":
+				apply_slow = 3.5
+				if _hero_has_talent("B8"): apply_stun = 1.0
+				if combat_vfx != null and hero != null: combat_vfx.spawn_ki_burst(hero.position, race_k, 165.0)
+				if _hero_has_talent("B5"):
+					delayed_seals.append({"target_id": "", "pos": hero_pos, "life": 0.85, "dmg": int(round(float(base_atk) * 1.10 * dmg_scale)), "splash_r": reach, "spawn_burn_circle": false, "grant_ki": 0.0, "kind": "shockwave"})
+			elif nid == "A4" or nid == "A9":
+				if combat_vfx != null and hero != null: combat_vfx.spawn_ki_burst(hero.position, race_k, 185.0)
+			elif nid == "B4":
+				var pre_b4: Vector2 = hero.position if hero != null else Vector2.ZERO
+				apply_stun = 1.4
+				if best_idx >= 0:
+					var leap_v := (live_agents[best_idx]["pos"] as Vector2) - hero_pos
+					if leap_v.length() > 30.0:
+						try_move(leap_v.normalized() * minf(leap_v.length() - 20.0, 145.0))
+						sync_hero()
+				if _hero_has_talent("B7"):
+					_grant_hero_shield(float(rpg_hud.hero_max_hp) * 0.16 * shield_mult, 5.0)
+				if combat_vfx != null and hero != null:
+					combat_vfx.spawn_dash_afterimage(pre_b4, hero.position, race_k)
+					combat_vfx.spawn_ki_burst(hero.position, race_k, 190.0)
+			elif nid == "B9":
+				apply_stun = 1.5
+				if combat_vfx != null and hero != null: combat_vfx.spawn_ki_burst(hero.position, race_k, 230.0)
+		elif race_k == "sage":
+			if nid == "A1":
+				if combat_vfx != null and hero != null:
+					combat_vfx.spawn_bolt(hero.position, end_pos, race_k, 1.2)
+					combat_vfx.spawn_target_reticle(end_pos, race_k, 3.0)
+				if best_idx >= 0:
+					var tid := str(live_agents[best_idx]["id"])
+					live_agents[best_idx]["seal_t"] = 3.0
+					_sync_agent_status_flags(live_agents[best_idx])
+					delayed_seals.append({
+						"target_id": tid,
+						"pos": live_agents[best_idx]["pos"] as Vector2,
+						"life": 3.0,
+						"dmg": maxi(14, int(round(float(base_atk) * 2.00 * dmg_scale))),
+						"splash_r": 120.0 if _hero_has_talent("A5") else 0.0,
+						"spawn_burn_circle": _hero_has_talent("A7"),
+						"grant_ki": 15.0 if _hero_has_talent("A8") else 0.0,
+						"kind": "seal",
+					})
+					last_combat_time = world_time
+				return
+			elif nid == "A4":
+				if combat_vfx != null and hero != null:
+					combat_vfx.spawn_beam(hero.position, end_pos, race_k, 24.0, 0.45)
+			elif nid == "B4":
+				var c_pos: Vector2 = (live_agents[best_idx]["pos"] as Vector2) if best_idx >= 0 else hero_pos
+				_spawn_ground_circle(c_pos, 160.0, 6.0, "slow", 0.0, 0.40, 0.0)
+				apply_slow = 4.0
+			elif nid == "A9":
+				var c9_pos: Vector2 = (live_agents[best_idx]["pos"] as Vector2) if best_idx >= 0 else hero_pos
+				_spawn_ground_circle(c9_pos, 190.0, 1.2, "light", 0.0, 0.25, 0.0)
+				delayed_seals.append({
+					"target_id": str(live_agents[best_idx]["id"]) if best_idx >= 0 else "",
+					"pos": c9_pos,
+					"life": 1.15,
+					"dmg": maxi(24, int(round(float(base_atk) * 4.20 * dmg_scale))),
+					"splash_r": 190.0,
+					"spawn_burn_circle": false,
+					"grant_ki": 0.0,
+					"kind": "shockwave",
+				})
+				last_combat_time = world_time
+				return
+
+	if not is_aoe and best_idx >= 0:
 		hit_indices = [best_idx]
 	if hit_indices.is_empty():
 		return
 
 	last_combat_time = world_time
-	var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
-	var crit_pct: float = float(rpg_hud.get_total_crit()) if (rpg_hud != null and rpg_hud.has_method("get_total_crit")) else 6.0
-	var kill_heal_pct := float(passives.get("killHealPct", 0.0))
+	# Legend real-hit Ember generation (+4, +6 w/ C2) & A3 streak haste!
+	if race_k == "legend" and skill_idx == 0 and rpg_hud != null:
+		var ember_gain := (6.0 if _hero_has_talent("C2") else 4.0) * float(passives.get("resGainMult", 1.0))
+		rpg_hud.hero_res = minf(100.0, float(rpg_hud.hero_res) + ember_gain)
+		if _hero_has_talent("A3"):
+			legend_streak += 1
+			if legend_streak >= 3:
+				legend_streak = 0
+				hero_buffs["streak_haste_t"] = 4.0
+
+	# Planetary B6: +5 Ki per enemy hit by Impuls Ziemi!
+	if race_k == "planetary" and nid == "B1" and _hero_has_talent("B6") and rpg_hud != null:
+		rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + float(hit_indices.size()) * 5.0)
+
 	var any_kill := false
 	for h_idx: int in hit_indices:
 		var target: Dictionary = live_agents[h_idx]
-		var is_animal := (str(target.get("kind", "")) == "animal")
 		var m_lvl := int(target.get("level", 1))
-		var is_el := bool(target.get("is_elite", false))
 		var lv_penalty := 0.65 if (m_lvl - hero_lv >= 3) else 1.0
-		var is_crit := randf() * 100.0 < crit_pct
+		var tgt_crit := crit_pct
+		var tgt_mult := skill_mult * dmg_scale
+		if float(target.get("marked_t", 0.0)) > 0.05:
+			tgt_crit += 15.0
+			if race_k == "android" and _hero_has_talent("A7"):
+				tgt_mult *= 1.40
+		var is_crit := guaranteed_crit or (randf() * 100.0 < tgt_crit)
 		var crit_mult := 1.55 if is_crit else 1.0
-		var dmg := maxi(8, int(round(float(base_atk) * mult * lv_penalty * crit_mult * randf_range(0.92, 1.18))))
-		target["cur_hp"] = maxi(0, int(target.get("cur_hp", 200)) - dmg)
-		var mnode = target.get("node", null)
-		if is_crit:
-			trigger_camera_shake(4.5, 0.14)
-		if audio != null:
-			audio.sfx("common/hit-crit" if is_crit else "common/hit", 0.82)
-		if is_instance_valid(mnode):
-			mnode.hp_ratio = clampf(float(target["cur_hp"]) / maxf(float(target["max_hp"]), 1.0), 0.0, 1.0)
-			mnode.queue_redraw()
-			if combat_vfx != null:
-				combat_vfx.spawn_impact(mnode.position, race_k, is_crit)
-			if mnode.has_method("show_damage_number"):
-				var tag := "KRYT! -" if is_crit else "-"
-				var dcol := Color(1.0, 0.86, 0.22) if is_crit else Color(1.0, 0.42, 0.26)
-				mnode.show_damage_number("%s%d" % [tag, dmg], dcol, is_crit)
-		if int(target["cur_hp"]) <= 0:
+		var dmg := maxi(8, int(round(float(base_atk) * tgt_mult * lv_penalty * crit_mult * randf_range(0.92, 1.16))))
+		if push_back > 0.0 and str(target.get("kind", "")) == "monster":
+			var away := ((target["pos"] as Vector2) - hero_pos).normalized()
+			var cand_pb := (target["pos"] as Vector2) + away * push_back
+			if is_walkable(cand_pb.x, cand_pb.y):
+				target["pos"] = cand_pb
+				var pnd = target.get("node", null)
+				if is_instance_valid(pnd):
+					pnd.position = iso(cand_pb.x, cand_pb.y, height_at(cand_pb.x, cand_pb.y))
+		if _apply_damage_to_agent(h_idx, dmg, is_crit, race_k, kill_heal_pct, apply_burn, apply_stun, apply_slow, apply_mark):
 			any_kill = true
-			var hp_cost := int(target.get("dmg_dealt_to_hero", 0))
-			target["dmg_dealt_to_hero"] = 0
-			target["alive"] = false
-			target["was_aggro"] = false
-			target["death_hide_t"] = 0.85
-			target["respawn_t"] = 22.0 if is_animal else (45.0 if is_el else 11.0)
-			if kill_heal_pct > 0.0 and rpg_hud != null:
-				rpg_hud.hero_hp = minf(rpg_hud.hero_max_hp, rpg_hud.hero_hp + rpg_hud.hero_max_hp * kill_heal_pct)
-			if is_instance_valid(mnode):
-				mnode.hp_ratio = 0.0
-				if is_el and combat_vfx != null:
-					combat_vfx.spawn_ki_burst(mnode.position, race_k, 145.0)
-				if mnode.has_method("play_action"):
-					mnode.play_action("death", "hit", 0.85)
-			if audio != null:
-				audio.play_monster_sfx(str(target.get("actor_id", "")), "die")
-			if is_animal:
-				if not _report_surface_defeat(str(target["id"]), target["pos"] as Vector2, hp_cost, false):
-					_report_local_animal_kill(target)
-			else:
-				report_monster_kill(str(target["id"]), m_lvl, str(target.get("name", "Potwór")), hp_cost, is_el, target["pos"] as Vector2)
-		else:
-			if is_instance_valid(mnode) and mnode.has_method("play_action"):
-				mnode.play_action("hit", "hit", 0.28)
+
+	# Android A8 Multishot: basic shot bounces to 2 nearby enemies for 40% dmg!
+	if race_k == "android" and skill_idx == 0 and _hero_has_talent("A8") and best_idx >= 0:
+		var anchor_p: Vector2 = live_agents[best_idx]["pos"]
+		var extras := 0
+		for ei in live_agents.size():
+			if ei == best_idx or extras >= 2:
+				continue
+			var eag: Dictionary = live_agents[ei]
+			var ek := str(eag.get("kind", ""))
+			if (ek != "monster" and ek != "animal") or not bool(eag.get("alive", true)):
+				continue
+			if anchor_p.distance_to(eag["pos"] as Vector2) <= 145.0:
+				extras += 1
+				var edmg := maxi(5, int(round(float(base_atk) * 0.40 * dmg_scale)))
+				if combat_vfx != null and is_instance_valid(target_node) and is_instance_valid(eag.get("node", null)):
+					combat_vfx.spawn_bolt(target_node.position, (eag["node"] as Node2D).position, race_k, 0.75)
+				if _apply_damage_to_agent(ei, edmg, false, race_k, kill_heal_pct):
+					any_kill = true
+
 	if any_kill and skill_idx != 5 and hero != null and hero.has_method("play_action"):
 		hero.play_action("victory", "interact", 0.55)
 
@@ -2813,6 +3462,17 @@ func _unhandled_input(event: InputEvent) -> void:
 			if rpg_hud != null:
 				rpg_hud.trigger_skill(4)
 			return
+		elif event.keycode == KEY_V or event.keycode == KEY_SHIFT:
+			if rpg_hud != null:
+				rpg_hud.trigger_dodge()
+			return
+		elif event.keycode == KEY_X:
+			if rpg_hud != null:
+				rpg_hud.trigger_channel()
+			return
+		elif event.keycode == KEY_N:
+			cycle_locked_target()
+			return
 		elif event.keycode == KEY_EQUAL or event.keycode == KEY_PLUS:
 			set_zoom(zoom_level * 1.12)
 		elif event.keycode == KEY_MINUS:
@@ -2842,6 +3502,16 @@ func _unhandled_input(event: InputEvent) -> void:
 					if hero_pos.distance_to(ag["pos"] as Vector2) < 95.0:
 						open_npc_dialogue(ag)
 						return
+			for ag_t: Dictionary in live_agents:
+				var tk := str(ag_t.get("kind", ""))
+				if (tk != "monster" and tk != "animal") or not bool(ag_t.get("alive", true)):
+					continue
+				var tnd = ag_t.get("node", null)
+				if is_instance_valid(tnd) and world_click.distance_to(tnd.position + Vector2(0, -34)) < 64.0:
+					set_locked_target(str(ag_t.get("id", "")))
+					if combat_vfx != null and combat_vfx.has_method("spawn_target_reticle"):
+						combat_vfx.spawn_target_reticle(tnd.position, _hero_race_key(), 1.2)
+					return
 			if live_peers != null and live_link != null:
 				var peer_id: String = live_peers.pick(world_click)
 				if not peer_id.is_empty():
@@ -3008,6 +3678,159 @@ func _step_agent_patrol(ag: Dictionary, delta: float, move_speed: float, is_mons
 	ag["ai_timer"] = timer
 	return cand_p
 
+func _hero_circle_def_bonus() -> float:
+	var best_b := 0.0
+	for ci: Dictionary in active_circles:
+		if hero_pos.distance_to(ci["pos"] as Vector2) <= float(ci.get("radius", 120.0)):
+			best_b = maxf(best_b, float(ci.get("def_bonus", 0.0)))
+	return best_b
+
+func _step_stage3_combat_timers(delta: float, is_moving: bool) -> void:
+	if dodge_invuln_t > 0.0:
+		dodge_invuln_t = maxf(0.0, dodge_invuln_t - delta)
+	if dodge_dash_t > 0.0:
+		dodge_dash_t = maxf(0.0, dodge_dash_t - delta)
+		if dodge_dash_dir.length_squared() > 0.01:
+			try_move(dodge_dash_dir * SPEED * 2.55 * delta)
+	if android_overheat_t > 0.0:
+		android_overheat_t = maxf(0.0, android_overheat_t - delta)
+		if android_overheat_t <= 0.0 and rpg_hud != null and _hero_race_key() == "android":
+			rpg_hud.hero_res = minf(float(rpg_hud.hero_res), _android_max_charge() * 0.45)
+
+	# Ki Channeling ([X], Sage C1 Medytacja, Sage C4 Leczniczy Kanał)
+	if ki_channel_t > 0.0 and rpg_hud != null:
+		if is_moving:
+			ki_channel_t = 0.0
+		else:
+			ki_channel_t = maxf(0.0, ki_channel_t - delta)
+			if ki_channel_ki_rate > 0.0:
+				rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + ki_channel_ki_rate * delta)
+			if ki_channel_hp_rate > 0.0:
+				rpg_hud.hero_hp = minf(float(rpg_hud.hero_max_hp), float(rpg_hud.hero_hp) + ki_channel_hp_rate * delta)
+
+	# Tick hero buff timers + Planetary C1 HoT
+	for bk in ["rage_t", "last_flame_t", "streak_haste_t", "overload_t", "fortify_t", "dodge_empower_t", "dodge_def_t", "kill_spd_t", "enlighten_t", "meditate_emp_t", "hot_t"]:
+		var bv := float(hero_buffs.get(bk, 0.0))
+		if bv > 0.0:
+			hero_buffs[bk] = maxf(0.0, bv - delta)
+	if float(hero_buffs.get("hot_t", 0.0)) > 0.0 and rpg_hud != null:
+		rpg_hud.hero_hp = minf(float(rpg_hud.hero_max_hp), float(rpg_hud.hero_hp) + float(hero_buffs.get("hot_rate", 0.0)) * delta)
+	if rpg_hud != null and float(rpg_hud.hero_shield_timer) <= 0.05:
+		hero_buffs["reflect_pct"] = 0.0
+
+	# Tick Active Ground Circles (Sage Light Circle, Slow Circle, Temple, Burn Circle)
+	var ci_i := active_circles.size() - 1
+	while ci_i >= 0:
+		var ci: Dictionary = active_circles[ci_i]
+		ci["life"] = float(ci.get("life", 0.0)) - delta
+		if float(ci["life"]) <= 0.0:
+			active_circles.remove_at(ci_i)
+			ci_i -= 1
+			continue
+		var cpos: Vector2 = ci["pos"]
+		var crad := float(ci.get("radius", 120.0))
+		var slow_p := float(ci.get("slow_pct", 0.0))
+		var burn_d := float(ci.get("burn_dps", 0.0))
+		var tick_burn := false
+		if burn_d > 0.0:
+			ci["tick_acc"] = float(ci.get("tick_acc", 0.0)) + delta
+			if float(ci["tick_acc"]) >= 0.50:
+				ci["tick_acc"] = float(ci["tick_acc"]) - 0.50
+				tick_burn = true
+		if slow_p > 0.0 or tick_burn:
+			for ai in live_agents.size():
+				var ag: Dictionary = live_agents[ai]
+				if str(ag.get("kind", "")) != "monster" or not bool(ag.get("alive", true)):
+					continue
+				if cpos.distance_to(ag["pos"] as Vector2) <= crad:
+					if slow_p > 0.0:
+						ag["slow_t"] = maxf(float(ag.get("slow_t", 0.0)), 0.35)
+					if tick_burn:
+						_apply_damage_to_agent(ai, maxi(5, int(round(burn_d * 0.50))), false, _hero_race_key(), 0.0)
+		ci_i -= 1
+
+	# Tick Delayed Seals & Shockwaves (Sage A1 / A9, Planetary B5 — ID-safe if target already died!)
+	var race_k := _hero_race_key()
+	var kill_heal_pct := float((rpg_hud.get_talent_passives() as Dictionary).get("killHealPct", 0.0)) if (rpg_hud != null and rpg_hud.has_method("get_talent_passives")) else 0.0
+	var ds_i := delayed_seals.size() - 1
+	while ds_i >= 0:
+		var ds: Dictionary = delayed_seals[ds_i]
+		var tid := str(ds.get("target_id", ""))
+		var t_idx := _find_agent_idx_by_id(tid)
+		if t_idx >= 0 and bool(live_agents[t_idx].get("alive", true)):
+			ds["pos"] = live_agents[t_idx]["pos"] as Vector2
+		ds["life"] = float(ds.get("life", 0.0)) - delta
+		if float(ds["life"]) <= 0.0:
+			var dpos: Vector2 = ds["pos"]
+			var ddmg := int(ds.get("dmg", 25))
+			var sr := float(ds.get("splash_r", 0.0))
+			if combat_vfx != null:
+				combat_vfx.spawn_ki_burst(iso(dpos.x, dpos.y, height_at(dpos.x, dpos.y)), race_k, maxf(105.0, sr * 0.85))
+			if str(ds.get("kind", "")) == "seal":
+				if t_idx >= 0 and bool(live_agents[t_idx].get("alive", true)):
+					live_agents[t_idx]["seal_t"] = 0.0
+					_apply_damage_to_agent(t_idx, ddmg, false, race_k, kill_heal_pct)
+				if sr > 5.0:
+					for ai in live_agents.size():
+						if ai == t_idx:
+							continue
+						var ag: Dictionary = live_agents[ai]
+						var ak := str(ag.get("kind", ""))
+						if (ak != "monster" and ak != "animal") or not bool(ag.get("alive", true)):
+							continue
+						if dpos.distance_to(ag["pos"] as Vector2) <= sr:
+							_apply_damage_to_agent(ai, maxi(8, int(round(float(ddmg) * 0.65))), false, race_k, kill_heal_pct)
+				if bool(ds.get("spawn_burn_circle", false)):
+					_spawn_ground_circle(dpos, 115.0, 4.0, "burn", 0.0, 0.0, maxf(12.0, float(ddmg) * 0.35))
+				var gki := float(ds.get("grant_ki", 0.0))
+				if gki > 0.0 and rpg_hud != null:
+					rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + gki)
+			else:
+				for ai in live_agents.size():
+					var ag: Dictionary = live_agents[ai]
+					var ak := str(ag.get("kind", ""))
+					if (ak != "monster" and ak != "animal") or not bool(ag.get("alive", true)):
+						continue
+					if dpos.distance_to(ag["pos"] as Vector2) <= maxf(sr, 120.0):
+						_apply_damage_to_agent(ai, ddmg, false, race_k, kill_heal_pct, 0.0, 0.0, 2.5 if race_k == "planetary" else 0.0)
+			delayed_seals.remove_at(ds_i)
+		ds_i -= 1
+
+	# Sync Authentic Per-Race Resource Mechanics & HUD Label
+	if rpg_hud != null:
+		if race_k == "legend":
+			if ki_mode_timer > 0.0:
+				rpg_hud.hero_res = 100.0
+			elif world_time - last_combat_time >= 5.0 and float(rpg_hud.hero_res) > 0.0:
+				rpg_hud.hero_res = maxf(0.0, float(rpg_hud.hero_res) - 5.0 * delta)
+			if _hero_has_talent("C6") and float(rpg_hud.hero_res) >= 99.0:
+				rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + float(rpg_hud.get_total_ki_regen()) * 0.50 * delta)
+			rpg_hud.hero_res_ratio = clampf(float(rpg_hud.hero_res) / 100.0, 0.0, 1.0)
+			rpg_hud.hero_res_label = "Żar %d/100%s" % [int(round(float(rpg_hud.hero_res))), " ★" if float(rpg_hud.hero_res) >= 80.0 else ""]
+		elif race_k == "android":
+			var max_c := _android_max_charge()
+			if android_overheat_t <= 0.0 and world_time - android_last_shot_t >= 1.0 and float(rpg_hud.hero_res) > 0.0:
+				rpg_hud.hero_res = maxf(0.0, float(rpg_hud.hero_res) - 6.0 * delta)
+			rpg_hud.hero_res_ratio = clampf(float(rpg_hud.hero_res) / maxf(max_c, 1.0), 0.0, 1.0)
+			rpg_hud.hero_res_label = ("PRZEGRZANIE %.1fs" % android_overheat_t) if android_overheat_t > 0.05 else ("Ładunek %d/%d" % [int(round(float(rpg_hud.hero_res))), int(round(max_c))])
+		elif race_k == "planetary":
+			var terr := _get_planetary_terrain()
+			var has_b2 := _hero_has_talent("B2")
+			if has_b2 and terr == "forest":
+				rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + float(rpg_hud.get_total_ki_regen()) * 0.30 * delta)
+			rpg_hud.hero_res = float(planetary_combo) * 50.0
+			rpg_hud.hero_res_ratio = clampf(float(planetary_combo) / 2.0, 0.0, 1.0)
+			var t_lbl := "Las +30%%KI" if terr == "forest" else ("Skała +10%%OBR" if terr == "rock" else "Woda +8%%SZYB")
+			rpg_hud.hero_res_label = ("Teren: %s" % t_lbl) if has_b2 else ("Kombo %d/3" % (planetary_combo + 1))
+		elif race_k == "sage":
+			var in_c := 0
+			for ci: Dictionary in active_circles:
+				if hero_pos.distance_to(ci["pos"] as Vector2) <= float(ci.get("radius", 120.0)):
+					in_c += 1
+			rpg_hud.hero_res = 100.0 if in_c > 0 else (float(rpg_hud.hero_ki) / maxf(1.0, float(rpg_hud.hero_max_ki)) * 100.0)
+			rpg_hud.hero_res_ratio = clampf(float(rpg_hud.hero_res) / 100.0, 0.0, 1.0)
+			rpg_hud.hero_res_label = ("KRĄG ŚWIATŁA ×%d" % in_c) if in_c > 0 else ("Skupienie %d%%" % int(round(float(rpg_hud.hero_res))))
+
 func step_world(delta: float) -> void:
 	world_time += delta
 	if recall_cooldown > 0.0:
@@ -3080,6 +3903,8 @@ func step_world(delta: float) -> void:
 	var is_moving := world_dir.length_squared() > 0.001
 	var is_running := move_mag >= 0.58
 
+	_step_stage3_combat_timers(delta, is_moving)
+
 	# Return-to-Capital Stone (Kamień Powrotu) channeling
 	if recall_channel > 0.0:
 		if is_moving:
@@ -3099,8 +3924,15 @@ func step_world(delta: float) -> void:
 		var outside_city := hero_pos.distance_to(capital_center) > safe_city_radius
 		var road_mult := 1.10 if (outside_city and is_on_road(hero_pos.x, hero_pos.y)) else 1.0
 		var ki_spd_mult := 1.10 if ki_mode_timer > 0.0 else 1.0
+		var buff_spd := 1.0
+		if float(hero_buffs.get("streak_haste_t", 0.0)) > 0.05:
+			buff_spd *= 1.15
+		if float(hero_buffs.get("kill_spd_t", 0.0)) > 0.05:
+			buff_spd *= 1.15
+		if _hero_race_key() == "planetary" and _hero_has_talent("B2") and _get_planetary_terrain() == "water":
+			buff_spd *= 1.08
 		var analog_mult := lerpf(0.45, 1.0, move_mag)
-		try_move(world_dir * SPEED * analog_mult * gm_speed_mult * stat_spd_mult * road_mult * ki_spd_mult * delta)
+		try_move(world_dir * SPEED * analog_mult * gm_speed_mult * stat_spd_mult * road_mult * ki_spd_mult * buff_spd * delta)
 
 	# Out-of-Combat passive HP/KI recovery (+4% HP/s + talent bonus, +6% KI/s after 5s OOC)
 	if world_time - last_combat_time >= 5.0 and rpg_hud != null and float(rpg_hud.hero_hp) > 0.0:
@@ -3163,6 +3995,8 @@ func step_world(delta: float) -> void:
 	var inv_z := 1.0 / maxf(zoom_level, 0.45)
 	var ag_cull_x := vp_sz.x * 0.56 * inv_z + 320.0
 	var ag_cull_y := vp_sz.y * 0.56 * inv_z + 280.0
+	var race_k_now := _hero_race_key()
+	var kill_heal_now := float((rpg_hud.get_talent_passives() as Dictionary).get("killHealPct", 0.0)) if (rpg_hud != null and rpg_hud.has_method("get_talent_passives")) else 0.0
 
 	# Animate living NPCs, Monsters, and Wildlife Fauna animals with natural Waypoint AI + 2-way combat + distance culling
 	for idx in live_agents.size():
@@ -3178,6 +4012,7 @@ func step_world(delta: float) -> void:
 			if dh > 0.0:
 				dh = maxf(0.0, dh - delta)
 				ag["death_hide_t"] = dh
+				node.modulate.a = clampf(dh / 0.85, 0.0, 1.0)
 				if dh <= 0.0:
 					node.visible = false
 			ag["respawn_t"] = float(ag.get("respawn_t", 0.0)) - delta
@@ -3189,12 +4024,19 @@ func step_world(delta: float) -> void:
 				ag["aggro_windup"] = 0.0
 				ag["was_aggro"] = false
 				ag["roared"] = false
+				ag["burn_t"] = 0.0
+				ag["stun_t"] = 0.0
+				ag["slow_t"] = 0.0
+				ag["marked_t"] = 0.0
+				ag["seal_t"] = 0.0
+				ag["flee_t"] = 0.0
 				ag["pos"] = ag["home"]
 				ag["ai_state"] = "idle"
 				ag["ai_timer"] = randf_range(1.2, 3.2)
 				node.hp_ratio = 1.0
+				node.modulate = Color.WHITE
 				node.position = iso((ag["home"] as Vector2).x, (ag["home"] as Vector2).y, height_at((ag["home"] as Vector2).x, (ag["home"] as Vector2).y))
-				node.queue_redraw()
+				_sync_agent_status_flags(ag)
 				node.visible = true
 				if node.has_method("play_action"):
 					node.play_action("respawn", "idle", 0.55)
@@ -3205,6 +4047,32 @@ func step_world(delta: float) -> void:
 			continue
 		if not node.visible:
 			node.visible = true
+
+		# Tick monster/animal combat debuffs (burn DoT, stun, slow, marked, seal)
+		if is_killable:
+			var status_changed := false
+			for st_k in ["stun_t", "slow_t", "marked_t", "seal_t"]:
+				var sv := float(ag.get(st_k, 0.0))
+				if sv > 0.0:
+					sv = maxf(0.0, sv - delta)
+					ag[st_k] = sv
+					if sv <= 0.0:
+						status_changed = true
+			var bt := float(ag.get("burn_t", 0.0))
+			if bt > 0.0:
+				bt = maxf(0.0, bt - delta)
+				ag["burn_t"] = bt
+				ag["burn_acc"] = float(ag.get("burn_acc", 0.0)) + delta
+				if float(ag["burn_acc"]) >= 0.50:
+					ag["burn_acc"] = float(ag["burn_acc"]) - 0.50
+					var bdmg := maxi(4, int(round(float(ag.get("burn_dps", 10.0)) * 0.50)))
+					if _apply_damage_to_agent(idx, bdmg, false, race_k_now, kill_heal_now):
+						continue
+				if bt <= 0.0:
+					status_changed = true
+			if status_changed:
+				_sync_agent_status_flags(ag)
+
 		if dlg_open and node == talk_node:
 			var to_hero: Vector2 = hero_pos - (ag["pos"] as Vector2)
 			var face_s := Vector2(to_hero.x - to_hero.y, (to_hero.x + to_hero.y) * 0.5)
@@ -3216,9 +4084,14 @@ func step_world(delta: float) -> void:
 		var prev_p: Vector2 = ag["pos"]
 		var next_p := prev_p
 		var stride := 0.62 if ag_kind == "npc" else 0.76
+		var ag_running := false
 		if is_monster:
 			ag["atk_cd"] = maxf(0.0, float(ag.get("atk_cd", 0.0)) - delta)
 			ag["aggro_windup"] = maxf(0.0, float(ag.get("aggro_windup", 0.0)) - delta)
+			if float(ag.get("stun_t", 0.0)) > 0.05:
+				node.animate(Vector2.ZERO, false, stride)
+				continue
+			var slow_mult := 0.60 if float(ag.get("slow_t", 0.0)) > 0.05 else 1.0
 			var dist_to_hero := hero_pos.distance_to(prev_p)
 			var dist_from_home := prev_p.distance_to(home)
 			var was_hurt := int(ag.get("cur_hp", 100)) < int(ag.get("max_hp", 100))
@@ -3232,7 +4105,7 @@ func step_world(delta: float) -> void:
 					if audio != null and bool(ag.get("is_elite", false)):
 						audio.play_monster_sfx(str(ag.get("actor_id", "")), "roar")
 				if dist_to_hero > 26.0:
-					var chase_step := (hero_pos - prev_p).normalized() * 21.0 * delta
+					var chase_step := (hero_pos - prev_p).normalized() * 21.0 * slow_mult * delta
 					var cand_p := prev_p + chase_step
 					if cand_p.distance_to(capital_center) > safe_city_radius + 16.0 and is_walkable(cand_p.x, cand_p.y):
 						next_p = cand_p
@@ -3240,9 +4113,6 @@ func step_world(delta: float) -> void:
 					ag["atk_cd"] = 1.40
 					ag["atk_count"] = int(ag.get("atk_count", 0)) + 1
 					last_combat_time = world_time
-					if recall_channel > 0.0:
-						recall_channel = 0.0
-						show_combat_toast("Powrót do stolicy przerwany przez obrażenia!", Color(1.0, 0.48, 0.34))
 					var to_h: Vector2 = hero_pos - next_p
 					var face_h := Vector2(to_h.x - to_h.y, (to_h.x + to_h.y) * 0.5)
 					if face_h.length_squared() > 0.01 and node.has_method("face"):
@@ -3251,27 +4121,63 @@ func step_world(delta: float) -> void:
 						node.play_action("skill" if (int(ag["atk_count"]) % 3 == 0) else "attack", "attack")
 					if audio != null:
 						audio.play_monster_sfx(str(ag.get("actor_id", "")), "atk")
-					var m_atk := int(ag.get("atk", 24))
-					var m_lvl := int(ag.get("level", 1))
-					var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
-					var hero_def := int(rpg_hud.get_total_defense()) if (rpg_hud != null and rpg_hud.has_method("get_total_defense")) else 12
-					var adv_mult := 1.35 if (m_lvl - hero_lv >= 3) else 1.0
-					var dmg := maxi(5, int(round(float(m_atk) * adv_mult - float(hero_def) * 0.55)))
-					ag["dmg_dealt_to_hero"] = int(ag.get("dmg_dealt_to_hero", 0)) + dmg
-					if audio != null:
-						audio.sfx("common/player-hurt", 0.76)
-					if hero != null:
-						if hero.has_method("show_damage_number"):
-							hero.show_damage_number("-%d" % dmg, Color(1.0, 0.34, 0.28), false)
-						if Time.get_ticks_msec() / 1000.0 >= float(hero.one_shot_until) and hero.has_method("play_action"):
-							hero.play_action("hitheavy" if dmg >= 35 else "hit", "hit", 0.28)
-					if rpg_hud != null and rpg_hud.has_method("take_combat_damage") and rpg_hud.take_combat_damage(dmg):
-						handle_hero_defeat()
-						return
+					if dodge_invuln_t > 0.05:
+						if hero != null and hero.has_method("show_damage_number"):
+							hero.show_damage_number("UNIK!", Color(0.46, 0.98, 0.72), true)
+					else:
+						if recall_channel > 0.0:
+							recall_channel = 0.0
+							show_combat_toast("Powrót do stolicy przerwany przez obrażenia!", Color(1.0, 0.48, 0.34))
+						var m_atk := int(ag.get("atk", 24))
+						var m_lvl := int(ag.get("level", 1))
+						var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
+						var hero_def := float(rpg_hud.get_total_defense()) if (rpg_hud != null and rpg_hud.has_method("get_total_defense")) else 12.0
+						var def_mult := 1.0
+						if ki_mode_timer > 0.0: def_mult += 0.15
+						if float(hero_buffs.get("fortify_t", 0.0)) > 0.05: def_mult += 0.60
+						if float(hero_buffs.get("dodge_def_t", 0.0)) > 0.05: def_mult += 0.20
+						if race_k_now == "planetary" and _hero_has_talent("B2") and _get_planetary_terrain() == "rock": def_mult += 0.10
+						if race_k_now == "legend" and float(hero_buffs.get("rage_t", 0.0)) > 0.05 and not _hero_has_talent("B8"): def_mult -= 0.15
+						def_mult += _hero_circle_def_bonus()
+						var adv_mult := 1.35 if (m_lvl - hero_lv >= 3) else 1.0
+						var dmg := maxi(5, int(round(float(m_atk) * adv_mult - (hero_def * maxf(0.4, def_mult)) * 0.55)))
+						ag["dmg_dealt_to_hero"] = int(ag.get("dmg_dealt_to_hero", 0)) + dmg
+						var refl := float(hero_buffs.get("reflect_pct", 0.0))
+						if refl > 0.01 and rpg_hud != null and float(rpg_hud.hero_shield_hp) > 1.0:
+							_apply_damage_to_agent(idx, maxi(4, int(round(float(dmg) * refl))), false, race_k_now, kill_heal_now)
+						if audio != null:
+							audio.sfx("common/player-hurt", 0.76)
+						if hero != null:
+							if hero.has_method("show_damage_number"):
+								hero.show_damage_number("-%d" % dmg, Color(1.0, 0.34, 0.28), false)
+							if Time.get_ticks_msec() / 1000.0 >= float(hero.one_shot_until) and hero.has_method("play_action"):
+								hero.play_action("hitheavy" if dmg >= 35 else "hit", "hit", 0.28)
+						if rpg_hud != null and rpg_hud.has_method("take_combat_damage") and rpg_hud.take_combat_damage(dmg):
+							if float(hero_buffs.get("last_flame_t", 0.0)) > 0.05:
+								hero_buffs["last_flame_t"] = 0.0
+								rpg_hud.hero_hp = maxf(1.0, round(float(rpg_hud.hero_max_hp) * 0.30))
+								rpg_hud._sync_bar_uniforms()
+								rpg_hud._refresh_visuals()
+								if combat_vfx != null and hero != null:
+									combat_vfx.spawn_ki_burst(hero.position, race_k_now, 180.0)
+								show_combat_toast("✦ OSTATNI PŁOMIEŃ uratował Cię przed śmiercią (+30%% HP)!", Color(1.0, 0.80, 0.28))
+							else:
+								handle_hero_defeat()
+								return
 			else:
 				ag["roared"] = false
 				ag["was_aggro"] = false
-				next_p = _step_agent_patrol(ag, delta, float(ag.get("speed", 13.0)), true)
+				next_p = _step_agent_patrol(ag, delta, float(ag.get("speed", 13.0)) * slow_mult, true)
+		elif ag_kind == "animal" and float(ag.get("flee_t", 0.0)) > 0.0:
+			ag["flee_t"] = maxf(0.0, float(ag.get("flee_t", 0.0)) - delta)
+			var flee_dir := (prev_p - hero_pos)
+			if flee_dir.length_squared() < 0.01:
+				flee_dir = Vector2(1.0, 0.5)
+			var flee_cand := prev_p + flee_dir.normalized() * 24.0 * delta
+			if is_walkable(flee_cand.x, flee_cand.y):
+				next_p = flee_cand
+				ag_running = true
+				stride = 1.05
 		else:
 			next_p = _step_agent_patrol(ag, delta, float(ag.get("speed", 10.5)), false)
 		var d_pos := next_p - prev_p
@@ -3279,7 +4185,7 @@ func step_world(delta: float) -> void:
 			ag["pos"] = next_p
 			node.position = iso(next_p.x, next_p.y, height_at(next_p.x, next_p.y))
 			var s_dir := Vector2(d_pos.x - d_pos.y, (d_pos.x + d_pos.y) * 0.5)
-			node.animate(s_dir if s_dir.length_squared() > 0.0004 else Vector2.ZERO, false, stride)
+			node.animate(s_dir if s_dir.length_squared() > 0.0004 else Vector2.ZERO, ag_running, stride)
 		else:
 			node.animate(Vector2.ZERO, false, stride)
 

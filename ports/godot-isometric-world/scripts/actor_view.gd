@@ -24,6 +24,19 @@ static var sheet_cache: Dictionary = {}
 static var _ki_glow_tex: Texture2D = null
 static var _ki_wisp_tex: Texture2D = null
 
+const KI_CLIP_MAP := {
+	"sk_A1": "kiskill",
+	"sk_A4": "kiskill",
+	"sk_A9": "kifinisher",
+	"sk_B1": "kiskillb",
+	"sk_B4": "kiskillb",
+	"sk_B9": "kiguard",
+	"sk_C1": "kiskillc",
+	"sk_C4": "kiskillc",
+	"sk_C9": "kiskillc",
+	"attack3": "kiattack2",
+}
+
 const KI_PALETTE := {
 	"legend":    {"main": Color(1.0, 0.54, 0.16), "edge": Color(1.0, 0.24, 0.08), "core": Color(1.0, 0.95, 0.72)},
 	"planetary": {"main": Color(0.28, 0.95, 0.52), "edge": Color(0.96, 0.84, 0.24), "core": Color(0.88, 1.0, 0.82)},
@@ -57,6 +70,8 @@ var role_title := ""
 var monster_level := 0
 var hp_ratio := 1.0
 var is_elite := false
+var is_locked_target := false
+var status_flags: Dictionary = {}
 
 func _ki_pal() -> Dictionary:
 	return KI_PALETTE.get(ki_race, KI_PALETTE["legend"])
@@ -241,6 +256,9 @@ func clip_for(wanted: String) -> String:
 		var candidate := prefix + wanted
 		if ensure_clip(candidate):
 			return candidate
+		var mapped := str(KI_CLIP_MAP.get(wanted, ""))
+		if not mapped.is_empty() and ensure_clip(mapped):
+			return mapped
 	if ensure_clip(wanted):
 		return wanted
 	if not prefix.is_empty() and ensure_clip(prefix + "idle"):
@@ -265,7 +283,8 @@ func play_clip(clip_name: String, force_restart: bool = false, speed_scale: floa
 
 func play_action(clip_name: String, fallback_clip: String = "attack", lock_sec: float = -1.0) -> float:
 	var chosen := clip_name
-	if not ensure_clip(prefix + chosen) and not ensure_clip(chosen):
+	var has_ki_mapped := not prefix.is_empty() and not str(KI_CLIP_MAP.get(chosen, "")).is_empty() and ensure_clip(str(KI_CLIP_MAP.get(chosen, "")))
+	if not has_ki_mapped and not ensure_clip(prefix + chosen) and not ensure_clip(chosen):
 		chosen = fallback_clip
 	var resolved := clip_for(chosen)
 	var clips_dict: Dictionary = definition.get("clips", {})
@@ -477,6 +496,11 @@ func _draw() -> void:
 		draw_arc(Vector2.ZERO, 24.0 * shadow_scale, 0.0, TAU, 24, Color(0.28, 0.88, 1.0, 0.58), 2.0)
 	elif is_hero:
 		draw_arc(Vector2.ZERO, 26.0 * shadow_scale, 0.0, TAU, 28, Color(1.0, 0.82, 0.32, 0.80), 2.5)
+	if is_locked_target:
+		var lt := Time.get_ticks_msec() / 1000.0
+		var lp := 1.0 + sin(lt * 7.0) * 0.08
+		draw_arc(Vector2.ZERO, 42.0 * shadow_scale * lp, 0.0, TAU, 36, Color(1.0, 0.88, 0.24, 0.96), 4.0)
+		draw_arc(Vector2.ZERO, 36.0 * shadow_scale, 0.0, TAU, 32, Color(1.0, 0.32, 0.16, 0.90), 2.4)
 	draw_set_transform(Vector2.ZERO)
 
 	# Monster & Damaged Wildlife Animal HP bar (gilded wider bar for named Elites)
@@ -488,6 +512,21 @@ func _draw() -> void:
 			draw_rect(Rect2(bp - Vector2(2, 2), Vector2(bw + 4, bh + 4)), Color(1.0, 0.78, 0.24, 0.96), false, 2.0)
 		draw_rect(Rect2(bp - Vector2(1, 1), Vector2(bw + 2, bh + 2)), Color(0.04, 0.02, 0.02, 0.94))
 		draw_rect(Rect2(bp, Vector2(bw * clampf(hp_ratio, 0.0, 1.0), bh)), Color(0.96, 0.28, 0.14, 0.98) if is_elite else (Color(0.94, 0.22, 0.16, 0.98) if actor_kind == "monster" else Color(1.0, 0.64, 0.20, 0.98)))
+		if not status_flags.is_empty():
+			var st_cols := {
+				"burn": Color(1.0, 0.44, 0.12),
+				"stun": Color(1.0, 0.92, 0.28),
+				"slow": Color(0.44, 0.78, 1.0),
+				"marked": Color(0.18, 0.96, 0.98),
+				"seal": Color(0.76, 0.48, 1.0),
+			}
+			var sx := bp.x + 6.0
+			var sy := bp.y - 9.0
+			for sk in ["burn", "stun", "slow", "marked", "seal"]:
+				if bool(status_flags.get(sk, false)):
+					draw_circle(Vector2(sx, sy), 5.5, Color(0.04, 0.02, 0.04, 0.92))
+					draw_circle(Vector2(sx, sy), 4.0, st_cols[sk] as Color)
+					sx += 13.0
 
 	# NPC Quest Marker (! or ?)
 	if actor_kind == "npc" and not quest_mark.is_empty():

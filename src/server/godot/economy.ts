@@ -1271,6 +1271,7 @@ export type AndroidHeroState = {
   lastTrainingAt: number;
   activeBlessing: ActiveBlessing | null;
   unlockedNodes: string[];
+  hotbarSlots?: [string, string, string, string];
   equipment: Record<string, string | null>;
   backpack: (ItemStack | null)[];
   bankItems: (ItemStack | null)[];
@@ -1279,6 +1280,25 @@ export type AndroidHeroState = {
   lastRestAt: number;
   progress: AndroidProgressState;
 };
+
+export const ASSIGNABLE_SKILL_NODES = [
+  "A1",
+  "B1",
+  "C1",
+  "A4",
+  "B4",
+  "C4",
+  "A9",
+  "B9",
+  "C9",
+] as const;
+
+export const DEFAULT_HOTBAR_SLOTS: readonly [string, string, string, string] = [
+  "A1",
+  "B1",
+  "C1",
+  "A4",
+];
 
 export type AndroidComputedStats = {
   maxHp: number;
@@ -1618,6 +1638,7 @@ export function createInitialAndroidState(
     lastTrainingAt: 0,
     activeBlessing: null,
     unlockedNodes: nodes,
+    hotbarSlots: [...DEFAULT_HOTBAR_SLOTS] as [string, string, string, string],
     equipment,
     backpack,
     bankItems,
@@ -1832,6 +1853,26 @@ export function normalizeAndroidState(
   const trainTotal =
     training.hp + training.ki + training.atk + training.def + training.spd + training.crit;
 
+  const rawHotbar = Array.isArray(r["hotbarSlots"]) ? r["hotbarSlots"] : [];
+  const hotbarSlots: [string, string, string, string] = [
+    DEFAULT_HOTBAR_SLOTS[0],
+    DEFAULT_HOTBAR_SLOTS[1],
+    DEFAULT_HOTBAR_SLOTS[2],
+    DEFAULT_HOTBAR_SLOTS[3],
+  ];
+  const seenHotbar = new Set<string>();
+  for (let i = 0; i < 4; i++) {
+    const cand = rawHotbar[i];
+    if (
+      typeof cand === "string" &&
+      (ASSIGNABLE_SKILL_NODES as readonly string[]).includes(cand) &&
+      !seenHotbar.has(cand)
+    ) {
+      hotbarSlots[i] = cand;
+      seenHotbar.add(cand);
+    }
+  }
+
   const state: AndroidHeroState = {
     version: 2,
     position:
@@ -1851,6 +1892,7 @@ export function normalizeAndroidState(
     lastTrainingAt: clampInt(r["lastTrainingAt"], 0, Number.MAX_SAFE_INTEGER, 0),
     activeBlessing,
     unlockedNodes,
+    hotbarSlots,
     equipment,
     backpack: normalizeSlots(r["backpack"], BACKPACK_SIZE),
     bankItems: normalizeSlots(r["bankItems"], BANK_SIZE),
@@ -2032,6 +2074,13 @@ export const androidActionSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("allocate_stat"), stat: z.enum(STAT_KEYS) }).strict(),
   z
     .object({ type: z.literal("unlock_talent"), nodeId: z.string().regex(/^[A-Z0-9_-]{1,8}$/) })
+    .strict(),
+  z
+    .object({
+      type: z.literal("set_hotbar"),
+      slot: z.number().int().min(0).max(3),
+      nodeId: z.enum(ASSIGNABLE_SKILL_NODES),
+    })
     .strict(),
   z
     .object({
@@ -2445,8 +2494,41 @@ export function applyAndroidAction(
         );
       state.skillPoints -= 1;
       state.unlockedNodes.push(action.nodeId);
+      const hb =
+        state.hotbarSlots ?? ([...DEFAULT_HOTBAR_SLOTS] as [string, string, string, string]);
+      if (
+        (ASSIGNABLE_SKILL_NODES as readonly string[]).includes(action.nodeId) &&
+        !hb.includes(action.nodeId)
+      ) {
+        const freeIdx = hb.findIndex((nid) => !state.unlockedNodes.includes(nid));
+        if (freeIdx >= 0) hb[freeIdx] = action.nodeId;
+      }
+      state.hotbarSlots = hb;
       clampVitals();
       notice = `Odblokowano talent: ${node.name} [${node.id}]`;
+      break;
+    }
+
+    case "set_hotbar": {
+      if (!state.unlockedNodes.includes(action.nodeId))
+        throw new AndroidEconomyError(
+          "GOAL_NOT_MET",
+          "Najpierw odblokuj ten talent w drzewku [K].",
+        );
+      const hb: [string, string, string, string] = state.hotbarSlots
+        ? [state.hotbarSlots[0], state.hotbarSlots[1], state.hotbarSlots[2], state.hotbarSlots[3]]
+        : [
+            DEFAULT_HOTBAR_SLOTS[0],
+            DEFAULT_HOTBAR_SLOTS[1],
+            DEFAULT_HOTBAR_SLOTS[2],
+            DEFAULT_HOTBAR_SLOTS[3],
+          ];
+      const existingIdx = hb.indexOf(action.nodeId);
+      const previous = hb[action.slot]!;
+      hb[action.slot] = action.nodeId;
+      if (existingIdx >= 0 && existingIdx !== action.slot) hb[existingIdx] = previous;
+      state.hotbarSlots = hb;
+      notice = `Przypisano [${action.nodeId}] do slotu ${action.slot + 1}.`;
       break;
     }
 
@@ -3003,6 +3085,9 @@ export function applyAndroidAction(
                     ...(KIT_NODES[current.race as RaceId] ?? []).map((node) => node.id),
                   ]),
                 ];
+          if (action.op === "reset_talents") {
+            state.hotbarSlots = [...DEFAULT_HOTBAR_SLOTS] as [string, string, string, string];
+          }
           clampVitals();
           notice =
             action.op === "reset_talents" ? "GM: Zresetowano talenty." : "GM: Odblokowano talenty.";
