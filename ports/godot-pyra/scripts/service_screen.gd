@@ -257,10 +257,8 @@ func _ready() -> void:
 	dl_dock.name = "BottomDownloadDock"
 	dl_dock.add_theme_stylebox_override("panel", dock_sb)
 	dl_dock.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
-	dl_dock.offset_left = 36
-	dl_dock.offset_right = -36
-	dl_dock.offset_bottom = -22
-	dl_dock.offset_top = -118
+	dl_dock.z_index = 40
+	dl_dock.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	dl_dock.visible = false
 	var dock_vb := VBoxContainer.new()
 	dock_vb.add_theme_constant_override("separation", 7)
@@ -301,9 +299,27 @@ func _ready() -> void:
 	row_bot.add_child(dl_meta_lbl)
 	dock_vb.add_child(row_bot)
 	add_child(dl_dock)
+	_layout_dl_dock()
 
 	resized.connect(layout_preview)
+	resized.connect(_layout_dl_dock)
 	set_process_unhandled_key_input(true)
+
+func _layout_dl_dock() -> void:
+	var left_pad := 36.0
+	var right_pad := 36.0
+	var bot_pad := 22.0
+	if OS.get_name() == "Android" and get_tree() != null and get_tree().root != null:
+		var safe := DisplayServer.get_display_safe_area()
+		if safe.has_area() and size.x > 0.0 and size.y > 0.0:
+			var local_safe := (get_tree().root.get_screen_transform().affine_inverse() * Rect2(safe)).intersection(Rect2(Vector2.ZERO, size))
+			left_pad = maxf(36.0, local_safe.position.x + 18.0)
+			right_pad = maxf(36.0, size.x - local_safe.end.x + 18.0)
+			bot_pad = maxf(22.0, size.y - local_safe.end.y + 14.0)
+	dl_dock.offset_left = left_pad
+	dl_dock.offset_right = -right_pad
+	dl_dock.offset_bottom = -bot_pad
+	dl_dock.offset_top = -(bot_pad + 96.0)
 
 func read_status() -> Dictionary:
 	if not request.is_valid(): return {}
@@ -409,6 +425,10 @@ static func _fmt_speed(bps: float) -> String:
 static func _fmt_mb(bytes_val: float) -> String:
 	return "%.1f MB" % (bytes_val / 1048576.0)
 
+static func _fmt_streams(count: int) -> String:
+	var n := maxi(1, count)
+	return "1 wątek · bez limitu" if n == 1 else "%d wątki równolegle · bez limitu" % n
+
 func _read_pack_index() -> Dictionary:
 	if FileAccess.file_exists(WORLD_PACK_INDEX):
 		var v: Variant = JSON.parse_string(FileAccess.get_file_as_string(WORLD_PACK_INDEX))
@@ -428,7 +448,7 @@ func _prune_old_world_packs(keep_files: Dictionary) -> void:
 	if dir == null:
 		return
 	for name in dir.get_files():
-		if name.begins_with("world-") and (name.ends_with(".pck") or name.ends_with(".part")) and not keep_files.has(name):
+		if name.begins_with("world-") and (name.ends_with(".pck") or name.ends_with(".part") or ".part.s" in name) and not keep_files.has(name):
 			dir.remove(name)
 
 func _mount_world_pack(id: String, path: String) -> bool:
@@ -515,8 +535,9 @@ func _ensure_world_packs() -> bool:
 		_world_packs_ready = true
 		return true
 
-	# Parallel multi-stream download with bottom progress bar & live MB/s speed (no limit!)
+	# Parallel multi-stream download with unified bottom progress bar & live MB/s speed (no limit!)
 	page_card.hide()
+	_layout_dl_dock()
 	dl_dock.visible = true
 	_start_menu_music()
 	var total_packs := missing.size()
@@ -534,6 +555,15 @@ func _ensure_world_packs() -> bool:
 	var last_t := Time.get_ticks_msec()
 	var last_b := 0.0
 	var smooth_bps := 0.0
+
+	# Single large missing pack (>= 2 MB): split across 4 parallel HTTP Range streams too!
+	if queue.size() == 1 and int(queue[0]["bytes"]) >= 2097152:
+		var single_job: Dictionary = queue[0]
+		var ranged_ok := await _download_world_pack_ranged(online, pack_base, single_job, ok_index)
+		if ranged_ok:
+			queue.clear()
+			completed_bytes = float(single_job["bytes"])
+			completed_count = 1
 
 	while not queue.is_empty() or not active.is_empty():
 		while active.size() < MAX_PARALLEL_PACKS and not queue.is_empty():
@@ -598,7 +628,8 @@ func _ensure_world_packs() -> bool:
 							completed_count += 1
 							valid = true
 				if not valid:
-					DirAccess.remove_absolute(ProjectSettings.globalize_path(part_p))
+					if FileAccess.file_exists(part_p):
+						DirAccess.remove_absolute(ProjectSettings.globalize_path(part_p))
 					job["attempts"] = int(job["attempts"]) + 1
 					if int(job["attempts"]) < 3:
 						queue.append(job)
@@ -622,7 +653,7 @@ func _ensure_world_packs() -> bool:
 		dl_title_lbl.text = "Pobieranie zasobów świata (%d/%d)…" % [mini(completed_count + active.size(), total_packs), total_packs]
 		dl_speed_lbl.text = "⚡ %s" % _fmt_speed(smooth_bps)
 		dl_bytes_lbl.text = "%s / %s · %d%%" % [_fmt_mb(cur_total), _fmt_mb(total_bytes), pct]
-		dl_meta_lbl.text = "%d wątki równolegle · bez limitu" % maxi(1, active.size())
+		dl_meta_lbl.text = _fmt_streams(active.size())
 		await get_tree().process_frame
 
 	dl_dock.visible = false
@@ -641,6 +672,151 @@ func _ensure_world_packs() -> bool:
 	_prune_old_world_packs(keep_files)
 	_world_packs_ready = true
 	return true
+
+func _download_world_pack_ranged(online: Variant, pack_base: String, job: Dictionary, ok_index: Dictionary) -> bool:
+	var want_bytes := int(job["bytes"])
+	var want_sha := str(job["sha256"])
+	var final_p := "%s/%s" % [WORLD_PACK_DIR, str(job["file"])]
+	var part_p := final_p + ".part"
+	var url := str(online.server) + pack_base + str(job["file"])
+	var n := MAX_PARALLEL_PACKS
+	var seg_size := int(ceili(float(want_bytes) / float(n)))
+	var workers: Array[Dictionary] = []
+	var seg_paths: Array[String] = []
+	for i in n:
+		var seg_clean := "%s.s%d" % [part_p, i]
+		if FileAccess.file_exists(seg_clean):
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(seg_clean))
+	for i in n:
+		var s0 := i * seg_size
+		if s0 >= want_bytes:
+			break
+		var s1 := mini(want_bytes - 1, s0 + seg_size - 1)
+		var seg_path := "%s.s%d" % [part_p, i]
+		seg_paths.append(seg_path)
+		var http := HTTPRequest.new()
+		http.download_file = seg_path
+		http.download_chunk_size = 1048576
+		http.body_size_limit = -1
+		http.timeout = 0.0
+		http.use_threads = true
+		add_child(http)
+		var headers := PackedStringArray(["Range: bytes=%d-%d" % [s0, s1]])
+		if str(online.access_token) != "":
+			headers.append("Authorization: Bearer " + str(online.access_token))
+		var w := {"http": http, "path": seg_path, "want": s1 - s0 + 1, "done": false, "result": -1, "code": 0}
+		http.request_completed.connect(func(result: int, code: int, _h: PackedStringArray, _b: PackedByteArray) -> void:
+			w["result"] = result
+			w["code"] = code
+			w["done"] = true)
+		if http.request(url, headers) != OK:
+			for prev in workers:
+				var ph: HTTPRequest = prev["http"]
+				ph.cancel_request()
+				ph.queue_free()
+			http.queue_free()
+			for sp in seg_paths:
+				if FileAccess.file_exists(sp):
+					DirAccess.remove_absolute(ProjectSettings.globalize_path(sp))
+			return false
+		workers.append(w)
+
+	var total_f := float(want_bytes)
+	var last_t := Time.get_ticks_msec()
+	var last_b := 0.0
+	var smooth_bps := 0.0
+	var got_full_200 := ""
+	var failed := false
+	while true:
+		var active_count := 0
+		var cur_b := 0.0
+		for w in workers:
+			var http: HTTPRequest = w["http"]
+			if bool(w["done"]):
+				if int(w["result"]) == HTTPRequest.RESULT_SUCCESS and int(w["code"]) == 200 and got_full_200 == "":
+					got_full_200 = str(w["path"])
+					break
+				if int(w["result"]) != HTTPRequest.RESULT_SUCCESS or int(w["code"]) != 206:
+					failed = true
+				cur_b += float(w["want"])
+			else:
+				active_count += 1
+				cur_b += float(mini(int(w["want"]), http.get_downloaded_bytes()))
+		if got_full_200 != "" or failed or active_count == 0:
+			break
+		var now_t := Time.get_ticks_msec()
+		var dt_ms := now_t - last_t
+		if dt_ms >= 200:
+			var inst_bps := maxf(0.0, cur_b - last_b) / (float(dt_ms) / 1000.0)
+			smooth_bps = inst_bps if smooth_bps <= 1.0 else lerpf(smooth_bps, inst_bps, 0.35)
+			last_t = now_t
+			last_b = cur_b
+		var pct := int(clampf(100.0 * cur_b / total_f, 0.0, 100.0))
+		dl_bar.value = cur_b
+		dl_title_lbl.text = "Pobieranie zasobów świata (1/1)…"
+		dl_speed_lbl.text = "⚡ %s" % _fmt_speed(smooth_bps)
+		dl_bytes_lbl.text = "%s / %s · %d%%" % [_fmt_mb(cur_b), _fmt_mb(total_f), pct]
+		dl_meta_lbl.text = _fmt_streams(active_count)
+		await get_tree().process_frame
+
+	for w in workers:
+		var http: HTTPRequest = w["http"]
+		if not bool(w["done"]):
+			http.cancel_request()
+		http.queue_free()
+
+	var ok := false
+	if got_full_200 != "":
+		var pr := FileAccess.open(got_full_200, FileAccess.READ)
+		var sz := pr.get_length() if pr != null else -1
+		if pr != null:
+			pr.close()
+		if sz == want_bytes and FileAccess.get_sha256(got_full_200) == want_sha:
+			DirAccess.rename_absolute(ProjectSettings.globalize_path(got_full_200), ProjectSettings.globalize_path(final_p))
+			ok = _mount_world_pack(str(job["id"]), final_p)
+	elif not failed:
+		var all_len_ok := true
+		for w in workers:
+			var pr := FileAccess.open(str(w["path"]), FileAccess.READ)
+			var sz := pr.get_length() if pr != null else -1
+			if pr != null:
+				pr.close()
+			if sz != int(w["want"]):
+				all_len_ok = false
+				break
+		if all_len_ok:
+			dl_bar.value = total_f
+			dl_title_lbl.text = "Weryfikacja i uruchamianie zasobów…"
+			dl_bytes_lbl.text = "%s / %s · 100%%" % [_fmt_mb(total_f), _fmt_mb(total_f)]
+			await get_tree().process_frame
+			var out := FileAccess.open(part_p, FileAccess.WRITE)
+			if out != null:
+				var merge_ok := true
+				for sp in seg_paths:
+					var inp := FileAccess.open(sp, FileAccess.READ)
+					if inp == null:
+						merge_ok = false
+						break
+					while inp.get_position() < inp.get_length():
+						var chunk := inp.get_buffer(mini(1048576, inp.get_length() - inp.get_position()))
+						if chunk.is_empty():
+							break
+						out.store_buffer(chunk)
+					inp.close()
+				out.close()
+				if merge_ok and FileAccess.get_sha256(part_p) == want_sha:
+					DirAccess.rename_absolute(ProjectSettings.globalize_path(part_p), ProjectSettings.globalize_path(final_p))
+					ok = _mount_world_pack(str(job["id"]), final_p)
+
+	for sp in seg_paths:
+		if FileAccess.file_exists(sp):
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(sp))
+	if FileAccess.file_exists(part_p):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(part_p))
+	if ok:
+		ok_index[str(job["file"])] = want_sha
+		_save_pack_index(ok_index)
+	return ok
 
 func open_world(full: bool) -> void:
 	if preview != null or char_view != null or choosing_char or _downloading_packs: return

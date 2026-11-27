@@ -26,6 +26,12 @@ var nick_field := LineEdit.new()
 var remember_box := CheckBox.new()
 var show_box := CheckBox.new()
 var offline_mode := false
+var dl_dock := PanelContainer.new()
+var dl_title_lbl := Label.new()
+var dl_speed_lbl := Label.new()
+var dl_bar := ProgressBar.new()
+var dl_bytes_lbl := Label.new()
+var dl_meta_lbl := Label.new()
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -92,6 +98,80 @@ func _ready() -> void:
 	box.add_child(buttons)
 	form.visible = false
 
+	# Unified bottom forged loading dock (same layout & styling across boot, world packs & lands)
+	var dock_sb := StyleBoxFlat.new()
+	dock_sb.bg_color = Color(0.03, 0.035, 0.065, 0.92)
+	dock_sb.border_color = Color(0.78, 0.62, 0.28, 0.88)
+	dock_sb.set_border_width_all(2)
+	dock_sb.set_corner_radius_all(14)
+	dock_sb.content_margin_left = 24
+	dock_sb.content_margin_right = 24
+	dock_sb.content_margin_top = 14
+	dock_sb.content_margin_bottom = 14
+	dl_dock.name = "BottomDownloadDock"
+	dl_dock.add_theme_stylebox_override("panel", dock_sb)
+	dl_dock.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	dl_dock.z_index = 40
+	dl_dock.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	dl_dock.visible = false
+	var dock_vb := VBoxContainer.new()
+	dock_vb.add_theme_constant_override("separation", 7)
+	dl_dock.add_child(dock_vb)
+	var row_top := HBoxContainer.new()
+	row_top.add_theme_constant_override("separation", 12)
+	dl_title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	dl_title_lbl.add_theme_font_size_override("font_size", 19)
+	dl_title_lbl.add_theme_color_override("font_color", Color("f4ead0"))
+	dl_speed_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	dl_speed_lbl.add_theme_font_size_override("font_size", 20)
+	dl_speed_lbl.add_theme_color_override("font_color", Color("ffd46a"))
+	row_top.add_child(dl_title_lbl)
+	row_top.add_child(dl_speed_lbl)
+	dock_vb.add_child(row_top)
+	var bar_bg := StyleBoxFlat.new()
+	bar_bg.bg_color = Color(0.07, 0.09, 0.14, 0.96)
+	bar_bg.border_color = Color(0.45, 0.36, 0.20, 0.85)
+	bar_bg.set_border_width_all(1)
+	bar_bg.set_corner_radius_all(8)
+	var bar_fill := StyleBoxFlat.new()
+	bar_fill.bg_color = Color(0.93, 0.72, 0.24, 1.0)
+	bar_fill.set_corner_radius_all(7)
+	dl_bar.add_theme_stylebox_override("background", bar_bg)
+	dl_bar.add_theme_stylebox_override("fill", bar_fill)
+	dl_bar.custom_minimum_size = Vector2(0, 18)
+	dl_bar.show_percentage = false
+	dock_vb.add_child(dl_bar)
+	var row_bot := HBoxContainer.new()
+	row_bot.add_theme_constant_override("separation", 12)
+	dl_bytes_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	dl_bytes_lbl.add_theme_font_size_override("font_size", 15)
+	dl_bytes_lbl.add_theme_color_override("font_color", Color("d2d9e6"))
+	dl_meta_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	dl_meta_lbl.add_theme_font_size_override("font_size", 14)
+	dl_meta_lbl.add_theme_color_override("font_color", Color("9cb0cc"))
+	row_bot.add_child(dl_bytes_lbl)
+	row_bot.add_child(dl_meta_lbl)
+	dock_vb.add_child(row_bot)
+	add_child(dl_dock)
+	_layout_dl_dock()
+	resized.connect(_layout_dl_dock)
+
+func _layout_dl_dock() -> void:
+	var left_pad := 36.0
+	var right_pad := 36.0
+	var bot_pad := 22.0
+	if OS.get_name() == "Android" and get_tree() != null and get_tree().root != null:
+		var safe := DisplayServer.get_display_safe_area()
+		if safe.has_area() and size.x > 0.0 and size.y > 0.0:
+			var local_safe := (get_tree().root.get_screen_transform().affine_inverse() * Rect2(safe)).intersection(Rect2(Vector2.ZERO, size))
+			left_pad = maxf(36.0, local_safe.position.x + 18.0)
+			right_pad = maxf(36.0, size.x - local_safe.end.x + 18.0)
+			bot_pad = maxf(22.0, size.y - local_safe.end.y + 14.0)
+	dl_dock.offset_left = left_pad
+	dl_dock.offset_right = -right_pad
+	dl_dock.offset_bottom = -bot_pad
+	dl_dock.offset_top = -(bot_pad + 96.0)
+
 func say(title: String, text: String, extra: String = "") -> void:
 	heading.text = title
 	message.text = text
@@ -116,6 +196,17 @@ func offer(options: Array) -> int:
 
 func megabytes(bytes: int) -> String:
 	return "%.1f MB" % (float(bytes) / 1048576.0)
+
+static func _fmt_speed(bps: float) -> String:
+	if bps >= 1048576.0:
+		return "%.2f MB/s" % (bps / 1048576.0)
+	if bps >= 1024.0:
+		return "%.0f KB/s" % (bps / 1024.0)
+	return "0 KB/s"
+
+static func _fmt_streams(count: int) -> String:
+	var n := maxi(1, count)
+	return "1 wątek · bez limitu" if n == 1 else "%d wątki równolegle · bez limitu" % n
 
 # ---- boot ---------------------------------------------------------------------------------------------
 
@@ -338,27 +429,53 @@ func take_cloud_character(slot: int, id: String = "") -> void:
 
 # ---- content ------------------------------------------------------------------------------------------
 
-## Downloads and mounts what the land needs, with a progress bar. Returns true when the land can be entered.
+func _apply_download_progress(title_prefix: String, info: Dictionary) -> void:
+	var total_b := maxf(1.0, float(info.get("total", 1)))
+	var done_b := clampf(float(info.get("done", 0)), 0.0, total_b)
+	var pct := int(clampf(100.0 * done_b / total_b, 0.0, 100.0))
+	var idx := int(info.get("index", 1))
+	var cnt := maxi(1, int(info.get("count", 1)))
+	var bps := float(info.get("bps", 0.0))
+	var streams := int(info.get("streams", 1))
+	dl_bar.max_value = total_b
+	dl_bar.value = done_b
+	dl_title_lbl.text = "%s (%d/%d)…" % [title_prefix, mini(idx, cnt), cnt]
+	dl_speed_lbl.text = "⚡ %s" % _fmt_speed(bps)
+	dl_bytes_lbl.text = "%s / %s · %d%%" % [megabytes(int(done_b)), megabytes(int(total_b)), pct]
+	dl_meta_lbl.text = _fmt_streams(streams)
+
+## Downloads and mounts a set of packs with the unified bottom loading dock. Returns {"ok", "message"}.
+func download_packs(ids: Array, title_prefix: String = "Pobieranie zasobów świata") -> Dictionary:
+	var content := KiNet.content()
+	form.visible = false
+	bar.visible = false
+	var need := content.bytes_to_download(ids)
+	panel.hide()
+	_layout_dl_dock()
+	dl_dock.visible = true
+	dl_bar.max_value = maxf(1.0, float(need))
+	dl_bar.value = 0.0
+	dl_title_lbl.text = "%s…" % title_prefix
+	dl_speed_lbl.text = "⚡ 0 KB/s"
+	dl_bytes_lbl.text = "0.0 MB / %s · 0%%" % megabytes(need)
+	dl_meta_lbl.text = _fmt_streams(mini(4, maxi(1, ids.size())))
+	var handler := func(info: Dictionary) -> void:
+		_apply_download_progress(title_prefix, info)
+	content.progress.connect(handler)
+	var result := await content.ensure(ids)
+	content.progress.disconnect(handler)
+	dl_dock.visible = false
+	panel.show()
+	if not bool(result.ok):
+		detail.text = str(result.get("message", ""))
+	return result
+
+## Downloads and mounts what the land needs, with the unified bottom loading dock. Returns true when the land can be entered.
 func download_land(land: String) -> bool:
 	var content := KiNet.content()
 	form.visible = false
 	var missing := content.missing_for(land)
 	if missing.is_empty():
 		return true
-	var need := content.bytes_to_download(missing)
-	say("Pobieranie świata", "Potrzebne dane krainy: %s" % megabytes(need) if need > 0 else "Wczytywanie danych krainy…")
-	bar.visible = true
-	bar.max_value = maxf(1.0, float(need))
-	bar.value = 0.0
-	var handler := func(info: Dictionary) -> void:
-		bar.max_value = maxf(1.0, float(info.total))
-		bar.value = float(info.done)
-		detail.text = "%s · %d/%d · %s z %s" % [str(info.pack), int(info.index), int(info.count), megabytes(int(info.done)), megabytes(int(info.total))]
-	content.progress.connect(handler)
-	var result := await content.ensure_land(land)
-	content.progress.disconnect(handler)
-	bar.visible = false
-	if not bool(result.ok):
-		detail.text = str(result.get("message", ""))
-		return false
-	return true
+	var result := await download_packs(content.packs_for_land(land), "Pobieranie danych krainy")
+	return bool(result.ok)

@@ -2032,16 +2032,7 @@ func download_everything() -> void:
 		gate.say("Pobieranie", "Wszystkie krainy są już na urządzeniu.")
 		await gate.offer(["ZAMKNIJ"])
 	else:
-		gate.say("Pobieranie świata", "Pobieram wszystkie krainy: %s." % gate.megabytes(need))
-		gate.bar.visible = true
-		var handler := func(info: Dictionary) -> void:
-			gate.bar.max_value = maxf(1.0, float(info.total))
-			gate.bar.value = float(info.done)
-			gate.detail.text = "%s · %s z %s" % [str(info.pack), gate.megabytes(int(info.done)), gate.megabytes(int(info.total))]
-		KiNet.content().progress.connect(handler)
-		var result := await KiNet.content().ensure(all.keys())
-		KiNet.content().progress.disconnect(handler)
-		gate.bar.visible = false
+		var result := await gate.download_packs(all.keys(), "Pobieranie wszystkich krain")
 		gate.say("Pobieranie", "Gotowe." if bool(result.ok) else str(result.get("message", "Nie udało się.")))
 		await gate.offer(["ZAMKNIJ"])
 	gate.queue_free()

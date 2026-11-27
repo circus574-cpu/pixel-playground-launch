@@ -23,4 +23,11 @@ oraz serwerem obecności na żywo [`src/server/godot/live.ts`](../../../src/serv
   - Serwer gry i WebSocket (`aruba-production.yml`): run `46017796584` (commit `dd9843df`) — `Quality gate` ✓ + `ssh-check` ✓.
   - Paczka klienta Android (`godot-content-upload.yml`, `version=1.14.35`, `publish=true`, `activate=true`): run `46021286345` — `packs 38 bad 0 version 1.14.35`, `active_version = 1.14.35` w bazie produkcyjnej.
 
+### 3. Stały dolny pasek ładowania z prędkością i 4-wątkowym strumieniowaniem przy każdym pobieraniu (`OTA 1.14.36` + APK)
+
+- Ujednolicono wygląd i działanie pobierania na **wszystkich ekranach gry** ([`boot.gd`](../../../ports/godot-pyra/scripts/boot.gd), [`service_screen.gd`](../../../ports/godot-pyra/scripts/service_screen.gd), [`content.gd`](../../../ports/godot-pyra/scripts/content.gd), [`gate_screen.gd`](../../../ports/godot-pyra/scripts/gate_screen.gd), [`city_game.gd`](../../../ports/godot-pyra/scripts/city_game.gd)): wszędzie pojawia się identyczny dolny kuty pasek `BottomDownloadDock` z obsługą Android safe-area, prędkością na żywo (`⚡ MB/s`), postępem `MB / MB · %` oraz licznikiem strumieni (`4 wątki równolegle · bez limitu`), bez starej górnej pigułki ani środkowego paska.
+- Dodano prawdziwe **4-wątkowe równoległe pobieranie strumieniowe HTTP `Range: bytes=...` (`206 Partial Content`)** dla każdego pliku `>= 2 MB` (zarówno w `boot.gd` dla `core-c101`, jak i przy pojedynczych paczkach w `service_screen.gd` oraz `content.gd`) z automatycznym płynnym fallbackiem dla serwerów bez `Range` (`200 OK`) i weryfikacją SHA-256.
+- Dodano `scripts/gate_screen.gd` do `HOST_SCRIPTS` w [`build_preview_update.py`](../../../scripts/godot/build_preview_update.py), aby OTA natychmiast aktualizowało także ekran bramy i pobieranie krain.
+
+
 

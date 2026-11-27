@@ -34,6 +34,8 @@ const INTRO_LAST := "res://assets/branding/intro-last.webp"
 const INTRO_SIZE := Vector2(1280.0, 720.0)
 const MAX_CROP := 0.10                  # share of the film's height that may be cut off on a wide screen
 const SKIP_AFTER := 0.8
+const RANGE_STREAMS := 4
+const RANGE_MIN_BYTES := 2097152        # split files >= 2 MB across 4 parallel HTTP Range streams
 const BOOT_MUSIC_PATHS := [
 	"res://assets/audio/music/loading_theme.mp3",
 	"res://service_preview/pyra/assets/audio/music/loading_theme.mp3",
@@ -49,10 +51,11 @@ var quit_button := Button.new()
 var box := VBoxContainer.new()           # title, status and progress on the dark background (shown when no film plays)
 var pill := PanelContainer.new()         # the same status as a small pill over the film
 var pill_label := Label.new()
-var dl_dock := PanelContainer.new()      # bottom forged loading bar with live speed (MB/s)
+var dl_dock := PanelContainer.new()      # unified bottom forged loading bar with live speed (MB/s)
 var dl_status_lbl := Label.new()
 var dl_speed_lbl := Label.new()
 var dl_detail_lbl := Label.new()
+var dl_meta_lbl := Label.new()
 var boot_music := AudioStreamPlayer.new()
 var _boot_music_fade := 1.0
 var _boot_music_target_db := -10.0
@@ -154,6 +157,10 @@ static func format_speed(bytes_per_sec: float) -> String:
 static func format_mb(bytes_val: float) -> String:
 	return "%.1f MB" % (bytes_val / 1048576.0)
 
+static func format_streams(count: int) -> String:
+	var n := maxi(1, count)
+	return "1 wątek · bez limitu" if n == 1 else "%d wątki równolegle · bez limitu" % n
+
 ## Names of the game's scripts as they can be loaded (an export lists `x.gd.remap` or `x.gdc`, a pack adds plain `x.gd`).
 static func script_names(listing: PackedStringArray) -> Array[String]:
 	var seen := {}
@@ -231,64 +238,88 @@ func _ready() -> void:
 	pill.add_child(pill_label)
 	add_child(pill)
 
-	# Bottom loading dock (always at bottom of screen with live download speed)
+	# Unified bottom forged loading dock (same layout & styling across boot, world packs & lands)
 	var dock_sb := StyleBoxFlat.new()
-	dock_sb.bg_color = Color(0.03, 0.04, 0.08, 0.90)
-	dock_sb.border_color = Color(0.76, 0.60, 0.28, 0.85)
+	dock_sb.bg_color = Color(0.03, 0.035, 0.065, 0.92)
+	dock_sb.border_color = Color(0.78, 0.62, 0.28, 0.88)
 	dock_sb.set_border_width_all(2)
 	dock_sb.set_corner_radius_all(14)
-	dock_sb.content_margin_left = 22
-	dock_sb.content_margin_right = 22
-	dock_sb.content_margin_top = 12
+	dock_sb.content_margin_left = 24
+	dock_sb.content_margin_right = 24
+	dock_sb.content_margin_top = 14
 	dock_sb.content_margin_bottom = 14
+	dl_dock.name = "BottomDownloadDock"
 	dl_dock.add_theme_stylebox_override("panel", dock_sb)
 	dl_dock.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
-	dl_dock.offset_left = 36
-	dl_dock.offset_right = -36
-	dl_dock.offset_bottom = -20
-	dl_dock.offset_top = -108
+	dl_dock.z_index = 40
 	dl_dock.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	dl_dock.visible = false
 	var dock_vb := VBoxContainer.new()
-	dock_vb.add_theme_constant_override("separation", 6)
+	dock_vb.add_theme_constant_override("separation", 7)
 	dl_dock.add_child(dock_vb)
 	var top_hb := HBoxContainer.new()
 	top_hb.add_theme_constant_override("separation", 12)
 	dl_status_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	dl_status_lbl.add_theme_font_size_override("font_size", 18)
-	dl_status_lbl.add_theme_color_override("font_color", Color("f3e6c4"))
+	dl_status_lbl.add_theme_font_size_override("font_size", 19)
+	dl_status_lbl.add_theme_color_override("font_color", Color("f4ead0"))
 	dl_speed_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	dl_speed_lbl.add_theme_font_size_override("font_size", 19)
+	dl_speed_lbl.add_theme_font_size_override("font_size", 20)
 	dl_speed_lbl.add_theme_color_override("font_color", Color("ffd46a"))
 	top_hb.add_child(dl_status_lbl)
 	top_hb.add_child(dl_speed_lbl)
 	dock_vb.add_child(top_hb)
 	var bar_bg := StyleBoxFlat.new()
-	bar_bg.bg_color = Color(0.08, 0.10, 0.16, 0.95)
-	bar_bg.border_color = Color(0.42, 0.34, 0.18, 0.8)
+	bar_bg.bg_color = Color(0.07, 0.09, 0.14, 0.96)
+	bar_bg.border_color = Color(0.45, 0.36, 0.20, 0.85)
 	bar_bg.set_border_width_all(1)
 	bar_bg.set_corner_radius_all(8)
 	var bar_fill := StyleBoxFlat.new()
-	bar_fill.bg_color = Color(0.92, 0.72, 0.24, 1.0)
+	bar_fill.bg_color = Color(0.93, 0.72, 0.24, 1.0)
 	bar_fill.set_corner_radius_all(7)
 	bar.add_theme_stylebox_override("background", bar_bg)
 	bar.add_theme_stylebox_override("fill", bar_fill)
-	bar.custom_minimum_size = Vector2(0, 16)
+	bar.custom_minimum_size = Vector2(0, 18)
 	bar.show_percentage = false
 	bar.visible = true
 	dock_vb.add_child(bar)
+	var bot_hb := HBoxContainer.new()
+	bot_hb.add_theme_constant_override("separation", 12)
+	dl_detail_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	dl_detail_lbl.add_theme_font_size_override("font_size", 15)
-	dl_detail_lbl.add_theme_color_override("font_color", Color("b8c4d8"))
-	dock_vb.add_child(dl_detail_lbl)
+	dl_detail_lbl.add_theme_color_override("font_color", Color("d2d9e6"))
+	dl_meta_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	dl_meta_lbl.add_theme_font_size_override("font_size", 14)
+	dl_meta_lbl.add_theme_color_override("font_color", Color("9cb0cc"))
+	bot_hb.add_child(dl_detail_lbl)
+	bot_hb.add_child(dl_meta_lbl)
+	dock_vb.add_child(bot_hb)
 	add_child(dl_dock)
+	_layout_dl_dock()
 
 	boot_music.name = "BootLoadingMusic"
 	add_child(boot_music)
 	resized.connect(fit_video)
+	resized.connect(_layout_dl_dock)
 	start_intro()
 	if not intro_on:
 		start_boot_music()
 	run.call_deferred()
+
+func _layout_dl_dock() -> void:
+	var left_pad := 36.0
+	var right_pad := 36.0
+	var bot_pad := 22.0
+	if OS.get_name() == "Android" and get_tree() != null and get_tree().root != null:
+		var safe := DisplayServer.get_display_safe_area()
+		if safe.has_area() and size.x > 0.0 and size.y > 0.0:
+			var local_safe := (get_tree().root.get_screen_transform().affine_inverse() * Rect2(safe)).intersection(Rect2(Vector2.ZERO, size))
+			left_pad = maxf(36.0, local_safe.position.x + 18.0)
+			right_pad = maxf(36.0, size.x - local_safe.end.x + 18.0)
+			bot_pad = maxf(22.0, size.y - local_safe.end.y + 14.0)
+	dl_dock.offset_left = left_pad
+	dl_dock.offset_right = -right_pad
+	dl_dock.offset_bottom = -bot_pad
+	dl_dock.offset_top = -(bot_pad + 96.0)
 
 func _load_boot_music_stream() -> AudioStream:
 	for p in BOOT_MUSIC_PATHS:
@@ -401,7 +432,7 @@ func end_intro() -> void:
 	last_frame.visible = last_frame.texture != null
 	box.visible = last_frame.texture == null
 	if last_frame.texture != null:
-		pill.visible = not work_done
+		pill.visible = not work_done and not dl_dock.visible
 	start_boot_music()
 
 func _process(delta: float) -> void:
@@ -481,13 +512,184 @@ func ask_server() -> Dictionary:
 	var entry: Variant = packs.get(pack_id(), {})
 	return {"reached": true, "entry": entry if entry is Dictionary else {}, "base": str(json.get("packBase", ""))}
 
+func _update_dock(title: String, cur_b: float, total_b: float, bps: float, streams: int) -> void:
+	var pct := int(clampf(100.0 * cur_b / maxf(1.0, total_b), 0.0, 100.0))
+	bar.max_value = maxf(1.0, total_b)
+	bar.value = clampf(cur_b, 0.0, maxf(1.0, total_b))
+	dl_status_lbl.text = title
+	dl_speed_lbl.text = "⚡ %s" % format_speed(bps)
+	dl_detail_lbl.text = "%s / %s · %d%%" % [format_mb(cur_b), format_mb(total_b), pct]
+	dl_meta_lbl.text = format_streams(streams)
+
+func _verify_file(path: String, want_bytes: int, want_sha: String) -> bool:
+	if not FileAccess.file_exists(path):
+		return false
+	var probe := FileAccess.open(path, FileAccess.READ)
+	var sz := probe.get_length() if probe != null else -1
+	if probe != null:
+		probe.close()
+	return sz == want_bytes and FileAccess.get_sha256(path) == want_sha
+
+func _cleanup_segments(part: String, count: int) -> void:
+	for i in count:
+		var seg := "%s.s%d" % [part, i]
+		if FileAccess.file_exists(seg):
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(seg))
+
+func _merge_segments(part: String, seg_paths: Array[String]) -> bool:
+	var out := FileAccess.open(part, FileAccess.WRITE)
+	if out == null:
+		return false
+	for seg in seg_paths:
+		var inp := FileAccess.open(seg, FileAccess.READ)
+		if inp == null:
+			out.close()
+			return false
+		while inp.get_position() < inp.get_length():
+			var chunk := inp.get_buffer(mini(1048576, inp.get_length() - inp.get_position()))
+			if chunk.is_empty():
+				break
+			out.store_buffer(chunk)
+		inp.close()
+	out.close()
+	return true
+
+func _download_ranged(url: String, part: String, want_bytes: int, want_sha: String) -> bool:
+	var n := RANGE_STREAMS
+	var seg_size := int(ceili(float(want_bytes) / float(n)))
+	var workers: Array[Dictionary] = []
+	var seg_paths: Array[String] = []
+	_cleanup_segments(part, n)
+	for i in n:
+		var s0 := i * seg_size
+		if s0 >= want_bytes:
+			break
+		var s1 := mini(want_bytes - 1, s0 + seg_size - 1)
+		var seg_path := "%s.s%d" % [part, i]
+		seg_paths.append(seg_path)
+		var http := HTTPRequest.new()
+		http.download_file = seg_path
+		http.download_chunk_size = 1048576
+		http.body_size_limit = -1
+		http.timeout = 0.0
+		http.use_threads = true
+		add_child(http)
+		var w := {
+			"http": http,
+			"path": seg_path,
+			"want": s1 - s0 + 1,
+			"done": false,
+			"result": -1,
+			"code": 0,
+		}
+		http.request_completed.connect(func(result: int, code: int, _h: PackedStringArray, _b: PackedByteArray) -> void:
+			w["result"] = result
+			w["code"] = code
+			w["done"] = true)
+		var hdrs := PackedStringArray(["Range: bytes=%d-%d" % [s0, s1]])
+		if http.request(url, hdrs) != OK:
+			for prev in workers:
+				var ph: HTTPRequest = prev["http"]
+				ph.cancel_request()
+				ph.queue_free()
+			http.queue_free()
+			_cleanup_segments(part, n)
+			return false
+		workers.append(w)
+
+	var total_f := float(want_bytes)
+	var last_t := Time.get_ticks_msec()
+	var last_b := 0.0
+	var smooth_bps := 0.0
+	var got_full_200 := ""
+	var failed := false
+	while true:
+		var active_count := 0
+		var cur_b := 0.0
+		for w in workers:
+			var http: HTTPRequest = w["http"]
+			if bool(w["done"]):
+				if int(w["result"]) == HTTPRequest.RESULT_SUCCESS and int(w["code"]) == 200 and got_full_200 == "":
+					got_full_200 = str(w["path"])
+					break
+				if int(w["result"]) != HTTPRequest.RESULT_SUCCESS or int(w["code"]) != 206:
+					failed = true
+				cur_b += float(w["want"])
+			else:
+				active_count += 1
+				cur_b += float(mini(int(w["want"]), http.get_downloaded_bytes()))
+		if got_full_200 != "" or failed or active_count == 0:
+			break
+		var now_t := Time.get_ticks_msec()
+		var dt_ms := now_t - last_t
+		if dt_ms >= 200:
+			var inst_bps := maxf(0.0, cur_b - last_b) / (float(dt_ms) / 1000.0)
+			smooth_bps = inst_bps if smooth_bps <= 1.0 else lerpf(smooth_bps, inst_bps, 0.35)
+			last_t = now_t
+			last_b = cur_b
+		_update_dock("Pobieram aktualizację gry…", cur_b, total_f, smooth_bps, active_count)
+		await get_tree().process_frame
+
+	for w in workers:
+		var http: HTTPRequest = w["http"]
+		if not bool(w["done"]):
+			http.cancel_request()
+		http.queue_free()
+
+	if got_full_200 != "":
+		if _verify_file(got_full_200, want_bytes, want_sha):
+			DirAccess.rename_absolute(ProjectSettings.globalize_path(got_full_200), ProjectSettings.globalize_path(part))
+			_cleanup_segments(part, n)
+			return true
+		_cleanup_segments(part, n)
+		return false
+
+	if failed:
+		_cleanup_segments(part, n)
+		return false
+
+	for w in workers:
+		var pr := FileAccess.open(str(w["path"]), FileAccess.READ)
+		var got_sz := pr.get_length() if pr != null else -1
+		if pr != null:
+			pr.close()
+		if got_sz != int(w["want"]):
+			_cleanup_segments(part, n)
+			return false
+
+	_update_dock("Weryfikacja i uruchamianie aktualizacji…", total_f, total_f, smooth_bps, workers.size())
+	await get_tree().process_frame
+	var merged := _merge_segments(part, seg_paths)
+	_cleanup_segments(part, n)
+	return merged and _verify_file(part, want_bytes, want_sha)
+
 ## Downloads the offered core into user://content, verifies it. {"ok": bool}
 func download(entry: Dictionary, base: String) -> Dictionary:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(DIR))
 	var final_path := file_path(str(entry.file))
 	var part := final_path + ".part"
-	var total_bytes := maxf(1.0, float(entry.bytes))
+	var want_bytes := int(entry.bytes)
+	var want_sha := str(entry.sha256)
+	var total_bytes := maxf(1.0, float(want_bytes))
+	var url := server_url() + base + str(entry.file)
+	_layout_dl_dock()
+	var prev_pill := pill.visible
+	pill.visible = false
+	dl_dock.visible = true
+	bar.visible = true
+	_update_dock("Pobieram aktualizację gry…", 0.0, total_bytes, 0.0, RANGE_STREAMS if want_bytes >= RANGE_MIN_BYTES else 1)
+
 	for attempt in 3:
+		# Fast path: 4 parallel HTTP Range streams for packs >= 2 MB (first 2 attempts), falling back to single-stream.
+		if want_bytes >= RANGE_MIN_BYTES and attempt < 2:
+			if await _download_ranged(url, part, want_bytes, want_sha):
+				DirAccess.rename_absolute(ProjectSettings.globalize_path(part), ProjectSettings.globalize_path(final_path))
+				dl_dock.visible = false
+				pill.visible = false
+				return {"ok": true}
+			if FileAccess.file_exists(part):
+				DirAccess.remove_absolute(ProjectSettings.globalize_path(part))
+
 		var http := HTTPRequest.new()
 		http.download_file = part
 		http.download_chunk_size = 1048576
@@ -495,7 +697,7 @@ func download(entry: Dictionary, base: String) -> Dictionary:
 		http.timeout = 0.0
 		http.use_threads = true
 		add_child(http)
-		if http.request(server_url() + base + str(entry.file)) != OK:
+		if http.request(url) != OK:
 			http.queue_free()
 			await get_tree().create_timer(1.0).timeout
 			continue
@@ -504,9 +706,6 @@ func download(entry: Dictionary, base: String) -> Dictionary:
 			box.result = result
 			box.code = code
 			box.finished = true)
-		dl_dock.visible = true
-		bar.visible = true
-		bar.max_value = total_bytes
 		var last_t := Time.get_ticks_msec()
 		var last_b := 0
 		var smooth_bps := 0.0
@@ -519,27 +718,20 @@ func download(entry: Dictionary, base: String) -> Dictionary:
 				smooth_bps = inst_bps if smooth_bps <= 1.0 else lerpf(smooth_bps, inst_bps, 0.35)
 				last_t = now_t
 				last_b = cur_b
-			var pct := int(clampf(100.0 * float(cur_b) / total_bytes, 0.0, 100.0))
-			var spd_str := format_speed(smooth_bps)
-			bar.value = float(cur_b)
-			dl_status_lbl.text = "Pobieram aktualizację gry… %d%%" % pct
-			dl_speed_lbl.text = "⚡ %s" % spd_str
-			dl_detail_lbl.text = "%s / %s · pełna prędkość (bez limitu)" % [format_mb(float(cur_b)), format_mb(total_bytes)]
-			say("Pobieram aktualizację gry… %d%% · %s" % [pct, spd_str])
+			_update_dock("Pobieram aktualizację gry…", float(cur_b), total_bytes, smooth_bps, 1)
 			await get_tree().process_frame
 		http.queue_free()
-		dl_dock.visible = false
-		bar.visible = false
-		if int(box.result) == HTTPRequest.RESULT_SUCCESS and int(box.code) == 200 and FileAccess.file_exists(part):
-			var probe := FileAccess.open(part, FileAccess.READ)
-			var size := probe.get_length() if probe != null else -1
-			if probe != null:
-				probe.close()
-			if size == int(entry.bytes) and FileAccess.get_sha256(part) == str(entry.sha256):
-				DirAccess.rename_absolute(ProjectSettings.globalize_path(part), ProjectSettings.globalize_path(final_path))
-				return {"ok": true}
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(part))
+		if int(box.result) == HTTPRequest.RESULT_SUCCESS and int(box.code) == 200 and _verify_file(part, want_bytes, want_sha):
+			_update_dock("Weryfikacja i uruchamianie aktualizacji…", total_bytes, total_bytes, smooth_bps, 1)
+			DirAccess.rename_absolute(ProjectSettings.globalize_path(part), ProjectSettings.globalize_path(final_path))
+			dl_dock.visible = false
+			pill.visible = false
+			return {"ok": true}
+		if FileAccess.file_exists(part):
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(part))
 		await get_tree().create_timer(1.0 * float(attempt + 1)).timeout
+	dl_dock.visible = false
+	pill.visible = prev_pill and not work_done
 	return {"ok": false}
 
 ## "" when every script of the game compiles, otherwise the first one that does not.
@@ -555,7 +747,7 @@ func remove_old_cores(keep: Array) -> void:
 	if dir == null:
 		return
 	for name in dir.get_files():
-		if name.begins_with("core-") and (name.ends_with(".pck") or name.ends_with(".part")) and not keep.has(name):
+		if name.begins_with("core-") and (name.ends_with(".pck") or name.ends_with(".part") or ".part.s" in name) and not keep.has(name):
 			dir.remove(name)
 
 func run() -> void:

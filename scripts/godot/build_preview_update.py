@@ -16,13 +16,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 PREFIX = 'service_preview/pyra/'
-# 1.14.13+: host entry/character/race/title/content scripts ship in core-c101 so OTA updates UI, parallel downloader & menu music.
+# 1.14.13+: host entry/character/race/title/content/gate scripts ship in core-c101 so OTA updates UI, parallel downloader & menu music.
 HOST_SCRIPTS = (
     'scripts/service_screen.gd',
     'scripts/character_select.gd',
     'scripts/race_screen.gd',
     'scripts/title_screen.gd',
     'scripts/content.gd',
+    'scripts/gate_screen.gd',
 )
 ALLOWED = ('res://' + PREFIX, 'res://.godot/imported/') + tuple('res://' + h for h in HOST_SCRIPTS)
 RAW_RUNTIME_EXTS = {'.webp', '.png', '.jpg', '.jpeg', '.mp3'}
