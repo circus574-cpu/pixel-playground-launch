@@ -312,4 +312,14 @@ service-access.test.ts`), relokacja OTA `prepare_service_preview.py` (`1564` pli
 `res://service_preview/pyra/`), pełne sprawdzenie 3 konfiguracji TypeScript, ESLint,
 `check_documentation.py` oraz wizualna weryfikacja 5 zrzutów OpenGL3 `1600×720`.
 
+### Wdrożenie Etapu 3 + Etapu 4 i OTA `1.14.34` (po akceptacji właściciela)
 
+Po wyraźnej decyzji właściciela z 2026-11-26 scalono Etap 3 (`fa19aa02`) i Etap 4
+(`1a16d9c1`) razem do gałęzi `feat/isometric-world-2d-terrain3d-20261118` (`d6ef1a4c`),
+zbudowano paczkę `deliveries/godot-content-1.14.34` (`core-c101-3d9a69f77939.pck`,
+14.26 MB, 433 pliki, z zachowaniem wszystkich 8 paczek światów i 29 paczek
+historycznych, `rebuilt_world_packs = 0`) oraz przeprowadzono pełne wdrożenie
+produkcyjne:
+- `multiplayer-database.yml` (`45950015099`) — kopia zapasowa i migracja `011-godot-android-islands.sql` (`success`).
+- `aruba-production.yml` (`45950086536`) — pełna bramka jakości i wdrożenie backendu Coolify na Aruba VPS (`success`).
+- `godot-content-upload.yml` (`45952193884`) — wgranie, publikacja i aktywacja `OTA 1.14.34` (`success`).
