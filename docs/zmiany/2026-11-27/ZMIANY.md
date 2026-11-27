@@ -18,5 +18,9 @@ oraz serwerem obecności na żywo [`src/server/godot/live.ts`](../../../src/serv
 ### 2. Paczka modularna `OTA 1.14.35` i wdrożenie produkcyjne
 
 - Zbudowano przyrostową paczkę `OTA 1.14.35` na bazie `1.14.34` (`deliveries/godot-content-1.14.35/`, `core-c101-29ab31586e8c.pck`, `18,11 MiB`, `441` plików wraz z 8 arkuszami `assets/gm/gm-hero3d-*.webp`), zachowując wszystkie 8 paczek `world-*` bez przebudowy (`reused_world_packs = 8`, `rebuilt_world_packs = 0`, `unchanged_lands = true`, bez zmiany APK i bez migracji bazy danych).
-- Weryfikacja: `build_preview_update.py --gemini --version 1.14.35 --base 1.14.34`, `npm run typecheck`, `npm run lint`, `npm run test`, `npm run assets:check`, `npm run build`, `python3 scripts/docs/check_documentation.py`.
+- Weryfikacja: `build_preview_update.py --gemini --version 1.14.35 --base 1.14.34`, `npm run typecheck`, `npm run lint`, `npm run test` (`2234/2234` + `40` testów PG17/WebSocket), `npm run assets:check`, `npm run build`, `python3 scripts/docs/check_documentation.py`.
+- **Wdrożenie produkcyjne LIVE (po zgodzie właściciela):**
+  - Serwer gry i WebSocket (`aruba-production.yml`): run `46017796584` (commit `dd9843df`) — `Quality gate` ✓ + `ssh-check` ✓.
+  - Paczka klienta Android (`godot-content-upload.yml`, `version=1.14.35`, `publish=true`, `activate=true`): run `46021286345` — `packs 38 bad 0 version 1.14.35`, `active_version = 1.14.35` w bazie produkcyjnej.
+
 
