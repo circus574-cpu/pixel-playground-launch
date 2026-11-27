@@ -227,6 +227,12 @@ var nearest_npc_agent: Dictionary = {}
 var active_talk_agent: Dictionary = {}
 var gm_speed_mult := 1.0
 var gm_noclip := false
+var gm_form_active := false
+var gm_flying := false
+var gm_boost_active := false
+var _gm_trail_accum := 0.0
+var _gm_last_trail_pos := Vector2.ZERO
+const GM_BOOST_MULT := 3.5
 var gm_map_teleport_mode := false
 var gm_minimap_teleport := false
 var zoom_level := 1.15
@@ -430,12 +436,17 @@ func _refresh_hero_nameplate() -> void:
 	var base_name: String = start_name if start_name != "" else str(h_info[1])
 	if rpg_hud != null and not str(rpg_hud.hero_custom_name).is_empty():
 		base_name = str(rpg_hud.hero_custom_name)
+	if gm_form_active and can_use_gm():
+		base_name = "✦ [GM] %s" % base_name
 	var gtag := str(live_link.guild_tag) if live_link != null else ""
 	var desired := ("%s\n<%s>" % [base_name, gtag]) if not gtag.is_empty() else base_name
 	if hero.label.text != desired:
 		hero.label.text = desired
 		var dy: float = float(hero.display.y) if hero.get("display") is Vector2 else 110.0
-		hero.label.position = Vector2(-230, -dy - (54 if not gtag.is_empty() else 36))
+		var base_y := -dy - (54.0 if not gtag.is_empty() else 36.0)
+		hero._base_label_y = base_y
+		var lift: float = float(hero.get_gm_lift_px()) if hero.has_method("get_gm_lift_px") else 0.0
+		hero.label.position = Vector2(-260, base_y - lift)
 
 func _live_snapshot() -> Dictionary:
 	var facing := 2
@@ -448,6 +459,7 @@ func _live_snapshot() -> Dictionary:
 		if Time.get_ticks_msec() / 1000.0 < until:
 			pose = str(hero.one_shot_clip)
 			action = int(round(until * 1000.0))
+	var gm_on := gm_form_active and can_use_gm()
 	return {
 		"land": current_land,
 		"x": hero_pos.x,
@@ -456,6 +468,9 @@ func _live_snapshot() -> Dictionary:
 		"pose": pose,
 		"action": action,
 		"ki": ki_mode_timer > 0.0,
+		"gm": gm_on,
+		"fly": gm_on and gm_flying,
+		"boost": gm_on and gm_boost_active,
 		"visible": not in_interior and not in_labyrinth and not is_booting,
 	}
 
@@ -578,7 +593,7 @@ func _can_save_world_point(pos: Vector2) -> bool:
 	return pos.is_finite() and not walkable.is_empty() and is_walkable(pos.x, pos.y)
 
 func save_server_position() -> void:
-	if not is_server_authoritative() or is_booting or gm_noclip or _position_pending:
+	if not is_server_authoritative() or is_booting or gm_noclip or gm_flying or _position_pending:
 		return
 	if str(server_character.get("land", "")) != current_land or not _can_save_world_point(hero_pos):
 		return
@@ -617,19 +632,33 @@ func trigger_server_ping() -> void:
 	)
 
 func rebuild_hero(land: String) -> void:
+	var prev_dir := "down"
+	var prev_pos := Vector2.ZERO
 	if hero != null and is_instance_valid(hero):
+		prev_dir = str(hero.direction)
+		prev_pos = hero.position
 		hero.queue_free()
 	hero = ActorScript.new()
 	var actor_land := hero_race_land if hero_race_land != "" else land
 	var h_info: Array = HERO_ACTORS.get(actor_land, ["pyra.hero", "Ignis"])
-	var h_key: String = str(h_info[0])
+	var use_gm := gm_form_active and can_use_gm() and actors_db.has("gm.hero")
+	var h_key: String = "gm.hero" if use_gm else str(h_info[0])
 	var h_name: String = start_name if start_name != "" else str(h_info[1])
 	if actors_db.has(h_key):
 		var h_def: Dictionary = actors_db[h_key]
 		hero.setup(h_def, h_name, false, true, "hero")
-	hero.ki_race = _hero_race_key()
+	hero.ki_race = "gm" if use_gm else _hero_race_key()
+	hero.is_gm_avatar = use_gm
+	hero.direction = prev_dir
 	hero.scale = Vector2(0.45, 0.45)
+	if prev_pos != Vector2.ZERO:
+		hero.position = prev_pos
 	ysort.add_child(hero)
+	if use_gm:
+		hero.set_gm_flight(gm_flying, true)
+		hero.set_gm_boost(gm_boost_active)
+	if ki_mode_timer > 0.0:
+		hero.set_ki_mode(true, ki_mode_timer)
 	_refresh_hero_nameplate()
 
 func surface_color_for(land: String) -> Vector3:
@@ -1588,7 +1617,7 @@ func teleport_to_world_pos(land: String, wx: float, wz: float, show_fx: bool = t
 		switch_region(land)
 	var tx := clampf(wx, 18.0, world_size - 18.0)
 	var tz := clampf(wz, 18.0, world_size - 18.0)
-	if not gm_noclip and not is_walkable(tx, tz):
+	if not gm_noclip and not gm_flying and not is_walkable(tx, tz):
 		# Snap cleanly to nearest walkable dry point within 120m so tap-on-map never gets stuck in water!
 		var found := false
 		for rad in range(4, 126, 6):
@@ -2916,13 +2945,16 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 	if skill_idx == 0:
 		var combo_clips := ["attack", "attack2", "attack3", "finisher"]
 		var cur_step := combo_step % 4
-		var chosen := str(combo_clips[cur_step])
+		var chosen := "heavy_strike" if (gm_form_active and hero != null and bool(hero.is_gm_avatar)) else str(combo_clips[cur_step])
 		combo_step = (combo_step + 1) % 4
 		combo_reset_t = 2.4
 		if hero != null and hero.has_method("play_action"):
-			hero.play_action(chosen, "attack")
+			hero.play_action(chosen, "heavy_strike" if gm_form_active else "attack")
 		if combat_vfx != null and hero != null:
-			if is_ranged_race and is_instance_valid(target_node):
+			if gm_form_active and bool(hero.is_gm_avatar) and combat_vfx.has_method("spawn_gm_heavy_strike"):
+				combat_vfx.spawn_gm_heavy_strike(hero.position, aim_dir)
+				trigger_camera_shake(8.0, 0.24)
+			elif is_ranged_race and is_instance_valid(target_node):
 				combat_vfx.spawn_bolt(hero.position, target_node.position, race_k, 1.0)
 			else:
 				combat_vfx.spawn_slash(hero.position, aim_dir, race_k, 1.15 if cur_step == 3 else 0.92, cur_step % 2 == 1)
@@ -2955,13 +2987,17 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 			if not near_circle:
 				_spawn_ground_circle(hero_pos, 118.0, 6.0, "light", 0.10, 0.22 if _hero_has_talent("B6") else 0.0, 0.0)
 	else:
-		var clip_name := str(spec.get("clip", "skill"))
-		var fb_name := str(spec.get("fb", "skill"))
+		var is_gm_hero := gm_form_active and hero != null and bool(hero.is_gm_avatar)
+		var clip_name := "ki_blast" if is_gm_hero else str(spec.get("clip", "skill"))
+		var fb_name := "ki_blast" if is_gm_hero else str(spec.get("fb", "skill"))
 		if hero != null and hero.has_method("play_action"):
 			hero.play_action(clip_name, fb_name)
 		if audio != null:
 			audio.play_race_skill(race_k, nid)
 		var end_pos: Vector2 = (target_node.position as Vector2) if is_instance_valid(target_node) else (hero.position + aim_dir * 165.0)
+		if is_gm_hero and combat_vfx != null and combat_vfx.has_method("spawn_gm_ki_blast"):
+			combat_vfx.spawn_gm_ki_blast(hero.position, end_pos, float(hero.get_gm_lift_px()))
+			trigger_camera_shake(9.5, 0.30)
 
 		if race_k == "legend":
 			if nid == "A1":
@@ -3280,6 +3316,10 @@ func enter_building(b: Dictionary) -> void:
 	if dialogue_strip != null:
 		dialogue_strip.close_dialogue(false)
 	active_talk_agent = {}
+	if gm_flying:
+		gm_flying = false
+		if hero != null and hero.has_method("set_gm_flight"):
+			hero.set_gm_flight(false, true)
 	in_interior = true
 	map_expanded = false
 	atlas_expanded = false
@@ -3570,9 +3610,13 @@ func _refresh_gm_access() -> void:
 		return
 	_had_gm_access = allowed
 	if not allowed:
+		var was_gm_form := gm_form_active
 		gm_open = false
 		gm_speed_mult = 1.0
 		gm_noclip = false
+		gm_form_active = false
+		gm_flying = false
+		gm_boost_active = false
 		gm_map_teleport_mode = false
 		gm_minimap_teleport = false
 		if _gm_ki_preview:
@@ -3580,12 +3624,123 @@ func _refresh_gm_access() -> void:
 			ki_mode_timer = 0.0
 			if hero != null:
 				hero.set_ki_mode(false)
+		if was_gm_form:
+			if not is_walkable(hero_pos.x, hero_pos.y):
+				hero_pos = _find_safe_land_spot(hero_pos)
+			rebuild_hero(get_theme_land(current_land))
+			sync_hero(true)
 		layout_minimap()
 		if atlas_overlay != null:
 			atlas_overlay._refresh_mode_buttons()
 			atlas_overlay.queue_redraw()
 	if rpg_hud != null:
 		rpg_hud._refresh_visuals()
+
+func _find_safe_land_spot(origin: Vector2) -> Vector2:
+	if is_walkable(origin.x, origin.y):
+		return origin
+	for rad in range(6, 180, 6):
+		for ak in range(16):
+			var ang := TAU * float(ak) / 16.0
+			var cx := clampf(origin.x + cos(ang) * float(rad), 18.0, world_size - 18.0)
+			var cz := clampf(origin.y + sin(ang) * float(rad), 18.0, world_size - 18.0)
+			if is_walkable(cx, cz):
+				return Vector2(cx, cz)
+	return capital_center
+
+func toggle_gm_form(force_on: Variant = null) -> bool:
+	if not can_use_gm():
+		return false
+	if in_labyrinth:
+		show_combat_toast("Forma GameMastera dostępna jest na powierzchni świata.", Color(1.0, 0.78, 0.36))
+		return false
+	var want: bool = (not gm_form_active) if force_on == null else bool(force_on)
+	if want == gm_form_active:
+		return gm_form_active
+	if not want:
+		if gm_flying:
+			toggle_gm_flight(false)
+		gm_boost_active = false
+	gm_form_active = want
+	rebuild_hero(get_theme_land(current_land))
+	sync_hero(true)
+	if hero != null and combat_vfx != null:
+		if gm_form_active:
+			combat_vfx.spawn_transform_pillar(hero.position, "gm")
+			trigger_camera_shake(11.0, 0.45)
+			if audio != null:
+				audio.sfx("development/ki-charge", 0.92)
+			show_combat_toast("✦ FORMA GAMEMASTERA AKTYWNA — LOT [L], PRZYSPIESZENIE [U]!", Color(0.54, 0.96, 1.0))
+		else:
+			combat_vfx.spawn_teleport_flash(hero.position, _hero_race_key())
+			show_combat_toast("Powrócono do zwykłej postaci bohatera.", Color(1.0, 0.88, 0.56))
+	if rpg_hud != null:
+		rpg_hud._refresh_visuals()
+	return gm_form_active
+
+func toggle_gm_flight(force_on: Variant = null) -> bool:
+	if not can_use_gm():
+		return false
+	if in_interior or in_labyrinth:
+		show_combat_toast("Lot GameMastera działa na otwartej mapie świata.", Color(1.0, 0.78, 0.36))
+		return false
+	var want: bool = (not gm_flying) if force_on == null else bool(force_on)
+	if want and not gm_form_active:
+		toggle_gm_form(true)
+	if want == gm_flying:
+		return gm_flying
+	gm_flying = want
+	if gm_flying:
+		if hero != null and hero.has_method("set_gm_flight"):
+			hero.set_gm_flight(true, false)
+		_gm_last_trail_pos = hero.position if hero != null else Vector2.ZERO
+		if combat_vfx != null and hero != null and combat_vfx.has_method("spawn_gm_liftoff"):
+			combat_vfx.spawn_gm_liftoff(hero.position)
+		trigger_camera_shake(7.0, 0.30)
+		if audio != null:
+			audio.sfx("development/ki-charge", 0.75, 0.14)
+		show_combat_toast("🕊 LOT GAMEMASTERA — lecisz nad ziemią i omijasz obiekty!", Color(0.46, 0.96, 1.0))
+	else:
+		if not gm_noclip and not is_walkable(hero_pos.x, hero_pos.y):
+			hero_pos = _find_safe_land_spot(hero_pos)
+			sync_hero(true)
+		if hero != null and hero.has_method("set_gm_flight"):
+			hero.set_gm_flight(false, false)
+		if combat_vfx != null and hero != null and combat_vfx.has_method("spawn_gm_land"):
+			combat_vfx.spawn_gm_land(hero.position)
+		trigger_camera_shake(5.5, 0.22)
+		if audio != null:
+			audio.sfx("ui/click", 0.72, -0.18)
+		show_combat_toast("✦ Wylądowano na ziemi.", Color(1.0, 0.90, 0.54))
+	if rpg_hud != null:
+		rpg_hud._refresh_visuals()
+	return gm_flying
+
+func toggle_gm_boost(force_on: Variant = null) -> bool:
+	if not can_use_gm():
+		return false
+	var want: bool = (not gm_boost_active) if force_on == null else bool(force_on)
+	if want and not gm_form_active:
+		toggle_gm_form(true)
+	if want == gm_boost_active:
+		return gm_boost_active
+	gm_boost_active = want
+	if hero != null and hero.has_method("set_gm_boost"):
+		hero.set_gm_boost(gm_boost_active)
+	if gm_boost_active:
+		_gm_last_trail_pos = hero.position if hero != null else Vector2.ZERO
+		if combat_vfx != null and hero != null and combat_vfx.has_method("spawn_gm_boost_burst"):
+			var lift_px: float = float(hero.get_gm_lift_px()) if hero.has_method("get_gm_lift_px") else 0.0
+			combat_vfx.spawn_gm_boost_burst(hero.position, lift_px)
+		trigger_camera_shake(5.5, 0.20)
+		if audio != null:
+			audio.sfx("ui/teleport", 0.72, 0.22)
+		show_combat_toast("⚡ PRZYSPIESZENIE GAMEMASTERA (3.5×) AKTYWNE!", Color(1.0, 0.88, 0.34))
+	else:
+		show_combat_toast("⚡ Przyspieszenie GameMastera wyłączone.", Color(0.84, 0.88, 0.96))
+	if rpg_hud != null:
+		rpg_hud._refresh_visuals()
+	return gm_boost_active
 
 func toggle_gm_panel(force_open: Variant = null) -> void:
 	if (force_open == null or bool(force_open)) and not can_use_gm():
@@ -3657,6 +3812,15 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		if (event.keycode == KEY_F1 or event.keycode == KEY_P) and can_use_gm():
 			toggle_gm_panel()
+			return
+		elif (event.keycode == KEY_F2 or event.keycode == KEY_Y) and can_use_gm():
+			toggle_gm_form()
+			return
+		elif event.keycode == KEY_L and can_use_gm():
+			toggle_gm_flight()
+			return
+		elif event.keycode == KEY_U and can_use_gm():
+			toggle_gm_boost()
 			return
 		elif event.keycode == KEY_B and live_panel != null and live_panel.trigger.visible:
 			live_panel.open_chat()
@@ -4224,8 +4388,14 @@ func step_world(delta: float) -> void:
 			buff_spd *= 1.08
 		var debuff_spd := float(boss_ai.get_hero_slow_mult()) if boss_ai != null else 1.0
 		var analog_mult := lerpf(0.45, 1.0, move_mag)
+		var eff_gm_spd := gm_speed_mult
+		if gm_form_active and can_use_gm():
+			if gm_boost_active:
+				eff_gm_spd = maxf(gm_speed_mult, GM_BOOST_MULT)
+			elif gm_flying:
+				eff_gm_spd = maxf(gm_speed_mult, 1.45)
 		if debuff_spd > 0.01:
-			try_move(world_dir * SPEED * analog_mult * gm_speed_mult * stat_spd_mult * road_mult * ki_spd_mult * buff_spd * debuff_spd * delta)
+			try_move(world_dir * SPEED * analog_mult * eff_gm_spd * stat_spd_mult * road_mult * ki_spd_mult * buff_spd * debuff_spd * delta)
 
 	# Out-of-Combat passive HP/KI recovery (+4% HP/s + talent bonus, +6% KI/s after 5s OOC)
 	if world_time - last_combat_time >= 5.0 and rpg_hud != null and float(rpg_hud.hero_hp) > 0.0:
@@ -4256,11 +4426,22 @@ func step_world(delta: float) -> void:
 	var in_safe_now := hero_pos.distance_to(capital_center) <= safe_city_radius
 	var audio_theme := get_theme_land(current_land)
 	if audio != null:
-		audio.step(delta, is_moving, audio_theme, false, is_running, is_in_water(hero_pos.x, hero_pos.y), in_safe_now)
+		audio.step(delta, is_moving and not gm_flying, audio_theme, false, is_running, is_in_water(hero_pos.x, hero_pos.y), in_safe_now)
 		audio.play_ambience(audio_theme, in_safe_now)
 	if hero != null:
 		hero.animate(screen_dir, is_running, lerpf(0.62, 1.0, move_mag))
 	sync_hero()
+	if gm_form_active and (gm_flying or gm_boost_active) and is_moving and hero != null and combat_vfx != null:
+		_gm_trail_accum += delta
+		var trail_step := 0.045 if gm_boost_active else 0.075
+		if _gm_trail_accum >= trail_step:
+			_gm_trail_accum = 0.0
+			if _gm_last_trail_pos != Vector2.ZERO and _gm_last_trail_pos.distance_to(hero.position) > 6.0 and combat_vfx.has_method("spawn_gm_flight_trail"):
+				var lift_px: float = float(hero.get_gm_lift_px()) if hero.has_method("get_gm_lift_px") else 0.0
+				combat_vfx.spawn_gm_flight_trail(_gm_last_trail_pos, hero.position, lift_px, gm_boost_active)
+			_gm_last_trail_pos = hero.position
+	elif hero != null:
+		_gm_last_trail_pos = hero.position
 	_step_ground_loot(delta)
 
 	var dlg_open: bool = dialogue_strip != null and bool(dialogue_strip.is_open)
@@ -4474,7 +4655,7 @@ func _check_ocean_crossing() -> bool:
 	return true
 
 func try_move(step: Vector2) -> void:
-	if gm_noclip:
+	if gm_noclip or gm_flying:
 		hero_pos = Vector2(clampf(hero_pos.x + step.x, 12.0, world_size - 12.0), clampf(hero_pos.y + step.y, 12.0, world_size - 12.0))
 		_check_ocean_crossing()
 		return

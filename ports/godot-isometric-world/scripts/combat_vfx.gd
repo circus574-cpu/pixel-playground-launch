@@ -23,6 +23,11 @@ const RACE_COLORS := {
 		"core": Color(0.88, 0.98, 1.0, 1.0),
 		"edge": Color(0.76, 0.34, 1.0, 1.0),
 	},
+	"gm": {
+		"main": Color(0.38, 0.92, 1.0, 1.0),
+		"core": Color(0.98, 0.99, 1.0, 1.0),
+		"edge": Color(1.0, 0.82, 0.28, 1.0),
+	},
 }
 
 static var _glow_tex: Texture2D
@@ -379,6 +384,94 @@ func spawn_channel_ring(pos: Vector2, race_k: String, dur: float = 1.6) -> void:
 		"dur": maxf(dur, 0.5),
 	})
 	queue_redraw()
+
+func spawn_gm_liftoff(pos: Vector2) -> void:
+	var pal := _pal("gm")
+	var motes: Array[Dictionary] = []
+	for i in 26:
+		var ang := (float(i) / 26.0) * TAU + randf_range(-0.12, 0.12)
+		motes.append({
+			"ang": ang,
+			"rad": randf_range(22.0, 96.0),
+			"rise": randf_range(120.0, 260.0),
+			"sz": randf_range(3.0, 6.2),
+			"swirl": randf_range(2.2, 5.2) * (-1.0 if i % 2 == 0 else 1.0),
+		})
+	effects.append({
+		"kind": "gm_liftoff",
+		"pos": pos,
+		"main": pal["main"],
+		"core": pal["core"],
+		"edge": pal["edge"],
+		"motes": motes,
+		"age": 0.0,
+		"dur": 0.95,
+	})
+	queue_redraw()
+
+func spawn_gm_land(pos: Vector2) -> void:
+	var pal := _pal("gm")
+	var sparks: Array[Dictionary] = []
+	for i in 22:
+		var ang := (float(i) / 22.0) * TAU + randf_range(-0.14, 0.14)
+		sparks.append({
+			"dir": Vector2(cos(ang), sin(ang) * 0.48),
+			"spd": randf_range(120.0, 260.0),
+			"sz": randf_range(2.6, 5.4),
+		})
+	effects.append({
+		"kind": "gm_land",
+		"pos": pos,
+		"main": pal["main"],
+		"core": pal["core"],
+		"edge": pal["edge"],
+		"sparks": sparks,
+		"age": 0.0,
+		"dur": 0.62,
+	})
+	queue_redraw()
+
+func spawn_gm_boost_burst(pos: Vector2, lift_px: float = 0.0) -> void:
+	var pal := _pal("gm")
+	effects.append({
+		"kind": "gm_boost_burst",
+		"pos": pos + Vector2(0.0, -34.0 - lift_px),
+		"main": pal["main"],
+		"core": pal["core"],
+		"edge": pal["edge"],
+		"age": 0.0,
+		"dur": 0.56,
+	})
+	queue_redraw()
+
+func spawn_gm_flight_trail(from_pos: Vector2, to_pos: Vector2, lift_px: float = 0.0, boosted: bool = false) -> void:
+	if from_pos.distance_squared_to(to_pos) < 4.0:
+		return
+	var pal := _pal("gm")
+	effects.append({
+		"kind": "gm_trail",
+		"from": from_pos + Vector2(0.0, -24.0 - lift_px),
+		"to": to_pos + Vector2(0.0, -24.0 - lift_px),
+		"boost": boosted,
+		"main": pal["main"],
+		"core": pal["core"],
+		"edge": pal["edge"],
+		"age": 0.0,
+		"dur": 0.42 if boosted else 0.32,
+	})
+	queue_redraw()
+
+func spawn_gm_heavy_strike(pos: Vector2, dir: Vector2) -> void:
+	var strike_pos := pos + dir.normalized() * 44.0
+	spawn_ki_burst(strike_pos, "gm", 230.0)
+	spawn_slash(pos, dir, "gm", 1.55, false)
+	spawn_gm_land(strike_pos)
+
+func spawn_gm_ki_blast(from_pos: Vector2, to_pos: Vector2, lift_px: float = 0.0) -> void:
+	var cast_origin := from_pos + Vector2(0.0, -lift_px)
+	spawn_beam(cast_origin, to_pos, "gm", 36.0, 0.65)
+	spawn_ki_burst(to_pos, "gm", 195.0)
+	spawn_gm_boost_burst(from_pos, lift_px)
 
 func _telegraph_colors(kind: String) -> Dictionary:
 	match kind:
@@ -892,3 +985,77 @@ func _draw() -> void:
 				poly.append(poly[0])
 				draw_polyline(poly, Color(main_c.r, main_c.g, main_c.b, 0.92), 3.4, true)
 				draw_line(from_p, fill_to, Color(core_c.r, core_c.g, core_c.b, 0.84), 2.4, true)
+
+		elif kind == "gm_liftoff":
+			var pos: Vector2 = fx["pos"]
+			var e_col: Color = fx.get("edge", main_c) as Color
+			# Vertical celestial updraft beam
+			_draw_glow(pos + Vector2(0.0, -70.0), 84.0 * (1.0 - p * 0.3), 170.0, Color(main_c.r, main_c.g, main_c.b, 0.56 * fade))
+			_draw_glow(pos + Vector2(0.0, -54.0), 46.0 * (1.0 - p * 0.2), 145.0, Color(e_col.r, e_col.g, e_col.b, 0.50 * fade))
+			# Expanding golden-cyan ground pressure wave + 3 rising wind rings
+			draw_set_transform(pos, 0.0, Vector2(1.0, 0.44))
+			var gr := lerpf(28.0, 195.0, pow(p, 0.65))
+			draw_arc(Vector2.ZERO, gr, 0.0, TAU, 44, Color(e_col.r, e_col.g, e_col.b, 0.94 * fade), 5.4 * fade, true)
+			draw_arc(Vector2.ZERO, gr * 0.72, 0.0, TAU, 36, Color(main_c.r, main_c.g, main_c.b, 0.88 * fade), 3.4 * fade, true)
+			draw_set_transform(Vector2.ZERO)
+			for ri in 3:
+				var rph := clampf(p * 1.45 - float(ri) * 0.22, 0.0, 1.0)
+				if rph > 0.0 and rph < 1.0:
+					var ry := -rph * 110.0
+					var rr := lerpf(96.0, 34.0, rph)
+					var ra := sin(rph * PI) * 0.92
+					draw_set_transform(pos + Vector2(0.0, ry), 0.0, Vector2(1.0, 0.38))
+					draw_arc(Vector2.ZERO, rr, 0.0, TAU, 36, Color(main_c.r, main_c.g, main_c.b, ra), 3.6, true)
+					draw_arc(Vector2.ZERO, rr * 0.82, 0.0, TAU, 28, Color(core_c.r, core_c.g, core_c.b, ra * 0.8), 2.0, true)
+					draw_set_transform(Vector2.ZERO)
+			for m: Dictionary in fx.get("motes", []):
+				var ma := float(m["ang"]) + float(m["swirl"]) * p
+				var mrad := float(m["rad"]) * (1.0 - p * 0.38)
+				var mpos := pos + Vector2(cos(ma) * mrad, sin(ma) * mrad * 0.44 - float(m["rise"]) * p)
+				var msz := float(m["sz"]) * (1.0 - p * 0.45)
+				_draw_glow(mpos, msz * 2.6, msz * 2.6, Color(e_col.r, e_col.g, e_col.b, 0.65 * fade))
+				draw_circle(mpos, maxf(1.4, msz * 0.7), Color(core_c.r, core_c.g, core_c.b, 0.96 * fade))
+
+		elif kind == "gm_land":
+			var pos: Vector2 = fx["pos"]
+			var e_col: Color = fx.get("edge", main_c) as Color
+			draw_set_transform(pos, 0.0, Vector2(1.0, 0.45))
+			var lr := lerpf(24.0, 175.0, pow(p, 0.60))
+			draw_arc(Vector2.ZERO, lr, 0.0, TAU, 44, Color(e_col.r, e_col.g, e_col.b, 0.95 * fade), 5.6 * fade, true)
+			draw_arc(Vector2.ZERO, lr * 0.65, 0.0, TAU, 36, Color(main_c.r, main_c.g, main_c.b, 0.85 * fade), 3.2 * fade, true)
+			draw_circle(Vector2.ZERO, lr * 0.45, Color(core_c.r, core_c.g, core_c.b, 0.22 * fade))
+			draw_set_transform(Vector2.ZERO)
+			for sp: Dictionary in fx.get("sparks", []):
+				var sp_p := pos + (sp["dir"] as Vector2) * (float(sp["spd"]) * age)
+				var sz := float(sp["sz"]) * (1.0 - p * 0.55)
+				draw_circle(sp_p, sz + 1.4, Color(e_col.r, e_col.g, e_col.b, 0.75 * fade))
+				draw_circle(sp_p, maxf(1.2, sz * 0.65), Color(core_c.r, core_c.g, core_c.b, 0.96 * fade))
+
+		elif kind == "gm_boost_burst":
+			var pos: Vector2 = fx["pos"]
+			var e_col: Color = fx.get("edge", main_c) as Color
+			var br := lerpf(24.0, 145.0, pow(p, 0.55))
+			_draw_glow(pos, br * 1.1, br * 0.85, Color(main_c.r, main_c.g, main_c.b, 0.68 * fade))
+			draw_arc(pos, br, 0.0, TAU, 40, Color(e_col.r, e_col.g, e_col.b, 0.94 * fade), 4.6 * fade, true)
+			draw_arc(pos, br * 0.64, 0.0, TAU, 32, Color(core_c.r, core_c.g, core_c.b, 0.96 * fade), 2.8 * fade, true)
+			for ri in 12:
+				var ra := float(ri) * (TAU / 12.0) + p * 0.65
+				_draw_tapered_ray(pos, ra, br * 1.25, 6.5 * fade, Color(e_col.r, e_col.g, e_col.b, 0.82 * fade), 0.72)
+				_draw_tapered_ray(pos, ra, br * 0.92, 3.0 * fade, Color(core_c.r, core_c.g, core_c.b, 0.96 * fade), 0.72)
+
+		elif kind == "gm_trail":
+			var from_p: Vector2 = fx["from"]
+			var to_p: Vector2 = fx["to"]
+			var boosted: bool = bool(fx.get("boost", false))
+			var e_col: Color = fx.get("edge", main_c) as Color
+			var dir_v := (to_p - from_p)
+			var perp := dir_v.orthogonal().normalized() if dir_v.length_squared() > 1.0 else Vector2(0.0, 1.0)
+			var spread := 18.0 if boosted else 12.0
+			# Central luminous slipstream + twin wing contrails
+			draw_line(from_p, to_p, Color(main_c.r, main_c.g, main_c.b, (0.68 if boosted else 0.45) * fade), (22.0 if boosted else 14.0) * fade, true)
+			draw_line(from_p, to_p, Color(core_c.r, core_c.g, core_c.b, (0.94 if boosted else 0.72) * fade), (6.0 if boosted else 3.6) * fade, true)
+			draw_line(from_p + perp * spread, to_p + perp * (spread * 0.55), Color(e_col.r, e_col.g, e_col.b, (0.82 if boosted else 0.54) * fade), (5.5 if boosted else 3.2) * fade, true)
+			draw_line(from_p - perp * spread, to_p - perp * (spread * 0.55), Color(e_col.r, e_col.g, e_col.b, (0.82 if boosted else 0.54) * fade), (5.5 if boosted else 3.2) * fade, true)
+			if boosted:
+				_draw_glow(from_p.lerp(to_p, 0.5), 36.0 * fade, 44.0 * fade, Color(e_col.r, e_col.g, e_col.b, 0.46 * fade))
+

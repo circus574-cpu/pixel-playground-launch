@@ -732,7 +732,27 @@ describe.runIf(url)("Android backend on PostgreSQL", () => {
         (await call("GET", "/admin/overview", { token: tokens["admin1"]! })).json!["online"],
       ).toEqual({ count: 4, byLand: { pyra: 3, verdant: 1 } });
 
+      b.announce({ visible: true, gm: true, fly: true, boost: true, pose: "hover" });
+      c.announce({ x: 1840, visible: true, gm: true, fly: true, boost: true, pose: "glide" });
+      await vi.waitFor(() => {
+        const peers = (latest()?.["peers"] ?? []) as Array<Record<string, unknown>>;
+        const regPeer = peers.find((p) => p["nick"] === "gracz2");
+        const gmPeer = peers.find((p) => p["nick"] === "gm1");
+        expect(regPeer).toBeDefined();
+        expect(regPeer?.["gm"]).toBeUndefined();
+        expect(regPeer?.["fly"]).toBeUndefined();
+        expect(regPeer?.["boost"]).toBeUndefined();
+        expect(gmPeer).toMatchObject({
+          nick: "gm1",
+          gm: true,
+          fly: true,
+          boost: true,
+          pose: "glide",
+        });
+      });
+
       b.announce({ visible: false });
+      c.announce({ visible: false });
       await vi.waitFor(() => expect(latest()?.["peers"]).toEqual([]));
       a.announce({ ki: false });
       await vi.waitFor(() => expect(latest()?.["power"]).toBeLessThan(power));

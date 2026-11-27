@@ -15,6 +15,7 @@ const ONE_SHOT_CLIPS := {
 	"sk_C1": true, "sk_C4": true, "sk_C9": true,
 	"dodge": true, "guard": true, "hit": true, "hitheavy": true,
 	"death": true, "respawn": true, "victory": true, "channel": true, "interact": true, "transform": true,
+	"takeoff": true, "land": true, "heavy_strike": true, "ki_blast": true,
 	"kiattack": true, "kiattack2": true, "kiskill": true, "kiskillb": true, "kiskillc": true,
 	"kifinisher": true, "kidodge": true, "kiguard": true, "kihit": true, "kihitheavy": true,
 	"kideath": true, "kirespawn": true, "kivictory": true, "kichannel": true, "kiinteract": true, "kitransform": true,
@@ -42,7 +43,10 @@ const KI_PALETTE := {
 	"planetary": {"main": Color(0.28, 0.95, 0.52), "edge": Color(0.96, 0.84, 0.24), "core": Color(0.88, 1.0, 0.82)},
 	"sage":      {"main": Color(0.34, 0.86, 1.0),  "edge": Color(0.58, 0.48, 1.0), "core": Color(0.92, 0.98, 1.0)},
 	"android":   {"main": Color(0.16, 0.96, 0.98), "edge": Color(0.78, 0.34, 1.0), "core": Color(0.90, 0.98, 1.0)},
+	"gm":        {"main": Color(0.38, 0.92, 1.0),  "edge": Color(1.0, 0.82, 0.28), "core": Color(0.98, 0.99, 1.0)},
 }
+
+const GM_FLY_ALTITUDE := 76.0
 
 var sprite := AnimatedSprite2D.new()
 var label := Label.new()
@@ -58,6 +62,12 @@ var ki_mode_active := false
 var ki_aura_alpha := 0.0
 var ki_remaining_sec := 0.0
 var ki_race := "legend"
+var is_gm_avatar := false
+var gm_flying := false
+var gm_boost := false
+var gm_fly_height := 0.0
+var _base_sprite_pos := Vector2.ZERO
+var _base_label_y := -140.0
 var display := Vector2.ZERO
 var one_shot_until := 0.0
 var one_shot_clip := ""
@@ -78,6 +88,8 @@ var is_locked_target := false
 var status_flags: Dictionary = {}
 
 func _ki_pal() -> Dictionary:
+	if is_gm_avatar:
+		return KI_PALETTE["gm"]
 	return KI_PALETTE.get(ki_race, KI_PALETTE["legend"])
 
 static func _ensure_ki_textures() -> void:
@@ -163,9 +175,13 @@ func setup(
 	elif kind == "monster":
 		factor *= 1.08
 	display = Vector2(float(data["size"][0]), float(data["size"][1])) * factor
-	shadow_scale = clampf(display.x / 120.0, 0.55, 1.85)
+	shadow_scale = clampf(display.x / 120.0, 0.55, 2.25)
 	sprite.scale = display / cell
 	sprite.position = Vector2((0.5 - float(data.origin[0])) * display.x, (0.5 - float(data.origin[1])) * display.y)
+	_base_sprite_pos = sprite.position
+	if str(data.get("id", "")) == "hero-gm-3d":
+		is_gm_avatar = true
+		ki_race = "gm"
 	if not display_name.is_empty():
 		var full_text := display_name
 		if kind == "monster" and level > 0:
@@ -176,11 +192,12 @@ func setup(
 		elif kind == "npc" and not role.is_empty():
 			full_text = "%s\n<%s>" % [display_name, role]
 		label.text = full_text
-		label.position = Vector2(-260, -display.y - (58 if is_boss else (52 if kind == "npc" and not role.is_empty() else (44 if elite else 36))))
+		_base_label_y = -display.y - (58.0 if is_boss else (52.0 if kind == "npc" and not role.is_empty() else (44.0 if elite else 36.0)))
+		label.position = Vector2(-260, _base_label_y)
 		label.size = Vector2(520, 58)
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.add_theme_font_size_override("font_size", 26 if is_boss else (24 if elite else (21 if kind != "hero" else 23)))
-		var fcol := Color("ffe8b8")
+		label.add_theme_font_size_override("font_size", 28 if is_gm_avatar else (26 if is_boss else (24 if elite else (21 if kind != "hero" else 23))))
+		var fcol := Color("ffe87a") if is_gm_avatar else Color("ffe8b8")
 		if kind == "monster":
 			fcol = Color("ff4838") if is_boss else (Color("ffd54a") if elite else (Color("ff7860") if level >= 10 else Color("ffbe78")))
 		elif kind == "npc":
@@ -337,6 +354,41 @@ func set_ki_mode(enabled: bool, duration_sec: float = 20.0) -> void:
 func set_ki_remaining(rem_sec: float) -> void:
 	ki_remaining_sec = maxf(0.0, rem_sec)
 
+func set_gm_flight(flying: bool, instant: bool = false) -> void:
+	var was := gm_flying
+	gm_flying = flying
+	if instant:
+		gm_fly_height = GM_FLY_ALTITUDE if flying else 0.0
+	elif was != flying and is_gm_avatar:
+		if flying:
+			play_action("takeoff", "hover", 0.62)
+		else:
+			play_action("land", "idle", 0.52)
+	_apply_gm_lift_visuals()
+	_queue_ki_redraw()
+
+func set_gm_boost(boosted: bool) -> void:
+	gm_boost = boosted
+	_queue_ki_redraw()
+
+func get_gm_lift_px() -> float:
+	if not is_gm_avatar or gm_fly_height <= 0.1:
+		return 0.0
+	var bob := 0.0
+	if gm_flying and gm_fly_height > GM_FLY_ALTITUDE * 0.55:
+		var t_s := Time.get_ticks_msec() / 1000.0
+		bob = sin(t_s * 2.8) * 7.0
+	return maxf(0.0, gm_fly_height + bob)
+
+func _apply_gm_lift_visuals() -> void:
+	var lift := get_gm_lift_px()
+	if _base_sprite_pos != Vector2.ZERO:
+		sprite.position = Vector2(_base_sprite_pos.x, _base_sprite_pos.y - lift)
+	if not label.text.is_empty():
+		label.position.y = _base_label_y - lift
+	if is_gm_avatar:
+		z_index = 12 if lift > 10.0 else 0
+
 func _queue_ki_redraw() -> void:
 	queue_redraw()
 	if ki_aura_back != null:
@@ -349,19 +401,34 @@ func animate(motion: Vector2, running: bool = false, stride_scale: float = 1.0) 
 		queue_redraw()
 	if Time.get_ticks_msec() / 1000.0 < one_shot_until:
 		return
+	var clips_dict: Dictionary = definition.get("clips", {})
+	if is_gm_avatar and gm_flying:
+		if motion.length_squared() > 0.0004:
+			face(motion)
+			state = "glide" if clips_dict.has("glide") else "hover"
+			play_clip(state, false, maxf(stride_scale, 1.35 if gm_boost else 1.0))
+		else:
+			state = "hover" if clips_dict.has("hover") else "idle"
+			play_clip(state, false, 1.0)
+		return
 	if motion.length_squared() > 0.0004:
 		face(motion)
-		var clips_dict: Dictionary = definition.get("clips", {})
 		state = "run" if running and (clips_dict.has(prefix + "run") or clips_dict.has("run")) else "walk"
 		if not clips_dict.has(state) and not clips_dict.has(prefix + state):
 			state = "idle"
-		play_clip(state, false, stride_scale)
+		var eff_stride := stride_scale * (1.45 if (is_gm_avatar and gm_boost) else 1.0)
+		play_clip(state, false, eff_stride)
 	else:
 		state = "idle"
 		play_clip(state, false, 1.0)
 
 func _draw_ki_aura_back() -> void:
-	if not is_hero or ki_aura_alpha <= 0.01:
+	var gm_vis := is_gm_avatar and is_hero
+	var a := ki_aura_alpha
+	if gm_vis:
+		var gm_floor := 0.42 + (0.34 if (gm_flying or gm_fly_height > 4.0) else 0.0) + (0.28 if gm_boost else 0.0)
+		a = maxf(a, clampf(gm_floor, 0.0, 1.0))
+	if not is_hero or a <= 0.01:
 		return
 	_ensure_ki_textures()
 	var c := ki_aura_back
@@ -370,11 +437,12 @@ func _draw_ki_aura_back() -> void:
 	var ec: Color = pal["edge"]
 	var cc: Color = pal["core"]
 	var t_s := Time.get_ticks_msec() / 1000.0
-	var a := ki_aura_alpha
 	var body_h := maxf(display.y * 1.08, 128.0)
-	var pulse := 1.0 + sin(t_s * 6.8) * 0.11
+	var lift := get_gm_lift_px()
+	var fly_frac := clampf(lift / GM_FLY_ALTITUDE, 0.0, 1.0)
+	var pulse := 1.0 + sin(t_s * (8.4 if gm_boost else 6.2)) * 0.11
 
-	# 1. Ground isometric luminous Ki seal & expanding shockwave rings
+	# 1. Ground isometric luminous Ki seal & expanding shockwave rings (always stays anchored on ground!)
 	c.draw_set_transform(Vector2(0, -2), 0.0, Vector2(1.0, 0.42))
 	c.draw_circle(Vector2.ZERO, 66.0 * shadow_scale * pulse, Color(ec.r, ec.g, ec.b, 0.24 * a))
 	c.draw_circle(Vector2.ZERO, 48.0 * shadow_scale * pulse, Color(mc.r, mc.g, mc.b, 0.34 * a))
@@ -388,73 +456,107 @@ func _draw_ki_aura_back() -> void:
 		c.draw_arc(Vector2.ZERO, 33.0 * shadow_scale, a1, a1 + 0.30, 6, Color(mc.r, mc.g, mc.b, 0.72 * a), 2.0, true)
 	# Expanding energy pulse waves along the ground
 	for wi in 2:
-		var wph := fposmod(t_s * 0.85 + float(wi) * 0.5, 1.0)
-		var wr := (24.0 + wph * 60.0) * shadow_scale
-		c.draw_arc(Vector2.ZERO, wr, 0.0, TAU, 36, Color(mc.r, mc.g, mc.b, (1.0 - wph) * 0.58 * a), 3.2 * (1.0 - wph * 0.5), true)
+		var wph := fposmod(t_s * (1.25 if gm_boost else 0.85) + float(wi) * 0.5, 1.0)
+		var wr := (24.0 + wph * (76.0 if gm_vis else 60.0)) * shadow_scale
+		c.draw_arc(Vector2.ZERO, wr, 0.0, TAU, 36, Color(mc.r, mc.g, mc.b, (1.0 - wph) * 0.62 * a), 3.4 * (1.0 - wph * 0.5), true)
 	c.draw_set_transform(Vector2.ZERO)
 
-	# 2. Broad feathered radiant aura envelope framing behind hero body
+	# 1B. GameMaster Airborne Levitation Updraft Vortex + Under-Boots Halo (between earth and floating boots!)
+	if gm_vis and fly_frac > 0.04:
+		# Rising air-pressure vortex rings floating between ground and levitating boots
+		for vi in 3:
+			var vph := fposmod(t_s * (1.45 if gm_boost else 0.95) + float(vi) / 3.0, 1.0)
+			var vy := -lerpf(4.0, lift + 10.0, vph)
+			var vr := lerpf(54.0, 26.0, vph) * shadow_scale
+			var va := sin(vph * PI) * 0.78 * fly_frac
+			c.draw_set_transform(Vector2(0.0, vy), 0.0, Vector2(1.0, 0.38))
+			c.draw_arc(Vector2.ZERO, vr, 0.0, TAU, 36, Color(mc.r, mc.g, mc.b, va), 3.4, true)
+			c.draw_arc(Vector2.ZERO, vr * 0.76, 0.0, TAU, 28, Color(ec.r, ec.g, ec.b, va * 0.80), 2.2, true)
+			c.draw_set_transform(Vector2.ZERO)
+		# Radiant celestial halo disc directly beneath levitating boots
+		c.draw_set_transform(Vector2(0.0, -lift + 6.0), 0.0, Vector2(1.0, 0.38))
+		c.draw_circle(Vector2.ZERO, 44.0 * shadow_scale * pulse, Color(mc.r, mc.g, mc.b, 0.30 * fly_frac))
+		c.draw_arc(Vector2.ZERO, 42.0 * shadow_scale * pulse, 0.0, TAU, 40, Color(ec.r, ec.g, ec.b, 0.92 * fly_frac), 3.6, true)
+		c.draw_arc(Vector2.ZERO, 28.0 * shadow_scale, 0.0, TAU, 32, Color(cc.r, cc.g, cc.b, 0.88 * fly_frac), 2.4, true)
+		for seg_b in 6:
+			var ang_b := -t_s * 3.1 + float(seg_b) * (TAU / 6.0)
+			c.draw_arc(Vector2.ZERO, 36.0 * shadow_scale, ang_b, ang_b + 0.45, 8, Color(cc.r, cc.g, cc.b, 0.95 * fly_frac), 2.6, true)
+		c.draw_set_transform(Vector2.ZERO)
+		# Soft vertical levitation energy column connecting ground sigil to hovering boots
+		if _ki_glow_tex != null:
+			var col_w := 44.0 * shadow_scale
+			c.draw_texture_rect(_ki_glow_tex, Rect2(-col_w, -lift - 12.0, col_w * 2.0, lift + 16.0), false, Color(mc.r, mc.g, mc.b, 0.28 * fly_frac))
+
+	# 2. Broad feathered radiant aura envelope framing behind hero body (lifts cleanly with flight!)
 	if _ki_glow_tex != null:
-		var rx := 82.0 * shadow_scale * pulse
+		var rx := (88.0 if gm_vis else 82.0) * shadow_scale * pulse
 		var ry := body_h * 0.96 * pulse
-		c.draw_texture_rect(_ki_glow_tex, Rect2(-rx, -body_h * 0.56 - ry * 0.56, rx * 2.0, ry * 1.44), false, Color(ec.r, ec.g, ec.b, 0.44 * a))
-		c.draw_texture_rect(_ki_glow_tex, Rect2(-rx * 0.72, -body_h * 0.52 - ry * 0.46, rx * 1.44, ry * 1.14), false, Color(mc.r, mc.g, mc.b, 0.52 * a))
+		c.draw_texture_rect(_ki_glow_tex, Rect2(-rx, -lift - body_h * 0.56 - ry * 0.56, rx * 2.0, ry * 1.44), false, Color(ec.r, ec.g, ec.b, (0.48 if gm_boost else 0.40) * a))
+		c.draw_texture_rect(_ki_glow_tex, Rect2(-rx * 0.72, -lift - body_h * 0.52 - ry * 0.46, rx * 1.44, ry * 1.14), false, Color(mc.r, mc.g, mc.b, (0.58 if gm_boost else 0.48) * a))
 
 	# 3. 16 surging anime Ki flame tongues rising BEHIND & AROUND hero silhouette (pushed outward so hero stands crisp in center)
 	if _ki_wisp_tex != null:
 		for i in 16:
 			var h0 := fposmod(sin(float(i * 97 + 13)) * 43758.5453, 1.0)
 			var h1 := fposmod(sin(float(i * 193 + 41)) * 43758.5453, 1.0)
-			var ph := fposmod(t_s * (1.35 + 0.75 * h0) + h1, 1.0)
+			var ph := fposmod(t_s * ((1.95 if gm_boost else 1.35) + 0.75 * h0) + h1, 1.0)
 			var side_sign := -1.0 if i % 2 == 0 else 1.0
 			var spread := (34.0 + 30.0 * h0) * (1.0 - ph * 0.22) * shadow_scale
 			var wx := side_sign * spread + sin(ph * 9.0 + float(i) * 1.3) * 7.0
-			var wy := -4.0 - ph * body_h * 1.15
+			var wy := -lift - 4.0 - ph * body_h * 1.15
 			var ww := (1.0 - ph * 0.42) * (28.0 + 18.0 * h1) * shadow_scale
 			var wh := (1.0 - ph * 0.25) * (68.0 + 36.0 * h0)
 			var wcol := ec.lerp(mc, ph * 0.68).lerp(cc, 0.22)
 			wcol.a = sin(ph * PI) * 0.76 * a
 			c.draw_texture_rect(_ki_wisp_tex, Rect2(wx - ww * 0.5, wy - wh * 0.75, ww, wh), false, wcol)
 
-	# 4. Twin luminous Ki energy ribbons spiraling BEHIND the hero (never crossing face/torso)
+	# 4. Twin luminous Ki energy ribbons spiraling BEHIND the hero (silky-smooth 32-point curves, never crossing face/torso)
+	var rib_mult := 1.0 if (ki_mode_active or gm_boost) else (0.58 if gm_vis else 1.0)
 	for rib in 2:
 		var pts := PackedVector2Array()
-		var base_phase := float(rib) * PI + t_s * 3.6
-		for step in 12:
-			var frac := float(step) / 11.0
-			var ang := base_phase + frac * TAU * 1.1
-			var rad := (46.0 - frac * 8.0 + sin(t_s * 5.5 + frac * 4.0) * 3.5) * shadow_scale
+		var base_phase := float(rib) * PI + t_s * (5.0 if gm_boost else 3.2)
+		for step in 32:
+			var frac := float(step) / 31.0
+			var ang := base_phase + frac * TAU * 1.15
+			var rad := (48.0 - frac * 6.0 + sin(t_s * 4.5 + frac * 4.0) * 3.0) * shadow_scale
 			var sx := cos(ang) * rad
-			var sy := -10.0 - frac * body_h * 1.04 + sin(ang) * 7.0
+			var sy := -lift - 10.0 - frac * body_h * 1.02 + sin(ang) * 7.0
 			pts.append(Vector2(sx, sy))
 		if pts.size() >= 2:
-			c.draw_polyline(pts, Color(ec.r, ec.g, ec.b, 0.44 * a), 7.0, true)
-			c.draw_polyline(pts, Color(mc.r, mc.g, mc.b, 0.72 * a), 3.6, true)
-			c.draw_polyline(pts, Color(cc.r, cc.g, cc.b, 0.85 * a), 1.4, true)
+			c.draw_polyline(pts, Color(ec.r, ec.g, ec.b, 0.36 * a * rib_mult), 6.2, true)
+			c.draw_polyline(pts, Color(mc.r, mc.g, mc.b, 0.62 * a * rib_mult), 3.0, true)
+			c.draw_polyline(pts, Color(cc.r, cc.g, cc.b, 0.78 * a * rib_mult), 1.3, true)
 
 	# 5. Crackling outer Ki lightning arcs snapping around outer perimeter behind hero
-	var frame_tick := int(t_s * 14.0)
-	for li in 4:
-		var side_l := -1.0 if li % 2 == 0 else 1.0
-		var lh := fposmod(sin(float(li * 73 + frame_tick * 19)) * 43758.5453, 1.0)
-		if lh < 0.25:
-			continue
-		var y0 := -14.0 - lh * body_h * 0.56
-		var p0 := Vector2(side_l * (38.0 + lh * 20.0) * shadow_scale, y0)
-		var p1 := Vector2(side_l * (34.0 + (1.0 - lh) * 24.0) * shadow_scale, y0 - 38.0 - lh * 32.0)
-		var lpts := PackedVector2Array([p0])
-		var perp := (p1 - p0).orthogonal().normalized()
-		for seg in range(1, 4):
-			var frac := float(seg) / 4.0
-			var jit := (fposmod(sin(float(li * 41 + seg * 29 + frame_tick * 53)) * 43758.5453, 1.0) - 0.5) * 18.0
-			lpts.append(p0.lerp(p1, frac) + perp * jit)
-		lpts.append(p1)
-		c.draw_polyline(lpts, Color(ec.r, ec.g, ec.b, 0.55 * a), 4.8, true)
-		c.draw_polyline(lpts, Color(mc.r, mc.g, mc.b, 0.85 * a), 2.5, true)
-		c.draw_polyline(lpts, Color(cc.r, cc.g, cc.b, 0.96 * a), 1.2, true)
+	if ki_mode_active or gm_boost:
+		var arc_cnt := 6 if gm_boost else 4
+		var frame_tick := int(t_s * (18.0 if gm_boost else 14.0))
+		for li in arc_cnt:
+			var side_l := -1.0 if li % 2 == 0 else 1.0
+			var lh := fposmod(sin(float(li * 73 + frame_tick * 19)) * 43758.5453, 1.0)
+			if lh < 0.22:
+				continue
+			var y0 := -lift - 14.0 - lh * body_h * 0.56
+			var p0 := Vector2(side_l * (42.0 + lh * 20.0) * shadow_scale, y0)
+			var p1 := Vector2(side_l * (38.0 + (1.0 - lh) * 24.0) * shadow_scale, y0 - 38.0 - lh * 32.0)
+			var lpts := PackedVector2Array([p0])
+			var perp := (p1 - p0).orthogonal().normalized()
+			for seg in range(1, 5):
+				var frac := float(seg) / 5.0
+				var jit := (fposmod(sin(float(li * 41 + seg * 29 + frame_tick * 53)) * 43758.5453, 1.0) - 0.5) * 16.0
+				lpts.append(p0.lerp(p1, frac) + perp * jit)
+			lpts.append(p1)
+			c.draw_polyline(lpts, Color(ec.r, ec.g, ec.b, 0.52 * a), 4.4, true)
+			c.draw_polyline(lpts, Color(mc.r, mc.g, mc.b, 0.84 * a), 2.4, true)
+			c.draw_polyline(lpts, Color(cc.r, cc.g, cc.b, 0.94 * a), 1.2, true)
 
 func _draw_ki_aura_front() -> void:
-	if not is_hero or ki_aura_alpha <= 0.01:
+	var gm_vis := is_gm_avatar and is_hero
+	var a := ki_aura_alpha
+	if gm_vis:
+		var gm_floor := 0.42 + (0.34 if (gm_flying or gm_fly_height > 4.0) else 0.0) + (0.28 if gm_boost else 0.0)
+		a = maxf(a, clampf(gm_floor, 0.0, 1.0))
+	if not is_hero or a <= 0.01:
 		return
 	var c := ki_aura_front
 	var pal := _ki_pal()
@@ -462,32 +564,37 @@ func _draw_ki_aura_front() -> void:
 	var ec: Color = pal["edge"]
 	var cc: Color = pal["core"]
 	var t_s := Time.get_ticks_msec() / 1000.0
-	var a := ki_aura_alpha
 	var body_h := maxf(display.y * 1.08, 128.0)
+	var lift := get_gm_lift_px()
 
 	# Keep front layer strictly AROUND the outer perimeter & below feet — NEVER obscuring the hero sprite!
-	# 1. Subtle front-half ground arc at feet level only
-	c.draw_set_transform(Vector2(0, 2), 0.0, Vector2(1.0, 0.36))
-	c.draw_arc(Vector2.ZERO, 44.0 * shadow_scale, 0.12, PI - 0.12, 22, Color(mc.r, mc.g, mc.b, 0.48 * a), 2.8, true)
+	# 1. Subtle front-half arc at feet level (follows hovering boots when airborne!)
+	c.draw_set_transform(Vector2(0, 2.0 - lift), 0.0, Vector2(1.0, 0.36))
+	c.draw_arc(Vector2.ZERO, 44.0 * shadow_scale, 0.12, PI - 0.12, 22, Color(mc.r, mc.g, mc.b, 0.56 * a), 3.0, true)
 	c.draw_set_transform(Vector2.ZERO)
 
 	# 2. Outer perimeter rising Ki sparks strictly outside character torso width (|x| >= 38)
-	for ei in 12:
+	var spark_cnt := 18 if (gm_vis and (gm_flying or gm_boost)) else 12
+	for ei in spark_cnt:
 		var side_e := -1.0 if ei % 2 == 0 else 1.0
 		var h0 := fposmod(sin(float(ei * 61 + 7)) * 43758.5453, 1.0)
 		var h1 := fposmod(sin(float(ei * 139 + 29)) * 43758.5453, 1.0)
-		var ph := fposmod(t_s * (1.15 + 0.75 * h0) + h1, 1.0)
-		var ex := side_e * (38.0 + 26.0 * h0) * shadow_scale + sin(t_s * 3.2 + float(ei)) * 5.0
-		var ey := -8.0 - ph * (body_h * 1.18)
-		var er := (1.0 - ph) * 3.4 + 1.1
-		var fade := sin(ph * PI) * 0.85 * a
-		c.draw_circle(Vector2(ex, ey), er + 1.6, Color(ec.r, ec.g, ec.b, 0.38 * fade))
-		c.draw_circle(Vector2(ex, ey), er * 0.65, Color(cc.r, cc.g, cc.b, 0.92 * fade))
+		var ph := fposmod(t_s * ((1.75 if gm_boost else 1.15) + 0.75 * h0) + h1, 1.0)
+		var ex := side_e * (38.0 + 28.0 * h0) * shadow_scale + sin(t_s * 3.2 + float(ei)) * 5.0
+		var ey := -lift * 0.45 - 8.0 - ph * (body_h * 1.18 + lift * 0.55)
+		var er := (1.0 - ph) * 3.8 + 1.2
+		var fade := sin(ph * PI) * 0.88 * a
+		c.draw_circle(Vector2(ex, ey), er + 1.8, Color(ec.r, ec.g, ec.b, 0.42 * fade))
+		c.draw_circle(Vector2(ex, ey), er * 0.65, Color(cc.r, cc.g, cc.b, 0.94 * fade))
 
 func _draw() -> void:
-	# Grounded contact shadow + faction/aggro ring
+	# Grounded contact shadow + faction/aggro ring (shrinks & softens dynamically when GameMaster levitates!)
+	var lift := get_gm_lift_px()
+	var alt_frac := clampf(lift / GM_FLY_ALTITUDE, 0.0, 1.0)
+	var sh_mult := lerpf(1.0, 0.60, alt_frac)
+	var sh_alpha := lerpf(0.38, 0.22, alt_frac)
 	draw_set_transform(Vector2(0, -2), 0.0, Vector2(1, 0.36))
-	draw_circle(Vector2.ZERO, 24.0 * shadow_scale, Color(0.02, 0.01, 0.01, 0.38))
+	draw_circle(Vector2.ZERO, 24.0 * shadow_scale * sh_mult, Color(0.02, 0.01, 0.01, sh_alpha))
 	if actor_kind == "monster":
 		if is_boss:
 			var bt := Time.get_ticks_msec() / 1000.0
@@ -512,13 +619,19 @@ func _draw() -> void:
 	elif actor_kind == "npc":
 		draw_arc(Vector2.ZERO, 24.0 * shadow_scale, 0.0, TAU, 24, Color(0.28, 0.88, 1.0, 0.58), 2.0)
 	elif is_hero:
-		if weapon_glow_tier > 0:
-			var wt := Time.get_ticks_msec() / 1000.0
-			var wcol := Color(0.32, 0.86, 1.0, 0.88) if weapon_glow_tier == 1 else (Color(0.84, 0.42, 1.0, 0.92) if weapon_glow_tier == 2 else Color(1.0, 0.84, 0.28, 0.96))
-			var wr := (31.0 + float(weapon_glow_tier) * 3.0 + sin(wt * 5.0) * 2.2) * shadow_scale
-			draw_circle(Vector2.ZERO, wr, Color(wcol.r, wcol.g, wcol.b, 0.14 + float(weapon_glow_tier) * 0.04))
-			draw_arc(Vector2.ZERO, wr, 0.0, TAU, 32, wcol, 2.4 + float(weapon_glow_tier) * 0.6)
-		draw_arc(Vector2.ZERO, 26.0 * shadow_scale, 0.0, TAU, 28, Color(1.0, 0.82, 0.32, 0.80), 2.5)
+		if is_gm_avatar:
+			var gmt := Time.get_ticks_msec() / 1000.0
+			var gmp := 1.0 + sin(gmt * 4.2) * 0.07
+			draw_arc(Vector2.ZERO, 34.0 * shadow_scale * gmp, 0.0, TAU, 36, Color(1.0, 0.86, 0.34, 0.92), 3.2)
+			draw_arc(Vector2.ZERO, 25.0 * shadow_scale, 0.0, TAU, 28, Color(0.42, 0.94, 1.0, 0.86), 2.4)
+		else:
+			if weapon_glow_tier > 0:
+				var wt := Time.get_ticks_msec() / 1000.0
+				var wcol := Color(0.32, 0.86, 1.0, 0.88) if weapon_glow_tier == 1 else (Color(0.84, 0.42, 1.0, 0.92) if weapon_glow_tier == 2 else Color(1.0, 0.84, 0.28, 0.96))
+				var wr := (31.0 + float(weapon_glow_tier) * 3.0 + sin(wt * 5.0) * 2.2) * shadow_scale
+				draw_circle(Vector2.ZERO, wr, Color(wcol.r, wcol.g, wcol.b, 0.14 + float(weapon_glow_tier) * 0.04))
+				draw_arc(Vector2.ZERO, wr, 0.0, TAU, 32, wcol, 2.4 + float(weapon_glow_tier) * 0.6)
+			draw_arc(Vector2.ZERO, 26.0 * shadow_scale, 0.0, TAU, 28, Color(1.0, 0.82, 0.32, 0.80), 2.5)
 	if is_locked_target:
 		var lt := Time.get_ticks_msec() / 1000.0
 		var lp := 1.0 + sin(lt * 7.0) * 0.08
@@ -635,7 +748,7 @@ func show_bubble(msg: String, duration: float = 4.2) -> void:
 	_ensure_bubble()
 	bubble_lbl.text = msg
 	bubble_panel.size = Vector2(290.0, 56.0)
-	var top_y := -display.y - (136.0 if not quest_mark.is_empty() else 108.0)
+	var top_y := -display.y - get_gm_lift_px() - (136.0 if not quest_mark.is_empty() else 108.0)
 	bubble_panel.position = Vector2(-145.0, top_y)
 	bubble_panel.modulate = Color(1, 1, 1, 1)
 	bubble_panel.visible = true
@@ -651,6 +764,12 @@ func _process(delta: float) -> void:
 	if flash > 0.0:
 		flash = maxf(0.0, flash - delta)
 		sprite.modulate = Color(1.55, 0.75, 0.70, 1.0) if flash > 0.0 else Color.WHITE
+	if is_gm_avatar:
+		var want_h := GM_FLY_ALTITUDE if gm_flying else 0.0
+		var h_rate := 135.0 if gm_flying else 165.0
+		gm_fly_height = move_toward(gm_fly_height, want_h, delta * h_rate)
+		_apply_gm_lift_visuals()
+		_queue_ki_redraw()
 	if is_hero and (ki_mode_active or ki_aura_alpha > 0.005):
 		var target_a := 1.0 if ki_mode_active else 0.0
 		if ki_mode_active and ki_remaining_sec > 0.0 and ki_remaining_sec < 1.2:

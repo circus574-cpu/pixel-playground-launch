@@ -295,6 +295,50 @@ func refresh_content() -> void:
 	status_lbl.text = status_text
 
 func _build_teleport_tab() -> void:
+	content_vbox.add_child(_section_label("0. POSTAĆ GAMEMASTERA — MODEL 3D, LOT I PRZYSPIESZENIE"))
+	var gm_row := HBoxContainer.new()
+	gm_row.add_theme_constant_override("separation", 8)
+	content_vbox.add_child(gm_row)
+	var gmf_on: bool = world != null and bool(world.gm_form_active)
+	var fly_on: bool = world != null and bool(world.gm_flying)
+	var bst_on: bool = world != null and bool(world.gm_boost_active)
+
+	var btn_form := Button.new()
+	btn_form.text = "✦ FORMA GM: %s [F2]" % ("AKTYWNA ✓" if gmf_on else "WYŁ.")
+	btn_form.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_style_mini_btn(btn_form, "gold" if gmf_on else "slate", 13, 0.0, 44.0)
+	btn_form.pressed.connect(func() -> void:
+		if world != null and world.can_use_gm():
+			world.toggle_gm_form()
+			_set_status("Forma GameMastera: %s" % ("AKTYWNA" if bool(world.gm_form_active) else "WYŁĄCZONA"))
+			refresh_content()
+	)
+	gm_row.add_child(btn_form)
+
+	var btn_fly := Button.new()
+	btn_fly.text = "🕊 LOT NAD ZIEMIĄ: %s [L]" % ("LECISZ ✓" if fly_on else "WYŁ.")
+	btn_fly.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_style_mini_btn(btn_fly, "cyan" if fly_on else "slate", 13, 0.0, 44.0)
+	btn_fly.pressed.connect(func() -> void:
+		if world != null and world.can_use_gm():
+			world.toggle_gm_flight()
+			_set_status("Lot GameMastera: %s" % ("AKTYWNY" if bool(world.gm_flying) else "WYŁĄCZONY"))
+			refresh_content()
+	)
+	gm_row.add_child(btn_fly)
+
+	var btn_boost := Button.new()
+	btn_boost.text = "⚡ PRZYSPIESZENIE 3.5×: %s [U]" % ("ON ✓" if bst_on else "OFF")
+	btn_boost.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_style_mini_btn(btn_boost, "gold" if bst_on else "slate", 13, 0.0, 44.0)
+	btn_boost.pressed.connect(func() -> void:
+		if world != null and world.can_use_gm():
+			world.toggle_gm_boost()
+			_set_status("Przyspieszenie GameMastera: %s" % ("AKTYWNE" if bool(world.gm_boost_active) else "WYŁĄCZONE"))
+			refresh_content()
+	)
+	gm_row.add_child(btn_boost)
+
 	content_vbox.add_child(_section_label("1. TELEPORT NA DUŻEJ MAPIE ŚWIATA"))
 	var map_row := HBoxContainer.new()
 	map_row.add_theme_constant_override("separation", 8)

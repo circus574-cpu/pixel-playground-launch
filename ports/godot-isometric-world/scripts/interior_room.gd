@@ -428,11 +428,14 @@ func _rebuild_room_scene() -> void:
 	var hero_land := str(world.hero_race_land) if (world != null and not str(world.hero_race_land).is_empty()) else current_land
 	if world != null and world.HERO_ACTORS.has(hero_land):
 		var hinfo: Array = world.HERO_ACTORS[hero_land]
-		var hid := str(hinfo[0])
+		var use_gm: bool = bool(world.gm_form_active) and bool(world.can_use_gm()) and bool(world.actors_db.has("gm.hero"))
+		var hid := "gm.hero" if use_gm else str(hinfo[0])
 		var hname := str(world.rpg_hud.hero_name) if (world.rpg_hud != null and not str(world.rpg_hud.hero_name).is_empty()) else str(hinfo[1])
+		if use_gm:
+			hname = "✦ [GM] %s" % hname
 		if world.actors_db.has(hid):
 			hero_actor = ActorScript.new()
-			hero_actor.setup(world.actors_db[hid], hname, true, false, "hero", 0, "", "")
+			hero_actor.setup(world.actors_db[hid], hname, true, use_gm, "hero", 0, "", "")
 			hero_actor.scale = Vector2(0.72, 0.72)
 			hero_actor.position = hero_local
 			ysort.add_child(hero_actor)

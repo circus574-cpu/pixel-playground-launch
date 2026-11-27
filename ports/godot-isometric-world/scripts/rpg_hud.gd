@@ -2344,6 +2344,18 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		c.draw_string_outline(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 34.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 5, Color(0.02, 0.01, 0.01, 0.98))
 		c.draw_string(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 34.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.62, 0.98, 1.0) if gm_active else Color(1.0, 0.94, 0.72))
 
+		# Row 3 (Staff-only): One-tap FORMA GM pill right under MAPA ŚWIATA
+		var gmf_on: bool = bool(world.get("gm_form_active"))
+		var gmf_rect := Rect2(Vector2(16.0, 366.0) + u_off, Vector2(212.0, 48.0))
+		util_hitboxes.append({"rect": gmf_rect.grow(5.0), "id": "gm_form"})
+		_draw_forged_pill(c, gmf_rect, gmf_on)
+		if gmf_on:
+			c.draw_rect(gmf_rect.grow(2.0), Color(0.42, 0.94, 1.0, 0.92), false, 2.4)
+		var gmf_txt := "✦ FORMA GM ✓" if gmf_on else "✦ FORMA GM [F2]"
+		var gmftw := f.get_string_size(gmf_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+		c.draw_string_outline(f, Vector2(gmf_rect.position.x + (gmf_rect.size.x - gmftw) * 0.5, gmf_rect.position.y + 30.0), gmf_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 5, Color(0.02, 0.01, 0.01, 0.98))
+		c.draw_string(f, Vector2(gmf_rect.position.x + (gmf_rect.size.x - gmftw) * 0.5, gmf_rect.position.y + 30.0), gmf_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.54, 0.98, 1.0) if gmf_on else Color(1.0, 0.90, 0.58))
+
 	# Dedicated BIG Quick-Heal Potion Orb + Free Return-to-Capital Stone (Kamień Powrotu)
 	var c_base := _combat_base_center()
 	var pot_c := c_base + Vector2(-284.0 * sc, 32.0 * sc)
@@ -2453,6 +2465,78 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	var chlw := f.get_string_size(ch_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
 	c.draw_string_outline(f, chan_c + Vector2(-chlw * 0.5, chan_r + 17.0), ch_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 4, Color(0.02, 0.01, 0.02, 0.98))
 	c.draw_string(f, chan_c + Vector2(-chlw * 0.5, chan_r + 17.0), ch_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.56, 0.94, 1.0))
+
+	# Staff-only GameMaster Ability Orbs: LOT [L] (Levitation Flight) & SZYBKOŚĆ [U] (Celestial Acceleration 3.5x)
+	if world != null and world.can_use_gm():
+		var gm_t := Time.get_ticks_msec() / 1000.0
+		var gm_fly_on: bool = bool(world.get("gm_flying"))
+		var gm_bst_on: bool = bool(world.get("gm_boost_active"))
+
+		# Orb A: LOT [L] — cleanly spaced above KI+ [X]
+		var fly_c := chan_c + Vector2(-10.0 * sc, -114.0 * sc)
+		var fly_r := 32.0 * sc
+		util_hitboxes.append({"rect": Rect2(fly_c - Vector2(fly_r, fly_r), Vector2(fly_r * 2.0, fly_r * 2.0)).grow(10.0), "id": "gm_fly"})
+		c.draw_circle(fly_c + Vector2(0.0, 3.0), fly_r + 3.0, Color(0.0, 0.0, 0.0, 0.55))
+		c.draw_circle(fly_c, fly_r, Color(0.05, 0.14, 0.22, 0.98) if gm_fly_on else Color(0.05, 0.07, 0.12, 0.96))
+		# Stylized celestial wings emblem drawn cleanly inside the orb
+		var wcol := Color(0.46, 0.98, 1.0, 1.0) if gm_fly_on else Color(1.0, 0.88, 0.48, 0.96)
+		var wing_l := PackedVector2Array([
+			fly_c + Vector2(-2.0, 5.0) * sc,
+			fly_c + Vector2(-18.0, -9.0) * sc,
+			fly_c + Vector2(-13.0, 2.0) * sc,
+			fly_c + Vector2(-20.0, 5.0) * sc,
+			fly_c + Vector2(-7.0, 10.0) * sc,
+		])
+		var wing_r := PackedVector2Array([
+			fly_c + Vector2(2.0, 5.0) * sc,
+			fly_c + Vector2(18.0, -9.0) * sc,
+			fly_c + Vector2(13.0, 2.0) * sc,
+			fly_c + Vector2(20.0, 5.0) * sc,
+			fly_c + Vector2(7.0, 10.0) * sc,
+		])
+		c.draw_colored_polygon(wing_l, wcol)
+		c.draw_colored_polygon(wing_r, wcol)
+		c.draw_circle(fly_c + Vector2(0.0, -6.0 * sc), 4.6 * sc, Color(1.0, 0.98, 0.86, 0.96))
+		if gm_fly_on:
+			var fp := 0.5 + 0.5 * sin(gm_t * 6.5)
+			c.draw_arc(fly_c, fly_r + 4.5 + fp * 2.5, 0.0, TAU, 32, Color(0.40, 0.96, 1.0, 0.95), 4.0, true)
+			c.draw_arc(fly_c, fly_r - 1.5, 0.0, TAU, 28, Color(1.0, 0.86, 0.34, 0.92), 2.4, true)
+		elif ring_cyan != null:
+			var rr_f := fly_r + 8.0 * sc
+			c.draw_texture_rect(ring_cyan, Rect2(fly_c - Vector2(rr_f, rr_f), Vector2(rr_f * 2.0, rr_f * 2.0)), false)
+		var f_lbl := "LECISZ [L]" if gm_fly_on else "LOT [L]"
+		var flw := f.get_string_size(f_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+		c.draw_string_outline(f, fly_c + Vector2(-flw * 0.5, fly_r + 17.0), f_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 4, Color(0.02, 0.01, 0.02, 0.98))
+		c.draw_string(f, fly_c + Vector2(-flw * 0.5, fly_r + 17.0), f_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.48, 0.98, 1.0) if gm_fly_on else Color(1.0, 0.92, 0.62))
+
+		# Orb B: SZYBKOŚĆ [U] — cleanly spaced above POWRÓT and clear of T Poz.20
+		var bst_c := rec_c + Vector2(-14.0 * sc, -120.0 * sc)
+		var bst_r := 32.0 * sc
+		util_hitboxes.append({"rect": Rect2(bst_c - Vector2(bst_r, bst_r), Vector2(bst_r * 2.0, bst_r * 2.0)).grow(10.0), "id": "gm_boost"})
+		c.draw_circle(bst_c + Vector2(0.0, 3.0), bst_r + 3.0, Color(0.0, 0.0, 0.0, 0.55))
+		c.draw_circle(bst_c, bst_r, Color(0.24, 0.16, 0.05, 0.98) if gm_bst_on else Color(0.08, 0.06, 0.10, 0.96))
+		# Stylized golden lightning bolt inside the orb
+		var bcol := Color(1.0, 0.92, 0.36, 1.0) if gm_bst_on else Color(1.0, 0.80, 0.34, 0.92)
+		var bolt_poly := PackedVector2Array([
+			bst_c + Vector2(3.0, -17.0) * sc,
+			bst_c + Vector2(-11.0, 1.0) * sc,
+			bst_c + Vector2(-1.0, 1.0) * sc,
+			bst_c + Vector2(-5.0, 17.0) * sc,
+			bst_c + Vector2(12.0, -3.0) * sc,
+			bst_c + Vector2(1.0, -3.0) * sc,
+		])
+		c.draw_colored_polygon(bolt_poly, bcol)
+		if gm_bst_on:
+			var bp := 0.5 + 0.5 * sin(gm_t * 8.0)
+			c.draw_arc(bst_c, bst_r + 4.5 + bp * 2.5, 0.0, TAU, 32, Color(1.0, 0.86, 0.28, 0.96), 4.0, true)
+			c.draw_arc(bst_c, bst_r - 1.5, 0.0, TAU, 28, Color(0.42, 0.96, 1.0, 0.92), 2.4, true)
+		elif ring_obs != null:
+			var rr_b := bst_r + 8.0 * sc
+			c.draw_texture_rect(ring_obs, Rect2(bst_c - Vector2(rr_b, rr_b), Vector2(rr_b * 2.0, rr_b * 2.0)), false)
+		var b_lbl := "3.5× [U]" if gm_bst_on else "TURBO [U]"
+		var blw := f.get_string_size(b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+		c.draw_string_outline(f, bst_c + Vector2(-blw * 0.5, bst_r + 17.0), b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 4, Color(0.02, 0.01, 0.02, 0.98))
+		c.draw_string(f, bst_c + Vector2(-blw * 0.5, bst_r + 17.0), b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.92, 0.36) if gm_bst_on else Color(1.0, 0.84, 0.52))
 
 	nav_hitboxes.clear()
 
@@ -3499,6 +3583,15 @@ func _handle_primary_tap(p: Vector2) -> bool:
 				"gm":
 					if world != null and world.can_use_gm():
 						world.toggle_gm_panel()
+				"gm_form":
+					if world != null and world.can_use_gm() and world.has_method("toggle_gm_form"):
+						world.toggle_gm_form()
+				"gm_fly":
+					if world != null and world.can_use_gm() and world.has_method("toggle_gm_flight"):
+						world.toggle_gm_flight()
+				"gm_boost":
+					if world != null and world.can_use_gm() and world.has_method("toggle_gm_boost"):
+						world.toggle_gm_boost()
 				"quests":
 					if world != null and world.has_method("toggle_quest_journal"):
 						world.toggle_quest_journal()

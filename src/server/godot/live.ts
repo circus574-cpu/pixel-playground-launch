@@ -40,6 +40,10 @@ type Peer = {
   pose: string;
   action: number;
   transformed: boolean;
+  isStaff: boolean;
+  gmForm: boolean;
+  gmFly: boolean;
+  gmBoost: boolean;
   visible: boolean;
   guildId: string | null;
   guildTag: string | null;
@@ -100,6 +104,12 @@ const POSES = new Set([
   "channel",
   "interact",
   "transform",
+  "takeoff",
+  "hover",
+  "glide",
+  "land",
+  "heavy_strike",
+  "ki_blast",
   "sk_A1",
   "sk_A4",
   "sk_A9",
@@ -288,6 +298,7 @@ export class GodotLive {
           return;
         }
         let nick: string;
+        let isStaff = false;
         let character: AndroidCharacterView | null = null;
         let guild: { id: string; name: string; tag: string; role: GuildRole } | null = null;
         try {
@@ -299,7 +310,10 @@ export class GodotLive {
             const social = this.socialProvider?.();
             if (social) guild = await social.getGuildMeta(account);
           }
-          nick = (await accounts.view(account)).nick;
+          const acctView = await accounts.view(account);
+          nick = acctView.nick;
+          const roles = Array.isArray(acctView.roles) ? acctView.roles : [];
+          isStaff = roles.includes("admin") || roles.includes("gm");
         } catch {
           socket.close(1008, "Brak dostępu do gry na żywo");
           return;
@@ -329,6 +343,10 @@ export class GodotLive {
           pose: "idle",
           action: 0,
           transformed: false,
+          isStaff,
+          gmForm: false,
+          gmFly: false,
+          gmBoost: false,
           visible: !modern,
           guildId: guild?.id ?? null,
           guildTag: guild?.tag ?? null,
@@ -460,6 +478,9 @@ export class GodotLive {
       me.pose = typeof pose === "string" && POSES.has(pose) ? pose : "idle";
       me.action = Math.round(num(msg["action"], 0, Number.MAX_SAFE_INTEGER) ?? 0);
       me.transformed = msg["ki"] === true;
+      me.gmForm = me.isStaff && msg["gm"] === true;
+      me.gmFly = me.gmForm && msg["fly"] === true;
+      me.gmBoost = me.gmForm && msg["boost"] === true;
       me.visible = msg["visible"] === true;
     } else {
       me.level = num(msg["level"], 1, 20) ?? me.level;
@@ -1061,6 +1082,14 @@ export class GodotLive {
       await this.admission?.(peer.token);
       if (now - peer.accountCheckedAt >= CHARACTER_REFRESH_MS) {
         await accounts.assertActive?.(peer.account);
+        const acctView = await accounts.view(peer.account);
+        const roles = Array.isArray(acctView?.roles) ? acctView.roles : [];
+        peer.isStaff = roles.includes("admin") || roles.includes("gm");
+        if (!peer.isStaff) {
+          peer.gmForm = false;
+          peer.gmFly = false;
+          peer.gmBoost = false;
+        }
         peer.accountCheckedAt = now;
       }
       if (
@@ -1122,6 +1151,13 @@ export class GodotLive {
                 pose: p.pose,
                 action: p.action,
                 ki: p.transformed,
+                ...(p.gmForm
+                  ? {
+                      gm: true,
+                      ...(p.gmFly ? { fly: true } : {}),
+                      ...(p.gmBoost ? { boost: true } : {}),
+                    }
+                  : {}),
                 ...(p.guildTag ? { guildTag: p.guildTag } : {}),
                 ...(me.partyId && p.partyId === me.partyId ? { inParty: true } : {}),
               }
