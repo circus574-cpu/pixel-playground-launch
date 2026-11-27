@@ -175,5 +175,34 @@ func run() -> void:
 	_check(not bool(world.gm_form_active) and not bool(world.gm_flying) and not bool(world.gm_boost_active), "Revoking staff access cleanly disables GM Form/Flight/Boost")
 	_check(not bool(world.hero.is_gm_avatar), "Hero reverts to regular race model on staff revocation")
 
+	# 5. Verify zero invisible ghost walls on Pyra north exit & smooth walking from capital plaza + all 4 continents' roads
+	_check(world.is_walkable(2075.0, 1672.0), "Pyra north exit (2075, 1672) has NO invisible wall after walkability sanitization")
+	world.hero_pos = Vector2(2075.0, 1740.0)
+	for _s in 36:
+		world.try_move(Vector2(0.0, -3.0))
+	_check(world.hero_pos.y <= 1650.0, "Grounded hero walks smoothly north through Pyra exit without snagging (end_y=%.1f)" % world.hero_pos.y)
+	for land_k in ["pyra", "verdant", "aether", "nexus"]:
+		world.load_terrain(land_k)
+		_check(world.is_walkable(world.capital_center.x, world.capital_center.y), "%s capital_center is walkable" % land_k)
+		var blk_road := 0
+		var sw: int = world.surface_img.get_width()
+		var sh: int = world.surface_img.get_height()
+		for gz in range(0, world.grid_size, 4):
+			var sz := clampi(int(round(float(gz) / float(world.grid_size - 1) * float(sh - 1))), 0, sh - 1)
+			for gx in range(0, world.grid_size, 4):
+				var sx := clampi(int(round(float(gx) / float(world.grid_size - 1) * float(sw - 1))), 0, sw - 1)
+				if world.surface_img.get_pixel(sx, sz).b > 0.25 and world.walkable[gz * world.grid_size + gx] == 0:
+					blk_road += 1
+		_check(blk_road == 0, "%s has 0 blocked road tiles (got %d)" % [land_k, blk_road])
+
+	# 6. Verify all 8 bespoke mastered GameMaster MP3 SFX load cleanly & flight wind loop activates/stops
+	for sfx_k in ["gm_transform", "gm_takeoff", "gm_land", "gm_boost_on", "gm_boost_off", "gm_flight_loop", "gm_heavy_strike", "gm_ki_blast"]:
+		var st: AudioStream = world.audio.load_stream("sfx/gm/%s.mp3" % sfx_k)
+		_check(st != null, "GameMaster SFX loads cleanly: %s.mp3" % sfx_k)
+	world.audio.set_gm_flight_audio(true, true, true)
+	_check(world.audio.gm_flight_target > 0.5 and world.audio.gm_flight_pitch_target > 1.1, "Airborne boost flight wind loop targets elevated gain & pitch")
+	world.audio.set_gm_flight_audio(false, false, false)
+	_check(world.audio.gm_flight_target <= 0.001, "Landing smoothly fades out airborne flight wind loop")
+
 	print("GAMEMASTER_AUDIT_SUMMARY passed=%d failed=%d" % [passed, failed])
 	quit(0 if failed == 0 else 1)

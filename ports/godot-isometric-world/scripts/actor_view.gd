@@ -46,7 +46,7 @@ const KI_PALETTE := {
 	"gm":        {"main": Color(0.38, 0.92, 1.0),  "edge": Color(1.0, 0.82, 0.28), "core": Color(0.98, 0.99, 1.0)},
 }
 
-const GM_FLY_ALTITUDE := 76.0
+const GM_FLY_ALTITUDE := 82.0
 
 var sprite := AnimatedSprite2D.new()
 var label := Label.new()
@@ -66,6 +66,9 @@ var is_gm_avatar := false
 var gm_flying := false
 var gm_boost := false
 var gm_fly_height := 0.0
+var _gm_fly_t := 0.0
+var _gm_bank_rad := 0.0
+var _gm_bank_target := 0.0
 var _base_sprite_pos := Vector2.ZERO
 var _base_label_y := -140.0
 var display := Vector2.ZERO
@@ -358,12 +361,15 @@ func set_gm_flight(flying: bool, instant: bool = false) -> void:
 	var was := gm_flying
 	gm_flying = flying
 	if instant:
+		_gm_fly_t = 1.0 if flying else 0.0
 		gm_fly_height = GM_FLY_ALTITUDE if flying else 0.0
 	elif was != flying and is_gm_avatar:
 		if flying:
-			play_action("takeoff", "hover", 0.62)
+			play_action("takeoff", "hover", 0.68)
 		else:
-			play_action("land", "idle", 0.52)
+			play_action("land", "idle", 0.56)
+	if not flying:
+		_gm_bank_target = 0.0
 	_apply_gm_lift_visuals()
 	_queue_ki_redraw()
 
@@ -377,17 +383,19 @@ func get_gm_lift_px() -> float:
 	var bob := 0.0
 	if gm_flying and gm_fly_height > GM_FLY_ALTITUDE * 0.55:
 		var t_s := Time.get_ticks_msec() / 1000.0
-		bob = sin(t_s * 2.8) * 7.0
+		var bob_amp := 5.5 if state == "glide" else 7.5
+		bob = sin(t_s * (3.1 if state == "glide" else 2.2)) * bob_amp
 	return maxf(0.0, gm_fly_height + bob)
 
 func _apply_gm_lift_visuals() -> void:
 	var lift := get_gm_lift_px()
 	if _base_sprite_pos != Vector2.ZERO:
 		sprite.position = Vector2(_base_sprite_pos.x, _base_sprite_pos.y - lift)
+	if is_gm_avatar:
+		sprite.rotation = _gm_bank_rad if lift > 6.0 else 0.0
+		z_index = 12 if lift > 10.0 else 0
 	if not label.text.is_empty():
 		label.position.y = _base_label_y - lift
-	if is_gm_avatar:
-		z_index = 12 if lift > 10.0 else 0
 
 func _queue_ki_redraw() -> void:
 	queue_redraw()
@@ -399,6 +407,12 @@ func _queue_ki_redraw() -> void:
 func animate(motion: Vector2, running: bool = false, stride_scale: float = 1.0) -> void:
 	if quest_mark != "" or actor_kind == "monster":
 		queue_redraw()
+	if is_gm_avatar:
+		if gm_flying and motion.length_squared() > 0.0004:
+			var nx := clampf(motion.normalized().x, -1.0, 1.0)
+			_gm_bank_target = nx * (0.095 if gm_boost else 0.055)
+		else:
+			_gm_bank_target = 0.0
 	if Time.get_ticks_msec() / 1000.0 < one_shot_until:
 		return
 	var clips_dict: Dictionary = definition.get("clips", {})
@@ -406,7 +420,7 @@ func animate(motion: Vector2, running: bool = false, stride_scale: float = 1.0) 
 		if motion.length_squared() > 0.0004:
 			face(motion)
 			state = "glide" if clips_dict.has("glide") else "hover"
-			play_clip(state, false, maxf(stride_scale, 1.35 if gm_boost else 1.0))
+			play_clip(state, false, maxf(stride_scale, 1.25 if gm_boost else 1.0))
 		else:
 			state = "hover" if clips_dict.has("hover") else "idle"
 			play_clip(state, false, 1.0)
@@ -416,7 +430,7 @@ func animate(motion: Vector2, running: bool = false, stride_scale: float = 1.0) 
 		state = "run" if running and (clips_dict.has(prefix + "run") or clips_dict.has("run")) else "walk"
 		if not clips_dict.has(state) and not clips_dict.has(prefix + state):
 			state = "idle"
-		var eff_stride := stride_scale * (1.45 if (is_gm_avatar and gm_boost) else 1.0)
+		var eff_stride := stride_scale * (1.42 if (is_gm_avatar and gm_boost) else 1.0)
 		play_clip(state, false, eff_stride)
 	else:
 		state = "idle"
@@ -426,8 +440,9 @@ func _draw_ki_aura_back() -> void:
 	var gm_vis := is_gm_avatar and is_hero
 	var a := ki_aura_alpha
 	if gm_vis:
-		var gm_floor := 0.42 + (0.34 if (gm_flying or gm_fly_height > 4.0) else 0.0) + (0.28 if gm_boost else 0.0)
-		a = maxf(a, clampf(gm_floor, 0.0, 1.0))
+		# Refined, dignified aura floor so the 3D GameMaster model stays razor-sharp (zero white washout)
+		var gm_floor := 0.28 + (0.28 if (gm_flying or gm_fly_height > 4.0) else 0.0) + (0.24 if gm_boost else 0.0)
+		a = maxf(a, clampf(gm_floor, 0.0, 0.92))
 	if not is_hero or a <= 0.01:
 		return
 	_ensure_ki_textures()
@@ -437,101 +452,115 @@ func _draw_ki_aura_back() -> void:
 	var ec: Color = pal["edge"]
 	var cc: Color = pal["core"]
 	var t_s := Time.get_ticks_msec() / 1000.0
-	var body_h := maxf(display.y * 1.08, 128.0)
+	var body_h := maxf(display.y * 1.04, 128.0)
 	var lift := get_gm_lift_px()
 	var fly_frac := clampf(lift / GM_FLY_ALTITUDE, 0.0, 1.0)
-	var pulse := 1.0 + sin(t_s * (8.4 if gm_boost else 6.2)) * 0.11
+	var pulse := 1.0 + sin(t_s * (6.4 if gm_boost else 4.2)) * 0.07
 
-	# 1. Ground isometric luminous Ki seal & expanding shockwave rings (always stays anchored on ground!)
-	c.draw_set_transform(Vector2(0, -2), 0.0, Vector2(1.0, 0.42))
-	c.draw_circle(Vector2.ZERO, 66.0 * shadow_scale * pulse, Color(ec.r, ec.g, ec.b, 0.24 * a))
-	c.draw_circle(Vector2.ZERO, 48.0 * shadow_scale * pulse, Color(mc.r, mc.g, mc.b, 0.34 * a))
-	c.draw_arc(Vector2.ZERO, 56.0 * shadow_scale * pulse, 0.0, TAU, 44, Color(ec.r, ec.g, ec.b, 0.85 * a), 4.2, true)
-	c.draw_arc(Vector2.ZERO, 40.0 * shadow_scale * (1.0 + cos(t_s * 5.2) * 0.06), 0.0, TAU, 36, Color(mc.r, mc.g, mc.b, 0.92 * a), 3.0, true)
-	# Counter-rotating runic arcs
-	for seg in 8:
-		var a0 := t_s * 2.1 + float(seg) * (TAU / 8.0)
-		c.draw_arc(Vector2.ZERO, 48.0 * shadow_scale, a0, a0 + 0.38, 8, Color(cc.r, cc.g, cc.b, 0.90 * a), 2.8, true)
-		var a1 := -t_s * 1.4 + float(seg) * (TAU / 8.0)
-		c.draw_arc(Vector2.ZERO, 33.0 * shadow_scale, a1, a1 + 0.30, 6, Color(mc.r, mc.g, mc.b, 0.72 * a), 2.0, true)
-	# Expanding energy pulse waves along the ground
-	for wi in 2:
-		var wph := fposmod(t_s * (1.25 if gm_boost else 0.85) + float(wi) * 0.5, 1.0)
-		var wr := (24.0 + wph * (76.0 if gm_vis else 60.0)) * shadow_scale
-		c.draw_arc(Vector2.ZERO, wr, 0.0, TAU, 36, Color(mc.r, mc.g, mc.b, (1.0 - wph) * 0.62 * a), 3.4 * (1.0 - wph * 0.5), true)
+	# 1. Ground isometric luminous Ki seal (refined single celestial sigil on ground for GM, full seal for Ki-Mode)
+	c.draw_set_transform(Vector2(0, -2), 0.0, Vector2(1.0, 0.40))
+	var g_scale := lerpf(1.0, 0.84, fly_frac) if gm_vis else 1.0
+	var g_alpha := (0.68 if gm_vis else 1.0) * a
+	c.draw_circle(Vector2.ZERO, 54.0 * shadow_scale * pulse * g_scale, Color(ec.r, ec.g, ec.b, 0.14 * g_alpha))
+	c.draw_circle(Vector2.ZERO, 38.0 * shadow_scale * pulse * g_scale, Color(mc.r, mc.g, mc.b, 0.18 * g_alpha))
+	c.draw_arc(Vector2.ZERO, 50.0 * shadow_scale * pulse * g_scale, 0.0, TAU, 44, Color(ec.r, ec.g, ec.b, 0.68 * g_alpha), 3.0, true)
+	c.draw_arc(Vector2.ZERO, 35.0 * shadow_scale * g_scale, 0.0, TAU, 36, Color(mc.r, mc.g, mc.b, 0.72 * g_alpha), 2.0, true)
+	# Counter-rotating celestial runic arcs
+	for seg in 6:
+		var a0 := t_s * 1.6 + float(seg) * (TAU / 6.0)
+		c.draw_arc(Vector2.ZERO, 43.0 * shadow_scale * g_scale, a0, a0 + 0.42, 8, Color(cc.r, cc.g, cc.b, 0.65 * g_alpha), 2.0, true)
+	# Subtle ground pulse wave
+	var wph := fposmod(t_s * (1.05 if gm_boost else 0.72), 1.0)
+	var wr := (26.0 + wph * 62.0) * shadow_scale * g_scale
+	c.draw_arc(Vector2.ZERO, wr, 0.0, TAU, 36, Color(mc.r, mc.g, mc.b, (1.0 - wph) * 0.42 * g_alpha), 2.4 * (1.0 - wph * 0.5), true)
 	c.draw_set_transform(Vector2.ZERO)
 
-	# 1B. GameMaster Airborne Levitation Updraft Vortex + Under-Boots Halo (between earth and floating boots!)
+	# 1B. GameMaster Airborne Levitation Updraft & Aerodynamic Celestial Wing-Plumes
 	if gm_vis and fly_frac > 0.04:
-		# Rising air-pressure vortex rings floating between ground and levitating boots
-		for vi in 3:
-			var vph := fposmod(t_s * (1.45 if gm_boost else 0.95) + float(vi) / 3.0, 1.0)
-			var vy := -lerpf(4.0, lift + 10.0, vph)
-			var vr := lerpf(54.0, 26.0, vph) * shadow_scale
-			var va := sin(vph * PI) * 0.78 * fly_frac
-			c.draw_set_transform(Vector2(0.0, vy), 0.0, Vector2(1.0, 0.38))
-			c.draw_arc(Vector2.ZERO, vr, 0.0, TAU, 36, Color(mc.r, mc.g, mc.b, va), 3.4, true)
-			c.draw_arc(Vector2.ZERO, vr * 0.76, 0.0, TAU, 28, Color(ec.r, ec.g, ec.b, va * 0.80), 2.2, true)
-			c.draw_set_transform(Vector2.ZERO)
-		# Radiant celestial halo disc directly beneath levitating boots
-		c.draw_set_transform(Vector2(0.0, -lift + 6.0), 0.0, Vector2(1.0, 0.38))
-		c.draw_circle(Vector2.ZERO, 44.0 * shadow_scale * pulse, Color(mc.r, mc.g, mc.b, 0.30 * fly_frac))
-		c.draw_arc(Vector2.ZERO, 42.0 * shadow_scale * pulse, 0.0, TAU, 40, Color(ec.r, ec.g, ec.b, 0.92 * fly_frac), 3.6, true)
-		c.draw_arc(Vector2.ZERO, 28.0 * shadow_scale, 0.0, TAU, 32, Color(cc.r, cc.g, cc.b, 0.88 * fly_frac), 2.4, true)
-		for seg_b in 6:
-			var ang_b := -t_s * 3.1 + float(seg_b) * (TAU / 6.0)
-			c.draw_arc(Vector2.ZERO, 36.0 * shadow_scale, ang_b, ang_b + 0.45, 8, Color(cc.r, cc.g, cc.b, 0.95 * fly_frac), 2.6, true)
-		c.draw_set_transform(Vector2.ZERO)
-		# Soft vertical levitation energy column connecting ground sigil to hovering boots
+		# Subtle translucent cyan updraft column from ground sigil to levitating boots (kept soft so boots/robes stay crisp)
 		if _ki_glow_tex != null:
-			var col_w := 44.0 * shadow_scale
-			c.draw_texture_rect(_ki_glow_tex, Rect2(-col_w, -lift - 12.0, col_w * 2.0, lift + 16.0), false, Color(mc.r, mc.g, mc.b, 0.28 * fly_frac))
+			var col_w := 24.0 * shadow_scale
+			c.draw_texture_rect(_ki_glow_tex, Rect2(-col_w, -lift - 4.0, col_w * 2.0, lift + 6.0), false, Color(mc.r, mc.g, mc.b, 0.10 * fly_frac))
+		# Two delicate rising air-slipstream rings between ground and floating boots
+		for vi in 2:
+			var vph := fposmod(t_s * (1.25 if gm_boost else 0.82) + float(vi) * 0.5, 1.0)
+			var vy := -lerpf(6.0, lift + 4.0, vph)
+			var vr := lerpf(42.0, 20.0, vph) * shadow_scale
+			var va := sin(vph * PI) * 0.42 * fly_frac
+			c.draw_set_transform(Vector2(0.0, vy), 0.0, Vector2(1.0, 0.35))
+			c.draw_arc(Vector2.ZERO, vr, 0.0, TAU, 36, Color(mc.r, mc.g, mc.b, va), 2.0, true)
+			c.draw_arc(Vector2.ZERO, vr * 0.82, 0.0, TAU, 28, Color(ec.r, ec.g, ec.b, va * 0.60), 1.3, true)
+			c.draw_set_transform(Vector2.ZERO)
+		# Single sleek golden-cyan levitation halo beneath hovering boots
+		c.draw_set_transform(Vector2(0.0, -lift + 4.0), 0.0, Vector2(1.0, 0.34))
+		c.draw_circle(Vector2.ZERO, 30.0 * shadow_scale * pulse, Color(mc.r, mc.g, mc.b, 0.09 * fly_frac))
+		c.draw_arc(Vector2.ZERO, 32.0 * shadow_scale * pulse, 0.0, TAU, 40, Color(ec.r, ec.g, ec.b, 0.62 * fly_frac), 2.2, true)
+		c.draw_arc(Vector2.ZERO, 22.0 * shadow_scale, 0.0, TAU, 32, Color(mc.r, mc.g, mc.b, 0.54 * fly_frac), 1.5, true)
+		c.draw_set_transform(Vector2.ZERO)
 
-	# 2. Broad feathered radiant aura envelope framing behind hero body (lifts cleanly with flight!)
+		# Swept aerodynamic ethereal energy wing-plumes fanned behind shoulders (never covering white robes)
+		var wing_w := (0.78 if gm_boost else (0.58 if state == "glide" else 0.34)) * fly_frac
+		if _ki_wisp_tex != null and wing_w > 0.05:
+			var shoulder_y := -lift - body_h * 0.56
+			for side_s: float in [-1.0, 1.0]:
+				for wi in 3:
+					var spread_ang: float = side_s * (0.62 + float(wi) * 0.24 + sin(t_s * (5.2 if gm_boost else 3.0) + float(wi)) * 0.05)
+					var plume_len := (68.0 + float(2 - wi) * 22.0) * (1.22 if gm_boost else 1.0) * shadow_scale * 0.70
+					var plume_w := (20.0 - float(wi) * 3.5) * shadow_scale * 0.64
+					var origin := Vector2(side_s * 24.0 * shadow_scale, shoulder_y + float(wi) * 9.0)
+					c.draw_set_transform(origin, spread_ang + side_s * (0.38 if state == "glide" else 0.14), Vector2.ONE)
+					var wcol := mc.lerp(ec, float(wi) * 0.42)
+					wcol.a = (0.28 - float(wi) * 0.05) * wing_w
+					c.draw_texture_rect(_ki_wisp_tex, Rect2(-plume_w * 0.5, -plume_len, plume_w, plume_len), false, wcol)
+					c.draw_set_transform(Vector2.ZERO)
+
+	# 2. Soft feathered halo envelope framing behind hero (very gentle for GM so white robes never wash out)
 	if _ki_glow_tex != null:
-		var rx := (88.0 if gm_vis else 82.0) * shadow_scale * pulse
-		var ry := body_h * 0.96 * pulse
-		c.draw_texture_rect(_ki_glow_tex, Rect2(-rx, -lift - body_h * 0.56 - ry * 0.56, rx * 2.0, ry * 1.44), false, Color(ec.r, ec.g, ec.b, (0.48 if gm_boost else 0.40) * a))
-		c.draw_texture_rect(_ki_glow_tex, Rect2(-rx * 0.72, -lift - body_h * 0.52 - ry * 0.46, rx * 1.44, ry * 1.14), false, Color(mc.r, mc.g, mc.b, (0.58 if gm_boost else 0.48) * a))
+		var rx := (72.0 if gm_vis else 82.0) * shadow_scale * pulse
+		var ry := body_h * 0.86 * pulse
+		var env_m := 0.28 if gm_vis else 1.0
+		c.draw_texture_rect(_ki_glow_tex, Rect2(-rx, -lift - body_h * 0.54 - ry * 0.52, rx * 2.0, ry * 1.36), false, Color(ec.r, ec.g, ec.b, (0.34 if gm_boost else 0.26) * a * env_m))
+		c.draw_texture_rect(_ki_glow_tex, Rect2(-rx * 0.68, -lift - body_h * 0.50 - ry * 0.42, rx * 1.36, ry * 1.08), false, Color(mc.r, mc.g, mc.b, (0.40 if gm_boost else 0.30) * a * env_m))
 
-	# 3. 16 surging anime Ki flame tongues rising BEHIND & AROUND hero silhouette (pushed outward so hero stands crisp in center)
+	# 3. Rising anime Ki flame tongues around hero perimeter (pushed cleanly outside GM silhouette)
 	if _ki_wisp_tex != null:
-		for i in 16:
+		var wisp_cnt := 8 if gm_vis else 16
+		var wisp_a := 0.30 if gm_vis else 0.76
+		for i in wisp_cnt:
 			var h0 := fposmod(sin(float(i * 97 + 13)) * 43758.5453, 1.0)
 			var h1 := fposmod(sin(float(i * 193 + 41)) * 43758.5453, 1.0)
-			var ph := fposmod(t_s * ((1.95 if gm_boost else 1.35) + 0.75 * h0) + h1, 1.0)
+			var ph := fposmod(t_s * ((1.75 if gm_boost else 1.20) + 0.65 * h0) + h1, 1.0)
 			var side_sign := -1.0 if i % 2 == 0 else 1.0
-			var spread := (34.0 + 30.0 * h0) * (1.0 - ph * 0.22) * shadow_scale
-			var wx := side_sign * spread + sin(ph * 9.0 + float(i) * 1.3) * 7.0
-			var wy := -lift - 4.0 - ph * body_h * 1.15
-			var ww := (1.0 - ph * 0.42) * (28.0 + 18.0 * h1) * shadow_scale
-			var wh := (1.0 - ph * 0.25) * (68.0 + 36.0 * h0)
-			var wcol := ec.lerp(mc, ph * 0.68).lerp(cc, 0.22)
-			wcol.a = sin(ph * PI) * 0.76 * a
+			var spread := ((44.0 if gm_vis else 36.0) + 24.0 * h0) * (1.0 - ph * 0.16) * shadow_scale
+			var wx := side_sign * spread + sin(ph * 7.5 + float(i) * 1.3) * 6.0
+			var wy := -lift - 6.0 - ph * body_h * 1.06
+			var ww := (1.0 - ph * 0.44) * (20.0 + 12.0 * h1) * shadow_scale
+			var wh := (1.0 - ph * 0.25) * (54.0 + 26.0 * h0)
+			var wcol := ec.lerp(mc, ph * 0.65).lerp(cc, 0.15)
+			wcol.a = sin(ph * PI) * wisp_a * a
 			c.draw_texture_rect(_ki_wisp_tex, Rect2(wx - ww * 0.5, wy - wh * 0.75, ww, wh), false, wcol)
 
-	# 4. Twin luminous Ki energy ribbons spiraling BEHIND the hero (silky-smooth 32-point curves, never crossing face/torso)
-	var rib_mult := 1.0 if (ki_mode_active or gm_boost) else (0.58 if gm_vis else 1.0)
+	# 4. Twin silky luminous Ki energy ribbons spiraling BEHIND the hero (smooth 36-point curves)
+	var rib_mult := 0.85 if (ki_mode_active or gm_boost) else (0.52 if (gm_vis and gm_flying) else (0.34 if gm_vis else 1.0))
 	for rib in 2:
 		var pts := PackedVector2Array()
-		var base_phase := float(rib) * PI + t_s * (5.0 if gm_boost else 3.2)
-		for step in 32:
-			var frac := float(step) / 31.0
-			var ang := base_phase + frac * TAU * 1.15
-			var rad := (48.0 - frac * 6.0 + sin(t_s * 4.5 + frac * 4.0) * 3.0) * shadow_scale
+		var base_phase := float(rib) * PI + t_s * (4.4 if gm_boost else 2.8)
+		for step in 36:
+			var frac := float(step) / 35.0
+			var ang := base_phase + frac * TAU * 1.10
+			var rad := (46.0 - frac * 8.0 + sin(t_s * 3.8 + frac * 4.0) * 2.5) * shadow_scale
 			var sx := cos(ang) * rad
-			var sy := -lift - 10.0 - frac * body_h * 1.02 + sin(ang) * 7.0
+			var sy := -lift - 10.0 - frac * body_h * 0.96 + sin(ang) * 6.5
 			pts.append(Vector2(sx, sy))
 		if pts.size() >= 2:
-			c.draw_polyline(pts, Color(ec.r, ec.g, ec.b, 0.36 * a * rib_mult), 6.2, true)
-			c.draw_polyline(pts, Color(mc.r, mc.g, mc.b, 0.62 * a * rib_mult), 3.0, true)
-			c.draw_polyline(pts, Color(cc.r, cc.g, cc.b, 0.78 * a * rib_mult), 1.3, true)
+			c.draw_polyline(pts, Color(ec.r, ec.g, ec.b, 0.26 * a * rib_mult), 5.0, true)
+			c.draw_polyline(pts, Color(mc.r, mc.g, mc.b, 0.52 * a * rib_mult), 2.4, true)
+			c.draw_polyline(pts, Color(cc.r, cc.g, cc.b, 0.68 * a * rib_mult), 1.1, true)
 
-	# 5. Crackling outer Ki lightning arcs snapping around outer perimeter behind hero
-	if ki_mode_active or gm_boost:
-		var arc_cnt := 6 if gm_boost else 4
-		var frame_tick := int(t_s * (18.0 if gm_boost else 14.0))
-		for li in arc_cnt:
+	# 5. Crackling outer Ki lightning arcs ONLY for regular race Ki-Mode (NEVER cheap zig-zags on GameMaster!)
+	if ki_mode_active and not gm_vis:
+		var frame_tick := int(t_s * 14.0)
+		for li in 4:
 			var side_l := -1.0 if li % 2 == 0 else 1.0
 			var lh := fposmod(sin(float(li * 73 + frame_tick * 19)) * 43758.5453, 1.0)
 			if lh < 0.22:
@@ -554,8 +583,8 @@ func _draw_ki_aura_front() -> void:
 	var gm_vis := is_gm_avatar and is_hero
 	var a := ki_aura_alpha
 	if gm_vis:
-		var gm_floor := 0.42 + (0.34 if (gm_flying or gm_fly_height > 4.0) else 0.0) + (0.28 if gm_boost else 0.0)
-		a = maxf(a, clampf(gm_floor, 0.0, 1.0))
+		var gm_floor := 0.26 + (0.26 if (gm_flying or gm_fly_height > 4.0) else 0.0) + (0.22 if gm_boost else 0.0)
+		a = maxf(a, clampf(gm_floor, 0.0, 0.88))
 	if not is_hero or a <= 0.01:
 		return
 	var c := ki_aura_front
@@ -564,28 +593,27 @@ func _draw_ki_aura_front() -> void:
 	var ec: Color = pal["edge"]
 	var cc: Color = pal["core"]
 	var t_s := Time.get_ticks_msec() / 1000.0
-	var body_h := maxf(display.y * 1.08, 128.0)
+	var body_h := maxf(display.y * 1.04, 128.0)
 	var lift := get_gm_lift_px()
 
-	# Keep front layer strictly AROUND the outer perimeter & below feet — NEVER obscuring the hero sprite!
-	# 1. Subtle front-half arc at feet level (follows hovering boots when airborne!)
-	c.draw_set_transform(Vector2(0, 2.0 - lift), 0.0, Vector2(1.0, 0.36))
-	c.draw_arc(Vector2.ZERO, 44.0 * shadow_scale, 0.12, PI - 0.12, 22, Color(mc.r, mc.g, mc.b, 0.56 * a), 3.0, true)
+	# Keep front layer strictly AROUND outer perimeter & beneath boots — hero silhouette always 100% crisp!
+	c.draw_set_transform(Vector2(0, 2.0 - lift), 0.0, Vector2(1.0, 0.34))
+	c.draw_arc(Vector2.ZERO, 36.0 * shadow_scale, 0.14, PI - 0.14, 22, Color(mc.r, mc.g, mc.b, 0.42 * a), 2.2, true)
 	c.draw_set_transform(Vector2.ZERO)
 
-	# 2. Outer perimeter rising Ki sparks strictly outside character torso width (|x| >= 38)
-	var spark_cnt := 18 if (gm_vis and (gm_flying or gm_boost)) else 12
+	# Delicate rising celestial stardust sparks strictly outside torso width
+	var spark_cnt := 14 if (gm_vis and (gm_flying or gm_boost)) else 10
 	for ei in spark_cnt:
 		var side_e := -1.0 if ei % 2 == 0 else 1.0
 		var h0 := fposmod(sin(float(ei * 61 + 7)) * 43758.5453, 1.0)
 		var h1 := fposmod(sin(float(ei * 139 + 29)) * 43758.5453, 1.0)
-		var ph := fposmod(t_s * ((1.75 if gm_boost else 1.15) + 0.75 * h0) + h1, 1.0)
-		var ex := side_e * (38.0 + 28.0 * h0) * shadow_scale + sin(t_s * 3.2 + float(ei)) * 5.0
-		var ey := -lift * 0.45 - 8.0 - ph * (body_h * 1.18 + lift * 0.55)
-		var er := (1.0 - ph) * 3.8 + 1.2
-		var fade := sin(ph * PI) * 0.88 * a
-		c.draw_circle(Vector2(ex, ey), er + 1.8, Color(ec.r, ec.g, ec.b, 0.42 * fade))
-		c.draw_circle(Vector2(ex, ey), er * 0.65, Color(cc.r, cc.g, cc.b, 0.94 * fade))
+		var ph := fposmod(t_s * ((1.55 if gm_boost else 1.05) + 0.65 * h0) + h1, 1.0)
+		var ex := side_e * (40.0 + 26.0 * h0) * shadow_scale + sin(t_s * 2.8 + float(ei)) * 5.0
+		var ey := -lift * 0.45 - 8.0 - ph * (body_h * 1.12 + lift * 0.55)
+		var er := (1.0 - ph) * 3.0 + 1.0
+		var fade := sin(ph * PI) * 0.78 * a
+		c.draw_circle(Vector2(ex, ey), er + 1.5, Color(ec.r, ec.g, ec.b, 0.32 * fade))
+		c.draw_circle(Vector2(ex, ey), er * 0.60, Color(cc.r, cc.g, cc.b, 0.88 * fade))
 
 func _draw() -> void:
 	# Grounded contact shadow + faction/aggro ring (shrinks & softens dynamically when GameMaster levitates!)
@@ -765,9 +793,12 @@ func _process(delta: float) -> void:
 		flash = maxf(0.0, flash - delta)
 		sprite.modulate = Color(1.55, 0.75, 0.70, 1.0) if flash > 0.0 else Color.WHITE
 	if is_gm_avatar:
-		var want_h := GM_FLY_ALTITUDE if gm_flying else 0.0
-		var h_rate := 135.0 if gm_flying else 165.0
-		gm_fly_height = move_toward(gm_fly_height, want_h, delta * h_rate)
+		var want_t := 1.0 if gm_flying else 0.0
+		var t_rate := 1.65 if gm_flying else 2.05
+		_gm_fly_t = move_toward(_gm_fly_t, want_t, delta * t_rate)
+		var eased_t := _gm_fly_t * _gm_fly_t * (3.0 - 2.0 * _gm_fly_t)
+		gm_fly_height = GM_FLY_ALTITUDE * eased_t
+		_gm_bank_rad = lerpf(_gm_bank_rad, _gm_bank_target, clampf(delta * 7.5, 0.0, 1.0))
 		_apply_gm_lift_visuals()
 		_queue_ki_redraw()
 	if is_hero and (ki_mode_active or ki_aura_alpha > 0.005):

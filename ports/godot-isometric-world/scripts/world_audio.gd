@@ -12,6 +12,7 @@ const MUSIC := {
 	"menu": "menu",
 }
 const HOST_ROOT := "res:" + "//assets/audio/"
+const HOST_GM_ROOT := "res:" + "//assets/gm/sfx/"
 const FADE := 1.4
 const STEP_INTERVAL := 0.44
 const POOL := 16
@@ -23,6 +24,11 @@ var muted := false
 var music_a := AudioStreamPlayer.new()
 var music_b := AudioStreamPlayer.new()
 var ambience := AudioStreamPlayer.new()
+var gm_flight_loop := AudioStreamPlayer.new()
+var gm_flight_gain := 0.0
+var gm_flight_target := 0.0
+var gm_flight_pitch := 1.0
+var gm_flight_pitch_target := 1.0
 var pool: Array[AudioStreamPlayer] = []
 var cache: Dictionary = {}
 var last_played: Dictionary = {}
@@ -36,7 +42,7 @@ var _step_alt := false
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	for p in [music_a, music_b, ambience]:
+	for p in [music_a, music_b, ambience, gm_flight_loop]:
 		add_child(p)
 	for i in POOL:
 		var s := AudioStreamPlayer.new()
@@ -53,6 +59,8 @@ func set_volumes(music_v: float, sfx_v: float, amb_v: float = -1.0) -> void:
 		fading_in.volume_db = mdb
 	if ambience.playing:
 		ambience.volume_db = ambience_db()
+	if gm_flight_loop.playing:
+		gm_flight_loop.volume_db = _gm_flight_db()
 
 func set_muted(on: bool) -> void:
 	muted = on
@@ -60,6 +68,13 @@ func set_muted(on: bool) -> void:
 		fading_in.volume_db = music_db()
 	if ambience.playing:
 		ambience.volume_db = ambience_db()
+	if gm_flight_loop.playing:
+		gm_flight_loop.volume_db = _gm_flight_db()
+
+func _gm_flight_db() -> float:
+	if muted or sfx_volume <= 0.01 or gm_flight_gain <= 0.002:
+		return -80.0
+	return linear_to_db(maxf(sfx_volume * gm_flight_gain, 0.0001))
 
 func _load_from(path: String) -> AudioStream:
 	if ResourceLoader.exists(path):
@@ -77,6 +92,15 @@ func _load_from(path: String) -> AudioStream:
 func load_stream(rel_path: String) -> AudioStream:
 	if cache.has(rel_path):
 		return cache[rel_path] as AudioStream
+	# Bespoke GameMaster SFX live in assets/gm/sfx/ (ships in core-c101, relocated automatically in OTA preview)
+	if rel_path.begins_with("sfx/gm/"):
+		var gm_file := rel_path.trim_prefix("sfx/gm/")
+		for gp in ["res://assets/gm/sfx/" + gm_file, HOST_GM_ROOT + gm_file]:
+			var gs := _load_from(gp)
+			if gs != null:
+				cache[rel_path] = gs
+				return gs
+		return null
 	# Try OTA pack path (rewritten to res://service_preview/pyra/assets/audio/...) FIRST, then APK host path!
 	for p in ["res://assets/audio/" + rel_path, HOST_ROOT + rel_path]:
 		var s := _load_from(p)
@@ -175,6 +199,26 @@ func play_monster_sfx(actor_id: String, kind: String) -> void:
 	elif kind == "roar":
 		sfx("common/boss-warning", 0.76, 0.06)
 
+func play_gm_sfx(key: String, gain: float = 0.92, pitch_jitter: float = 0.03, pitch_base: float = 1.0) -> void:
+	sfx("gm/" + key, gain, pitch_jitter, pitch_base)
+
+func set_gm_flight_audio(active: bool, boosted: bool, moving: bool) -> void:
+	if not active:
+		gm_flight_target = 0.0
+		gm_flight_pitch_target = 0.96
+		return
+	gm_flight_target = 0.62 if (boosted and moving) else (0.44 if moving else (0.38 if boosted else 0.28))
+	gm_flight_pitch_target = 1.18 if (boosted and moving) else (1.06 if moving else (1.08 if boosted else 0.95))
+	if not gm_flight_loop.playing:
+		var loop_s := load_stream("sfx/gm/gm_flight_loop.mp3")
+		if loop_s != null:
+			if loop_s is AudioStreamMP3:
+				(loop_s as AudioStreamMP3).loop = true
+			gm_flight_loop.stream = loop_s
+			gm_flight_loop.volume_db = _gm_flight_db()
+			gm_flight_loop.pitch_scale = gm_flight_pitch
+			gm_flight_loop.play()
+
 func play_test_chime(race: String = "legend") -> void:
 	play_race_skill(race, "A1")
 
@@ -198,6 +242,15 @@ func step(delta: float, moving: bool, land: String, interior: bool, running: boo
 	sfx("steps/" + surface, 0.36 if running else 0.24, 0.04, lr_pitch * run_boost)
 
 func _process(delta: float) -> void:
+	if gm_flight_loop.playing or gm_flight_target > 0.001:
+		var rate := 1.9 if gm_flight_target > gm_flight_gain else 2.6
+		gm_flight_gain = move_toward(gm_flight_gain, gm_flight_target, delta * rate)
+		gm_flight_pitch = lerpf(gm_flight_pitch, gm_flight_pitch_target, clampf(delta * 4.5, 0.0, 1.0))
+		if gm_flight_loop.playing:
+			gm_flight_loop.volume_db = _gm_flight_db()
+			gm_flight_loop.pitch_scale = gm_flight_pitch
+			if gm_flight_gain <= 0.002 and gm_flight_target <= 0.001:
+				gm_flight_loop.stop()
 	if fade_t >= 1.0:
 		return
 	fade_t = minf(1.0, fade_t + delta / FADE)
@@ -210,7 +263,9 @@ func _process(delta: float) -> void:
 			fading_out.stop()
 
 func stop_all() -> void:
-	for p in [music_a, music_b, ambience]:
+	for p in [music_a, music_b, ambience, gm_flight_loop]:
 		p.stop()
+	gm_flight_gain = 0.0
+	gm_flight_target = 0.0
 	active_music = ""
 	active_ambience = ""

@@ -26,10 +26,10 @@ ALPHA_CUT = 8
 CLIP_META = {
     "idle":         {"fps": 5,  "loop": True},
     "walk":         {"fps": 12, "loop": True, "refSpeed": 125},
-    "takeoff":      {"fps": 18, "loop": False},
-    "hover":        {"fps": 8,  "loop": True},
-    "glide":        {"fps": 10, "loop": True, "refSpeed": 220},
-    "land":         {"fps": 18, "loop": False},
+    "takeoff":      {"fps": 16, "loop": False},
+    "hover":        {"fps": 9,  "loop": True},
+    "glide":        {"fps": 12, "loop": True, "refSpeed": 220},
+    "land":         {"fps": 16, "loop": False},
     "heavy_strike": {"fps": 17, "loop": False},
     "ki_blast":     {"fps": 18, "loop": False},
 }

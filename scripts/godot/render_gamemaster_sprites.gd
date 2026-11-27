@@ -25,7 +25,7 @@ const CLIP_SPECS := {
 	"walk":         {"anim": "walk",         "n": 14, "t0": 0.0,  "t1": -1.0, "loop": true,  "normalize_y": false},
 	"takeoff":      {"anim": "takeoff",      "n": 12, "t0": 0.0,  "t1": -1.0, "loop": false, "normalize_y": true},
 	"hover":        {"anim": "hover",        "n": 14, "t0": 0.0,  "t1": -1.0, "loop": true,  "normalize_y": true},
-	"glide":        {"anim": "glide",        "n": 12, "t0": 0.0,  "t1": -1.0, "loop": true,  "normalize_y": true},
+	"glide":        {"anim": "glide",        "n": 14, "t0": 0.0,  "t1": -1.0, "loop": true,  "normalize_y": true},
 	"land":         {"anim": "land",         "n": 10, "t0": 0.0,  "t1": -1.0, "loop": false, "normalize_y": true},
 	"heavy_strike": {"anim": "heavy_strike", "n": 16, "t0": 0.0,  "t1": -1.0, "loop": false, "normalize_y": false},
 	"ki_blast":     {"anim": "ki_blast",     "n": 16, "t0": 0.0,  "t1": -1.0, "loop": false, "normalize_y": false},
@@ -47,6 +47,109 @@ func _load_glb(path: String) -> Node3D:
 	if doc.append_from_file(path, state) != OK:
 		return null
 	return doc.generate_scene(state) as Node3D
+
+func _add_skel_rot(skel: Skeleton3D, bone_name: String, axis_skel: Vector3, angle_deg: float) -> void:
+	if absf(angle_deg) < 0.01:
+		return
+	var b := skel.find_bone(bone_name)
+	if b < 0:
+		return
+	var par := skel.get_bone_parent(b)
+	var pb := skel.get_bone_global_pose(par).basis if par >= 0 else Basis.IDENTITY
+	var cur_local := Basis(skel.get_bone_pose_rotation(b))
+	var r_skel := Basis(axis_skel.normalized(), deg_to_rad(angle_deg))
+	var new_local := (pb.inverse() * r_skel * pb * cur_local).orthonormalized()
+	skel.set_bone_pose_rotation(b, new_local.get_rotation_quaternion())
+	skel.force_update_all_bone_transforms()
+
+func _smoothstep(edge0: float, edge1: float, x: float) -> float:
+	var t := clampf((x - edge0) / maxf(0.0001, edge1 - edge0), 0.0, 1.0)
+	return t * t * (3.0 - 2.0 * t)
+
+## Applies expressive, anatomically-exact 3D flight poses on top of the GLB skeleton
+## (+X = character left, +Y = up, +Z = forward; right-hand +X tilts +Y toward +Z / -Y toward -Z).
+func _apply_flight_pose(skel: Skeleton3D, clip_key: String, frac: float) -> void:
+	if clip_key == "glide":
+		var w := sin(frac * TAU)
+		var w2 := cos(frac * TAU)
+		# Bold superhuman aerodynamic flight lean (36 deg forward) with proud chest & level eyes
+		_add_skel_rot(skel, "Hips", Vector3.RIGHT, 36.0 + 2.5 * w)
+		_add_skel_rot(skel, "Spine01", Vector3.RIGHT, -6.0)
+		_add_skel_rot(skel, "Spine", Vector3.RIGHT, -6.0)
+		_add_skel_rot(skel, "neck", Vector3.RIGHT, -13.0)
+		_add_skel_rot(skel, "Head", Vector3.RIGHT, -15.0 - 2.0 * w)
+		# Arms swept back like aerodynamic wings, softly bent elbows
+		_add_skel_rot(skel, "LeftArm", Vector3.RIGHT, 34.0 + 4.0 * w)
+		_add_skel_rot(skel, "LeftArm", Vector3.BACK, 10.0 + 2.0 * w2)
+		_add_skel_rot(skel, "LeftForeArm", Vector3.RIGHT, -14.0 + 3.0 * w2)
+		_add_skel_rot(skel, "RightArm", Vector3.RIGHT, 34.0 - 4.0 * w)
+		_add_skel_rot(skel, "RightArm", Vector3.BACK, -10.0 - 2.0 * w2)
+		_add_skel_rot(skel, "RightForeArm", Vector3.RIGHT, -14.0 - 3.0 * w2)
+		# Heroic anime flight legs: left knee tucked forward, right leg streaming back, toes pointed
+		_add_skel_rot(skel, "LeftUpLeg", Vector3.RIGHT, -26.0 + 4.0 * w)
+		_add_skel_rot(skel, "LeftLeg", Vector3.RIGHT, 56.0 + 5.0 * w)
+		_add_skel_rot(skel, "LeftFoot", Vector3.RIGHT, 30.0)
+		_add_skel_rot(skel, "RightUpLeg", Vector3.RIGHT, 10.0 - 4.0 * w)
+		_add_skel_rot(skel, "RightLeg", Vector3.RIGHT, 24.0 + 4.0 * w2)
+		_add_skel_rot(skel, "RightFoot", Vector3.RIGHT, 34.0)
+	elif clip_key == "hover":
+		var w := sin(frac * TAU)
+		var w2 := cos(frac * TAU)
+		# Majestic floating celestial stance (relaxed curved arms, raised martial-god knee, slow breathing)
+		_add_skel_rot(skel, "Hips", Vector3.RIGHT, 7.0 + 2.0 * w)
+		_add_skel_rot(skel, "Spine", Vector3.RIGHT, -5.0 + 2.0 * w)
+		_add_skel_rot(skel, "Head", Vector3.RIGHT, -3.0 + 2.0 * w2)
+		_add_skel_rot(skel, "LeftArm", Vector3.RIGHT, 8.0 + 4.0 * w)
+		_add_skel_rot(skel, "LeftArm", Vector3.BACK, 12.0 + 3.0 * w2)
+		_add_skel_rot(skel, "LeftForeArm", Vector3.RIGHT, -30.0 + 4.0 * w)
+		_add_skel_rot(skel, "RightArm", Vector3.RIGHT, 8.0 - 4.0 * w)
+		_add_skel_rot(skel, "RightArm", Vector3.BACK, -12.0 - 3.0 * w2)
+		_add_skel_rot(skel, "RightForeArm", Vector3.RIGHT, -30.0 - 4.0 * w)
+		_add_skel_rot(skel, "LeftUpLeg", Vector3.RIGHT, -28.0 + 3.5 * w)
+		_add_skel_rot(skel, "LeftLeg", Vector3.RIGHT, 50.0 + 3.5 * w)
+		_add_skel_rot(skel, "LeftFoot", Vector3.RIGHT, 26.0)
+		_add_skel_rot(skel, "RightUpLeg", Vector3.RIGHT, 6.0 - 2.5 * w)
+		_add_skel_rot(skel, "RightLeg", Vector3.RIGHT, 18.0 + 3.0 * w2)
+		_add_skel_rot(skel, "RightFoot", Vector3.RIGHT, 24.0)
+	elif clip_key == "takeoff":
+		# Athletic power-gather crouch -> explosive celestial launch into hover stance
+		var crouch := sin(clampf(frac / 0.34, 0.0, 1.0) * PI)
+		var launch := _smoothstep(0.28, 0.92, frac)
+		var arch := sin(clampf((frac - 0.25) / 0.60, 0.0, 1.0) * PI)
+		_add_skel_rot(skel, "Hips", Vector3.RIGHT, 16.0 * crouch + 7.0 * launch - 5.0 * arch)
+		_add_skel_rot(skel, "Spine", Vector3.RIGHT, 8.0 * crouch - 10.0 * arch - 5.0 * launch)
+		_add_skel_rot(skel, "Head", Vector3.RIGHT, 6.0 * crouch - 8.0 * arch - 3.0 * launch)
+		_add_skel_rot(skel, "LeftArm", Vector3.RIGHT, -16.0 * crouch + 22.0 * arch + 8.0 * launch)
+		_add_skel_rot(skel, "LeftArm", Vector3.BACK, -8.0 * crouch + 18.0 * arch + 12.0 * launch)
+		_add_skel_rot(skel, "LeftForeArm", Vector3.RIGHT, -42.0 * crouch - 30.0 * launch)
+		_add_skel_rot(skel, "RightArm", Vector3.RIGHT, -16.0 * crouch + 22.0 * arch + 8.0 * launch)
+		_add_skel_rot(skel, "RightArm", Vector3.BACK, 8.0 * crouch - 18.0 * arch - 12.0 * launch)
+		_add_skel_rot(skel, "RightForeArm", Vector3.RIGHT, -42.0 * crouch - 30.0 * launch)
+		_add_skel_rot(skel, "LeftUpLeg", Vector3.RIGHT, -32.0 * crouch - 28.0 * launch)
+		_add_skel_rot(skel, "LeftLeg", Vector3.RIGHT, 58.0 * crouch + 50.0 * launch)
+		_add_skel_rot(skel, "LeftFoot", Vector3.RIGHT, 26.0 * launch)
+		_add_skel_rot(skel, "RightUpLeg", Vector3.RIGHT, -28.0 * crouch + 8.0 * launch)
+		_add_skel_rot(skel, "RightLeg", Vector3.RIGHT, 52.0 * crouch + 18.0 * launch)
+		_add_skel_rot(skel, "RightFoot", Vector3.RIGHT, 24.0 * launch)
+	elif clip_key == "land":
+		# Hover stance -> impact-absorbing superhero landing crouch -> noble upright recovery
+		var hover_w := 1.0 - _smoothstep(0.05, 0.45, frac)
+		var crouch := sin(clampf((frac - 0.22) / 0.56, 0.0, 1.0) * PI)
+		_add_skel_rot(skel, "Hips", Vector3.RIGHT, 7.0 * hover_w + 15.0 * crouch)
+		_add_skel_rot(skel, "Spine", Vector3.RIGHT, -5.0 * hover_w + 8.0 * crouch)
+		_add_skel_rot(skel, "Head", Vector3.RIGHT, -3.0 * hover_w - 6.0 * crouch)
+		_add_skel_rot(skel, "LeftArm", Vector3.RIGHT, 8.0 * hover_w + 14.0 * crouch)
+		_add_skel_rot(skel, "LeftArm", Vector3.BACK, 12.0 * hover_w + 14.0 * crouch)
+		_add_skel_rot(skel, "LeftForeArm", Vector3.RIGHT, -30.0 * hover_w - 24.0 * crouch)
+		_add_skel_rot(skel, "RightArm", Vector3.RIGHT, 8.0 * hover_w + 14.0 * crouch)
+		_add_skel_rot(skel, "RightArm", Vector3.BACK, -12.0 * hover_w - 14.0 * crouch)
+		_add_skel_rot(skel, "RightForeArm", Vector3.RIGHT, -30.0 * hover_w - 24.0 * crouch)
+		_add_skel_rot(skel, "LeftUpLeg", Vector3.RIGHT, -28.0 * hover_w - 32.0 * crouch)
+		_add_skel_rot(skel, "LeftLeg", Vector3.RIGHT, 50.0 * hover_w + 56.0 * crouch)
+		_add_skel_rot(skel, "LeftFoot", Vector3.RIGHT, 26.0 * hover_w)
+		_add_skel_rot(skel, "RightUpLeg", Vector3.RIGHT, 6.0 * hover_w - 26.0 * crouch)
+		_add_skel_rot(skel, "RightLeg", Vector3.RIGHT, 18.0 * hover_w + 50.0 * crouch)
+		_add_skel_rot(skel, "RightFoot", Vector3.RIGHT, 24.0 * hover_w)
 
 func _skeleton_y_bounds(skeleton: Skeleton3D, model: Node3D, unit_scale: float) -> Vector2:
 	var low := 1.0e9
@@ -189,14 +292,17 @@ func run() -> void:
 		var pingpong := bool(spec.get("pingpong", false))
 
 		var times: Array[float] = []
+		var fracs: Array[float] = []
 		if pingpong and n >= 4:
 			var half_n := n / 2
 			for i in n:
 				var frac := float(i) / float(half_n) if i <= half_n else float(n - i) / float(maxi(1, n - half_n))
+				fracs.append(clampf(frac, 0.0, 1.0))
 				times.append(lerpf(t0, t1, clampf(frac, 0.0, 1.0)))
 		else:
 			for i in n:
 				var frac := float(i) / float(n) if is_loop else float(i) / float(maxi(1, n - 1))
+				fracs.append(frac)
 				times.append(lerpf(t0, t1, frac))
 
 		player.play(anim_name)
@@ -205,9 +311,10 @@ func run() -> void:
 		# Compute smooth root XZ lock + smooth Y normalization for flight clips
 		var hips_path: Array[Vector3] = []
 		var foot_lows: Array[float] = []
-		for t: float in times:
-			player.seek(t, true)
+		for i in n:
+			player.seek(times[i], true)
 			skeleton.force_update_all_bone_transforms()
+			_apply_flight_pose(skeleton, clip_key, fracs[i])
 			var hp: Vector3 = (to_model_rest * skeleton.get_bone_global_pose(hips).origin) * unit_scale
 			hips_path.append(hp)
 			var yb := _skeleton_y_bounds(skeleton, model, unit_scale)
@@ -232,6 +339,7 @@ func run() -> void:
 		for f in n:
 			player.seek(times[f], true)
 			skeleton.force_update_all_bone_transforms()
+			_apply_flight_pose(skeleton, clip_key, fracs[f])
 			var dy := 0.0
 			if norm_y:
 				# Keep lowest feet cleanly at ground line inside sprite cell; actor_view.gd adds dynamic levitation height!

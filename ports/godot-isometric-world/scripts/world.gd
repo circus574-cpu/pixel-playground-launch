@@ -971,6 +971,100 @@ func load_terrain(land: String) -> void:
 			pc["x"] = float(p.get("x", 0.0)) + half
 			pc["z"] = float(p.get("z", 0.0)) + half
 			props.append(pc)
+	_sanitize_walkable_grid()
+
+func _set_walkable_disc(wx: float, wz: float, radius_u: float, val: int, keep_roads: bool = false) -> void:
+	if walkable.is_empty() or grid_size <= 1 or world_size <= 1.0:
+		return
+	var scale := float(grid_size - 1) / world_size
+	var cx := wx * scale
+	var cz := wz * scale
+	var rg := radius_u * scale
+	var r2 := rg * rg
+	var x0 := clampi(int(floor(cx - rg)), 0, grid_size - 1)
+	var x1 := clampi(int(ceil(cx + rg)), 0, grid_size - 1)
+	var z0 := clampi(int(floor(cz - rg)), 0, grid_size - 1)
+	var z1 := clampi(int(ceil(cz + rg)), 0, grid_size - 1)
+	var has_surf := keep_roads and surface_img != null and surface_img.get_width() > 1 and surface_img.get_height() > 1
+	var sw := surface_img.get_width() - 1 if has_surf else 0
+	var sh := surface_img.get_height() - 1 if has_surf else 0
+	for gz in range(z0, z1 + 1):
+		var dz := float(gz) - cz
+		var row := gz * grid_size
+		var sz := clampi(int(round(float(gz) / float(grid_size - 1) * float(sh))), 0, sh) if has_surf else 0
+		for gx in range(x0, x1 + 1):
+			var dx := float(gx) - cx
+			if dx * dx + dz * dz <= r2:
+				if has_surf:
+					var sx := clampi(int(round(float(gx) / float(grid_size - 1) * float(sw))), 0, sw)
+					if surface_img.get_pixel(sx, sz).b > 0.22:
+						continue
+				walkable[row + gx] = val
+
+func _sanitize_walkable_grid() -> void:
+	# Rebuilds dry-land walkability from real terrain (surface.png water/road channels + height.r32 + current buildings.json)
+	# so legacy ghost collision blobs baked into walkable.u8 can NEVER create invisible walls on open ground or roads.
+	if walkable.size() != grid_size * grid_size or heights.size() != grid_size * grid_size or surface_img == null:
+		return
+	var sw := surface_img.get_width()
+	var sh := surface_img.get_height()
+	if sw <= 1 or sh <= 1:
+		return
+	var inv_g := 1.0 / float(grid_size - 1)
+	for gz in grid_size:
+		var sz := clampi(int(round(float(gz) * inv_g * float(sh - 1))), 0, sh - 1)
+		var row := gz * grid_size
+		for gx in grid_size:
+			var sx := clampi(int(round(float(gx) * inv_g * float(sw - 1))), 0, sw - 1)
+			var col := surface_img.get_pixel(sx, sz)
+			var idx := row + gx
+			if col.b > 0.22:
+				# Painted roads & bridges are always walkable
+				walkable[idx] = 255
+			elif col.g > 0.28 or heights[idx] <= 1.2:
+				# Ocean, rivers, lava lakes & submerged coastline remain blocked
+				walkable[idx] = 0
+			else:
+				# Open dry ground is always walkable (eliminates 100% of ghost invisible walls!)
+				walkable[idx] = 255
+	# Stamp tight conservative inner footprints ONLY for actual visible solid buildings (never covering roads!)
+	const SOLID_RADII := {
+		"landmark": 14.0,
+		"hall": 14.0,
+		"arena": 14.0,
+		"inn": 11.0,
+		"smithy": 11.0,
+		"shop": 11.0,
+		"depot": 11.0,
+		"house": 9.5,
+		"tower": 9.5,
+	}
+	for b: Dictionary in buildings:
+		var role := str(b.get("role", ""))
+		if SOLID_RADII.has(role):
+			_set_walkable_disc(float(b.get("x", 0.0)), float(b.get("z", 0.0)), float(SOLID_RADII[role]), 0, true)
+	# Guarantee unobstructed approach around bridges, capital plaza, entrances, NPCs, waystones, labyrinths & loot
+	_set_walkable_disc(capital_center.x, capital_center.y, 38.0, 255, false)
+	for b: Dictionary in buildings:
+		var role := str(b.get("role", ""))
+		if role == "bridge":
+			_set_walkable_disc(float(b.get("x", 0.0)), float(b.get("z", 0.0)), 28.0, 255, false)
+		elif role == "gate" or role == "labyrinth":
+			_set_walkable_disc(float(b.get("x", 0.0)), float(b.get("z", 0.0)), 24.0, 255, false)
+		if b.has("entrance"):
+			var ent: Array = b.get("entrance", [])
+			if ent.size() >= 2:
+				_set_walkable_disc(float(ent[0]), float(ent[1]), 24.0, 255, false)
+	for n: Dictionary in npcs_data:
+		_set_walkable_disc(float(n.get("x", 0.0)), float(n.get("z", 0.0)), 18.0, 255, false)
+	for ws_item: Dictionary in waystones_data:
+		_set_walkable_disc(float(ws_item.get("x", 0.0)), float(ws_item.get("z", 0.0)), 20.0, 255, false)
+	for lab: Dictionary in labyrinths_data:
+		_set_walkable_disc(float(lab.get("x", 0.0)), float(lab.get("z", 0.0)), 24.0, 255, false)
+	for tr: Dictionary in treasures_data:
+		_set_walkable_disc(float(tr.get("x", 0.0)), float(tr.get("z", 0.0)), 18.0, 255, false)
+	for g: Dictionary in gatherables_data:
+		_set_walkable_disc(float(g.get("x", 0.0)), float(g.get("z", 0.0)), 16.0, 255, false)
 
 func iso(x: float, z: float, h: float) -> Vector2:
 	return Vector2((x - z) * ISO_W, (x + z) * ISO_D - h * ISO_H)
@@ -2959,7 +3053,10 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 			else:
 				combat_vfx.spawn_slash(hero.position, aim_dir, race_k, 1.15 if cur_step == 3 else 0.92, cur_step % 2 == 1)
 		if audio != null:
-			audio.play_race_skill(race_k, "R")
+			if gm_form_active and hero != null and bool(hero.is_gm_avatar):
+				audio.play_gm_sfx("gm_heavy_strike", 0.96, 0.04)
+			else:
+				audio.play_race_skill(race_k, "R")
 		if race_k == "planetary":
 			planetary_combo = (planetary_combo + 1) % 3
 			if planetary_combo == 0:
@@ -2993,7 +3090,10 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 		if hero != null and hero.has_method("play_action"):
 			hero.play_action(clip_name, fb_name)
 		if audio != null:
-			audio.play_race_skill(race_k, nid)
+			if is_gm_hero:
+				audio.play_gm_sfx("gm_ki_blast", 0.96, 0.04)
+			else:
+				audio.play_race_skill(race_k, nid)
 		var end_pos: Vector2 = (target_node.position as Vector2) if is_instance_valid(target_node) else (hero.position + aim_dir * 165.0)
 		if is_gm_hero and combat_vfx != null and combat_vfx.has_method("spawn_gm_ki_blast"):
 			combat_vfx.spawn_gm_ki_blast(hero.position, end_pos, float(hero.get_gm_lift_px()))
@@ -3320,6 +3420,8 @@ func enter_building(b: Dictionary) -> void:
 		gm_flying = false
 		if hero != null and hero.has_method("set_gm_flight"):
 			hero.set_gm_flight(false, true)
+		if audio != null and audio.has_method("set_gm_flight_audio"):
+			audio.set_gm_flight_audio(false, false, false)
 	in_interior = true
 	map_expanded = false
 	atlas_expanded = false
@@ -3617,6 +3719,8 @@ func _refresh_gm_access() -> void:
 		gm_form_active = false
 		gm_flying = false
 		gm_boost_active = false
+		if audio != null and audio.has_method("set_gm_flight_audio"):
+			audio.set_gm_flight_audio(false, false, false)
 		gm_map_teleport_mode = false
 		gm_minimap_teleport = false
 		if _gm_ki_preview:
@@ -3661,6 +3765,8 @@ func toggle_gm_form(force_on: Variant = null) -> bool:
 		if gm_flying:
 			toggle_gm_flight(false)
 		gm_boost_active = false
+		if audio != null and audio.has_method("set_gm_flight_audio"):
+			audio.set_gm_flight_audio(false, false, false)
 	gm_form_active = want
 	rebuild_hero(get_theme_land(current_land))
 	sync_hero(true)
@@ -3669,10 +3775,12 @@ func toggle_gm_form(force_on: Variant = null) -> bool:
 			combat_vfx.spawn_transform_pillar(hero.position, "gm")
 			trigger_camera_shake(11.0, 0.45)
 			if audio != null:
-				audio.sfx("development/ki-charge", 0.92)
+				audio.play_gm_sfx("gm_transform", 0.94, 0.02)
 			show_combat_toast("✦ FORMA GAMEMASTERA AKTYWNA — LOT [L], PRZYSPIESZENIE [U]!", Color(0.54, 0.96, 1.0))
 		else:
 			combat_vfx.spawn_teleport_flash(hero.position, _hero_race_key())
+			if audio != null:
+				audio.play_gm_sfx("gm_boost_off", 0.72, 0.03)
 			show_combat_toast("Powrócono do zwykłej postaci bohatera.", Color(1.0, 0.88, 0.56))
 	if rpg_hud != null:
 		rpg_hud._refresh_visuals()
@@ -3698,7 +3806,9 @@ func toggle_gm_flight(force_on: Variant = null) -> bool:
 			combat_vfx.spawn_gm_liftoff(hero.position)
 		trigger_camera_shake(7.0, 0.30)
 		if audio != null:
-			audio.sfx("development/ki-charge", 0.75, 0.14)
+			audio.play_gm_sfx("gm_takeoff", 0.94, 0.03)
+			if audio.has_method("set_gm_flight_audio"):
+				audio.set_gm_flight_audio(true, gm_boost_active, false)
 		show_combat_toast("🕊 LOT GAMEMASTERA — lecisz nad ziemią i omijasz obiekty!", Color(0.46, 0.96, 1.0))
 	else:
 		if not gm_noclip and not is_walkable(hero_pos.x, hero_pos.y):
@@ -3710,7 +3820,9 @@ func toggle_gm_flight(force_on: Variant = null) -> bool:
 			combat_vfx.spawn_gm_land(hero.position)
 		trigger_camera_shake(5.5, 0.22)
 		if audio != null:
-			audio.sfx("ui/click", 0.72, -0.18)
+			if audio.has_method("set_gm_flight_audio"):
+				audio.set_gm_flight_audio(false, false, false)
+			audio.play_gm_sfx("gm_land", 0.95, 0.03)
 		show_combat_toast("✦ Wylądowano na ziemi.", Color(1.0, 0.90, 0.54))
 	if rpg_hud != null:
 		rpg_hud._refresh_visuals()
@@ -3734,9 +3846,11 @@ func toggle_gm_boost(force_on: Variant = null) -> bool:
 			combat_vfx.spawn_gm_boost_burst(hero.position, lift_px)
 		trigger_camera_shake(5.5, 0.20)
 		if audio != null:
-			audio.sfx("ui/teleport", 0.72, 0.22)
+			audio.play_gm_sfx("gm_boost_on", 0.94, 0.03)
 		show_combat_toast("⚡ PRZYSPIESZENIE GAMEMASTERA (3.5×) AKTYWNE!", Color(1.0, 0.88, 0.34))
 	else:
+		if audio != null:
+			audio.play_gm_sfx("gm_boost_off", 0.78, 0.03)
 		show_combat_toast("⚡ Przyspieszenie GameMastera wyłączone.", Color(0.84, 0.88, 0.96))
 	if rpg_hud != null:
 		rpg_hud._refresh_visuals()
@@ -4428,6 +4542,8 @@ func step_world(delta: float) -> void:
 	if audio != null:
 		audio.step(delta, is_moving and not gm_flying, audio_theme, false, is_running, is_in_water(hero_pos.x, hero_pos.y), in_safe_now)
 		audio.play_ambience(audio_theme, in_safe_now)
+		if audio.has_method("set_gm_flight_audio"):
+			audio.set_gm_flight_audio(gm_form_active and gm_flying and not in_interior and not in_labyrinth, gm_boost_active, is_moving)
 	if hero != null:
 		hero.animate(screen_dir, is_running, lerpf(0.62, 1.0, move_mag))
 	sync_hero()
@@ -4655,16 +4771,38 @@ func _check_ocean_crossing() -> bool:
 	return true
 
 func try_move(step: Vector2) -> void:
+	if step.length_squared() < 1e-8:
+		return
 	if gm_noclip or gm_flying:
 		hero_pos = Vector2(clampf(hero_pos.x + step.x, 12.0, world_size - 12.0), clampf(hero_pos.y + step.y, 12.0, world_size - 12.0))
 		_check_ocean_crossing()
 		return
-	var h_now := height_at(hero_pos.x, hero_pos.y)
-	for candidate: Vector2 in [hero_pos + step, Vector2(hero_pos.x + step.x, hero_pos.y), Vector2(hero_pos.x, hero_pos.y + step.y)]:
-		if is_walkable(candidate.x, candidate.y) and absf(height_at(candidate.x, candidate.y) - h_now) < 5.5:
-			hero_pos = candidate
-			_check_ocean_crossing()
-			return
+	var dist := step.length()
+	var sub_n := clampi(int(ceil(dist / 2.5)), 1, 12)
+	var sub := step / float(sub_n)
+	var moved := false
+	for _i in sub_n:
+		var h_now := height_at(hero_pos.x, hero_pos.y)
+		var stepped := false
+		var cands: Array[Vector2] = [
+			hero_pos + sub,
+			hero_pos + sub.rotated(0.49),
+			hero_pos + sub.rotated(-0.49),
+			hero_pos + sub.rotated(0.96),
+			hero_pos + sub.rotated(-0.96),
+			Vector2(hero_pos.x + sub.x, hero_pos.y),
+			Vector2(hero_pos.x, hero_pos.y + sub.y),
+		]
+		for candidate: Vector2 in cands:
+			if is_walkable(candidate.x, candidate.y) and absf(height_at(candidate.x, candidate.y) - h_now) < 7.5:
+				hero_pos = candidate
+				stepped = true
+				moved = true
+				break
+		if not stepped:
+			break
+	if moved:
+		_check_ocean_crossing()
 
 var _last_cull_cam := Vector2(1e9, 1e9)
 var _last_cull_zoom := -1.0

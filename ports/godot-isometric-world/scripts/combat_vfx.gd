@@ -989,59 +989,56 @@ func _draw() -> void:
 		elif kind == "gm_liftoff":
 			var pos: Vector2 = fx["pos"]
 			var e_col: Color = fx.get("edge", main_c) as Color
-			# Vertical celestial updraft beam
-			_draw_glow(pos + Vector2(0.0, -70.0), 84.0 * (1.0 - p * 0.3), 170.0, Color(main_c.r, main_c.g, main_c.b, 0.56 * fade))
-			_draw_glow(pos + Vector2(0.0, -54.0), 46.0 * (1.0 - p * 0.2), 145.0, Color(e_col.r, e_col.g, e_col.b, 0.50 * fade))
-			# Expanding golden-cyan ground pressure wave + 3 rising wind rings
-			draw_set_transform(pos, 0.0, Vector2(1.0, 0.44))
-			var gr := lerpf(28.0, 195.0, pow(p, 0.65))
-			draw_arc(Vector2.ZERO, gr, 0.0, TAU, 44, Color(e_col.r, e_col.g, e_col.b, 0.94 * fade), 5.4 * fade, true)
-			draw_arc(Vector2.ZERO, gr * 0.72, 0.0, TAU, 36, Color(main_c.r, main_c.g, main_c.b, 0.88 * fade), 3.4 * fade, true)
+			# Subtle translucent celestial updraft column (never blinds the ascending hero)
+			_draw_glow(pos + Vector2(0.0, -42.0), 54.0 * (1.0 - p * 0.25), 110.0, Color(main_c.r, main_c.g, main_c.b, 0.18 * fade))
+			# Crisp expanding ground shockwave + 2 sleek rising updraft rings
+			draw_set_transform(pos, 0.0, Vector2(1.0, 0.42))
+			var gr := lerpf(28.0, 184.0, pow(p, 0.62))
+			draw_arc(Vector2.ZERO, gr, 0.0, TAU, 44, Color(e_col.r, e_col.g, e_col.b, 0.76 * fade), 3.6 * fade, true)
+			draw_arc(Vector2.ZERO, gr * 0.74, 0.0, TAU, 36, Color(main_c.r, main_c.g, main_c.b, 0.68 * fade), 2.2 * fade, true)
 			draw_set_transform(Vector2.ZERO)
-			for ri in 3:
-				var rph := clampf(p * 1.45 - float(ri) * 0.22, 0.0, 1.0)
+			for ri in 2:
+				var rph := clampf(p * 1.38 - float(ri) * 0.26, 0.0, 1.0)
 				if rph > 0.0 and rph < 1.0:
-					var ry := -rph * 110.0
-					var rr := lerpf(96.0, 34.0, rph)
-					var ra := sin(rph * PI) * 0.92
-					draw_set_transform(pos + Vector2(0.0, ry), 0.0, Vector2(1.0, 0.38))
-					draw_arc(Vector2.ZERO, rr, 0.0, TAU, 36, Color(main_c.r, main_c.g, main_c.b, ra), 3.6, true)
-					draw_arc(Vector2.ZERO, rr * 0.82, 0.0, TAU, 28, Color(core_c.r, core_c.g, core_c.b, ra * 0.8), 2.0, true)
+					var ry := -rph * 114.0
+					var rr := lerpf(82.0, 28.0, rph)
+					var ra := sin(rph * PI) * 0.68
+					draw_set_transform(pos + Vector2(0.0, ry), 0.0, Vector2(1.0, 0.36))
+					draw_arc(Vector2.ZERO, rr, 0.0, TAU, 36, Color(main_c.r, main_c.g, main_c.b, ra), 2.4, true)
+					draw_arc(Vector2.ZERO, rr * 0.84, 0.0, TAU, 28, Color(core_c.r, core_c.g, core_c.b, ra * 0.60), 1.4, true)
 					draw_set_transform(Vector2.ZERO)
 			for m: Dictionary in fx.get("motes", []):
 				var ma := float(m["ang"]) + float(m["swirl"]) * p
 				var mrad := float(m["rad"]) * (1.0 - p * 0.38)
-				var mpos := pos + Vector2(cos(ma) * mrad, sin(ma) * mrad * 0.44 - float(m["rise"]) * p)
-				var msz := float(m["sz"]) * (1.0 - p * 0.45)
-				_draw_glow(mpos, msz * 2.6, msz * 2.6, Color(e_col.r, e_col.g, e_col.b, 0.65 * fade))
-				draw_circle(mpos, maxf(1.4, msz * 0.7), Color(core_c.r, core_c.g, core_c.b, 0.96 * fade))
+				var mpos := pos + Vector2(cos(ma) * mrad, sin(ma) * mrad * 0.42 - float(m["rise"]) * p)
+				var msz := float(m["sz"]) * (1.0 - p * 0.48)
+				_draw_glow(mpos, msz * 2.0, msz * 2.0, Color(e_col.r, e_col.g, e_col.b, 0.44 * fade))
+				draw_circle(mpos, maxf(1.2, msz * 0.55), Color(core_c.r, core_c.g, core_c.b, 0.84 * fade))
 
 		elif kind == "gm_land":
 			var pos: Vector2 = fx["pos"]
 			var e_col: Color = fx.get("edge", main_c) as Color
-			draw_set_transform(pos, 0.0, Vector2(1.0, 0.45))
-			var lr := lerpf(24.0, 175.0, pow(p, 0.60))
-			draw_arc(Vector2.ZERO, lr, 0.0, TAU, 44, Color(e_col.r, e_col.g, e_col.b, 0.95 * fade), 5.6 * fade, true)
-			draw_arc(Vector2.ZERO, lr * 0.65, 0.0, TAU, 36, Color(main_c.r, main_c.g, main_c.b, 0.85 * fade), 3.2 * fade, true)
-			draw_circle(Vector2.ZERO, lr * 0.45, Color(core_c.r, core_c.g, core_c.b, 0.22 * fade))
+			draw_set_transform(pos, 0.0, Vector2(1.0, 0.43))
+			var lr := lerpf(22.0, 168.0, pow(p, 0.58))
+			draw_arc(Vector2.ZERO, lr, 0.0, TAU, 44, Color(e_col.r, e_col.g, e_col.b, 0.84 * fade), 4.2 * fade, true)
+			draw_arc(Vector2.ZERO, lr * 0.68, 0.0, TAU, 36, Color(main_c.r, main_c.g, main_c.b, 0.72 * fade), 2.2 * fade, true)
+			draw_circle(Vector2.ZERO, lr * 0.40, Color(core_c.r, core_c.g, core_c.b, 0.12 * fade))
 			draw_set_transform(Vector2.ZERO)
 			for sp: Dictionary in fx.get("sparks", []):
 				var sp_p := pos + (sp["dir"] as Vector2) * (float(sp["spd"]) * age)
-				var sz := float(sp["sz"]) * (1.0 - p * 0.55)
-				draw_circle(sp_p, sz + 1.4, Color(e_col.r, e_col.g, e_col.b, 0.75 * fade))
-				draw_circle(sp_p, maxf(1.2, sz * 0.65), Color(core_c.r, core_c.g, core_c.b, 0.96 * fade))
+				var sz := float(sp["sz"]) * (1.0 - p * 0.58)
+				draw_circle(sp_p, sz + 1.2, Color(e_col.r, e_col.g, e_col.b, 0.58 * fade))
+				draw_circle(sp_p, maxf(1.1, sz * 0.55), Color(core_c.r, core_c.g, core_c.b, 0.88 * fade))
 
 		elif kind == "gm_boost_burst":
 			var pos: Vector2 = fx["pos"]
 			var e_col: Color = fx.get("edge", main_c) as Color
-			var br := lerpf(24.0, 145.0, pow(p, 0.55))
-			_draw_glow(pos, br * 1.1, br * 0.85, Color(main_c.r, main_c.g, main_c.b, 0.68 * fade))
-			draw_arc(pos, br, 0.0, TAU, 40, Color(e_col.r, e_col.g, e_col.b, 0.94 * fade), 4.6 * fade, true)
-			draw_arc(pos, br * 0.64, 0.0, TAU, 32, Color(core_c.r, core_c.g, core_c.b, 0.96 * fade), 2.8 * fade, true)
-			for ri in 12:
-				var ra := float(ri) * (TAU / 12.0) + p * 0.65
-				_draw_tapered_ray(pos, ra, br * 1.25, 6.5 * fade, Color(e_col.r, e_col.g, e_col.b, 0.82 * fade), 0.72)
-				_draw_tapered_ray(pos, ra, br * 0.92, 3.0 * fade, Color(core_c.r, core_c.g, core_c.b, 0.96 * fade), 0.72)
+			var br := lerpf(42.0, 164.0, pow(p, 0.52))
+			# Clean expanding isometric sonic-boom shockwave ring framing hero (ZERO blinding white blob over face!)
+			draw_set_transform(pos + Vector2(0.0, 18.0), 0.0, Vector2(1.0, 0.44))
+			draw_arc(Vector2.ZERO, br, 0.0, TAU, 44, Color(e_col.r, e_col.g, e_col.b, 0.68 * fade), 3.4 * fade, true)
+			draw_arc(Vector2.ZERO, br * 0.78, 0.0, TAU, 36, Color(main_c.r, main_c.g, main_c.b, 0.72 * fade), 2.2 * fade, true)
+			draw_set_transform(Vector2.ZERO)
 
 		elif kind == "gm_trail":
 			var from_p: Vector2 = fx["from"]
@@ -1050,12 +1047,18 @@ func _draw() -> void:
 			var e_col: Color = fx.get("edge", main_c) as Color
 			var dir_v := (to_p - from_p)
 			var perp := dir_v.orthogonal().normalized() if dir_v.length_squared() > 1.0 else Vector2(0.0, 1.0)
-			var spread := 18.0 if boosted else 12.0
-			# Central luminous slipstream + twin wing contrails
-			draw_line(from_p, to_p, Color(main_c.r, main_c.g, main_c.b, (0.68 if boosted else 0.45) * fade), (22.0 if boosted else 14.0) * fade, true)
-			draw_line(from_p, to_p, Color(core_c.r, core_c.g, core_c.b, (0.94 if boosted else 0.72) * fade), (6.0 if boosted else 3.6) * fade, true)
-			draw_line(from_p + perp * spread, to_p + perp * (spread * 0.55), Color(e_col.r, e_col.g, e_col.b, (0.82 if boosted else 0.54) * fade), (5.5 if boosted else 3.2) * fade, true)
-			draw_line(from_p - perp * spread, to_p - perp * (spread * 0.55), Color(e_col.r, e_col.g, e_col.b, (0.82 if boosted else 0.54) * fade), (5.5 if boosted else 3.2) * fade, true)
-			if boosted:
-				_draw_glow(from_p.lerp(to_p, 0.5), 36.0 * fade, 44.0 * fade, Color(e_col.r, e_col.g, e_col.b, 0.46 * fade))
+			var spread := 22.0 if boosted else 14.0
+			# Tapered translucent slipstream wake ribbon + delicate golden wingtip contrails
+			var w0 := (8.5 if boosted else 5.0) * fade
+			var w1 := (2.0 if boosted else 1.2) * fade
+			var mid_poly := PackedVector2Array([
+				from_p + perp * w1,
+				to_p + perp * w0,
+				to_p - perp * w0,
+				from_p - perp * w1,
+			])
+			draw_colored_polygon(mid_poly, Color(main_c.r, main_c.g, main_c.b, (0.24 if boosted else 0.16) * fade))
+			draw_line(from_p, to_p, Color(core_c.r, core_c.g, core_c.b, (0.42 if boosted else 0.28) * fade), (2.4 if boosted else 1.5) * fade, true)
+			draw_line(from_p + perp * (spread * 0.58), to_p + perp * spread, Color(e_col.r, e_col.g, e_col.b, (0.50 if boosted else 0.30) * fade), (2.6 if boosted else 1.6) * fade, true)
+			draw_line(from_p - perp * (spread * 0.58), to_p - perp * spread, Color(e_col.r, e_col.g, e_col.b, (0.50 if boosted else 0.30) * fade), (2.6 if boosted else 1.6) * fade, true)
 
