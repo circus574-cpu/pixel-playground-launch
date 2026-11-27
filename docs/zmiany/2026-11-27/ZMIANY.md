@@ -28,6 +28,10 @@ oraz serwerem obecności na żywo [`src/server/godot/live.ts`](../../../src/serv
 - Ujednolicono wygląd i działanie pobierania na **wszystkich ekranach gry** ([`boot.gd`](../../../ports/godot-pyra/scripts/boot.gd), [`service_screen.gd`](../../../ports/godot-pyra/scripts/service_screen.gd), [`content.gd`](../../../ports/godot-pyra/scripts/content.gd), [`gate_screen.gd`](../../../ports/godot-pyra/scripts/gate_screen.gd), [`city_game.gd`](../../../ports/godot-pyra/scripts/city_game.gd)): wszędzie pojawia się identyczny dolny kuty pasek `BottomDownloadDock` z obsługą Android safe-area, prędkością na żywo (`⚡ MB/s`), postępem `MB / MB · %` oraz licznikiem strumieni (`4 wątki równolegle · bez limitu`), bez starej górnej pigułki ani środkowego paska.
 - Dodano prawdziwe **4-wątkowe równoległe pobieranie strumieniowe HTTP `Range: bytes=...` (`206 Partial Content`)** dla każdego pliku `>= 2 MB` (zarówno w `boot.gd` dla `core-c101`, jak i przy pojedynczych paczkach w `service_screen.gd` oraz `content.gd`) z automatycznym płynnym fallbackiem dla serwerów bez `Range` (`200 OK`) i weryfikacją SHA-256.
 - Dodano `scripts/gate_screen.gd` do `HOST_SCRIPTS` w [`build_preview_update.py`](../../../scripts/godot/build_preview_update.py), aby OTA natychmiast aktualizowało także ekran bramy i pobieranie krain.
+- **Wdrożenie produkcyjne LIVE:**
+  - `OTA 1.14.36` (`godot-content-upload.yml`, `version=1.14.36`, `publish=true`, `activate=true`): run `46046526681` (`core-c101-27b5c5415c51.pck`, `18,14 MiB`, `reused_world_packs = 8`, `rebuilt_world_packs = 0`, `active_version = 1.14.36` LIVE).
+  - Nowe APK z 4-wątkowym `boot.gd` (`Build Ki Legends Android APK`): run `46046484251`, artefakt `ki-legends-1.14-boot.apk` (`id 15222377461`).
+
 
 
 
