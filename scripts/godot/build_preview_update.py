@@ -119,16 +119,18 @@ def main():
     parser.add_argument('--base-ref', default='HEAD')
     parser.add_argument('--citadel', action='store_true')
     parser.add_argument('--gemini', action='store_true')
+    parser.add_argument('--skip-import', action='store_true')
     args = parser.parse_args()
     assert not (args.gemini and args.citadel)
     from prepare_service_preview import prepare
     source_name = 'godot-isometric-world' if args.gemini else 'godot-isometric-pyra'
     preview = prepare(ROOT / 'ports' / source_name, ROOT / 'ports/godot-pyra', citadel=args.citadel, gemini=args.gemini)
-    subprocess.run(
-        ['godot', '--headless', '--audio-driver', 'Dummy', '--editor', '--path',
-         str(ROOT / 'ports/godot-pyra'), '--import'],
-        check=True,
-    )
+    if not args.skip_import:
+        subprocess.run(
+            ['godot', '--headless', '--audio-driver', 'Dummy', '--editor', '--path',
+             str(ROOT / 'ports/godot-pyra'), '--import'],
+            check=True,
+        )
     spec = importlib.util.spec_from_file_location('builder', ROOT / 'scripts/godot/build_packs.py')
     builder = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(builder)
