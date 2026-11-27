@@ -78,6 +78,7 @@ void fragment() {
 """
 
 var regions: Array = []
+var island_pins: Array[Dictionary] = []
 var viewport := SubViewport.new()
 var pivot := Node3D.new()
 var camera := Camera3D.new()
@@ -118,7 +119,8 @@ func setup(
 	region_list: Array,
 	player_atlas: Vector2,
 	continent_data: Dictionary = {},
-	region_bboxes: Dictionary = {}
+	region_bboxes: Dictionary = {},
+	islands_dict: Dictionary = {}
 ) -> void:
 	regions = region_list
 	stretch = true
@@ -205,6 +207,23 @@ func setup(
 			var c := MapMath.atlas_to_lonlat(Vector2(float(r_lbl.get("x", 1000.0)), float(r_lbl.get("y", 500.0))))
 			label.position = surface(c.x, c.y, 1.048)
 			markers.add_child(label)
+	island_pins.clear()
+	for iid: String in islands_dict.keys():
+		var isl: Dictionary = islands_dict[iid]
+		var ap: Array = isl.get("atlas_pos", [1000.0, 500.0])
+		var ll := MapMath.atlas_to_lonlat(Vector2(float(ap[0]), float(ap[1])))
+		island_pins.append({"id": iid, "lonlat": ll})
+		var sp := Sprite3D.new()
+		sp.texture = glow(Color("34f2ff"))
+		sp.pixel_size = 0.052 / 64.0
+		sp.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		sp.shaded = false
+		sp.transparent = true
+		sp.position = surface(ll.x, ll.y, 1.028)
+		markers.add_child(sp)
+		var lb: Array = isl.get("level_band", [5, 8])
+		var iname := "⚓ %s (Poz.%d–%d)" % [str(isl.get("short_name", iid)), int(lb[0]), int(lb[1])]
+		_add_surface_label(ll, iname, 34, 0.00062, Color("66f8ff"), markers, 1.042)
 	highlight.visible = false
 	pivot.add_child(highlight)
 	apply_rotation()
@@ -538,6 +557,20 @@ func pick(at: Vector2) -> void:
 	if ll == null:
 		return
 	var ll_v := ll as Vector2
+	var best_isl := ""
+	var best_d := 9.5
+	for ip: Dictionary in island_pins:
+		var ill: Vector2 = ip["lonlat"]
+		var dlon := absf(wrapf(ll_v.x - ill.x, -180.0, 180.0))
+		var dlat := absf(ll_v.y - ill.y)
+		var d := sqrt(dlon * dlon + dlat * dlat)
+		if d < best_d:
+			best_d = d
+			best_isl = str(ip["id"])
+	if not best_isl.is_empty():
+		select(best_isl)
+		region_picked.emit(best_isl)
+		return
 	var region := MapMath.region_at(regions, MapMath.lonlat_to_atlas(ll_v.x, ll_v.y))
 	if region.is_empty():
 		select("")

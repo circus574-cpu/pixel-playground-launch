@@ -380,6 +380,80 @@ func spawn_channel_ring(pos: Vector2, race_k: String, dur: float = 1.6) -> void:
 	})
 	queue_redraw()
 
+func _telegraph_colors(kind: String) -> Dictionary:
+	match kind:
+		"poison":
+			return {"main": Color(0.28, 0.96, 0.36), "core": Color(0.76, 1.0, 0.64), "edge": Color(0.14, 0.72, 0.22)}
+		"void", "shadow":
+			return {"main": Color(0.74, 0.28, 1.0), "core": Color(0.95, 0.76, 1.0), "edge": Color(0.46, 0.12, 0.86)}
+		"electric", "laser":
+			return {"main": Color(0.22, 0.88, 1.0), "core": Color(0.86, 0.98, 1.0), "edge": Color(0.12, 0.48, 0.96)}
+		"frost", "ice":
+			return {"main": Color(0.46, 0.84, 1.0), "core": Color(0.92, 0.98, 1.0), "edge": Color(0.20, 0.56, 0.92)}
+		"safe", "heal":
+			return {"main": Color(0.24, 0.98, 0.54), "core": Color(0.84, 1.0, 0.88), "edge": Color(0.12, 0.78, 0.38)}
+		_:
+			return {"main": Color(1.0, 0.24, 0.14), "core": Color(1.0, 0.78, 0.42), "edge": Color(0.92, 0.08, 0.06)}
+
+func spawn_telegraph_ring(pos: Vector2, radius: float, dur: float = 1.0, t_kind: String = "danger") -> void:
+	var pal := _telegraph_colors(t_kind)
+	effects.append({
+		"kind": "telegraph",
+		"pos": pos,
+		"radius": maxf(radius, 28.0),
+		"t_kind": t_kind,
+		"main": pal["main"],
+		"core": pal["core"],
+		"edge": pal["edge"],
+		"age": 0.0,
+		"dur": maxf(dur, 0.25),
+	})
+	queue_redraw()
+
+func spawn_hazard_zone(pos: Vector2, radius: float, dur: float = 4.0, h_kind: String = "poison") -> void:
+	var pal := _telegraph_colors(h_kind)
+	effects.append({
+		"kind": "hazard_zone",
+		"pos": pos,
+		"radius": maxf(radius, 30.0),
+		"h_kind": h_kind,
+		"main": pal["main"],
+		"core": pal["core"],
+		"edge": pal["edge"],
+		"age": 0.0,
+		"dur": maxf(dur, 0.5),
+	})
+	queue_redraw()
+
+func spawn_enemy_projectile(from_pos: Vector2, to_pos: Vector2, p_kind: String = "danger", dur: float = 0.42) -> void:
+	var pal := _telegraph_colors(p_kind)
+	effects.append({
+		"kind": "enemy_proj",
+		"from": from_pos + Vector2(0.0, -34.0),
+		"to": to_pos + Vector2(0.0, -30.0),
+		"main": pal["main"],
+		"core": pal["core"],
+		"edge": pal["edge"],
+		"age": 0.0,
+		"dur": maxf(dur, 0.16),
+	})
+	queue_redraw()
+
+func spawn_charge_line(from_pos: Vector2, to_pos: Vector2, width: float = 44.0, dur: float = 0.90, c_kind: String = "danger") -> void:
+	var pal := _telegraph_colors(c_kind)
+	effects.append({
+		"kind": "charge_line",
+		"from": from_pos,
+		"to": to_pos,
+		"width": maxf(width, 20.0),
+		"main": pal["main"],
+		"core": pal["core"],
+		"edge": pal["edge"],
+		"age": 0.0,
+		"dur": maxf(dur, 0.25),
+	})
+	queue_redraw()
+
 func _process(delta: float) -> void:
 	if effects.is_empty():
 		return
@@ -752,3 +826,69 @@ func _draw() -> void:
 				draw_arc(Vector2.ZERO, rad, 0.0, TAU, 32, Color(main_c.r, main_c.g, main_c.b, rph * 0.85 * cfade), 3.2, true)
 			draw_set_transform(Vector2.ZERO)
 			_draw_glow(pos + Vector2(0.0, -34.0), 64.0 * cfade, 88.0 * cfade, Color(core_c.r, core_c.g, core_c.b, 0.46 * cfade))
+
+		elif kind == "telegraph":
+			var pos: Vector2 = fx["pos"]
+			var rad: float = float(fx["radius"])
+			var e_col: Color = fx.get("edge", main_c) as Color
+			var pulse_t := 0.72 + 0.28 * sin(age * 18.0)
+			var fill_r := maxf(8.0, rad * clampf(p, 0.0, 1.0))
+			draw_set_transform(pos, 0.0, Vector2(1.0, 0.48))
+			draw_circle(Vector2.ZERO, rad, Color(e_col.r, e_col.g, e_col.b, 0.14 * pulse_t))
+			draw_circle(Vector2.ZERO, fill_r, Color(main_c.r, main_c.g, main_c.b, 0.24 + 0.20 * p))
+			draw_arc(Vector2.ZERO, rad, 0.0, TAU, 44, Color(main_c.r, main_c.g, main_c.b, 0.94), 4.2, true)
+			draw_arc(Vector2.ZERO, fill_r, 0.0, TAU, 36, Color(core_c.r, core_c.g, core_c.b, 0.92), 2.8, true)
+			draw_set_transform(Vector2.ZERO)
+
+		elif kind == "hazard_zone":
+			var pos: Vector2 = fx["pos"]
+			var rad: float = float(fx["radius"])
+			var e_col: Color = fx.get("edge", main_c) as Color
+			var hfade := clampf(minf(p * 8.0, (1.0 - p) * 5.0), 0.0, 1.0)
+			var hpulse := 0.85 + 0.15 * sin(age * 7.5)
+			draw_set_transform(pos, 0.0, Vector2(1.0, 0.48))
+			draw_circle(Vector2.ZERO, rad, Color(e_col.r, e_col.g, e_col.b, 0.20 * hfade * hpulse))
+			draw_circle(Vector2.ZERO, rad * 0.68, Color(main_c.r, main_c.g, main_c.b, 0.18 * hfade))
+			draw_arc(Vector2.ZERO, rad, 0.0, TAU, 44, Color(main_c.r, main_c.g, main_c.b, 0.88 * hfade), 3.6, true)
+			for seg in 8:
+				var a0 := age * 1.6 + float(seg) * (TAU / 8.0)
+				draw_arc(Vector2.ZERO, rad * 0.84, a0, a0 + 0.34, 6, Color(core_c.r, core_c.g, core_c.b, 0.78 * hfade), 2.4, true)
+			draw_set_transform(Vector2.ZERO)
+
+		elif kind == "enemy_proj":
+			var from_p: Vector2 = fx["from"]
+			var to_p: Vector2 = fx["to"]
+			var e_col: Color = fx.get("edge", main_c) as Color
+			var head := from_p.lerp(to_p, clampf(p, 0.0, 1.0))
+			var tail := from_p.lerp(to_p, clampf(p - 0.38, 0.0, 1.0))
+			draw_line(tail, head, Color(e_col.r, e_col.g, e_col.b, 0.78), 13.0, true)
+			draw_line(tail, head, Color(main_c.r, main_c.g, main_c.b, 0.92), 7.5, true)
+			_draw_glow(head, 32.0, 32.0, Color(main_c.r, main_c.g, main_c.b, 0.82))
+			draw_circle(head, 7.0, Color(core_c.r, core_c.g, core_c.b, 0.98))
+
+		elif kind == "charge_line":
+			var from_p: Vector2 = fx["from"]
+			var to_p: Vector2 = fx["to"]
+			var w: float = float(fx.get("width", 42.0))
+			var e_col: Color = fx.get("edge", main_c) as Color
+			var dir := (to_p - from_p)
+			if dir.length_squared() > 4.0:
+				var perp := dir.orthogonal().normalized() * (w * 0.5)
+				var poly := PackedVector2Array([
+					from_p + perp,
+					to_p + perp,
+					to_p - perp,
+					from_p - perp,
+				])
+				var fill_to := from_p.lerp(to_p, clampf(p, 0.0, 1.0))
+				var poly_fill := PackedVector2Array([
+					from_p + perp * 0.86,
+					fill_to + perp * 0.86,
+					fill_to - perp * 0.86,
+					from_p - perp * 0.86,
+				])
+				draw_colored_polygon(poly, Color(e_col.r, e_col.g, e_col.b, 0.18))
+				draw_colored_polygon(poly_fill, Color(main_c.r, main_c.g, main_c.b, 0.32 + 0.18 * p))
+				poly.append(poly[0])
+				draw_polyline(poly, Color(main_c.r, main_c.g, main_c.b, 0.92), 3.4, true)
+				draw_line(from_p, fill_to, Color(core_c.r, core_c.g, core_c.b, 0.84), 2.4, true)

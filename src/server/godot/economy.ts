@@ -1,25 +1,69 @@
 import { randomInt, randomUUID } from "node:crypto";
 import { z } from "zod";
+import { computePassiveEquipmentBonuses } from "../../game/items";
 import { KIT_NODES, RACE_BASE } from "../../game/kit/nodes.generated";
 import type { RaceId } from "../../game/world/races";
+import {
+  ANDROID_CRAFT_RECIPE_MAP,
+  ANDROID_CRAFT_RECIPES,
+  ANDROID_EQUIPMENT_SETS,
+  ENHANCE_MAX_LEVEL,
+  ENHANCE_STAT_BONUS_PER_LEVEL,
+  HERITAGE_WEAPON_STAGES,
+  buildExtendedV2Items,
+  enhanceCostForNextTier,
+  type AndroidCraftRecipe,
+  type HeritageWeaponStage,
+} from "./catalogBridge";
 import { ANDROID_GOALS_MAP, evaluateGoalForCharacter, type AndroidGoalProgressView } from "./goals";
 import {
   ANDROID_PICKUP_RADIUS,
   ANDROID_POSITION_LAYOUT,
+  androidBoss,
   androidGatherable,
   androidInn,
+  androidIsland,
   androidLegacyKillLevel,
+  androidPlayableQuest,
   androidRoom,
-  androidTreasure,
+  androidSpeciesDrops,
   androidTarget,
+  androidTreasure,
+  androidWorldEvent,
   walkableAndroidPoint,
   type WorldPoint,
 } from "./worldData";
 
+export {
+  ANDROID_CRAFT_RECIPES,
+  ANDROID_CRAFT_RECIPE_MAP,
+  ANDROID_EQUIPMENT_SETS,
+  ENHANCE_MAX_LEVEL,
+  ENHANCE_STAT_BONUS_PER_LEVEL,
+  HERITAGE_WEAPON_STAGES,
+  enhanceCostForNextTier,
+  type AndroidCraftRecipe,
+  type HeritageWeaponStage,
+};
+
 export const ANDROID_RACES = ["legend", "planetary", "sage", "android"] as const;
 export type AndroidRace = (typeof ANDROID_RACES)[number];
 
-export const ANDROID_LANDS = ["pyra", "verdant", "aether", "nexus"] as const;
+export const ANDROID_CONTINENTS = ["pyra", "verdant", "aether", "nexus"] as const;
+export type AndroidContinent = (typeof ANDROID_CONTINENTS)[number];
+
+export const ANDROID_LANDS = [
+  "pyra",
+  "verdant",
+  "aether",
+  "nexus",
+  "island-1",
+  "island-2",
+  "island-3",
+  "island-4",
+  "island-5",
+  "island-6",
+] as const;
 export type AndroidLand = (typeof ANDROID_LANDS)[number];
 
 export const HOME_LAND_BY_RACE: Record<AndroidRace, AndroidLand> = {
@@ -40,6 +84,9 @@ export const BLESSING_DURATION_MS = 15 * 60 * 1000;
 export const GATHER_NODE_COOLDOWN_MS = 90_000;
 export const GATHER_GLOBAL_COOLDOWN_MS = 1_200;
 export const REST_COOLDOWN_MS = 8_000;
+export const BOSS_COOLDOWN_MS = 5 * 60 * 1000;
+export const WORLD_EVENT_COOLDOWN_MS = 300_000;
+export const WORLD_CONTRACT_COOLDOWN_MS = 600_000;
 const INTERACTION_RADIUS = 100;
 export const KILL_WINDOW_MS = 1_000;
 export const MAX_KILLS_PER_WINDOW = 14;
@@ -73,6 +120,7 @@ export type AndroidItemDef = {
   craftCost: number | null;
   /** Materials required in Smithy for crafting. */
   craftIngredients?: readonly CraftIngredient[];
+  setId?: string;
   atk?: number;
   def?: number;
   hp?: number;
@@ -87,11 +135,11 @@ export type AndroidItemDef = {
 /**
  * Canonical Android/Godot item catalog aligned with owner's V2 economy (12.11.2026 & 25.11.2026):
  * - Shop: ONLY consumables + Tier 1 starter common gear (Lv.1-2). NO rare/epic/legendary, NO pouch_gold!
- * - Craft (Smithy): Majority of equipment (Tier 2 uncommon Lv.2-4, Tier 3 rare Lv.6-9, Tier 4 epic Lv.10-14)
+ * - Craft (Smithy): Majority of equipment (Tier 2 uncommon Lv.2-4, Tier 3 rare Lv.6-9, Tier 4 epic Lv.10-14 + 265 V2 recipes)
  *   requiring real gathered materials + monster trophies + Elite cores + gold + level gate!
- * - Hard Quests / Labyrinths / Elites: Unique rare/epic/legendary items not purchasable in shop!
+ * - Hard Quests / Labyrinths / Bosses / Elites: Unique rare/epic/legendary items not purchasable in shop!
  */
-export const ANDROID_ITEM_CATALOG: readonly AndroidItemDef[] = [
+const ANDROID_BASE_ITEM_CATALOG: readonly AndroidItemDef[] = [
   // =========================================================================
   // 1. CONSUMABLES (Shop + Drops)
   // =========================================================================
@@ -1210,6 +1258,11 @@ export const ANDROID_ITEM_CATALOG: readonly AndroidItemDef[] = [
   },
 ] as const;
 
+export const ANDROID_ITEM_CATALOG: readonly AndroidItemDef[] = [
+  ...ANDROID_BASE_ITEM_CATALOG,
+  ...buildExtendedV2Items(new Set(ANDROID_BASE_ITEM_CATALOG.map((i) => i.id))),
+];
+
 export const ANDROID_ITEM_MAP = new Map<string, AndroidItemDef>(
   ANDROID_ITEM_CATALOG.map((item) => [item.id, item]),
 );
@@ -1234,6 +1287,11 @@ export type AndroidLootDrop = WorldPoint & {
 type StoredLoot = AndroidLootDrop & { claimed: boolean };
 type SavedPosition = WorldPoint & { layout: typeof ANDROID_POSITION_LAYOUT; land: AndroidLand };
 
+export type ActiveQuestProgress = {
+  stage: number;
+  progress: Record<string, number>;
+};
+
 export type AndroidProgressState = {
   visitedLands: AndroidLand[];
   craftedCount: number;
@@ -1242,6 +1300,7 @@ export type AndroidProgressState = {
   shopCount: number;
   monsterKills: number;
   eliteKills: number;
+  bossKills: number;
   gatherCount: number;
   lastGatherAt: number;
   gatheredNodes: Record<string, number>;
@@ -1252,6 +1311,11 @@ export type AndroidProgressState = {
   recentKillTimes: number[];
   recentDefeats: Record<string, number>;
   animalsHunted: number;
+  defeatedBosses: Record<string, number>;
+  claimedEvents: Record<string, number>;
+  dojoTrials: string[];
+  discoveredIslands: string[];
+  speciesKills: Record<string, number>;
 };
 
 export type AndroidHeroState = {
@@ -1273,9 +1337,15 @@ export type AndroidHeroState = {
   unlockedNodes: string[];
   hotbarSlots?: [string, string, string, string];
   equipment: Record<string, string | null>;
+  /** Smithy +1..+9 tempering tier per equipment slot ("0".."7"). */
+  equipUpgrades: Record<string, number>;
+  /** 6-stage Racial Heritage Weapon progression (0..6). */
+  heritageStage: number;
   backpack: (ItemStack | null)[];
   bankItems: (ItemStack | null)[];
   completedQuests: Record<string, string>;
+  activeQuests: Record<string, ActiveQuestProgress>;
+  factions: Record<string, number>;
   lastArenaAt: number;
   lastRestAt: number;
   progress: AndroidProgressState;
@@ -1311,6 +1381,8 @@ export type AndroidComputedStats = {
   xpNeeded: number;
   trainingMasteryTitle: string;
   trainingCapPerStat: number;
+  dojoTitle?: string;
+  activeSetBonuses?: Record<string, number>;
 };
 
 export type AndroidCharacterView = {
@@ -1366,32 +1438,37 @@ export const characterNameSchema = z
   .max(16)
   .regex(/^[\p{L}\p{N}_\- ]{3,16}$/u);
 
+/**
+ * Rebalanced solo & MMORPG XP curve (Stage 4):
+ * Lv. 1->20 total = 46,010 XP (down ~30x from legacy 1.34M wall); Endgame Lv. 20->100 scales smoothly.
+ */
 export const XP_NEEDED_BY_LEVEL: readonly number[] = [
-  1400, // 1 -> 2
-  2400, // 2 -> 3
-  3500, // 3 -> 4
-  4700, // 4 -> 5
-  11000, // 5 -> 6
-  15500, // 6 -> 7
-  20500, // 7 -> 8
-  25000, // 8 -> 9
-  30000, // 9 -> 10
-  42000, // 10 -> 11
-  54000, // 11 -> 12
-  68000, // 12 -> 13
-  82000, // 13 -> 14
-  98000, // 14 -> 15
-  115000, // 15 -> 16
-  132000, // 16 -> 17
-  150000, // 17 -> 18
-  170000, // 18 -> 19
-  195000, // 19 -> 20
-  220000, // 20 cap
+  180, // 1 -> 2
+  300, // 2 -> 3
+  450, // 3 -> 4
+  620, // 4 -> 5
+  820, // 5 -> 6
+  1040, // 6 -> 7
+  1280, // 7 -> 8
+  1540, // 8 -> 9
+  1820, // 9 -> 10
+  2120, // 10 -> 11
+  2440, // 11 -> 12
+  2780, // 12 -> 13
+  3140, // 13 -> 14
+  3520, // 14 -> 15
+  3920, // 15 -> 16
+  4340, // 16 -> 17
+  4780, // 17 -> 18
+  5240, // 18 -> 19
+  5720, // 19 -> 20
+  6200, // 20 -> 21
 ];
 
 export function xpNeededForLevel(level: number): number {
   const lv = Math.max(1, Math.min(MAX_LEVEL, Math.floor(level)));
-  return XP_NEEDED_BY_LEVEL[lv - 1] ?? 220000;
+  if (lv <= XP_NEEDED_BY_LEVEL.length) return XP_NEEDED_BY_LEVEL[lv - 1]!;
+  return 6200 + (lv - 20) * 650;
 }
 
 /** Max permanent City Training sessions per stat at given hero level. */
@@ -1404,6 +1481,14 @@ export function maxTrainingPerStat(level: number): number {
 export function trainingSessionCost(currentSessions: number): number {
   const n = Math.max(0, Math.floor(currentSessions));
   return n < 3 ? 0 : 15 + (n - 2) * 10;
+}
+
+export function computeDojoTitle(dojoTrials: readonly string[]): string {
+  const core = ["dojo_dodge", "dojo_skill", "dojo_ki"].filter((t) => dojoTrials.includes(t)).length;
+  if (core >= 3) return "Mistrz Dojo";
+  if (core === 2) return "Adept Dojo";
+  if (core === 1) return "Praktyk Dojo";
+  return "Uczeń Dojo";
 }
 
 export function computeTrainingBonuses(training: Record<StatKey, number>): {
@@ -1522,17 +1607,27 @@ export function computeAndroidStats(
   let eqDef = 0;
   let eqSpd = 0;
   let eqCrit = 0;
+  const equippedIds: string[] = [];
+  const upgMap = state.equipUpgrades ?? {};
   for (let s = 0; s < EQUIP_SLOTS; s++) {
-    const itemId = state.equipment[String(s)];
+    const sk = String(s);
+    const itemId = state.equipment[sk];
     const def = itemId ? ANDROID_ITEM_MAP.get(itemId) : undefined;
     if (!def) continue;
-    eqHp += def.hp ?? 0;
-    eqKi += def.ki ?? 0;
-    eqAtk += def.atk ?? 0;
-    eqDef += def.def ?? 0;
-    eqSpd += def.spd ?? 0;
-    eqCrit += def.crit ?? 0;
+    equippedIds.push(def.id);
+    const tier = Math.max(0, Math.min(ENHANCE_MAX_LEVEL, Math.floor(upgMap[sk] ?? 0)));
+    const mult = 1 + tier * ENHANCE_STAT_BONUS_PER_LEVEL;
+    eqHp += Math.round((def.hp ?? 0) * mult);
+    eqKi += Math.round((def.ki ?? 0) * mult);
+    eqAtk += Math.round((def.atk ?? 0) * mult);
+    eqDef += Math.round((def.def ?? 0) * mult);
+    eqSpd += Math.round((def.spd ?? 0) * mult);
+    eqCrit += Number(((def.crit ?? 0) * mult).toFixed(2));
   }
+
+  // Canonical V2 Equipment Set bonuses (3/5/7 pieces + passive artifact sets)
+  const v2Passive = computePassiveEquipmentBonuses(equippedIds);
+  const setPct = v2Passive.cappedTotals;
 
   const tr = computeTrainingBonuses(
     state.training ?? { hp: 0, ki: 0, atk: 0, def: 0, spd: 0, crit: 0 },
@@ -1563,13 +1658,18 @@ export function computeAndroidStats(
     spec.base.speed * (1 + 0.05 * spdLvOff) + (state.bonusStats.spd || 0) * 15 + tr.spd + eqSpd;
   const rawKiRegen = spec.base.kiRegen + spec.perLevel.kiRegen * lvOff + tr.kiRegen;
 
-  const maxHp = Math.round(rawHp * (1 + tal.hpPct / 100));
-  const maxKi = Math.round(rawKi * (1 + tal.kiPct / 100));
-  const attack = Math.round(rawAtk * (1 + (tal.atkPct + (blessActive === "might" ? 10 : 0)) / 100));
-  const defense = Math.round(
-    rawDef * (1 + (tal.defPct + (blessActive === "might" ? 10 : 0)) / 100),
+  const maxHp = Math.round(rawHp * (1 + (tal.hpPct + setPct.maxHpPercent) / 100));
+  const maxKi = Math.round(rawKi * (1 + (tal.kiPct + setPct.maxKiPercent) / 100));
+  const attack = Math.round(
+    rawAtk * (1 + (tal.atkPct + setPct.atkPercent + (blessActive === "might" ? 10 : 0)) / 100),
   );
-  const speed = Math.round(rawSpd * (1 + (tal.spdPct + (blessActive === "march" ? 15 : 0)) / 100));
+  const defense = Math.round(
+    rawDef * (1 + (tal.defPct + setPct.defPercent + (blessActive === "might" ? 10 : 0)) / 100),
+  );
+  const speed = Math.round(
+    rawSpd *
+      (1 + (tal.spdPct + setPct.moveSpeedPercent + (blessActive === "march" ? 15 : 0)) / 100),
+  );
   const critChance = Number(
     Math.min(
       100,
@@ -1582,7 +1682,10 @@ export function computeAndroidStats(
     ).toFixed(2),
   );
   const kiRegen = Number(
-    (rawKiRegen * (1 + (tal.kiRegenPct + (blessActive === "focus" ? 25 : 0)) / 100)).toFixed(2),
+    (
+      rawKiRegen *
+      (1 + (tal.kiRegenPct + setPct.kiRegenPercent + (blessActive === "focus" ? 25 : 0)) / 100)
+    ).toFixed(2),
   );
 
   return {
@@ -1596,6 +1699,8 @@ export function computeAndroidStats(
     xpNeeded: xpNeededForLevel(level),
     trainingMasteryTitle: tr.masteryTitle,
     trainingCapPerStat: maxTrainingPerStat(level),
+    dojoTitle: computeDojoTitle(state.progress?.dojoTrials ?? []),
+    activeSetBonuses: v2Passive.setCounts,
   };
 }
 
@@ -1640,9 +1745,13 @@ export function createInitialAndroidState(
     unlockedNodes: nodes,
     hotbarSlots: [...DEFAULT_HOTBAR_SLOTS] as [string, string, string, string],
     equipment,
+    equipUpgrades: {},
+    heritageStage: 0,
     backpack,
     bankItems,
     completedQuests: {},
+    activeQuests: {},
+    factions: {},
     lastArenaAt: 0,
     lastRestAt: 0,
     progress: {
@@ -1653,6 +1762,7 @@ export function createInitialAndroidState(
       shopCount: 0,
       monsterKills: 0,
       eliteKills: 0,
+      bossKills: 0,
       gatherCount: 0,
       lastGatherAt: 0,
       gatheredNodes: {},
@@ -1663,6 +1773,11 @@ export function createInitialAndroidState(
       recentKillTimes: [],
       recentDefeats: {},
       animalsHunted: 0,
+      defeatedBosses: {},
+      claimedEvents: {},
+      dojoTrials: [],
+      discoveredIslands: [],
+      speciesKills: {},
     },
   };
   const stats = computeAndroidStats(race, level, state);
@@ -1752,6 +1867,16 @@ export function normalizeAndroidState(
     }
   }
 
+  const equipUpgrades: Record<string, number> = {};
+  const upgRaw = (
+    r["equipUpgrades"] && typeof r["equipUpgrades"] === "object" ? r["equipUpgrades"] : {}
+  ) as Record<string, unknown>;
+  for (let i = 0; i < EQUIP_SLOTS; i++) {
+    const k = String(i);
+    const tier = clampInt(upgRaw[k], 0, ENHANCE_MAX_LEVEL, 0);
+    if (tier > 0) equipUpgrades[k] = tier;
+  }
+
   const normalizeSlots = (arr: unknown, len: number): (ItemStack | null)[] => {
     const src = Array.isArray(arr) ? arr : [];
     return Array.from({ length: len }, (_, i) => {
@@ -1778,6 +1903,35 @@ export function normalizeAndroidState(
     if (k.length <= 80 && typeof v === "string") completedQuests[k] = v.slice(0, 40);
   }
 
+  const activeQuests: Record<string, ActiveQuestProgress> = {};
+  const aqRaw = (
+    r["activeQuests"] && typeof r["activeQuests"] === "object" ? r["activeQuests"] : {}
+  ) as Record<string, unknown>;
+  let aqCnt = 0;
+  for (const [qid, rec] of Object.entries(aqRaw)) {
+    if (aqCnt >= 64 || qid.length > 64 || !rec || typeof rec !== "object") continue;
+    const ro = rec as Record<string, unknown>;
+    const progObj: Record<string, number> = {};
+    if (ro["progress"] && typeof ro["progress"] === "object") {
+      for (const [oid, cnt] of Object.entries(ro["progress"] as Record<string, unknown>).slice(
+        0,
+        16,
+      )) {
+        if (oid.length <= 64) progObj[oid] = clampInt(cnt, 0, 9999, 0);
+      }
+    }
+    activeQuests[qid] = { stage: clampInt(ro["stage"], 0, 20, 0), progress: progObj };
+    aqCnt += 1;
+  }
+
+  const factions: Record<string, number> = {};
+  const facRaw = (
+    r["factions"] && typeof r["factions"] === "object" ? r["factions"] : {}
+  ) as Record<string, unknown>;
+  for (const [fid, val] of Object.entries(facRaw).slice(0, 24)) {
+    if (/^[A-Z0-9_-]{2,16}$/.test(fid)) factions[fid] = clampInt(val, 0, 1000, 0);
+  }
+
   const progRaw = (
     r["progress"] && typeof r["progress"] === "object" ? r["progress"] : {}
   ) as Record<string, unknown>;
@@ -1802,6 +1956,23 @@ export function normalizeAndroidState(
       }
     }
     return [...uniq];
+  };
+
+  const normNumMap = (rawMap: unknown, cap: number, maxVal = Number.MAX_SAFE_INTEGER) => {
+    const out: Record<string, number> = Object.create(null);
+    if (!rawMap || typeof rawMap !== "object") return out;
+    let cnt = 0;
+    for (const [k, v] of Object.entries(rawMap as Record<string, unknown>)) {
+      if (cnt >= cap) break;
+      if (/^[a-zA-Z0-9_:-]{1,64}$/.test(k)) {
+        const num = clampInt(v, 0, maxVal, 0);
+        if (num > 0) {
+          out[k] = num;
+          cnt += 1;
+        }
+      }
+    }
+    return out;
   };
 
   const gNodesRaw = (
@@ -1834,7 +2005,7 @@ export function normalizeAndroidState(
   if (rawDefeats && typeof rawDefeats === "object") {
     for (const [id, ts] of Object.entries(rawDefeats).slice(-2048)) {
       if (
-        /^[a-zA-Z0-9_-]{1,64}$/.test(id) &&
+        /^[a-zA-Z0-9_:-]{1,64}$/.test(id) &&
         typeof ts === "number" &&
         Number.isSafeInteger(ts) &&
         ts > 0
@@ -1894,9 +2065,13 @@ export function normalizeAndroidState(
     unlockedNodes,
     hotbarSlots,
     equipment,
+    equipUpgrades,
+    heritageStage: clampInt(r["heritageStage"], 0, 6, 0),
     backpack: normalizeSlots(r["backpack"], BACKPACK_SIZE),
     bankItems: normalizeSlots(r["bankItems"], BANK_SIZE),
     completedQuests,
+    activeQuests,
+    factions,
     lastArenaAt: clampInt(r["lastArenaAt"], 0, Number.MAX_SAFE_INTEGER, 0),
     lastRestAt: clampInt(r["lastRestAt"], 0, Number.MAX_SAFE_INTEGER, 0),
     progress: {
@@ -1907,6 +2082,7 @@ export function normalizeAndroidState(
       shopCount: clampInt(progRaw["shopCount"], 0, 1_000_000, 0),
       monsterKills: clampInt(progRaw["monsterKills"], 0, 10_000_000, 0),
       eliteKills: clampInt(progRaw["eliteKills"], 0, 1_000_000, 0),
+      bossKills: clampInt(progRaw["bossKills"], 0, 1_000_000, 0),
       gatherCount: clampInt(progRaw["gatherCount"], 0, 1_000_000, 0),
       lastGatherAt: Math.max(
         recentGather,
@@ -1920,6 +2096,11 @@ export function normalizeAndroidState(
       recentKillTimes,
       recentDefeats,
       animalsHunted: clampInt(progRaw["animalsHunted"], 0, 10_000_000, 0),
+      defeatedBosses: normNumMap(progRaw["defeatedBosses"], 32),
+      claimedEvents: normNumMap(progRaw["claimedEvents"], 64),
+      dojoTrials: normStrList(progRaw["dojoTrials"], 32),
+      discoveredIslands: normStrList(progRaw["discoveredIslands"], 12),
+      speciesKills: normNumMap(progRaw["speciesKills"], 128, 1_000_000),
     },
   };
 
@@ -2005,6 +2186,12 @@ const REGIONAL_TROPHIES: Record<AndroidLand, { low: string; mid: string; high: s
   verdant: { low: "mat_moss_jelly", mid: "mat_wolf_thorn", high: "mat_spider_silk" },
   aether: { low: "mat_aether_thread", mid: "mat_crystal_wing", high: "mat_temple_stone" },
   nexus: { low: "mat_sensor", mid: "mat_armor_plate", high: "mat_energy_core" },
+  "island-1": { low: "mat_moss_jelly", mid: "mat_wolf_thorn", high: "mat_spider_silk" },
+  "island-2": { low: "mat_aether_thread", mid: "mat_crystal_wing", high: "mat_temple_stone" },
+  "island-3": { low: "mat_sensor", mid: "mat_armor_plate", high: "mat_energy_core" },
+  "island-4": { low: "mat_wolf_thorn", mid: "mat_spider_silk", high: "mat_magma_plate" },
+  "island-5": { low: "mat_crystal_wing", mid: "mat_temple_stone", high: "mat_energy_core" },
+  "island-6": { low: "mat_salamander_scale", mid: "mat_magma_plate", high: "mat_elite_core" },
 };
 
 export const androidActionSchema = z.discriminatedUnion("type", [
@@ -2021,6 +2208,18 @@ export const androidActionSchema = z.discriminatedUnion("type", [
     })
     .strict(),
   z.object({ type: z.literal("craft"), itemId: z.string().min(1).max(60) }).strict(),
+  z.object({ type: z.literal("craft_recipe"), recipeId: z.string().min(1).max(80) }).strict(),
+  z
+    .object({
+      type: z.literal("enhance_equip"),
+      equipSlot: z
+        .number()
+        .int()
+        .min(0)
+        .max(EQUIP_SLOTS - 1),
+    })
+    .strict(),
+  z.object({ type: z.literal("forge_heritage_weapon") }).strict(),
   z
     .object({ type: z.literal("bank_deposit_gold"), amount: z.number().int().min(1).max(MAX_GOLD) })
     .strict(),
@@ -2101,6 +2300,22 @@ export const androidActionSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("city_blessing"), kind: z.enum(BLESSING_KINDS) }).strict(),
   z
     .object({
+      type: z.literal("complete_dojo_trial"),
+      trialId: z.enum([
+        "dojo_dodge",
+        "dojo_skill",
+        "dojo_ki",
+        "dojo_heritage_1",
+        "dojo_heritage_2",
+        "dojo_heritage_3",
+        "dojo_heritage_4",
+        "dojo_heritage_5",
+        "dojo_heritage_6",
+      ]),
+    })
+    .strict(),
+  z
+    .object({
       type: z.literal("gather_node"),
       position: worldPointSchema.optional(),
       nodeId: z.string().min(2).max(64),
@@ -2115,6 +2330,16 @@ export const androidActionSchema = z.discriminatedUnion("type", [
     })
     .strict(),
   z.object({ type: z.literal("quest_complete"), questId: z.string().min(1).max(80) }).strict(),
+  z.object({ type: z.literal("quest_accept"), questId: z.string().min(1).max(64) }).strict(),
+  z
+    .object({
+      type: z.literal("quest_sync_progress"),
+      questId: z.string().min(1).max(64),
+      stage: z.number().int().min(0).max(20),
+      progress: z.record(z.string().max(64), z.number().int().min(0).max(999)),
+      complete: z.boolean().optional(),
+    })
+    .strict(),
   z.object({ type: z.literal("claim_goal"), goalId: z.string().min(1).max(40) }).strict(),
   z
     .object({
@@ -2145,6 +2370,22 @@ export const androidActionSchema = z.discriminatedUnion("type", [
       land: z.enum(ANDROID_LANDS),
       drop: worldPointSchema,
       hpCost: z.number().int().min(0).max(5000).optional(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("boss_defeat"),
+      bossId: z.string().min(2).max(64),
+      land: z.enum(ANDROID_LANDS),
+      drop: worldPointSchema,
+      hpCost: z.number().int().min(0).max(15000).optional(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("complete_world_event"),
+      eventId: z.string().min(2).max(80),
+      land: z.enum(ANDROID_LANDS),
     })
     .strict(),
   z
@@ -2207,17 +2448,38 @@ export type ActionResult = {
   lootDrop?: AndroidLootDrop;
 };
 
-function monsterLoot(land: AndroidLand, level: number, elite: boolean, kills: number): ItemStack[] {
-  if (elite) return ["mat_elite_core", "potion_hp"].map((id) => ({ id, qty: 1 }));
-  const trophies = REGIONAL_TROPHIES[land];
-  const trophy = level >= 6 ? trophies.high : level >= 3 ? trophies.mid : trophies.low;
+function monsterLoot(
+  land: AndroidLand,
+  level: number,
+  elite: boolean,
+  kills: number,
+  actorId?: string,
+): ItemStack[] {
   const items: ItemStack[] = [];
-  if (kills % 3 !== 0) items.push({ id: trophy, qty: 1 });
-  if (kills % 2 === 0 && trophy !== "tusk_beast") items.push({ id: "tusk_beast", qty: 1 });
-  if (kills % 5 === 0) items.push({ id: "crystal_ki", qty: 1 });
-  if (kills % 50 === 0) {
-    const weakPool = ["weapon_recruit_sword", "armor_traveler_vest", "helm_traveler"];
-    items.push({ id: weakPool[(kills / 50) % weakPool.length]!, qty: 1 });
+  if (elite) {
+    items.push({ id: "mat_elite_core", qty: 1 }, { id: "potion_hp", qty: 1 });
+  } else {
+    const trophies = REGIONAL_TROPHIES[land];
+    const trophy = level >= 6 ? trophies.high : level >= 3 ? trophies.mid : trophies.low;
+    if (kills % 3 !== 0) items.push({ id: trophy, qty: 1 });
+    if (kills % 2 === 0 && trophy !== "tusk_beast") items.push({ id: "tusk_beast", qty: 1 });
+    if (kills % 5 === 0) items.push({ id: "crystal_ki", qty: 1 });
+    if (kills % 50 === 0) {
+      const weakPool = ["weapon_recruit_sword", "armor_traveler_vest", "helm_traveler"];
+      items.push({ id: weakPool[(kills / 50) % weakPool.length]!, qty: 1 });
+    }
+  }
+  // Canonical species-specific trophy drops from monsters.json (feeds 265 V2 recipes!)
+  if (actorId) {
+    const speciesList = androidSpeciesDrops(actorId);
+    for (const sp of speciesList) {
+      if (items.length >= 4) break;
+      if (!ANDROID_ITEM_MAP.has(sp.itemId)) continue;
+      if (items.some((x) => x.id === sp.itemId)) continue;
+      if (randomInt(1000) < Math.round(sp.chance * 1000)) {
+        items.push({ id: sp.itemId, qty: 1 });
+      }
+    }
   }
   return items;
 }
@@ -2350,6 +2612,145 @@ export function applyAndroidAction(
       gold -= def.craftCost;
       state.progress.craftedCount += 1;
       notice = `Wykuto w kuźni: ${def.name} (-${def.craftCost} zł)`;
+      break;
+    }
+
+    case "craft_recipe": {
+      const rec = ANDROID_CRAFT_RECIPE_MAP.get(action.recipeId);
+      if (!rec) throw new AndroidEconomyError("NOT_CRAFTABLE", "Nieznana receptura rzemieślnicza.");
+      const outDef = ANDROID_ITEM_MAP.get(rec.resultItemId);
+      if (!outDef) throw new AndroidEconomyError("UNKNOWN_ITEM", "Nieznany przedmiot wynikowy.");
+      if (level < rec.requiredLevel)
+        throw new AndroidEconomyError(
+          "GOAL_NOT_MET",
+          `Wymagany poziom ${rec.requiredLevel} do receptury: ${rec.name} (masz ${level}).`,
+        );
+      if (gold < rec.cost)
+        throw new AndroidEconomyError(
+          "INSUFFICIENT_GOLD",
+          `Za mało złota na wytworzenie (${rec.cost} zł)!`,
+        );
+      for (const ing of rec.ingredients) {
+        const have = countItemInSlots(state.backpack, ing.id);
+        if (have < ing.qty) {
+          const idef = ANDROID_ITEM_MAP.get(ing.id);
+          throw new AndroidEconomyError(
+            "INSUFFICIENT_MATERIALS",
+            `Brak składnika: ${idef?.name ?? ing.id} (${have}/${ing.qty}).`,
+          );
+        }
+      }
+      const simSlots = state.backpack.map((s) => (s ? { ...s } : null));
+      for (const ing of rec.ingredients) consumeItemFromSlots(simSlots, ing.id, ing.qty);
+      if (!addItemToSlots(simSlots, outDef.id, rec.resultCount))
+        throw new AndroidEconomyError("BACKPACK_FULL", "Brak miejsca w plecaku!");
+      state.backpack = simSlots;
+      gold -= rec.cost;
+      state.progress.craftedCount += 1;
+      const qtyTxt = rec.resultCount > 1 ? ` ×${rec.resultCount}` : "";
+      notice = `Wytworzono: ${outDef.name}${qtyTxt} (-${rec.cost} zł)`;
+      break;
+    }
+
+    case "enhance_equip": {
+      const slotKey = String(action.equipSlot);
+      const eqId = state.equipment[slotKey];
+      if (!eqId)
+        throw new AndroidEconomyError(
+          "EMPTY_SLOT",
+          "Załóż przedmiot w tym slocie, aby go ulepszyć u Kowala.",
+        );
+      const eqDef = ANDROID_ITEM_MAP.get(eqId);
+      if (!eqDef) throw new AndroidEconomyError("UNKNOWN_ITEM", "Nieznany przedmiot.");
+      const curTier = Math.max(0, Math.min(ENHANCE_MAX_LEVEL, state.equipUpgrades[slotKey] ?? 0));
+      if (curTier >= ENHANCE_MAX_LEVEL)
+        throw new AndroidEconomyError(
+          "TRAINING_CAP_REACHED",
+          `Ten slot osiągnął już maksymalne ulepszenie +${ENHANCE_MAX_LEVEL}!`,
+        );
+      const spec = enhanceCostForNextTier(curTier);
+      if (gold < spec.gold)
+        throw new AndroidEconomyError(
+          "INSUFFICIENT_GOLD",
+          `Za mało złota na ulepszenie +${spec.nextTier} (${spec.gold} zł)!`,
+        );
+      for (const ing of spec.ingredients) {
+        const have = countItemInSlots(state.backpack, ing.id);
+        if (have < ing.qty) {
+          const idef = ANDROID_ITEM_MAP.get(ing.id);
+          throw new AndroidEconomyError(
+            "INSUFFICIENT_MATERIALS",
+            `Brak składnika do +${spec.nextTier}: ${idef?.name ?? ing.id} (${have}/${ing.qty}).`,
+          );
+        }
+      }
+      for (const ing of spec.ingredients) consumeItemFromSlots(state.backpack, ing.id, ing.qty);
+      gold -= spec.gold;
+      state.equipUpgrades[slotKey] = spec.nextTier;
+      state.progress.craftedCount += 1;
+      clampVitals();
+      notice = `✦ Ulepszono ${eqDef.name} do +${spec.nextTier} (+${Math.round(spec.nextTier * ENHANCE_STAT_BONUS_PER_LEVEL * 100)}% statystyk slotu)!`;
+      break;
+    }
+
+    case "forge_heritage_weapon": {
+      const nextStage = state.heritageStage + 1;
+      if (nextStage > 6)
+        throw new AndroidEconomyError(
+          "TRAINING_CAP_REACHED",
+          "Twoja Broń Dziedzictwa osiągnęła już maksymalny Etap VI!",
+        );
+      const spec = HERITAGE_WEAPON_STAGES.find(
+        (h) => h.race === current.race && h.stage === nextStage,
+      );
+      if (!spec) throw new AndroidEconomyError("NOT_CRAFTABLE", "Brak etapu Broni Dziedzictwa.");
+      if (level < spec.minLevel)
+        throw new AndroidEconomyError(
+          "GOAL_NOT_MET",
+          `Etap ${nextStage}/6 Broni Dziedzictwa wymaga poziomu ${spec.minLevel} (masz ${level}).`,
+        );
+      if (gold < spec.goldCost)
+        throw new AndroidEconomyError(
+          "INSUFFICIENT_GOLD",
+          `Potrzebujesz ${spec.goldCost} zł na wykucie Etapu ${nextStage}/6.`,
+        );
+      for (const ing of spec.ingredients) {
+        const have = countItemInSlots(state.backpack, ing.id);
+        if (have < ing.qty) {
+          const idef = ANDROID_ITEM_MAP.get(ing.id);
+          throw new AndroidEconomyError(
+            "INSUFFICIENT_MATERIALS",
+            `Brak składnika: ${idef?.name ?? ing.id} (${have}/${ing.qty}).`,
+          );
+        }
+      }
+      const simSlots = state.backpack.map((s) => (s ? { ...s } : null));
+      for (const ing of spec.ingredients) consumeItemFromSlots(simSlots, ing.id, ing.qty);
+      // Remove previous heritage stage if carried/equipped and place new stage directly in weapon slot or backpack
+      const prevSpec =
+        state.heritageStage > 0
+          ? HERITAGE_WEAPON_STAGES.find(
+              (h) => h.race === current.race && h.stage === state.heritageStage,
+            )
+          : undefined;
+      if (prevSpec) {
+        consumeItemFromSlots(simSlots, prevSpec.id, 1);
+      }
+      const currentWep = state.equipment["2"];
+      if (!currentWep || (prevSpec && currentWep === prevSpec.id)) {
+        state.equipment["2"] = spec.id;
+      } else if (!addItemToSlots(simSlots, spec.id, 1)) {
+        throw new AndroidEconomyError(
+          "BACKPACK_FULL",
+          "Brak miejsca w plecaku na Broń Dziedzictwa!",
+        );
+      }
+      state.backpack = simSlots;
+      gold -= spec.goldCost;
+      state.heritageStage = nextStage;
+      state.progress.craftedCount += 1;
+      clampVitals();
+      notice = `★ Wykuto Broń Dziedzictwa Etap ${nextStage}/6: ${spec.name}!`;
       break;
     }
 
@@ -2628,6 +3029,33 @@ export function applyAndroidAction(
       break;
     }
 
+    case "complete_dojo_trial": {
+      const tid = action.trialId;
+      const firstTime = !state.progress.dojoTrials.includes(tid);
+      if (firstTime) {
+        state.progress.dojoTrials.push(tid);
+      }
+      const dojoTitle = computeDojoTitle(state.progress.dojoTrials);
+      const trialLabels: Record<string, string> = {
+        dojo_dodge: "Próba I: Krok Poza Strefę",
+        dojo_skill: "Próba II: Uderzenie Techniki Ki",
+        dojo_ki: "Próba III: Dyscyplina Przepływu Ki",
+        dojo_heritage_1: "Próba Dziedzictwa I",
+        dojo_heritage_2: "Próba Dziedzictwa II",
+        dojo_heritage_3: "Próba Dziedzictwa III",
+        dojo_heritage_4: "Próba Dziedzictwa IV",
+        dojo_heritage_5: "Próba Dziedzictwa V",
+        dojo_heritage_6: "Próba Dziedzictwa VI",
+      };
+      if (firstTime) {
+        gold = Math.min(MAX_GOLD, gold + 35);
+        notice = `🥋 Ukończono ${trialLabels[tid] ?? tid}! Ranga Dojo: ${dojoTitle} (+35 zł)`;
+      } else {
+        notice = `🥋 Powtórzono ${trialLabels[tid] ?? tid} (Ranga Dojo: ${dojoTitle}).`;
+      }
+      break;
+    }
+
     case "gather_node": {
       const nid = action.nodeId.trim();
       const node = androidGatherable(land, nid);
@@ -2702,6 +3130,89 @@ export function applyAndroidAction(
       notice = res.leveledUp
         ? `Zlecenie ukończone (+${QUEST_XP_REWARD} PD, +${QUEST_GOLD_REWARD} zł) — AWANS na poziom ${level}!`
         : `Zlecenie ukończone! +${QUEST_XP_REWARD} PD, +${QUEST_GOLD_REWARD} zł.`;
+      break;
+    }
+
+    case "quest_accept": {
+      const qdef = androidPlayableQuest(action.questId);
+      if (!qdef) throw new AndroidEconomyError("UNKNOWN_ITEM", "Nieznane zadanie fabularne.");
+      if (state.completedQuests[qdef.id] && !qdef.repeatable)
+        throw new AndroidEconomyError(
+          "QUEST_ALREADY_COMPLETED",
+          "To zadanie zostało już ukończone.",
+        );
+      if (state.activeQuests[qdef.id]) {
+        notice = `Zadanie już jest aktywne: ${qdef.title}`;
+        break;
+      }
+      if (level < qdef.minLevel)
+        throw new AndroidEconomyError(
+          "GOAL_NOT_MET",
+          `Zadanie „${qdef.title}” wymaga poziomu ${qdef.minLevel} (masz ${level}).`,
+        );
+      for (const reqId of qdef.prereqs) {
+        if (!state.completedQuests[reqId])
+          throw new AndroidEconomyError(
+            "GOAL_NOT_MET",
+            `Najpierw ukończ wymagane zadanie: ${reqId}.`,
+          );
+      }
+      state.activeQuests[qdef.id] = { stage: 0, progress: {} };
+      notice = `📜 Przyjęto zadanie: ${qdef.title}`;
+      break;
+    }
+
+    case "quest_sync_progress": {
+      const qdef = androidPlayableQuest(action.questId);
+      if (!qdef) throw new AndroidEconomyError("UNKNOWN_ITEM", "Nieznane zadanie fabularne.");
+      if (!state.activeQuests[qdef.id]) {
+        if (state.completedQuests[qdef.id] && !qdef.repeatable)
+          throw new AndroidEconomyError("QUEST_ALREADY_COMPLETED", "To zadanie już ukończono.");
+        if (level < qdef.minLevel)
+          throw new AndroidEconomyError("GOAL_NOT_MET", `Wymagany poziom ${qdef.minLevel}.`);
+        state.activeQuests[qdef.id] = { stage: 0, progress: {} };
+      }
+      const cleanProg: Record<string, number> = {};
+      for (const [k, v] of Object.entries(action.progress).slice(0, 16)) {
+        cleanProg[k] = clampInt(v, 0, 999, 0);
+      }
+      state.activeQuests[qdef.id] = {
+        stage: clampInt(action.stage, 0, Math.max(0, qdef.stageCount - 1), 0),
+        progress: cleanProg,
+      };
+      if (action.complete) {
+        const firstTime = !state.completedQuests[qdef.id];
+        delete state.activeQuests[qdef.id];
+        state.completedQuests[qdef.id] = new Date(nowMs).toISOString();
+        if (firstTime || qdef.repeatable) {
+          gold = Math.min(MAX_GOLD, gold + qdef.coins);
+          const extras: string[] = [];
+          if (qdef.itemId && ANDROID_ITEM_MAP.has(qdef.itemId)) {
+            const qty = qdef.itemCount ?? 1;
+            const idef = ANDROID_ITEM_MAP.get(qdef.itemId)!;
+            if (addItemToSlots(state.backpack, idef.id, qty)) {
+              extras.push(`+${idef.name}`);
+            } else if (addItemToSlots(state.bankItems, idef.id, qty)) {
+              extras.push(`+${idef.name} (Bank)`);
+            }
+          }
+          if (qdef.factionId && qdef.factionAmount) {
+            state.factions[qdef.factionId] = Math.min(
+              1000,
+              (state.factions[qdef.factionId] ?? 0) + qdef.factionAmount,
+            );
+            extras.push(`+${qdef.factionAmount} rep. ${qdef.factionId}`);
+          }
+          const res = grantXp(current.race, level, state, qdef.xp, nowMs);
+          level = res.level;
+          const extraTxt = extras.length ? ` • ${extras.join(" • ")}` : "";
+          notice = `✓ Ukończono: ${qdef.title} (+${qdef.xp} PD, +${qdef.coins} zł${extraTxt})${res.leveledUp ? ` — AWANS na poziom ${level}!` : ""}`;
+        } else {
+          notice = `✓ Ukończono: ${qdef.title}`;
+        }
+      } else {
+        notice = `Postęp zadania: ${qdef.title}`;
+      }
       break;
     }
 
@@ -2876,6 +3387,17 @@ export function applyAndroidAction(
       else state.progress.monsterKills += 1;
       if (isElite) state.progress.eliteKills += 1;
 
+      const speciesActorId =
+        target?.kind === "monster"
+          ? target.actorId
+          : action.type === "monster_kill"
+            ? action.monsterId
+            : undefined;
+      if (speciesActorId && !animal) {
+        state.progress.speciesKills[speciesActorId] =
+          (state.progress.speciesKills[speciesActorId] ?? 0) + 1;
+      }
+
       const lvl =
         target && target.kind !== "animal"
           ? target.level
@@ -2894,7 +3416,7 @@ export function applyAndroidAction(
         ? randomInt(100) < 45
           ? [{ id: "potion_hp_small", qty: 1 }]
           : []
-        : monsterLoot(dropLand, lvl, isElite, state.progress.monsterKills);
+        : monsterLoot(dropLand, lvl, isElite, state.progress.monsterKills, speciesActorId);
 
       let rewardText: string;
       if (action.type === "pve_defeat") {
@@ -2926,6 +3448,104 @@ export function applyAndroidAction(
           ? "★ Pokonano Elitę"
           : "Pokonano potwora";
       notice = `${defeated} (+${rewardXp} PD). ${rewardText}${res.leveledUp ? ` Awans na poziom ${level}!` : ""}`;
+      break;
+    }
+
+    case "boss_defeat": {
+      const boss = androidBoss(action.bossId);
+      if (!boss || boss.continent !== land || action.land !== land)
+        throw new AndroidEconomyError(
+          "INVALID_ACTION",
+          "Ten Boss nie występuje na tym kontynencie.",
+        );
+      if (
+        !walkableAndroidPoint(land, action.drop) ||
+        Math.hypot(action.drop.x - boss.x, action.drop.z - boss.z) > 360
+      )
+        throw new AndroidEconomyError("INVALID_ACTION", "Łup Bossa musi spaść na jego arenie.");
+      const lastBossAt = state.progress.defeatedBosses[boss.id] ?? 0;
+      if (lastBossAt > 0 && nowMs - lastBossAt < BOSS_COOLDOWN_MS) {
+        const waitS = Math.ceil((BOSS_COOLDOWN_MS - (nowMs - lastBossAt)) / 1000);
+        throw new AndroidEconomyError(
+          "ARENA_COOLDOWN",
+          `${boss.name} odradza się jeszcze przez ${waitS} s.`,
+        );
+      }
+      state.progress.defeatedBosses[boss.id] = nowMs;
+      state.progress.bossKills += 1;
+      state.progress.eliteKills += 1;
+      state.progress.monsterKills += 1;
+      state.progress.lastKillAt = nowMs;
+      if (action.hpCost && action.hpCost > 0) state.hp = Math.max(1, state.hp - action.hpCost);
+
+      const bossItems: ItemStack[] = [];
+      for (const entry of boss.lootTable) {
+        if (!ANDROID_ITEM_MAP.has(entry.itemId)) continue;
+        if (entry.chancePercent >= 100 || randomInt(100) < entry.chancePercent) {
+          const qty =
+            entry.maxCount > entry.minCount
+              ? randomInt(entry.minCount, entry.maxCount + 1)
+              : entry.minCount;
+          bossItems.push({ id: entry.itemId, qty: Math.max(1, qty) });
+        }
+      }
+      if (bossItems.length < 6) bossItems.push({ id: "mat_elite_core", qty: 2 });
+      const rewardGold = 180 + boss.level * 14;
+      lootDrop = {
+        ...action.drop,
+        land,
+        token: randomUUID(),
+        gold: rewardGold,
+        items: bossItems.slice(0, 8),
+        expiresAt: nowMs + LOOT_LIFETIME_MS,
+      };
+      state.pendingLoot.push({ ...lootDrop, claimed: false });
+      if (state.pendingLoot.length > MAX_PENDING_LOOT) state.pendingLoot.shift();
+
+      const res = grantXp(current.race, level, state, boss.xp, nowMs);
+      level = res.level;
+      notice = `★ POKONANO BOSSA: ${boss.name} (+${boss.xp} PD) — Podejdź po legendarne trofea!${res.leveledUp ? ` AWANS na poziom ${level}!` : ""}`;
+      break;
+    }
+
+    case "complete_world_event": {
+      const ev = androidWorldEvent(action.eventId);
+      if (!ev || ev.continent !== land || action.land !== land)
+        throw new AndroidEconomyError("INVALID_ACTION", "Nieznane wydarzenie na tym kontynencie.");
+      if (level < ev.minLevel)
+        throw new AndroidEconomyError(
+          "GOAL_NOT_MET",
+          `Wydarzenie „${ev.name}” wymaga poziomu ${ev.minLevel}.`,
+        );
+      const prevTs = state.progress.claimedEvents[ev.id] ?? 0;
+      if (ev.repeatability === "once" && prevTs > 0)
+        throw new AndroidEconomyError(
+          "QUEST_ALREADY_COMPLETED",
+          "To jednorazowe wydarzenie świata zostało już ukończone.",
+        );
+      const cdMs =
+        ev.repeatability === "renewable_contract"
+          ? WORLD_CONTRACT_COOLDOWN_MS
+          : WORLD_EVENT_COOLDOWN_MS;
+      if (prevTs > 0 && nowMs - prevTs < cdMs) {
+        const waitS = Math.ceil((cdMs - (nowMs - prevTs)) / 1000);
+        throw new AndroidEconomyError("ARENA_COOLDOWN", `To wydarzenie odnowi się za ${waitS} s.`);
+      }
+      state.progress.claimedEvents[ev.id] = nowMs;
+      gold = Math.min(MAX_GOLD, gold + ev.coins);
+      const extras: string[] = [];
+      if (ev.itemId && ANDROID_ITEM_MAP.has(ev.itemId)) {
+        const idef = ANDROID_ITEM_MAP.get(ev.itemId)!;
+        if (addItemToSlots(state.backpack, idef.id, 1)) {
+          extras.push(`+${idef.name}`);
+        } else if (addItemToSlots(state.bankItems, idef.id, 1)) {
+          extras.push(`+${idef.name} (Bank)`);
+        }
+      }
+      const res = grantXp(current.race, level, state, ev.xp, nowMs);
+      level = res.level;
+      const extraStr = extras.length ? ` • ${extras.join(", ")}` : "";
+      notice = `⚡ Wydarzenie ukończone: ${ev.name} (+${ev.xp} PD, +${ev.coins} zł${extraStr})${res.leveledUp ? ` — AWANS na poziom ${level}!` : ""}`;
       break;
     }
 
@@ -2986,6 +3606,27 @@ export function applyAndroidAction(
     }
 
     case "travel": {
+      const isl = androidIsland(action.land);
+      let fareNote = "";
+      if (isl && land !== action.land) {
+        // Canonical sea voyage rule (FABULA-I-EKWIPUNEK.md): first island voyage is FREE, subsequent 10/20/30g.
+        const firstIslandVoyage = state.progress.discoveredIslands.length === 0;
+        const fare = firstIslandVoyage ? 0 : isl.voyageCost;
+        if (fare > 0) {
+          if (gold < fare)
+            throw new AndroidEconomyError(
+              "INSUFFICIENT_GOLD",
+              `Rejs na ${isl.name} kosztuje ${fare} zł (powrót do rodzinnego kontynentu jest zawsze darmowy).`,
+            );
+          gold -= fare;
+          fareNote = ` (-${fare} zł rejs)`;
+        } else {
+          fareNote = " (pierwszy rejs darmowy!)";
+        }
+        if (!state.progress.discoveredIslands.includes(action.land)) {
+          state.progress.discoveredIslands.push(action.land);
+        }
+      }
       if (land !== action.land) {
         state.position = null;
         state.positionEpoch += 1;
@@ -2994,7 +3635,7 @@ export function applyAndroidAction(
       if (!state.progress.visitedLands.includes(land)) {
         state.progress.visitedLands.push(land);
       }
-      notice = `Podróż do kontynentu: ${land}`;
+      notice = isl ? `⛵ Rejs morski → ${isl.name}${fareNote}` : `Podróż do kontynentu: ${land}`;
       break;
     }
 

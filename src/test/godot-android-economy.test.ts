@@ -13,11 +13,20 @@ import {
   createInitialAndroidState,
   maxTrainingPerStat,
   normalizeAndroidState,
+  xpNeededForLevel,
 } from "../server/godot/economy";
-
+import {
+  ANDROID_CRAFT_RECIPES,
+  HERITAGE_WEAPON_STAGES,
+  enhanceCostForNextTier,
+} from "../server/godot/catalogBridge";
 import {
   ANDROID_POSITION_LAYOUT,
+  androidBoss,
+  androidIsland,
+  androidPlayableQuest,
   androidTarget,
+  androidWorldEvent,
   walkableAndroidPoint,
 } from "../server/godot/worldData";
 
@@ -789,5 +798,157 @@ describe("Android authoritative economy, city training & progression engine", ()
       { isStaff: true },
     );
     expect(reset.state.hotbarSlots).toEqual(["A1", "B1", "C1", "A4"]);
+  });
+
+  it("Stage 4: supports V2 craft_recipe, +1..+9 enhance_equip (+8%/tier), 6-stage Heritage Weapons, and Dojo Master Trials", () => {
+    // Rebalanced XP curve (Stage 4)
+    expect(xpNeededForLevel(1)).toBe(180);
+    expect(xpNeededForLevel(2)).toBe(300);
+    expect(xpNeededForLevel(25)).toBeGreaterThan(xpNeededForLevel(20));
+
+    // 1. V2 craft_recipe using a real canonical recipe
+    const rec = ANDROID_CRAFT_RECIPES[0]!;
+    let hero = freshHero("legend", 5000, Math.max(20, rec.requiredLevel));
+    for (let i = 0; i < rec.ingredients.length; i++) {
+      const ing = rec.ingredients[i]!;
+      hero.state.backpack[i] = { id: ing.id, qty: ing.qty + 2 };
+    }
+    const crafted = applyAndroidAction(
+      hero,
+      { type: "craft_recipe", recipeId: rec.id },
+      { isStaff: false },
+    );
+    expect(crafted.gold).toBe(5000 - rec.cost);
+    expect(crafted.state.backpack.some((s) => s?.id === rec.resultItemId)).toBe(true);
+
+    // 2. +1..+9 Equipment Enhancement boosts stats by +8%/rank
+    hero = freshHero("legend", 5000, 15);
+    hero.state.equipment["2"] = "weapon_recruit_sword";
+    const baseAtk = computeAndroidStats(hero.race, hero.level, hero.state).attack;
+    const tier0 = enhanceCostForNextTier(0);
+    for (let i = 0; i < tier0.ingredients.length; i++) {
+      hero.state.backpack[i] = { id: tier0.ingredients[i]!.id, qty: 20 };
+    }
+    const enh1 = applyAndroidAction(
+      hero,
+      { type: "enhance_equip", equipSlot: 2 },
+      { isStaff: false },
+    );
+    expect(enh1.state.equipUpgrades["2"]).toBe(1);
+    expect(computeAndroidStats(hero.race, hero.level, enh1.state).attack).toBeGreaterThan(baseAtk);
+
+    // Reject enhancing empty slot
+    expect(() =>
+      applyAndroidAction(hero, { type: "enhance_equip", equipSlot: 0 }, { isStaff: false }),
+    ).toThrowError(AndroidEconomyError);
+
+    // 3. Heritage Weapon Etap 1/6
+    const hSpec = HERITAGE_WEAPON_STAGES.find((h) => h.race === "legend" && h.stage === 1)!;
+    const hHero = freshHero("legend", 5000, Math.max(10, hSpec.minLevel));
+    hHero.state.equipment["2"] = null;
+    for (let i = 0; i < hSpec.ingredients.length; i++) {
+      hHero.state.backpack[i] = { id: hSpec.ingredients[i]!.id, qty: hSpec.ingredients[i]!.qty };
+    }
+    const forged = applyAndroidAction(hHero, { type: "forge_heritage_weapon" }, { isStaff: false });
+    expect(forged.state.heritageStage).toBe(1);
+    expect(forged.state.equipment["2"]).toBe(hSpec.id);
+
+    // 4. Dojo Master Trials (dojo_dodge, dojo_skill, dojo_ki -> Mistrz Dojo)
+    let dHero = freshHero("legend", 100, 5);
+    for (const tid of ["dojo_dodge", "dojo_skill", "dojo_ki"] as const) {
+      const r = applyAndroidAction(
+        dHero,
+        { type: "complete_dojo_trial", trialId: tid },
+        { isStaff: false },
+      );
+      dHero = { ...dHero, ...r };
+    }
+    expect(dHero.gold).toBe(205); // 100 + 3*35
+    expect(computeAndroidStats(dHero.race, dHero.level, dHero.state).dojoTitle).toBe("Mistrz Dojo");
+    // Repeat does not grant extra gold
+    const repeat = applyAndroidAction(
+      dHero,
+      { type: "complete_dojo_trial", trialId: "dojo_dodge" },
+      { isStaff: false },
+    );
+    expect(repeat.gold).toBe(205);
+  });
+
+  it("Stage 4: supports canonical quests, 8 bosses, 14 world events & Archipelago Island sea voyages", () => {
+    // 1. Canonical multi-step quest accept -> sync -> complete
+    const q = androidPlayableQuest("O-P01")!;
+    expect(q).toBeDefined();
+    let hero = freshHero("legend", 200, Math.max(1, q.minLevel));
+    const acc = applyAndroidAction(
+      hero,
+      { type: "quest_accept", questId: q.id },
+      { isStaff: false },
+    );
+    expect(acc.state.activeQuests[q.id]).toBeDefined();
+    hero = { ...hero, ...acc };
+
+    const done = applyAndroidAction(
+      hero,
+      {
+        type: "quest_sync_progress",
+        questId: q.id,
+        stage: 0,
+        progress: { step: 1 },
+        complete: true,
+      },
+      { isStaff: false },
+    );
+    expect(done.state.activeQuests[q.id]).toBeUndefined();
+    expect(done.state.completedQuests[q.id]).toBeTruthy();
+    expect(done.gold).toBe(200 + q.coins);
+
+    // 2. Continent Boss defeat (kharzul on pyra)
+    const boss = androidBoss("kharzul")!;
+    expect(boss.continent).toBe("pyra");
+    const bHero = freshHero("legend", 500, 20);
+    const bRes = applyAndroidAction(
+      bHero,
+      {
+        type: "boss_defeat",
+        bossId: boss.id,
+        land: "pyra",
+        drop: { x: boss.x, z: boss.z },
+        hpCost: 120,
+      },
+      { isStaff: false },
+    );
+    expect(bRes.lootDrop).toBeDefined();
+    expect(bRes.notice).toContain(boss.name);
+
+    // 3. Dynamic road World Event on verdant
+    const ev = androidWorldEvent("event-verdant-trail-wolves")!;
+    expect(ev.continent).toBe("verdant");
+    const eHero = freshHero("planetary", 300, Math.max(5, ev.minLevel));
+    const eRes = applyAndroidAction(
+      eHero,
+      { type: "complete_world_event", eventId: ev.id, land: "verdant" },
+      { isStaff: false },
+    );
+    expect(eRes.state.progress.claimedEvents[ev.id]).toBeGreaterThan(0);
+    expect(eRes.gold).toBeGreaterThan(300);
+
+    // 4. Archipelago Islands (island-1..6) first voyage FREE, repeat charges fee, return FREE
+    const isl6 = androidIsland("island-6")!;
+    expect(isl6.voyageCost).toBe(30);
+    let sHero = freshHero("legend", 200, 35);
+    const v1 = applyAndroidAction(sHero, { type: "travel", land: "island-6" }, { isStaff: false });
+    expect(v1.land).toBe("island-6");
+    expect(v1.gold).toBe(200); // first voyage FREE
+    expect(v1.state.progress.discoveredIslands).toContain("island-6");
+    sHero = { ...sHero, ...v1 };
+
+    const back = applyAndroidAction(sHero, { type: "travel", land: "pyra" }, { isStaff: false });
+    expect(back.land).toBe("pyra");
+    expect(back.gold).toBe(200); // return FREE
+    sHero = { ...sHero, ...back };
+
+    const v2 = applyAndroidAction(sHero, { type: "travel", land: "island-6" }, { isStaff: false });
+    expect(v2.land).toBe("island-6");
+    expect(v2.gold).toBe(170); // repeat charges 30g
   });
 });

@@ -81,6 +81,15 @@ if [ "$social_present" != t ]; then
  sha256sum "$pre" > "$pre.sha256"
  docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < init/010-godot-android-social.sql
 fi
+islands_present=$(docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -At -c "select exists (select 1 from godot_android.schema_version where version = 5)")
+if [ "$islands_present" != t ]; then
+ # Expand godot_android.characters.land CHECK constraint to cover all 6 Archipelago Islands: back up first, then apply idempotent migration.
+ umask 077
+ pre="$BASE/backups/before-godot-android-islands-$(date -u +%Y%m%dT%H%M%SZ).dump"
+ docker compose -p ki-multiplayer-db -f compose.yml exec -T db pg_dump -U ki_owner -d ki_multiplayer -Fc > "$pre"
+ sha256sum "$pre" > "$pre.sha256"
+ docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < init/011-godot-android-islands.sql
+fi
 docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer -v ON_ERROR_STOP=1 < verify.sql
 stamp=$(date -u +%Y%m%dT%H%M%SZ)
 backup="$BASE/backups/initial-$stamp.dump"

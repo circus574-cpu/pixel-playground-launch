@@ -25,6 +25,9 @@ const CombatVfxScript := preload("res://scripts/combat_vfx.gd")
 const StickScript := preload("res://scripts/stick.gd")
 const AudioScript := preload("res://scripts/world_audio.gd")
 const MapStyle := preload("res://scripts/map_style.gd")
+const BossAiScript := preload("res://scripts/boss_ai_iso.gd")
+const WorldEventsScript := preload("res://scripts/world_events_iso.gd")
+const QuestEngineScript := preload("res://scripts/quest_engine_iso.gd")
 
 const ISO_W := 5.6
 const ISO_D := 2.8
@@ -50,6 +53,12 @@ const REGION_TITLES := {
 	"verdant": "Verdantia — Zielona Przystań i Szmaragdowa Dolina",
 	"aether": "Aetheria — Lodowe Sanktuarium i Śnieżne Szczyty",
 	"nexus": "Nexus-9 — Węzeł Świadomości i Obwody Rdzeni",
+	"island-1": "Wyspa Pierwszego Echa — Archipelag Poz. 5–8",
+	"island-2": "Wyspa Złamanej Pieczęci — Archipelag Poz. 8–12",
+	"island-3": "Wyspa Odwróconej Latarki — Archipelag Poz. 11–15",
+	"island-4": "Wyspa Pękniętego Paleniska — Archipelag Poz. 14–18",
+	"island-5": "Wyspa Cichego Obserwatorium — Archipelag Poz. 18–25",
+	"island-6": "Sanktuarium Złamanej Pieczęci — Endgame Poz. 25–40",
 }
 const HERO_ACTORS := {
 	"pyra": ["pyra.hero", "Ignis (Wojownik Pyry)"],
@@ -84,6 +93,16 @@ var props: Array = []
 var actors_db: Dictionary = {}
 var monsters_db: Dictionary = {}
 var animals_db: Dictionary = {}
+var islands_db: Dictionary = {}
+var boss_ai: RefCounted
+var world_events: RefCounted
+var quest_engine: RefCounted
+var discovered_islands: Dictionary = {}
+var nearest_world_event: Dictionary = {}
+var near_island_harbor := false
+var btn_event_interact := Button.new()
+var _island_surface_tex: Texture2D
+var _island_weights_tex: Texture2D
 
 var ocean_skirt := MeshInstance2D.new()
 var terrain_mesh := Node2D.new()
@@ -462,6 +481,32 @@ func load_databases() -> void:
 		var parsed_a: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/animals.json"))
 		if parsed_a is Dictionary:
 			animals_db = (parsed_a as Dictionary).get("animals", {})
+	islands_db.clear()
+	if FileAccess.file_exists("res://data/islands.json"):
+		var parsed_i: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/islands.json"))
+		if parsed_i is Dictionary:
+			for isl: Variant in (parsed_i as Dictionary).get("islands", []):
+				if isl is Dictionary:
+					var id_k := str((isl as Dictionary).get("id", ""))
+					if not id_k.is_empty():
+						islands_db[id_k] = isl as Dictionary
+	if boss_ai == null:
+		boss_ai = BossAiScript.new()
+		boss_ai.setup(self)
+	if world_events == null:
+		world_events = WorldEventsScript.new()
+		world_events.setup(self)
+	if quest_engine == null:
+		quest_engine = QuestEngineScript.new()
+		quest_engine.setup(self)
+
+func is_island_land(land: String) -> bool:
+	return land.begins_with("island-") and islands_db.has(land)
+
+func get_theme_land(land: String) -> String:
+	if is_island_land(land):
+		return str((islands_db[land] as Dictionary).get("theme", "verdant"))
+	return land
 
 func is_server_authoritative() -> bool:
 	return server_char_id != "" and server_action_fn.is_valid()
@@ -477,6 +522,11 @@ func apply_server_character(ch: Dictionary) -> void:
 		interior_room.apply_server_bank(st)
 	if dialogue_strip != null and dialogue_strip.has_method("apply_server_quests"):
 		dialogue_strip.apply_server_quests(st)
+	if quest_engine != null:
+		quest_engine.apply_server_state(st)
+		quest_engine._refresh_npc_markers()
+	if world_events != null:
+		world_events.apply_server_state(st)
 	if quest_journal != null and quest_journal.has_method("apply_server_goals") and ch.has("goals") and ch["goals"] is Array:
 		quest_journal.apply_server_goals(ch["goals"] as Array)
 	var prog: Dictionary = st.get("progress", {}) if st.get("progress") is Dictionary else {}
@@ -490,6 +540,10 @@ func apply_server_character(ch: Dictionary) -> void:
 		for wid in disc_ws:
 			discovered_waystones[str(wid)] = true
 		_refresh_waystone_nodes()
+	var disc_isl = prog.get("discoveredIslands", st.get("discoveredIslands", []))
+	if disc_isl is Array:
+		for iid in disc_isl:
+			discovered_islands[str(iid)] = true
 
 func dispatch_server_action(payload: Dictionary, on_done: Callable = Callable()) -> bool:
 	if not is_server_authoritative():
@@ -579,7 +633,8 @@ func rebuild_hero(land: String) -> void:
 	_refresh_hero_nameplate()
 
 func surface_color_for(land: String) -> Vector3:
-	match land:
+	var theme := get_theme_land(land)
+	match theme:
 		"pyra":
 			return Vector3(1.0, 0.28, 0.04)
 		"verdant":
@@ -610,6 +665,31 @@ func load_tex(path: String) -> Texture2D:
 			return res
 	return null
 
+func sea_voyage_fee_for(land: String) -> int:
+	if not is_island_land(land):
+		return 0
+	if discovered_islands.is_empty():
+		return 0 # First voyage to the Archipelago is FREE!
+	return int((islands_db[land] as Dictionary).get("voyage_cost", 10))
+
+func sea_voyage_to(land: String) -> bool:
+	if not REGION_TITLES.has(land):
+		return false
+	if is_island_land(land):
+		var fee := sea_voyage_fee_for(land)
+		if not is_server_authoritative() and fee > 0 and rpg_hud != null:
+			if int(rpg_hud.hero_gold) < fee:
+				show_combat_toast("⛵ Rejs na %s kosztuje %d zł (brak złota)." % [str((islands_db[land] as Dictionary).get("name", land)), fee], Color(1.0, 0.56, 0.36))
+				return false
+			rpg_hud.hero_gold -= fee
+			rpg_hud._refresh_visuals()
+		discovered_islands[land] = true
+	switch_region(land)
+	if is_island_land(land):
+		var isl: Dictionary = islands_db[land]
+		show_combat_toast("⛵ Przypłynąłeś na %s (Poz. %d+)!" % [str(isl.get("name", land)), int(isl.get("recommended_level", 5))], Color(0.36, 0.96, 0.92))
+	return true
+
 func switch_region(land: String) -> void:
 	if not REGION_TITLES.has(land):
 		return
@@ -618,24 +698,27 @@ func switch_region(land: String) -> void:
 	if live_peers != null:
 		live_peers.clear()
 	current_land = land
+	if is_island_land(land):
+		discovered_islands[land] = true
 	region_title = REGION_TITLES[land]
+	var theme_land := get_theme_land(land)
 	current_exp_idx = 0
 	load_terrain(land)
-	rebuild_hero(land)
+	rebuild_hero(theme_land)
 	build_isometric_mesh()
 	build_world_objects_and_actors()
-	var spawn := capital_center + Vector2(0.0, 22.0)
+	var spawn := capital_center + (Vector2(0.0, 4.0) if is_island_land(land) else Vector2(0.0, 22.0))
 	hero_pos = spawn if is_walkable(spawn.x, spawn.y) else capital_center
 	if audio != null:
-		audio.play_music(land)
-		audio.play_ambience(land, true)
+		audio.play_music(theme_land)
+		audio.play_ambience(theme_land, true)
 	if not is_booting and is_server_authoritative():
 		dispatch_server_action({"type": "travel", "land": land})
 	target_pos = Vector2(-1.0, -1.0)
 	if premium_minimap != null:
-		premium_minimap.load_region_texture(land)
+		premium_minimap.load_region_texture(theme_land)
 	if atmosphere != null:
-		atmosphere.set_region(land)
+		atmosphere.set_region(theme_land)
 	if rpg_hud != null:
 		rpg_hud.set_region(land)
 	sync_hero(true)
@@ -644,7 +727,111 @@ func switch_region(land: String) -> void:
 	if atlas_overlay != null:
 		atlas_overlay.sync_live_hero()
 
+func _load_procedural_island(land: String) -> void:
+	var isl: Dictionary = islands_db[land]
+	grid_size = int(isl.get("grid_size", 128))
+	world_size = float(isl.get("world_size", 512.0))
+	var harb_arr: Array = isl.get("safe_harbor", [256.0, 356.0])
+	capital_center = Vector2(float(harb_arr[0]), float(harb_arr[1]))
+	safe_city_radius = float(isl.get("safe_radius", 72.0))
+	var seed_i := int(isl.get("seed", 101))
+	var cx := world_size * 0.5
+	var cz := world_size * 0.5
+
+	heights = PackedFloat32Array()
+	heights.resize(grid_size * grid_size)
+	walkable = PackedByteArray()
+	walkable.resize(grid_size * grid_size)
+	surface_img = Image.create(grid_size, grid_size, false, Image.FORMAT_RGBA8)
+	var w_img := Image.create(grid_size, grid_size, false, Image.FORMAT_RGBA8)
+
+	for gz in grid_size:
+		var wz := float(gz) * world_size / float(grid_size - 1)
+		for gx in grid_size:
+			var wx := float(gx) * world_size / float(grid_size - 1)
+			var dx := wx - cx
+			var dz := wz - cz
+			var dist := sqrt(dx * dx + dz * dz)
+			var ang := atan2(dz, dx)
+			var coast_r := 198.0 + sin(ang * 3.0 + float(seed_i) * 0.13) * 14.0 + cos(ang * 5.0 - float(seed_i) * 0.09) * 8.0
+			var idx := gz * grid_size + gx
+			var is_land := dist <= coast_r - 12.0
+			walkable[idx] = 1 if is_land else 0
+			var h := -4.2
+			var is_road := false
+			if dist < coast_r:
+				var edge_t := clampf((coast_r - dist) / 38.0, 0.0, 1.0)
+				var hill := (sin(wx * 0.028 + float(seed_i)) * cos(wz * 0.025 - float(seed_i) * 0.4) + 1.0) * 5.5
+				var harbor_flat := clampf((Vector2(wx, wz).distance_to(capital_center) - 42.0) / 48.0, 0.0, 1.0)
+				h = lerpf(-1.6, 3.2 + hill * harbor_flat, edge_t)
+				# Central cobblestone trail from harbor to northern shrine
+				if absf(wx - cx) < 16.0 and wz >= 120.0 and wz <= capital_center.y + 12.0:
+					is_road = true
+					h = lerpf(h, 3.5, 0.65)
+			heights[idx] = h
+			var water_g := 0.0 if is_land else 1.0
+			var road_b := 0.85 if is_road else 0.0
+			var is_shore := (dist >= coast_r - 28.0 and is_land)
+			surface_img.set_pixel(gx, gz, Color(0.0, water_g, road_b, 1.0))
+			var w0 := 0.85 if is_land and not is_road else 0.15
+			var w1 := 0.85 if is_road else (0.55 if is_shore else 0.10)
+			var w2 := clampf(h / 14.0, 0.0, 0.7)
+			w_img.set_pixel(gx, gz, Color(w0, w1, w2, 1.0))
+
+	_island_surface_tex = ImageTexture.create_from_image(surface_img)
+	_island_weights_tex = ImageTexture.create_from_image(w_img)
+
+	sub_biomes = [{"name": str(isl.get("name", land)), "x": cx, "z": cz}]
+	roads = [{"tier": "main", "pts": [[cx, capital_center.y], [cx, 136.0]]}]
+	buildings = []
+	npcs_data = []
+	exp_zones = [{"name": "%s (Poz. %d+)" % [str(isl.get("name", land)), int(isl.get("recommended_level", 5))], "x": cx, "z": 185.0}]
+	monsters_data = []
+	fauna_data = []
+	labyrinths_data = []
+	treasures_data = []
+	gatherables_data = []
+	waystones_data = []
+	gatherable_cd.clear()
+	props = []
+	landmarks = [{"id": land + "_harbor", "title": "Przystań: " + str(isl.get("name", land)), "x": capital_center.x, "z": capital_center.y}]
+
+	var npc_d: Variant = isl.get("npc", {})
+	if npc_d is Dictionary and not (npc_d as Dictionary).is_empty():
+		npcs_data.append((npc_d as Dictionary).duplicate(true))
+	for m: Variant in isl.get("monsters", []):
+		if m is Dictionary:
+			monsters_data.append((m as Dictionary).duplicate(true))
+	for tr: Variant in isl.get("treasures", []):
+		if tr is Dictionary:
+			treasures_data.append((tr as Dictionary).duplicate(true))
+	for g: Variant in isl.get("gatherables", []):
+		if g is Dictionary:
+			gatherables_data.append((g as Dictionary).duplicate(true))
+	# Deterministic scenic biome props ring around the island
+	var prop_list: Array = isl.get("props", [])
+	if not prop_list.is_empty():
+		for pi in 24:
+			var pa := (float(pi) / 24.0) * TAU + float(seed_i) * 0.17
+			var pr := 115.0 + float((pi * 37 + seed_i) % 58)
+			var px := cx + cos(pa) * pr
+			var pz := cz + sin(pa) * pr
+			if Vector2(px, pz).distance_to(capital_center) > 54.0 and is_walkable(px, pz):
+				props.append({
+					"x": px,
+					"z": pz,
+					"sprite": str(prop_list[pi % prop_list.size()]),
+					"kind": "tree",
+					"w": 240.0,
+					"h": 260.0,
+				})
+
 func load_terrain(land: String) -> void:
+	_island_surface_tex = null
+	_island_weights_tex = null
+	if is_island_land(land):
+		_load_procedural_island(land)
+		return
 	var rdir := "res://regions/" + land
 	heights = FileAccess.get_file_as_bytes(rdir + "/height.r32").to_float32_array()
 	walkable = FileAccess.get_file_as_bytes(rdir + "/walkable.u8")
@@ -846,20 +1033,26 @@ func build_isometric_mesh() -> void:
 
 	var mat := ShaderMaterial.new()
 	mat.shader = load("res://shaders/terrain.gdshader")
-	var rdir := "res://regions/" + current_land
+	var theme_land := get_theme_land(current_land)
+	var rdir := "res://regions/" + theme_land
 	for i in 4:
 		var t_png := load_tex("%s/mat_%d.png" % [rdir, i])
 		var t_webp := load_tex("%s/mat_%d.webp" % [rdir, i])
 		mat.set_shader_parameter("mat_%d_tex" % i, t_png if t_png != null else t_webp)
 	var wtex := load_tex("%s/water.png" % rdir)
 	mat.set_shader_parameter("water_tex", wtex)
-	var weights_path := "%s/weights.png" % rdir
-	if FileAccess.file_exists(weights_path):
-		mat.set_shader_parameter("weights_tex", load_tex(weights_path))
-	mat.set_shader_parameter("surface_tex", load_tex("%s/surface.png" % rdir))
-	mat.set_shader_parameter("map_art_tex", load_tex("%s/map_art.png" % rdir))
+	if is_island_land(current_land) and _island_surface_tex != null and _island_weights_tex != null:
+		mat.set_shader_parameter("weights_tex", _island_weights_tex)
+		mat.set_shader_parameter("surface_tex", _island_surface_tex)
+		mat.set_shader_parameter("map_art_tex", load_tex("%s/map_art.png" % rdir))
+	else:
+		var weights_path := "%s/weights.png" % rdir
+		if FileAccess.file_exists(weights_path):
+			mat.set_shader_parameter("weights_tex", load_tex(weights_path))
+		mat.set_shader_parameter("surface_tex", load_tex("%s/surface.png" % rdir))
+		mat.set_shader_parameter("map_art_tex", load_tex("%s/map_art.png" % rdir))
 	mat.set_shader_parameter("surface_color", surface_color_for(current_land))
-	var ws_s := maxf(world_size / 1024.0, 1.0)
+	var ws_s := maxf(world_size / 1024.0, 0.5)
 	var uv_sc := 88.0 * ws_s
 	mat.set_shader_parameter("uv_scale", uv_sc)
 	mat.set_shader_parameter("world_scale", ws_s)
@@ -1197,15 +1390,21 @@ func build_world_objects_and_actors() -> void:
 		if not actors_db.has(aid):
 			continue
 		var adef: Dictionary = actors_db[aid]
+		var n_name := str(n.get("name", "Mieszkaniec"))
+		var qm := str(n.get("quest_mark", ""))
+		if quest_engine != null:
+			var dyn_qm: String = quest_engine.marker_for_npc(aid, n_name, current_land)
+			if not dyn_qm.is_empty():
+				qm = dyn_qm
 		var npc_actor := ActorScript.new()
 		npc_actor.setup(
 			adef,
-			str(n.get("name", "")),
+			n_name,
 			false,
 			false,
 			"npc",
 			0,
-			str(n.get("quest_mark", "")),
+			qm,
 			str(n.get("role", ""))
 		)
 		npc_actor.scale = Vector2(0.42, 0.42)
@@ -1216,9 +1415,9 @@ func build_world_objects_and_actors() -> void:
 		live_agents.append({
 			"kind": "npc",
 			"id": aid,
-			"name": str(n.get("name", "Mieszkaniec")),
+			"name": n_name,
 			"role": str(n.get("role", "Obywatel")),
-			"quest_mark": str(n.get("quest_mark", "")),
+			"quest_mark": qm,
 			"last_bark_t": -20.0 - float(idx) * 2.5,
 			"node": npc_actor,
 			"home": Vector2(nx, nz),
@@ -1263,7 +1462,7 @@ func build_world_objects_and_actors() -> void:
 		var m_lv := int(m.get("level", 1))
 		var m_hp := int(m.get("hp", 135 + m_lv * 68 + m_lv * m_lv * 9))
 		var m_atk := int(m.get("atk", 16 + m_lv * 8))
-		live_agents.append({
+		var m_ag := {
 			"kind": "monster",
 			"id": str(m.get("id", mid)),
 			"actor_id": mid,
@@ -1293,7 +1492,36 @@ func build_world_objects_and_actors() -> void:
 			"ai_state": "idle",
 			"ai_timer": randf_range(1.0, 4.0),
 			"ai_target": Vector2(mx, mz),
-		})
+		}
+		if boss_ai != null:
+			boss_ai.hydrate_monster_agent(m_ag, m_entry)
+		live_agents.append(m_ag)
+
+	# 5b. Stage 4: Canonical Multi-Phase Continent Bosses (2 per continent) & 14 Dynamic World Events
+	if boss_ai != null and not is_island_land(current_land):
+		boss_ai.spawn_region_bosses(current_land)
+	if world_events != null:
+		world_events.build_for_region(current_land)
+	if is_island_land(current_land):
+		var h_nd := Node2D.new()
+		var hp_w := capital_center + Vector2(-18.0, 14.0)
+		h_nd.position = iso(hp_w.x, hp_w.y, height_at(hp_w.x, hp_w.y))
+		add_contact_shadow(h_nd, 220.0, 0.36, 3.0)
+		var h_sp := make_fitted_sprite("res://assets/library/props/prop_runic_obelisk.webp", 205.0, 250.0, 0.88)
+		h_sp.modulate = Color(0.42, 0.96, 1.0, 1.0)
+		h_nd.add_child(h_sp)
+		var h_lbl := Label.new()
+		h_lbl.text = "⛵ PRZYSTAŃ POWROTNA (Kontynent)"
+		h_lbl.position = Vector2(-210, -166)
+		h_lbl.size = Vector2(420, 28)
+		h_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		h_lbl.add_theme_font_override("font", body_f)
+		h_lbl.add_theme_font_size_override("font_size", 16)
+		h_lbl.add_theme_color_override("font_color", Color(0.42, 0.98, 1.0))
+		h_lbl.add_theme_color_override("font_outline_color", Color(0.02, 0.04, 0.08, 0.98))
+		h_lbl.add_theme_constant_override("outline_size", 6)
+		h_nd.add_child(h_lbl)
+		ysort.add_child(h_nd)
 
 	# 6. Animated Wildlife Fauna Animals (A-01..A-10) roaming near lakes, rivers & forests
 	for idx in fauna_data.size():
@@ -1497,6 +1725,15 @@ func build_hud() -> void:
 			interact_gatherable(nearest_gatherable)
 	)
 	hud.add_child(btn_gather)
+
+	# Contextual Forged button for Stage 4 Dynamic World Events & Island Return Harbor
+	ForgedUI.style_button(btn_event_interact, "gold", 21, 26.0, 12.0)
+	btn_event_interact.text = "⚡ ZDARZENIE"
+	btn_event_interact.visible = false
+	btn_event_interact.pressed.connect(func() -> void:
+		trigger_event_or_harbor_interact()
+	)
+	hud.add_child(btn_event_interact)
 
 	combat_toast_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	combat_toast_lbl.add_theme_font_override("font", MapStyle.body_font())
@@ -2073,6 +2310,8 @@ func _clear_transient_combat_state() -> void:
 	hero_buffs.clear()
 	active_circles.clear()
 	delayed_seals.clear()
+	if boss_ai != null:
+		boss_ai.clear_transient()
 	for ag: Dictionary in live_agents:
 		var mnd = ag.get("node", null)
 		if is_instance_valid(mnd) and ("is_locked_target" in mnd):
@@ -2099,6 +2338,9 @@ func is_free_ki_active() -> bool:
 	return float(hero_buffs.get("overload_t", 0.0)) > 0.05 or float(hero_buffs.get("enlighten_t", 0.0)) > 0.05
 
 func can_hero_cast_skill(nid: String) -> bool:
+	if boss_ai != null and boss_ai.is_hero_stunned():
+		show_combat_toast("★ Jesteś OGŁUSZONY!", Color(1.0, 0.86, 0.28))
+		return false
 	if _hero_race_key() == "android" and android_overheat_t > 0.05 and nid != "C4" and nid != "T":
 		show_combat_toast("⚠ PRZEGRZANIE! Użyj Chłodzenia [C4] lub odczekaj %.1fs." % android_overheat_t, Color(1.0, 0.44, 0.32))
 		return false
@@ -2143,14 +2385,18 @@ func get_locked_target_info() -> Dictionary:
 	if float(ag.get("slow_t", 0.0)) > 0.05: sts.append("slow")
 	if float(ag.get("marked_t", 0.0)) > 0.05: sts.append("marked")
 	if float(ag.get("seal_t", 0.0)) > 0.05: sts.append("seal")
+	var weaks: Array[String] = []
+	if boss_ai != null:
+		weaks = boss_ai.weakness_tags_for(ag)
 	return {
 		"id": str(ag.get("id", "")),
 		"name": str(ag.get("name", "Cel")),
 		"level": int(ag.get("level", 1)),
 		"hp": float(ag.get("cur_hp", 0)),
 		"max_hp": float(ag.get("max_hp", 100)),
-		"boss": bool(ag.get("is_elite", false)),
+		"boss": bool(ag.get("is_elite", false)) or bool(ag.get("is_boss", false)),
 		"statuses": sts,
+		"weaknesses": weaks,
 	}
 
 func cycle_locked_target() -> void:
@@ -2268,16 +2514,23 @@ func _sync_agent_status_flags(ag: Dictionary) -> void:
 	mnode.status_flags = flags
 	mnode.queue_redraw()
 
-func _apply_damage_to_agent(h_idx: int, raw_dmg: int, is_crit: bool, race_k: String, kill_heal_pct: float, apply_burn: float = 0.0, apply_stun: float = 0.0, apply_slow: float = 0.0, apply_mark: float = 0.0) -> bool:
+func _apply_damage_to_agent(h_idx: int, raw_dmg: int, is_crit: bool, race_k: String, kill_heal_pct: float, apply_burn: float = 0.0, apply_stun: float = 0.0, apply_slow: float = 0.0, apply_mark: float = 0.0, elements: Array[String] = []) -> bool:
 	if h_idx < 0 or h_idx >= live_agents.size():
 		return false
 	var target: Dictionary = live_agents[h_idx]
 	if not bool(target.get("alive", true)):
 		return false
 	var is_animal := (str(target.get("kind", "")) == "animal")
+	var is_boss := bool(target.get("is_boss", false))
 	var m_lvl := int(target.get("level", 1))
 	var is_el := bool(target.get("is_elite", false))
+	var el_tag := ""
 	var dmg := maxi(4, raw_dmg)
+	if not is_animal and boss_ai != null:
+		var use_els: Array[String] = elements if not elements.is_empty() else boss_ai.hero_attack_elements(race_k, "R", 0, false, ki_mode_timer > 0.0)
+		var emod: Dictionary = boss_ai.compute_element_modifier(target, use_els)
+		dmg = maxi(3, int(round(float(dmg) * float(emod.get("mult", 1.0)))))
+		el_tag = str(emod.get("tag", ""))
 	target["cur_hp"] = maxi(0, int(target.get("cur_hp", 200)) - dmg)
 	if apply_burn > 0.0:
 		target["burn_t"] = maxf(float(target.get("burn_t", 0.0)), apply_burn)
@@ -2303,9 +2556,20 @@ func _apply_damage_to_agent(h_idx: int, raw_dmg: int, is_crit: bool, race_k: Str
 		if mnode.has_method("show_damage_number"):
 			var tag := "KRYT! -" if is_crit else "-"
 			var dcol := Color(1.0, 0.86, 0.22) if is_crit else Color(1.0, 0.42, 0.26)
-			mnode.show_damage_number("%s%d" % [tag, dmg], dcol, is_crit)
+			if el_tag == "SŁABOŚĆ!":
+				tag = "SŁABOŚĆ! -" if not is_crit else "SŁABOŚĆ KRYT! -"
+				dcol = Color(0.36, 0.98, 1.0)
+			elif el_tag == "ODPORNOŚĆ":
+				tag = "ODP. -"
+				dcol = Color(0.68, 0.72, 0.80)
+			mnode.show_damage_number("%s%d" % [tag, dmg], dcol, is_crit or el_tag == "SŁABOŚĆ!")
+	if not is_animal and boss_ai != null and int(target["cur_hp"]) > 0:
+		boss_ai.on_agent_damaged(target, dmg, apply_stun, elements)
 	if int(target["cur_hp"]) <= 0:
 		var hp_cost := int(target.get("dmg_dealt_to_hero", 0))
+		if not is_animal and boss_ai != null:
+			if boss_ai.on_agent_killed(target, hp_cost):
+				return false # Monster revived via traits.revive!
 		target["dmg_dealt_to_hero"] = 0
 		target["alive"] = false
 		target["was_aggro"] = false
@@ -2316,7 +2580,8 @@ func _apply_damage_to_agent(h_idx: int, raw_dmg: int, is_crit: bool, race_k: Str
 		target["seal_t"] = 0.0
 		target["flee_t"] = 0.0
 		target["death_hide_t"] = 0.85
-		target["respawn_t"] = 22.0 if is_animal else (45.0 if is_el else 11.0)
+		if not is_boss:
+			target["respawn_t"] = 22.0 if is_animal else (45.0 if is_el else 11.0)
 		if str(target.get("id", "")) == locked_target_id:
 			set_locked_target("")
 		if kill_heal_pct > 0.0 and rpg_hud != null:
@@ -2326,8 +2591,8 @@ func _apply_damage_to_agent(h_idx: int, raw_dmg: int, is_crit: bool, race_k: Str
 		if is_instance_valid(mnode):
 			mnode.hp_ratio = 0.0
 			_sync_agent_status_flags(target)
-			if is_el and combat_vfx != null:
-				combat_vfx.spawn_ki_burst(mnode.position, race_k, 145.0)
+			if (is_el or is_boss) and combat_vfx != null:
+				combat_vfx.spawn_ki_burst(mnode.position, race_k, 210.0 if is_boss else 145.0)
 			if mnode.has_method("play_action"):
 				mnode.play_action("death", "hit", 0.85)
 		if audio != null:
@@ -2335,8 +2600,13 @@ func _apply_damage_to_agent(h_idx: int, raw_dmg: int, is_crit: bool, race_k: Str
 		if is_animal:
 			if not _report_surface_defeat(str(target["id"]), target["pos"] as Vector2, hp_cost, false):
 				_report_local_animal_kill(target)
-		else:
-			report_monster_kill(str(target["id"]), m_lvl, str(target.get("name", "Potwór")), hp_cost, is_el, target["pos"] as Vector2)
+		elif not is_boss:
+			if not bool(target.get("is_minion", false)):
+				report_monster_kill(str(target["id"]), m_lvl, str(target.get("name", "Potwór")), hp_cost, is_el, target["pos"] as Vector2)
+			if world_events != null:
+				world_events.on_agent_killed(str(target.get("id", "")))
+			if quest_engine != null:
+				quest_engine.on_monster_killed(str(target.get("actor_id", "")), current_land)
 		return true
 	elif is_instance_valid(mnode) and mnode.has_method("play_action"):
 		mnode.play_action("hit", "hit", 0.28)
@@ -2849,6 +3119,9 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 	if race_k == "planetary" and nid == "B1" and _hero_has_talent("B6") and rpg_hud != null:
 		rpg_hud.hero_ki = minf(float(rpg_hud.hero_max_ki), float(rpg_hud.hero_ki) + float(hit_indices.size()) * 5.0)
 
+	var atk_elements: Array[String] = []
+	if boss_ai != null:
+		atk_elements = boss_ai.hero_attack_elements(race_k, nid, skill_idx, is_aoe, ki_mode_timer > 0.0)
 	var any_kill := false
 	for h_idx: int in hit_indices:
 		var target: Dictionary = live_agents[h_idx]
@@ -2871,7 +3144,7 @@ func perform_combat_attack(skill_idx: int, surge_mult: float = 1.0, node_id: Str
 				var pnd = target.get("node", null)
 				if is_instance_valid(pnd):
 					pnd.position = iso(cand_pb.x, cand_pb.y, height_at(cand_pb.x, cand_pb.y))
-		if _apply_damage_to_agent(h_idx, dmg, is_crit, race_k, kill_heal_pct, apply_burn, apply_stun, apply_slow, apply_mark):
+		if _apply_damage_to_agent(h_idx, dmg, is_crit, race_k, kill_heal_pct, apply_burn, apply_stun, apply_slow, apply_mark, atk_elements):
 			any_kill = true
 
 	# Android A8 Multishot: basic shot bounces to 2 nearby enemies for 40% dmg!
@@ -3065,6 +3338,7 @@ func layout_minimap() -> void:
 		btn_talk_npc.visible = false
 		btn_open_treasure.visible = false
 		btn_gather.visible = false
+		btn_event_interact.visible = false
 		combat_toast_lbl.visible = false
 		if stick_layer != null:
 			stick_layer.visible = true
@@ -3139,11 +3413,25 @@ func _layout_world_prompts(vp: Vector2, allow: bool) -> void:
 		btn_gather.size = Vector2(bw, 62.0)
 		btn_gather.position = Vector2((vp.x - bw) * 0.5, stack_y)
 		stack_y -= 70.0
+	btn_event_interact.visible = allow and (not nearest_world_event.is_empty() or near_island_harbor)
+	if btn_event_interact.visible:
+		btn_event_interact.size = Vector2(bw, 62.0)
+		btn_event_interact.position = Vector2((vp.x - bw) * 0.5, stack_y)
+		stack_y -= 70.0
 	var tw := clampf(vp.x * 0.34, 290.0, 420.0)
 	btn_talk_npc.visible = allow and not nearest_npc_agent.is_empty()
 	if btn_talk_npc.visible:
 		btn_talk_npc.size = Vector2(tw, 60.0)
 		btn_talk_npc.position = Vector2((vp.x - tw) * 0.5, stack_y)
+
+func trigger_event_or_harbor_interact() -> void:
+	if not nearest_world_event.is_empty() and world_events != null:
+		world_events.interact_with_event(nearest_world_event)
+		sync_hero(true)
+	elif near_island_harbor and is_island_land(current_land):
+		var home_land := hero_race_land if REGION_ORDER.has(hero_race_land) else get_theme_land(current_land)
+		sea_voyage_to(home_land)
+		show_combat_toast("⛵ Powrót na kontynent (rejs powrotny darmowy)!", Color(0.46, 0.96, 1.0))
 
 func notify_audio_changed(mv: float, sv: float, av: float = -1.0) -> void:
 	initial_music_vol = mv
@@ -3389,6 +3677,9 @@ func _unhandled_input(event: InputEvent) -> void:
 				return
 			elif not nearest_gatherable.is_empty():
 				interact_gatherable(nearest_gatherable)
+				return
+			elif not nearest_world_event.is_empty() or near_island_harbor:
+				trigger_event_or_harbor_interact()
 				return
 		elif event.keycode == KEY_M:
 			if atlas_expanded:
@@ -3931,8 +4222,10 @@ func step_world(delta: float) -> void:
 			buff_spd *= 1.15
 		if _hero_race_key() == "planetary" and _hero_has_talent("B2") and _get_planetary_terrain() == "water":
 			buff_spd *= 1.08
+		var debuff_spd := float(boss_ai.get_hero_slow_mult()) if boss_ai != null else 1.0
 		var analog_mult := lerpf(0.45, 1.0, move_mag)
-		try_move(world_dir * SPEED * analog_mult * gm_speed_mult * stat_spd_mult * road_mult * ki_spd_mult * buff_spd * delta)
+		if debuff_spd > 0.01:
+			try_move(world_dir * SPEED * analog_mult * gm_speed_mult * stat_spd_mult * road_mult * ki_spd_mult * buff_spd * debuff_spd * delta)
 
 	# Out-of-Combat passive HP/KI recovery (+4% HP/s + talent bonus, +6% KI/s after 5s OOC)
 	if world_time - last_combat_time >= 5.0 and rpg_hud != null and float(rpg_hud.hero_hp) > 0.0:
@@ -3961,9 +4254,10 @@ func step_world(delta: float) -> void:
 				_discover_waystone(ws_item)
 
 	var in_safe_now := hero_pos.distance_to(capital_center) <= safe_city_radius
+	var audio_theme := get_theme_land(current_land)
 	if audio != null:
-		audio.step(delta, is_moving, current_land, false, is_running, is_in_water(hero_pos.x, hero_pos.y), in_safe_now)
-		audio.play_ambience(current_land, in_safe_now)
+		audio.step(delta, is_moving, audio_theme, false, is_running, is_in_water(hero_pos.x, hero_pos.y), in_safe_now)
+		audio.play_ambience(audio_theme, in_safe_now)
 	if hero != null:
 		hero.animate(screen_dir, is_running, lerpf(0.62, 1.0, move_mag))
 	sync_hero()
@@ -3990,6 +4284,12 @@ func step_world(delta: float) -> void:
 		or (quest_journal != null and bool(quest_journal.visible))
 		or (rpg_hud != null and (bool(rpg_hud.show_talents) or bool(rpg_hud.show_character)))
 	)
+	if boss_ai != null:
+		boss_ai.step_global_timers(delta, modal_pauses_combat)
+	if world_events != null and not modal_pauses_combat:
+		world_events.step(delta)
+	if quest_engine != null and not modal_pauses_combat:
+		quest_engine.on_hero_position(hero_pos, current_land)
 	var cam_p := camera.position
 	var vp_sz := get_viewport_rect().size
 	var inv_z := 1.0 / maxf(zoom_level, 0.45)
@@ -3998,7 +4298,7 @@ func step_world(delta: float) -> void:
 	var race_k_now := _hero_race_key()
 	var kill_heal_now := float((rpg_hud.get_talent_passives() as Dictionary).get("killHealPct", 0.0)) if (rpg_hud != null and rpg_hud.has_method("get_talent_passives")) else 0.0
 
-	# Animate living NPCs, Monsters, and Wildlife Fauna animals with natural Waypoint AI + 2-way combat + distance culling
+	# Animate living NPCs, Monsters, Bosses, and Wildlife Fauna animals with Stage 4 Differentiated AI + distance culling
 	for idx in live_agents.size():
 		var ag: Dictionary = live_agents[idx]
 		var node = ag["node"]
@@ -4015,6 +4315,8 @@ func step_world(delta: float) -> void:
 				node.modulate.a = clampf(dh / 0.85, 0.0, 1.0)
 				if dh <= 0.0:
 					node.visible = false
+			if bool(ag.get("is_minion", false)):
+				continue
 			ag["respawn_t"] = float(ag.get("respawn_t", 0.0)) - delta
 			if float(ag["respawn_t"]) <= 0.0:
 				ag["alive"] = true
@@ -4030,6 +4332,16 @@ func step_world(delta: float) -> void:
 				ag["marked_t"] = 0.0
 				ag["seal_t"] = 0.0
 				ag["flee_t"] = 0.0
+				ag["revived"] = false
+				if bool(ag.get("is_boss", false)):
+					ag["boss_phase"] = 1
+					ag["boss_atk_mult"] = 1.0
+					ag["boss_spd_mult"] = 1.0
+					ag["boss_dmg_taken_mult"] = 1.0
+					ag["boss_shield_active"] = false
+					ag["boss_vuln_t"] = 0.0
+					node.boss_phase = 1
+					node.boss_shield_active = false
 				ag["pos"] = ag["home"]
 				ag["ai_state"] = "idle"
 				ag["ai_timer"] = randf_range(1.2, 3.2)
@@ -4080,94 +4392,17 @@ func step_world(delta: float) -> void:
 				node.face(face_s)
 			node.animate(Vector2.ZERO, false)
 			continue
-		var home: Vector2 = ag["home"]
 		var prev_p: Vector2 = ag["pos"]
 		var next_p := prev_p
 		var stride := 0.62 if ag_kind == "npc" else 0.76
 		var ag_running := false
 		if is_monster:
-			ag["atk_cd"] = maxf(0.0, float(ag.get("atk_cd", 0.0)) - delta)
-			ag["aggro_windup"] = maxf(0.0, float(ag.get("aggro_windup", 0.0)) - delta)
-			if float(ag.get("stun_t", 0.0)) > 0.05:
-				node.animate(Vector2.ZERO, false, stride)
-				continue
-			var slow_mult := 0.60 if float(ag.get("slow_t", 0.0)) > 0.05 else 1.0
-			var dist_to_hero := hero_pos.distance_to(prev_p)
-			var dist_from_home := prev_p.distance_to(home)
-			var was_hurt := int(ag.get("cur_hp", 100)) < int(ag.get("max_hp", 100))
-			if not hero_in_safe and not modal_pauses_combat and ((dist_to_hero < 72.0) or (was_hurt and dist_to_hero < 145.0)) and dist_from_home < 165.0:
-				stride = 0.96
-				if not bool(ag.get("was_aggro", false)):
-					ag["was_aggro"] = true
-					ag["aggro_windup"] = 0.50
-				if not bool(ag.get("roared", false)):
-					ag["roared"] = true
-					if audio != null and bool(ag.get("is_elite", false)):
-						audio.play_monster_sfx(str(ag.get("actor_id", "")), "roar")
-				if dist_to_hero > 26.0:
-					var chase_step := (hero_pos - prev_p).normalized() * 21.0 * slow_mult * delta
-					var cand_p := prev_p + chase_step
-					if cand_p.distance_to(capital_center) > safe_city_radius + 16.0 and is_walkable(cand_p.x, cand_p.y):
-						next_p = cand_p
-				if hero_pos.distance_to(next_p) <= 50.0 and float(ag["atk_cd"]) <= 0.0 and float(ag["aggro_windup"]) <= 0.0:
-					ag["atk_cd"] = 1.40
-					ag["atk_count"] = int(ag.get("atk_count", 0)) + 1
-					last_combat_time = world_time
-					var to_h: Vector2 = hero_pos - next_p
-					var face_h := Vector2(to_h.x - to_h.y, (to_h.x + to_h.y) * 0.5)
-					if face_h.length_squared() > 0.01 and node.has_method("face"):
-						node.face(face_h)
-					if node.has_method("play_action"):
-						node.play_action("skill" if (int(ag["atk_count"]) % 3 == 0) else "attack", "attack")
-					if audio != null:
-						audio.play_monster_sfx(str(ag.get("actor_id", "")), "atk")
-					if dodge_invuln_t > 0.05:
-						if hero != null and hero.has_method("show_damage_number"):
-							hero.show_damage_number("UNIK!", Color(0.46, 0.98, 0.72), true)
-					else:
-						if recall_channel > 0.0:
-							recall_channel = 0.0
-							show_combat_toast("Powrót do stolicy przerwany przez obrażenia!", Color(1.0, 0.48, 0.34))
-						var m_atk := int(ag.get("atk", 24))
-						var m_lvl := int(ag.get("level", 1))
-						var hero_lv: int = int(rpg_hud.hero_level) if rpg_hud != null else 1
-						var hero_def := float(rpg_hud.get_total_defense()) if (rpg_hud != null and rpg_hud.has_method("get_total_defense")) else 12.0
-						var def_mult := 1.0
-						if ki_mode_timer > 0.0: def_mult += 0.15
-						if float(hero_buffs.get("fortify_t", 0.0)) > 0.05: def_mult += 0.60
-						if float(hero_buffs.get("dodge_def_t", 0.0)) > 0.05: def_mult += 0.20
-						if race_k_now == "planetary" and _hero_has_talent("B2") and _get_planetary_terrain() == "rock": def_mult += 0.10
-						if race_k_now == "legend" and float(hero_buffs.get("rage_t", 0.0)) > 0.05 and not _hero_has_talent("B8"): def_mult -= 0.15
-						def_mult += _hero_circle_def_bonus()
-						var adv_mult := 1.35 if (m_lvl - hero_lv >= 3) else 1.0
-						var dmg := maxi(5, int(round(float(m_atk) * adv_mult - (hero_def * maxf(0.4, def_mult)) * 0.55)))
-						ag["dmg_dealt_to_hero"] = int(ag.get("dmg_dealt_to_hero", 0)) + dmg
-						var refl := float(hero_buffs.get("reflect_pct", 0.0))
-						if refl > 0.01 and rpg_hud != null and float(rpg_hud.hero_shield_hp) > 1.0:
-							_apply_damage_to_agent(idx, maxi(4, int(round(float(dmg) * refl))), false, race_k_now, kill_heal_now)
-						if audio != null:
-							audio.sfx("common/player-hurt", 0.76)
-						if hero != null:
-							if hero.has_method("show_damage_number"):
-								hero.show_damage_number("-%d" % dmg, Color(1.0, 0.34, 0.28), false)
-							if Time.get_ticks_msec() / 1000.0 >= float(hero.one_shot_until) and hero.has_method("play_action"):
-								hero.play_action("hitheavy" if dmg >= 35 else "hit", "hit", 0.28)
-						if rpg_hud != null and rpg_hud.has_method("take_combat_damage") and rpg_hud.take_combat_damage(dmg):
-							if float(hero_buffs.get("last_flame_t", 0.0)) > 0.05:
-								hero_buffs["last_flame_t"] = 0.0
-								rpg_hud.hero_hp = maxf(1.0, round(float(rpg_hud.hero_max_hp) * 0.30))
-								rpg_hud._sync_bar_uniforms()
-								rpg_hud._refresh_visuals()
-								if combat_vfx != null and hero != null:
-									combat_vfx.spawn_ki_burst(hero.position, race_k_now, 180.0)
-								show_combat_toast("✦ OSTATNI PŁOMIEŃ uratował Cię przed śmiercią (+30%% HP)!", Color(1.0, 0.80, 0.28))
-							else:
-								handle_hero_defeat()
-								return
-			else:
-				ag["roared"] = false
-				ag["was_aggro"] = false
-				next_p = _step_agent_patrol(ag, delta, float(ag.get("speed", 13.0)) * slow_mult, true)
+			if boss_ai == null:
+				boss_ai = BossAiScript.new()
+				boss_ai.setup(self)
+			var ai_res: Dictionary = boss_ai.step_monster_ai(idx, ag, delta, hero_in_safe, modal_pauses_combat)
+			next_p = ai_res.get("next_p", prev_p) as Vector2
+			stride = float(ai_res.get("stride", 0.85))
 		elif ag_kind == "animal" and float(ag.get("flee_t", 0.0)) > 0.0:
 			ag["flee_t"] = maxf(0.0, float(ag.get("flee_t", 0.0)) - delta)
 			var flee_dir := (prev_p - hero_pos)
@@ -4383,6 +4618,9 @@ func sync_hero(force_scan: bool = false) -> void:
 			best_g = g
 	nearest_gatherable = best_g
 
+	nearest_world_event = world_events.get_nearest_interactable() if world_events != null else {}
+	near_island_harbor = is_island_land(current_land) and hero_pos.distance_to(capital_center + Vector2(-18.0, 14.0)) <= 52.0
+
 	var show_world_ui := not (map_expanded or atlas_expanded or in_interior or in_labyrinth)
 	var menu_open: bool = game_menu != null and bool(game_menu.visible)
 	var q_open: bool = quest_journal != null and bool(quest_journal.visible)
@@ -4396,6 +4634,11 @@ func sync_hero(force_scan: bool = false) -> void:
 	if not nearest_gatherable.is_empty():
 		var gkind := str(nearest_gatherable.get("kind", "gather"))
 		btn_gather.text = ("🔥 ODPOCZNIJ: %s" % str(nearest_gatherable.get("title", "Ognisko"))) if gkind == "campfire" else ("✦ ZBIERZ: %s" % str(nearest_gatherable.get("title", "Surowiec")))
+	if not nearest_world_event.is_empty():
+		var ev_act := str((nearest_world_event.get("mech", {}) as Dictionary).get("action", "Zbadaj zdarzenie"))
+		btn_event_interact.text = "⚡ %s" % ev_act
+	elif near_island_harbor:
+		btn_event_interact.text = "⛵ WRÓĆ NA KONTYNENT (Za darmo)"
 	if not nearest_npc_agent.is_empty():
 		btn_talk_npc.text = "▶ ROZMAWIAJ: %s" % str(nearest_npc_agent.get("name", "NPC"))
 	_layout_world_prompts(get_viewport_rect().size, show_world_ui and not rpg_modal_open and not dlg_open)

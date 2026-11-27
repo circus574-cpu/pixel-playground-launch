@@ -290,3 +290,26 @@ plików + `--check-only` wszystkich 5 skryptów w `res://service_preview/pyra/`)
 pełne sprawdzenie 3 konfiguracji TypeScript, ESLint, `check_documentation.py` oraz
 wizualna weryfikacja 3 zrzutów OpenGL3 `1600×720`.
 
+## Etap 4 — pełny bestiariusz 41 potworów, 8 wielofazowych bossów, 14 wydarzeń świata, 102 zadania, 455 przedmiotów, 265 receptur, ulepszanie `+1..+9`, Dojo i 6 Wysp Archipelagu
+
+Prace na gałęzi `feat/android-audit-stage4-20261126` (na bazie Etapu 3 `fa19aa02`)
+domykają pełny parytet treści MMORPG z kanonem Ki Legends — bez powiększania 8 paczek
+światów `world-*` (wszystkie zmiany mieszczą się w lekkim `core-c101` + backendzie):
+
+| Obszar | Zmiana | Weryfikacja |
+| --- | --- | --- |
+| Bestiariusz 41 potworów i 8 wielofazowych Bossów (`boss_ai_iso.gd`, `bosses.json`, `combat_vfx.gd`, `actor_view.gd`) | Zróżnicowane AI 41 gatunków (`basic`, `range`, `agro`, `skills`, `traits`, słabości żywiołów z mnożnikiem i tagiem `SŁABOŚĆ!`/`ODPORNOŚĆ`), naziemne telegrafy AoE, strefy zagrożeń, 8 debuffów bohatera (w tym `BLOK LECZ.` blokujący mikstury HP) oraz 8 kanonicznych bossów (2/kontynent: Ygdrasha, Thorgar, Arcykapłan Pustki, Aurelith, Arbiter Zero, Hydra-Rdzeń, Kharzul, Pyrrhax) z fazami, barierami, bezpiecznymi strefami, epickim górnym paskiem HP Bossa i autorytatywnym `boss_defeat`. | `audit_stage4.gd` potwierdza 8/8 bossów, przejścia faz, słabości, `healBlock`; zrzut OpenGL3 `1600×720` potwierdza pasek Bossa, czerwony telegraf i pigułki debuffów. |
+| 14 Wydarzeń Świata i 102 wieloetapowe Zadania (`world_events_iso.gd`, `quest_engine_iso.gd`, `quests.json`, `dialogue_strip.gd`, `quest_journal.gd`, `rpg_hud.gd`) | 14 dynamicznych spotkań na drogach z obeliskami/najeźdźcami i `complete_world_event`; 102 grywalne zadania kanoniczne z mapowaniem 28 zleceniodawców na NPC izometrii, reputacją 4 kontynentów, synchronizacją `quest_accept`/`quest_sync_progress`, 4. zakładką `📜 PRZYGODY` w Dzienniku oraz zwijanym Trackerem Zadań i banerem aktywnego zdarzenia pod minimapą. | `audit_stage4.gd` (102/102 zadania, 14/14 zdarzeń), `godot-android-economy.test.ts` (19/19), zrzut OpenGL3 HUD. |
+| Katalog v3 (`455` przedmiotów, `265` receptur, `15` zestawów V2, `24` Bronie Dziedzictwa), Kuźnia 3-zakładkowa, `+1..+9` i Próby Dojo (`catalogBridge.ts`, `economy.ts`, `interior_room.gd`, `gm_panel.gd`) | Zespolono katalog v3 (`export_android_catalog.ts`, 100% ikon zweryfikowanych). Kuźnia ma 3 zakładki: `⚒ CRAFTING (265)` z filtrami kategorii (`craft_recipe`), `✦ ULEPSZ (+1..+9)` (`+8%` statystyk/poziom + aura broni `+3/+6/+9` na `actor_view.gd`, `enhance_equip`) i `★ DZIEDZICTWO (I–VI)` (`forge_heritage_weapon`). Na Arenie i w Sali dodano 3 grywalne Próby Mistrza Dojo (`dojo_dodge`, `dojo_skill`, `dojo_ki` → ranga `Mistrz Dojo`, `complete_dojo_trial`). Zbalansowano krzywą PD (`180` na Poz. 1→2, płynne skalowanie do Poz. 40). | `godot-android-economy.test.ts` (19/19), `audit_stage4.gd`, zrzut OpenGL3 3-zakładkowej Kuźni `+6`. |
+| 6 grywalnych Wysp Archipelagu (`island-1..6`) i migracja `011` (`islands.json`, `011-godot-android-islands.sql`, `world.gd`, `atlas_overlay.gd`, `globe_view.gd`, `map_3d.gd`, `AdminGodotPanel.tsx`) | Dodano migrację `011-godot-android-islands.sql` (`schema_version = 5`, rozszerzenie `CHECK` dla `land` o `island-1..6`), deterministyczny generator proceduralnych wysp `512 m` współdzielony z serwerem (`export_android_world_data.py`), przystań powrotną `⛵ WRÓĆ NA KONTYNENT (ZA DARMO)`, pierwszy rejs za darmo i kolejne za `10/20/30 zł` oraz 6 klikalnych wysp na Atlasie 2D i Globusie 3D. | PG17 `godot-android.test.ts` (16/16 z testem rejsu i zapisu `island-1` w bazie), `audit_stage4.gd` (6/6 wysp grywalnych), zrzuty OpenGL3 wyspy `island-1` i Atlasu 2D. |
+
+Weryfikacja lokalna Etapu 4: `audit_stage1.gd` (`53/53`), `audit_stage2.gd` (`27/27`),
+`audit_stage3.gd` (`60/60`), `audit_stage4.gd` (`95/95`), 41/41 testów Vitest na
+PostgreSQL 17 z migracjami `001`–`011` i dwoma natywnymi klientami Godot (`16/16
+godot-android.test.ts` + `19/19 godot-android-economy.test.ts` + `6/6
+service-access.test.ts`), relokacja OTA `prepare_service_preview.py` (`1564` plików
++ `--check-only` wszystkich 15 zmodyfikowanych i nowych skryptów w
+`res://service_preview/pyra/`), pełne sprawdzenie 3 konfiguracji TypeScript, ESLint,
+`check_documentation.py` oraz wizualna weryfikacja 5 zrzutów OpenGL3 `1600×720`.
+
+

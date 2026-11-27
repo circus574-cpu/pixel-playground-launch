@@ -1,0 +1,2286 @@
+{
+  "bosses": {
+    "ygdrasha": {
+      "id": "ygdrasha",
+      "name": "Ygdrasha, Matka Puszczy",
+      "continent": "verdant",
+      "level": 15,
+      "xp": 541,
+      "x": 1899.3,
+      "z": 3176.8,
+      "lootTable": [
+        {
+          "itemId": "serce-puszczy",
+          "chancePercent": 100,
+          "minCount": 1,
+          "maxCount": 1
+        },
+        {
+          "itemId": "zielona-esencja",
+          "chancePercent": 100,
+          "minCount": 2,
+          "maxCount": 4
+        },
+        {
+          "itemId": "kwiat-ygdrashy",
+          "chancePercent": 25,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ]
+    },
+    "thorgar": {
+      "id": "thorgar",
+      "name": "Thorgar, Alfa Kłów",
+      "continent": "verdant",
+      "level": 20,
+      "xp": 795,
+      "x": 2678.3,
+      "z": 1193.2,
+      "lootTable": [
+        {
+          "itemId": "kiel-alfy",
+          "chancePercent": 100,
+          "minCount": 1,
+          "maxCount": 1
+        },
+        {
+          "itemId": "skora-thorgara",
+          "chancePercent": 100,
+          "minCount": 1,
+          "maxCount": 2
+        },
+        {
+          "itemId": "pazury-alfy",
+          "chancePercent": 25,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ]
+    },
+    "arcykaplan-pustki": {
+      "id": "arcykaplan-pustki",
+      "name": "Arcykapłan Pustki",
+      "continent": "aether",
+      "level": 15,
+      "xp": 541,
+      "x": 1772.618,
+      "z": 3038.077,
+      "lootTable": [
+        {
+          "itemId": "szaty-arcykaplana",
+          "chancePercent": 100,
+          "minCount": 1,
+          "maxCount": 1
+        },
+        {
+          "itemId": "eter-pustki",
+          "chancePercent": 100,
+          "minCount": 2,
+          "maxCount": 4
+        },
+        {
+          "itemId": "pieczec-arcykaplana",
+          "chancePercent": 25,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ]
+    },
+    "aurelith": {
+      "id": "aurelith",
+      "name": "Aurelith, Smok Sanktuarium",
+      "continent": "aether",
+      "level": 20,
+      "xp": 870,
+      "x": 3582.5,
+      "z": 2070.3,
+      "lootTable": [
+        {
+          "itemId": "luska-aurelitha",
+          "chancePercent": 100,
+          "minCount": 2,
+          "maxCount": 4
+        },
+        {
+          "itemId": "serce-sanktuarium",
+          "chancePercent": 100,
+          "minCount": 1,
+          "maxCount": 1
+        }
+      ]
+    },
+    "arbiter-zero": {
+      "id": "arbiter-zero",
+      "name": "Arbiter Zero",
+      "continent": "nexus",
+      "level": 15,
+      "xp": 546,
+      "x": 3406.2,
+      "z": 3078.2,
+      "lootTable": [
+        {
+          "itemId": "kod-arbitra",
+          "chancePercent": 100,
+          "minCount": 1,
+          "maxCount": 1
+        },
+        {
+          "itemId": "plyta-egzekutora",
+          "chancePercent": 100,
+          "minCount": 1,
+          "maxCount": 2
+        }
+      ]
+    },
+    "hydra-rdzen": {
+      "id": "hydra-rdzen",
+      "name": "Hydra-Rdzeń",
+      "continent": "nexus",
+      "level": 20,
+      "xp": 870,
+      "x": 3501.1,
+      "z": 1661.9,
+      "lootTable": [
+        {
+          "itemId": "rdzen-hydry",
+          "chancePercent": 100,
+          "minCount": 1,
+          "maxCount": 1
+        },
+        {
+          "itemId": "modul-prime",
+          "chancePercent": 100,
+          "minCount": 1,
+          "maxCount": 2
+        }
+      ]
+    },
+    "kharzul": {
+      "id": "kharzul",
+      "name": "Kharzul, Mistrz Areny",
+      "continent": "pyra",
+      "level": 15,
+      "xp": 552,
+      "x": 647.171,
+      "z": 2158.171,
+      "lootTable": [
+        {
+          "itemId": "pancerz-kharzula",
+          "chancePercent": 100,
+          "minCount": 1,
+          "maxCount": 1
+        },
+        {
+          "itemId": "plomien-areny",
+          "chancePercent": 100,
+          "minCount": 2,
+          "maxCount": 3
+        }
+      ]
+    },
+    "pyrrhax": {
+      "id": "pyrrhax",
+      "name": "Pyrrhax, Smok Wulkanu",
+      "continent": "pyra",
+      "level": 20,
+      "xp": 878,
+      "x": 3434.3,
+      "z": 1597.2,
+      "lootTable": [
+        {
+          "itemId": "serce-wulkanu",
+          "chancePercent": 100,
+          "minCount": 1,
+          "maxCount": 1
+        },
+        {
+          "itemId": "luska-pyrrhaxa",
+          "chancePercent": 100,
+          "minCount": 2,
+          "maxCount": 4
+        }
+      ]
+    }
+  },
+  "events": {
+    "event-verdant-trail-wolves": {
+      "id": "event-verdant-trail-wolves",
+      "name": "Zasadzka Watahy Cierniowych Wilków",
+      "continent": "verdant",
+      "minLevel": 2,
+      "repeatability": "cooldown_300s",
+      "xp": 55,
+      "coins": 25,
+      "itemId": "tusk"
+    },
+    "event-verdant-missing-courier": {
+      "id": "event-verdant-missing-courier",
+      "name": "Poszukiwania Zaginionego Posłańca Neli",
+      "continent": "verdant",
+      "minLevel": 4,
+      "repeatability": "once",
+      "xp": 90,
+      "coins": 40,
+      "itemId": "potion"
+    },
+    "event-verdant-spore-hazard": {
+      "id": "event-verdant-spore-hazard",
+      "name": "Zagrożenie Obszarowe: Wykwit Grzybowych Zarodników",
+      "continent": "verdant",
+      "minLevel": 6,
+      "repeatability": "cooldown_300s",
+      "xp": 110,
+      "coins": 45,
+      "itemId": "potion"
+    },
+    "event-verdant-contract-d01": {
+      "id": "event-verdant-contract-d01",
+      "name": "Zlecenie Odnawialne D01: Patrol Oznaczeń Szlaku",
+      "continent": "verdant",
+      "minLevel": 4,
+      "repeatability": "renewable_contract",
+      "xp": 80,
+      "coins": 35
+    },
+    "event-verdant-convoy-pending": {
+      "id": "event-verdant-convoy-pending",
+      "name": "Konwój Kupiecki Drewna Żywicznego (Dane oczekujące)",
+      "continent": "verdant",
+      "minLevel": 8,
+      "repeatability": "cooldown_300s",
+      "xp": 120,
+      "coins": 50
+    },
+    "event-pyra-salamander-swarm": {
+      "id": "event-pyra-salamander-swarm",
+      "name": "Spotkanie na Szlaku: Przemarsz Ognistych Salamander",
+      "continent": "pyra",
+      "minLevel": 2,
+      "repeatability": "cooldown_300s",
+      "xp": 60,
+      "coins": 28,
+      "itemId": "potion"
+    },
+    "event-pyra-ash-storm-hazard": {
+      "id": "event-pyra-ash-storm-hazard",
+      "name": "Zagrożenie Obszarowe: Opad Gorącego Popiołu",
+      "continent": "pyra",
+      "minLevel": 6,
+      "repeatability": "cooldown_300s",
+      "xp": 120,
+      "coins": 50,
+      "itemId": "tusk"
+    },
+    "event-pyra-contract-d07": {
+      "id": "event-pyra-contract-d07",
+      "name": "Zlecenie Odnawialne D07: Szlak po Burzy",
+      "continent": "pyra",
+      "minLevel": 10,
+      "repeatability": "renewable_contract",
+      "xp": 115,
+      "coins": 48
+    },
+    "event-aether-butterfly-prism": {
+      "id": "event-aether-butterfly-prism",
+      "name": "Odkrycie na Szlaku: Rój Kryształowych Motyli",
+      "continent": "aether",
+      "minLevel": 3,
+      "repeatability": "cooldown_300s",
+      "xp": 65,
+      "coins": 30,
+      "itemId": "potion"
+    },
+    "event-aether-puppet-ambush": {
+      "id": "event-aether-puppet-ambush",
+      "name": "Zagrożenie Obszarowe: Przebudzenie Marionetek Rytuału",
+      "continent": "aether",
+      "minLevel": 12,
+      "repeatability": "cooldown_300s",
+      "xp": 130,
+      "coins": 55,
+      "itemId": "tusk"
+    },
+    "event-aether-contract-d04": {
+      "id": "event-aether-contract-d04",
+      "name": "Zlecenie Odnawialne D04: Archiwum w Terenie",
+      "continent": "aether",
+      "minLevel": 8,
+      "repeatability": "renewable_contract",
+      "xp": 95,
+      "coins": 42
+    },
+    "event-nexus-drone-patrol": {
+      "id": "event-nexus-drone-patrol",
+      "name": "Spotkanie na Szlaku: Kordon Dronów Zwiadowców",
+      "continent": "nexus",
+      "minLevel": 2,
+      "repeatability": "cooldown_300s",
+      "xp": 55,
+      "coins": 25,
+      "itemId": "potion"
+    },
+    "event-nexus-nanite-breach": {
+      "id": "event-nexus-nanite-breach",
+      "name": "Zagrożenie Obszarowe: Wyciek Roju Nanitów",
+      "continent": "nexus",
+      "minLevel": 8,
+      "repeatability": "cooldown_300s",
+      "xp": 115,
+      "coins": 48,
+      "itemId": "tusk"
+    },
+    "event-nexus-contract-d02": {
+      "id": "event-nexus-contract-d02",
+      "name": "Zlecenie Odnawialne D02: Kalibracja Pylonów",
+      "continent": "nexus",
+      "minLevel": 6,
+      "repeatability": "renewable_contract",
+      "xp": 100,
+      "coins": 45
+    }
+  },
+  "quests": {
+    "O-V01": {
+      "id": "O-V01",
+      "title": "Pierwsze kroki przed Ciszą",
+      "continent": "verdant",
+      "category": "main",
+      "minLevel": 1,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 40,
+      "coins": 40,
+      "itemId": "potion",
+      "itemCount": 1,
+      "factionId": "F-V",
+      "factionAmount": 15
+    },
+    "O-V02": {
+      "id": "O-V02",
+      "title": "Zapasy na czas milczenia",
+      "continent": "verdant",
+      "category": "main",
+      "minLevel": 1,
+      "prereqs": [
+        "O-V01"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 60,
+      "coins": 30,
+      "itemId": "potion",
+      "itemCount": 1,
+      "factionId": "F-V",
+      "factionAmount": 15
+    },
+    "O-V03": {
+      "id": "O-V03",
+      "title": "Listy znad Trzech Mostów",
+      "continent": "verdant",
+      "category": "main",
+      "minLevel": 2,
+      "prereqs": [
+        "O-V02"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 80,
+      "coins": 35,
+      "itemId": "tusk",
+      "itemCount": 1,
+      "factionId": "F-V",
+      "factionAmount": 15
+    },
+    "O-V04": {
+      "id": "O-V04",
+      "title": "Mapa pustych domów",
+      "continent": "verdant",
+      "category": "main",
+      "minLevel": 2,
+      "prereqs": [
+        "O-V03"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 100,
+      "coins": 30,
+      "itemId": "vest",
+      "itemCount": 1,
+      "factionId": "F-V",
+      "factionAmount": 15
+    },
+    "O-V05": {
+      "id": "O-V05",
+      "title": "Siedem uderzeń ciszy",
+      "continent": "verdant",
+      "category": "main",
+      "minLevel": 3,
+      "prereqs": [
+        "O-V04"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 100,
+      "coins": 35,
+      "itemId": "potion",
+      "itemCount": 1,
+      "factionId": "F-V",
+      "factionAmount": 15
+    },
+    "O-V06": {
+      "id": "O-V06",
+      "title": "Za pierwszym mostem (Finał Prologu Planetarnych)",
+      "continent": "verdant",
+      "category": "main",
+      "minLevel": 3,
+      "prereqs": [
+        "O-V05"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 100,
+      "coins": 40,
+      "itemId": "sword",
+      "itemCount": 1,
+      "factionId": "F-V",
+      "factionAmount": 25
+    },
+    "M01": {
+      "id": "M01",
+      "title": "Akt I: Pęknięta Mapa i Wspólny Podpis",
+      "continent": "verdant",
+      "category": "main",
+      "minLevel": 4,
+      "prereqs": [
+        "O-V06"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 180,
+      "coins": 65,
+      "itemId": "potion",
+      "itemCount": 1,
+      "factionId": "F-L",
+      "factionAmount": 30
+    },
+    "M13": {
+      "id": "M13",
+      "title": "Akt IV: Prawo Rzeki i Serce Splątanych Korzeni",
+      "continent": "verdant",
+      "category": "main",
+      "minLevel": 8,
+      "prereqs": [
+        "M01"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 420,
+      "coins": 150,
+      "itemId": "sword",
+      "itemCount": 1,
+      "factionId": "F-V",
+      "factionAmount": 60
+    },
+    "S-V01": {
+      "id": "S-V01",
+      "title": "Zielone ziele dla przystani",
+      "continent": "verdant",
+      "category": "side",
+      "minLevel": 1,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 70,
+      "coins": 35,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-V02": {
+      "id": "S-V02",
+      "title": "Ciernie na szlaku kupieckim",
+      "continent": "verdant",
+      "category": "side",
+      "minLevel": 2,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 90,
+      "coins": 40,
+      "itemId": "tusk",
+      "itemCount": 1
+    },
+    "S-V03": {
+      "id": "S-V03",
+      "title": "Hartowane drewno i żywy korzeń",
+      "continent": "verdant",
+      "category": "side",
+      "minLevel": 4,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 130,
+      "coins": 55,
+      "itemId": "sword",
+      "itemCount": 1
+    },
+    "S-V04": {
+      "id": "S-V04",
+      "title": "Ciężar kamiennego poroża",
+      "continent": "verdant",
+      "category": "side",
+      "minLevel": 8,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 210,
+      "coins": 80,
+      "itemId": "vest",
+      "itemCount": 1
+    },
+    "S-V05": {
+      "id": "S-V05",
+      "title": "Bursztynowy miód i żądła",
+      "continent": "verdant",
+      "category": "side",
+      "minLevel": 7,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 175,
+      "coins": 65,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-V06": {
+      "id": "S-V06",
+      "title": "Jedwab na cięciwy",
+      "continent": "verdant",
+      "category": "side",
+      "minLevel": 10,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 240,
+      "coins": 90,
+      "itemId": "vest",
+      "itemCount": 1
+    },
+    "S-V07": {
+      "id": "S-V07",
+      "title": "Cień w gąszczu (Zasadzka Liściaków)",
+      "continent": "verdant",
+      "category": "side",
+      "minLevel": 4,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 115,
+      "coins": 45,
+      "itemId": "tusk",
+      "itemCount": 1
+    },
+    "S-V08": {
+      "id": "S-V08",
+      "title": "Pióra z koron drzew",
+      "continent": "verdant",
+      "category": "side",
+      "minLevel": 12,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 280,
+      "coins": 110,
+      "itemId": "sword",
+      "itemCount": 1
+    },
+    "S-V09": {
+      "id": "S-V09",
+      "title": "Zagubiona skrzynia przewozowa",
+      "continent": "verdant",
+      "category": "side",
+      "minLevel": 2,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 95,
+      "coins": 40,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-V10": {
+      "id": "S-V10",
+      "title": "Oczyszczenie zatoki promowej",
+      "continent": "verdant",
+      "category": "side",
+      "minLevel": 5,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 140,
+      "coins": 55,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-V11": {
+      "id": "S-V11",
+      "title": "Kamienne koryta Kamiennego Sadu",
+      "continent": "verdant",
+      "category": "side",
+      "minLevel": 5,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 160,
+      "coins": 60,
+      "itemId": "tusk",
+      "itemCount": 1
+    },
+    "S-V12": {
+      "id": "S-V12",
+      "title": "Olej do północnych latarń",
+      "continent": "verdant",
+      "category": "side",
+      "minLevel": 6,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 170,
+      "coins": 65,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "H-V01": {
+      "id": "H-V01",
+      "title": "Ukryta Przygoda: Dzwon Zatopionej Doliny",
+      "continent": "verdant",
+      "category": "hidden",
+      "minLevel": 3,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 140,
+      "coins": 60,
+      "itemId": "vest",
+      "itemCount": 1
+    },
+    "H-V02": {
+      "id": "H-V02",
+      "title": "Ukryta Przygoda: Prawdziwa Kreska Orena",
+      "continent": "verdant",
+      "category": "hidden",
+      "minLevel": 4,
+      "prereqs": [
+        "O-V04"
+      ],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 155,
+      "coins": 70,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "H-V03": {
+      "id": "H-V03",
+      "title": "Ukryta Przygoda: Przysięga pod Starym Dębem",
+      "continent": "verdant",
+      "category": "hidden",
+      "minLevel": 6,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 185,
+      "coins": 75,
+      "itemId": "tusk",
+      "itemCount": 1
+    },
+    "H-V04": {
+      "id": "H-V04",
+      "title": "Ukryta Przygoda: Ostatni Zapis Wyprawy Botaników",
+      "continent": "verdant",
+      "category": "hidden",
+      "minLevel": 10,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 310,
+      "coins": 125,
+      "itemId": "sword",
+      "itemCount": 1
+    },
+    "O-P01": {
+      "id": "O-P01",
+      "title": "Próba Popiołu i Areny",
+      "continent": "pyra",
+      "category": "main",
+      "minLevel": 1,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 40,
+      "coins": 40,
+      "itemId": "potion",
+      "itemCount": 1,
+      "factionId": "F-P",
+      "factionAmount": 15
+    },
+    "O-P02": {
+      "id": "O-P02",
+      "title": "Żar pod kowadłem Goro",
+      "continent": "pyra",
+      "category": "main",
+      "minLevel": 1,
+      "prereqs": [
+        "O-P01"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 60,
+      "coins": 30,
+      "itemId": "potion",
+      "itemCount": 1,
+      "factionId": "F-P",
+      "factionAmount": 15
+    },
+    "O-P03": {
+      "id": "O-P03",
+      "title": "Grobla w ogniu salamander",
+      "continent": "pyra",
+      "category": "main",
+      "minLevel": 2,
+      "prereqs": [
+        "O-P02"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 80,
+      "coins": 35,
+      "itemId": "tusk",
+      "itemCount": 1,
+      "factionId": "F-P",
+      "factionAmount": 15
+    },
+    "O-P04": {
+      "id": "O-P04",
+      "title": "Klamry wygnanego klanu",
+      "continent": "pyra",
+      "category": "main",
+      "minLevel": 2,
+      "prereqs": [
+        "O-P03"
+      ],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 100,
+      "coins": 35,
+      "itemId": "vest",
+      "itemCount": 1,
+      "factionId": "F-P",
+      "factionAmount": 15
+    },
+    "O-P05": {
+      "id": "O-P05",
+      "title": "Kiedy milkną bębny areny",
+      "continent": "pyra",
+      "category": "main",
+      "minLevel": 3,
+      "prereqs": [
+        "O-P04"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 100,
+      "coins": 35,
+      "itemId": "potion",
+      "itemCount": 1,
+      "factionId": "F-P",
+      "factionAmount": 15
+    },
+    "O-P06": {
+      "id": "O-P06",
+      "title": "Dzwon na Północnej Grani (Finał Prologu Legend)",
+      "continent": "pyra",
+      "category": "main",
+      "minLevel": 3,
+      "prereqs": [
+        "O-P05"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 100,
+      "coins": 40,
+      "itemId": "sword",
+      "itemCount": 1,
+      "factionId": "F-P",
+      "factionAmount": 25
+    },
+    "M05": {
+      "id": "M05",
+      "title": "Akt II: Dwie Przysięgi pod Wulkanem",
+      "continent": "pyra",
+      "category": "main",
+      "minLevel": 5,
+      "prereqs": [
+        "O-P06"
+      ],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 200,
+      "coins": 75,
+      "itemId": "vest",
+      "itemCount": 1,
+      "factionId": "F-P",
+      "factionAmount": 35
+    },
+    "M15": {
+      "id": "M15",
+      "title": "Akt IV: Marszałek Pustej Przysięgi i Honor Żyjących",
+      "continent": "pyra",
+      "category": "main",
+      "minLevel": 10,
+      "prereqs": [
+        "M05"
+      ],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 440,
+      "coins": 160,
+      "itemId": "sword",
+      "itemCount": 1,
+      "factionId": "F-P",
+      "factionAmount": 65
+    },
+    "S-P01": {
+      "id": "S-P01",
+      "title": "Wstęga dla żyjącego",
+      "continent": "pyra",
+      "category": "side",
+      "minLevel": 2,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 85,
+      "coins": 40,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-P02": {
+      "id": "S-P02",
+      "title": "Żarzące węgle do pieców gospodarskich",
+      "continent": "pyra",
+      "category": "side",
+      "minLevel": 1,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 75,
+      "coins": 35,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-P03": {
+      "id": "S-P03",
+      "title": "Klinga powrotu",
+      "continent": "pyra",
+      "category": "side",
+      "minLevel": 6,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 165,
+      "coins": 65,
+      "itemId": "sword",
+      "itemCount": 1
+    },
+    "S-P04": {
+      "id": "S-P04",
+      "title": "Honor przerwanego pojedynku",
+      "continent": "pyra",
+      "category": "side",
+      "minLevel": 8,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 210,
+      "coins": 85,
+      "itemId": "vest",
+      "itemCount": 1
+    },
+    "S-P05": {
+      "id": "S-P05",
+      "title": "Łuski z lawowego koryta",
+      "continent": "pyra",
+      "category": "side",
+      "minLevel": 2,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 95,
+      "coins": 40,
+      "itemId": "tusk",
+      "itemCount": 1
+    },
+    "S-P06": {
+      "id": "S-P06",
+      "title": "Rdzeń obsydianowego golema",
+      "continent": "pyra",
+      "category": "side",
+      "minLevel": 9,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 225,
+      "coins": 90,
+      "itemId": "sword",
+      "itemCount": 1
+    },
+    "S-P07": {
+      "id": "S-P07",
+      "title": "Skrzydła żaru nad kraterem",
+      "continent": "pyra",
+      "category": "side",
+      "minLevel": 7,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 180,
+      "coins": 70,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-P08": {
+      "id": "S-P08",
+      "title": "Esencja Płomień-Ducha",
+      "continent": "pyra",
+      "category": "side",
+      "minLevel": 11,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 250,
+      "coins": 100,
+      "itemId": "tusk",
+      "itemCount": 1
+    },
+    "S-P09": {
+      "id": "S-P09",
+      "title": "Zasypany schron na zachodzie",
+      "continent": "pyra",
+      "category": "side",
+      "minLevel": 3,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 120,
+      "coins": 50,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-P10": {
+      "id": "S-P10",
+      "title": "Pancerz od tyłu (Próba Magmowego Kraba)",
+      "continent": "pyra",
+      "category": "side",
+      "minLevel": 6,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 165,
+      "coins": 70,
+      "itemId": "vest",
+      "itemCount": 1
+    },
+    "S-P11": {
+      "id": "S-P11",
+      "title": "Posterunek na wschodniej skale",
+      "continent": "pyra",
+      "category": "side",
+      "minLevel": 6,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 150,
+      "coins": 60,
+      "itemId": "tusk",
+      "itemCount": 1
+    },
+    "S-P12": {
+      "id": "S-P12",
+      "title": "Czarny piasek i obsydianowe żądła",
+      "continent": "pyra",
+      "category": "side",
+      "minLevel": 14,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 300,
+      "coins": 120,
+      "itemId": "sword",
+      "itemCount": 1
+    },
+    "H-P01": {
+      "id": "H-P01",
+      "title": "Ukryta Przygoda: Przysięga Dwunastu z Kaplicy",
+      "continent": "pyra",
+      "category": "hidden",
+      "minLevel": 3,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 145,
+      "coins": 60,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "H-P02": {
+      "id": "H-P02",
+      "title": "Ukryta Przygoda: Stal bez Rozkazu",
+      "continent": "pyra",
+      "category": "hidden",
+      "minLevel": 5,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 175,
+      "coins": 75,
+      "itemId": "vest",
+      "itemCount": 1
+    },
+    "H-P03": {
+      "id": "H-P03",
+      "title": "Ukryta Przygoda: Ostatnia Łódź z Dolnego Miasta",
+      "continent": "pyra",
+      "category": "hidden",
+      "minLevel": 6,
+      "prereqs": [
+        "O-P04"
+      ],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 200,
+      "coins": 85,
+      "itemId": "tusk",
+      "itemCount": 1
+    },
+    "H-P04": {
+      "id": "H-P04",
+      "title": "Ukryta Przygoda: Złoto Popielnych Klanów",
+      "continent": "pyra",
+      "category": "hidden",
+      "minLevel": 10,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 260,
+      "coins": 115,
+      "itemId": "sword",
+      "itemCount": 1
+    },
+    "O-A01": {
+      "id": "O-A01",
+      "title": "Cisza Dzwonu Świtu",
+      "continent": "aether",
+      "category": "main",
+      "minLevel": 1,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 90,
+      "coins": 50,
+      "itemId": "potion",
+      "itemCount": 2,
+      "factionId": "F-A",
+      "factionAmount": 20
+    },
+    "O-A02": {
+      "id": "O-A02",
+      "title": "Katalog rzeczy odzyskanych",
+      "continent": "aether",
+      "category": "main",
+      "minLevel": 1,
+      "prereqs": [
+        "O-A01"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 120,
+      "coins": 65,
+      "itemId": "vest",
+      "itemCount": 1,
+      "factionId": "F-A",
+      "factionAmount": 25
+    },
+    "O-A03": {
+      "id": "O-A03",
+      "title": "Próba Tarasów Świtu",
+      "continent": "aether",
+      "category": "main",
+      "minLevel": 2,
+      "prereqs": [
+        "O-A02"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 160,
+      "coins": 85,
+      "itemId": "potion",
+      "itemCount": 2,
+      "factionId": "F-A",
+      "factionAmount": 30
+    },
+    "O-A04": {
+      "id": "O-A04",
+      "title": "Latarnie Białej Przystani",
+      "continent": "aether",
+      "category": "main",
+      "minLevel": 3,
+      "prereqs": [
+        "O-A03"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 210,
+      "coins": 110,
+      "itemId": "sword",
+      "itemCount": 1,
+      "factionId": "F-A",
+      "factionAmount": 35
+    },
+    "O-A05": {
+      "id": "O-A05",
+      "title": "Zwierciadła Archiwum Nad Chmurami",
+      "continent": "aether",
+      "category": "main",
+      "minLevel": 4,
+      "prereqs": [
+        "O-A04"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 260,
+      "coins": 135,
+      "itemId": "vest",
+      "itemCount": 1,
+      "factionId": "F-A",
+      "factionAmount": 40
+    },
+    "O-A06": {
+      "id": "O-A06",
+      "title": "Pieśń Źródła Pamięci",
+      "continent": "aether",
+      "category": "main",
+      "minLevel": 5,
+      "prereqs": [
+        "O-A05"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 340,
+      "coins": 180,
+      "itemId": "sword",
+      "itemCount": 1,
+      "factionId": "F-A",
+      "factionAmount": 50
+    },
+    "M09": {
+      "id": "M09",
+      "title": "Druga kopia prawdy",
+      "continent": "aether",
+      "category": "main",
+      "minLevel": 6,
+      "prereqs": [
+        "O-A06"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 480,
+      "coins": 250,
+      "itemId": "vest",
+      "itemCount": 1,
+      "factionId": "F-A",
+      "factionAmount": 65
+    },
+    "M19": {
+      "id": "M19",
+      "title": "Symfonia Siedmiu Oktaw",
+      "continent": "aether",
+      "category": "main",
+      "minLevel": 8,
+      "prereqs": [
+        "M09"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 750,
+      "coins": 420,
+      "itemId": "sword",
+      "itemCount": 1,
+      "factionId": "F-A",
+      "factionAmount": 100
+    },
+    "S-A01": {
+      "id": "S-A01",
+      "title": "Świetliki w Ogrodach Medytacji",
+      "continent": "aether",
+      "category": "side",
+      "minLevel": 1,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 75,
+      "coins": 40,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-A02": {
+      "id": "S-A02",
+      "title": "Karty Pergaminu dla Enso",
+      "continent": "aether",
+      "category": "side",
+      "minLevel": 1,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 95,
+      "coins": 55,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-A03": {
+      "id": "S-A03",
+      "title": "Pryzmatyczne Skrzydła",
+      "continent": "aether",
+      "category": "side",
+      "minLevel": 2,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 115,
+      "coins": 65,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-A04": {
+      "id": "S-A04",
+      "title": "Prawo do ciszy",
+      "continent": "aether",
+      "category": "side",
+      "minLevel": 2,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 130,
+      "coins": 75,
+      "itemId": "tusk",
+      "itemCount": 1
+    },
+    "S-A05": {
+      "id": "S-A05",
+      "title": "Szmaragdowe Łuski na Schodach",
+      "continent": "aether",
+      "category": "side",
+      "minLevel": 3,
+      "prereqs": [],
+      "repeatable": true,
+      "stageCount": 1,
+      "xp": 145,
+      "coins": 85,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-A06": {
+      "id": "S-A06",
+      "title": "Konserwacja Zwierciadeł Talena",
+      "continent": "aether",
+      "category": "side",
+      "minLevel": 3,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 160,
+      "coins": 95,
+      "itemId": "vest",
+      "itemCount": 1
+    },
+    "S-A07": {
+      "id": "S-A07",
+      "title": "Straż Zewnętrznych Schodów",
+      "continent": "aether",
+      "category": "side",
+      "minLevel": 4,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 185,
+      "coins": 110,
+      "itemId": "sword",
+      "itemCount": 1
+    },
+    "S-A08": {
+      "id": "S-A08",
+      "title": "Poselstwo Czterech Tarasów",
+      "continent": "aether",
+      "category": "side",
+      "minLevel": 2,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 150,
+      "coins": 95,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-A09": {
+      "id": "S-A09",
+      "title": "Oślepić Oczy Wiedzy",
+      "continent": "aether",
+      "category": "side",
+      "minLevel": 5,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 205,
+      "coins": 120,
+      "itemId": "tusk",
+      "itemCount": 1
+    },
+    "S-A10": {
+      "id": "S-A10",
+      "title": "Nici Marionetek",
+      "continent": "aether",
+      "category": "side",
+      "minLevel": 5,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 225,
+      "coins": 130,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-A11": {
+      "id": "S-A11",
+      "title": "Wzmocnienie Latarni Portowych",
+      "continent": "aether",
+      "category": "side",
+      "minLevel": 4,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 195,
+      "coins": 115,
+      "itemId": "vest",
+      "itemCount": 1
+    },
+    "S-A12": {
+      "id": "S-A12",
+      "title": "Pióra Mgielnych Żurawi",
+      "continent": "aether",
+      "category": "side",
+      "minLevel": 6,
+      "prereqs": [],
+      "repeatable": true,
+      "stageCount": 1,
+      "xp": 280,
+      "coins": 165,
+      "itemId": "sword",
+      "itemCount": 1
+    },
+    "H-A01": {
+      "id": "H-A01",
+      "title": "Siódma Oktawa Ciszy",
+      "continent": "aether",
+      "category": "hidden",
+      "minLevel": 1,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 210,
+      "coins": 125,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "H-A02": {
+      "id": "H-A02",
+      "title": "Krypta Zakazanych Traktatów",
+      "continent": "aether",
+      "category": "hidden",
+      "minLevel": 1,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 250,
+      "coins": 150,
+      "itemId": "vest",
+      "itemCount": 1
+    },
+    "H-A03": {
+      "id": "H-A03",
+      "title": "Trzeci Dziennik Przewoźnika",
+      "continent": "aether",
+      "category": "hidden",
+      "minLevel": 1,
+      "prereqs": [
+        "O-A04"
+      ],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 270,
+      "coins": 160,
+      "itemId": "sword",
+      "itemCount": 1
+    },
+    "H-A04": {
+      "id": "H-A04",
+      "title": "Zenit Czystego Oddechu",
+      "continent": "aether",
+      "category": "hidden",
+      "minLevel": 1,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 390,
+      "coins": 230,
+      "itemId": "sword",
+      "itemCount": 1
+    },
+    "O-N01": {
+      "id": "O-N01",
+      "title": "Przebudzenie w Węźle Świadomości",
+      "continent": "nexus",
+      "category": "main",
+      "minLevel": 1,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 90,
+      "coins": 50,
+      "itemId": "potion",
+      "itemCount": 2,
+      "factionId": "F-N",
+      "factionAmount": 20
+    },
+    "O-N02": {
+      "id": "O-N02",
+      "title": "Przeciążenie w Głównym Reaktorze",
+      "continent": "nexus",
+      "category": "main",
+      "minLevel": 1,
+      "prereqs": [
+        "O-N01"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 125,
+      "coins": 65,
+      "itemId": "vest",
+      "itemCount": 1,
+      "factionId": "F-N",
+      "factionAmount": 25
+    },
+    "O-N03": {
+      "id": "O-N03",
+      "title": "Kordon Stacji Meridian",
+      "continent": "nexus",
+      "category": "main",
+      "minLevel": 2,
+      "prereqs": [
+        "O-N02"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 165,
+      "coins": 85,
+      "itemId": "potion",
+      "itemCount": 2,
+      "factionId": "F-N",
+      "factionAmount": 30
+    },
+    "O-N04": {
+      "id": "O-N04",
+      "title": "Sygnał z Kuźni Obwodów",
+      "continent": "nexus",
+      "category": "main",
+      "minLevel": 3,
+      "prereqs": [
+        "O-N03"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 215,
+      "coins": 110,
+      "itemId": "sword",
+      "itemCount": 1,
+      "factionId": "F-N",
+      "factionAmount": 35
+    },
+    "O-N05": {
+      "id": "O-N05",
+      "title": "Echo Portu Zerowego",
+      "continent": "nexus",
+      "category": "main",
+      "minLevel": 4,
+      "prereqs": [
+        "O-N04"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 265,
+      "coins": 140,
+      "itemId": "vest",
+      "itemCount": 1,
+      "factionId": "F-N",
+      "factionAmount": 40
+    },
+    "O-N06": {
+      "id": "O-N06",
+      "title": "Pryzmat Sygnału Horyzontu",
+      "continent": "nexus",
+      "category": "main",
+      "minLevel": 5,
+      "prereqs": [
+        "O-N05"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 350,
+      "coins": 185,
+      "itemId": "sword",
+      "itemCount": 1,
+      "factionId": "F-N",
+      "factionAmount": 50
+    },
+    "M10": {
+      "id": "M10",
+      "title": "Protokół odmowy",
+      "continent": "nexus",
+      "category": "main",
+      "minLevel": 6,
+      "prereqs": [
+        "O-N06"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 490,
+      "coins": 260,
+      "itemId": "vest",
+      "itemCount": 1,
+      "factionId": "F-N",
+      "factionAmount": 65
+    },
+    "M20": {
+      "id": "M20",
+      "title": "Synteza Rdzenia Omega",
+      "continent": "nexus",
+      "category": "main",
+      "minLevel": 8,
+      "prereqs": [
+        "M10"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 760,
+      "coins": 430,
+      "itemId": "sword",
+      "itemCount": 1,
+      "factionId": "F-N",
+      "factionAmount": 100
+    },
+    "S-N01": {
+      "id": "S-N01",
+      "title": "Numer nie jest imieniem",
+      "continent": "nexus",
+      "category": "side",
+      "minLevel": 1,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 75,
+      "coins": 45,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-N02": {
+      "id": "S-N02",
+      "title": "Zwarcie przy Reaktorze",
+      "continent": "nexus",
+      "category": "side",
+      "minLevel": 1,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 95,
+      "coins": 55,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-N03": {
+      "id": "S-N03",
+      "title": "Bufor Pamięci Eko-0",
+      "continent": "nexus",
+      "category": "side",
+      "minLevel": 2,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 115,
+      "coins": 65,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-N04": {
+      "id": "S-N04",
+      "title": "Prawo do wyłączenia",
+      "continent": "nexus",
+      "category": "side",
+      "minLevel": 3,
+      "prereqs": [],
+      "repeatable": true,
+      "stageCount": 1,
+      "xp": 140,
+      "coins": 80,
+      "itemId": "tusk",
+      "itemCount": 1
+    },
+    "S-N05": {
+      "id": "S-N05",
+      "title": "Suwnice w Kuźni Obwodów",
+      "continent": "nexus",
+      "category": "side",
+      "minLevel": 3,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 155,
+      "coins": 90,
+      "itemId": "vest",
+      "itemCount": 1
+    },
+    "S-N06": {
+      "id": "S-N06",
+      "title": "Zakłócenia na Częstotliwości VEX-3",
+      "continent": "nexus",
+      "category": "side",
+      "minLevel": 4,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 170,
+      "coins": 100,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-N07": {
+      "id": "S-N07",
+      "title": "Obieg Czterech Węzłów",
+      "continent": "nexus",
+      "category": "side",
+      "minLevel": 2,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 150,
+      "coins": 95,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-N08": {
+      "id": "S-N08",
+      "title": "Pościg Psów Łowców",
+      "continent": "nexus",
+      "category": "side",
+      "minLevel": 5,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 200,
+      "coins": 115,
+      "itemId": "sword",
+      "itemCount": 1
+    },
+    "S-N09": {
+      "id": "S-N09",
+      "title": "Czarna Skrzynka z Terminala",
+      "continent": "nexus",
+      "category": "side",
+      "minLevel": 4,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 185,
+      "coins": 110,
+      "itemId": "tusk",
+      "itemCount": 1
+    },
+    "S-N10": {
+      "id": "S-N10",
+      "title": "Wygaszenie Latarni Plazmowych",
+      "continent": "nexus",
+      "category": "side",
+      "minLevel": 6,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 230,
+      "coins": 135,
+      "itemId": "vest",
+      "itemCount": 1
+    },
+    "S-N11": {
+      "id": "S-N11",
+      "title": "Gwardia Pryzmatu",
+      "continent": "nexus",
+      "category": "side",
+      "minLevel": 6,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 245,
+      "coins": 145,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "S-N12": {
+      "id": "S-N12",
+      "title": "Polowanie na Kruki Danych",
+      "continent": "nexus",
+      "category": "side",
+      "minLevel": 7,
+      "prereqs": [],
+      "repeatable": true,
+      "stageCount": 1,
+      "xp": 290,
+      "coins": 170,
+      "itemId": "sword",
+      "itemCount": 1
+    },
+    "H-N01": {
+      "id": "H-N01",
+      "title": "Dziennik Pierwszej Kalibracji",
+      "continent": "nexus",
+      "category": "hidden",
+      "minLevel": 1,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 215,
+      "coins": 125,
+      "itemId": "potion",
+      "itemCount": 1
+    },
+    "H-N02": {
+      "id": "H-N02",
+      "title": "Zimna Fuzja HEF-4",
+      "continent": "nexus",
+      "category": "hidden",
+      "minLevel": 1,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 255,
+      "coins": 150,
+      "itemId": "vest",
+      "itemCount": 1
+    },
+    "H-N03": {
+      "id": "H-N03",
+      "title": "Rejestr Imion Własnych",
+      "continent": "nexus",
+      "category": "hidden",
+      "minLevel": 1,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 275,
+      "coins": 165,
+      "itemId": "sword",
+      "itemCount": 1
+    },
+    "H-N04": {
+      "id": "H-N04",
+      "title": "Przebudzenie Świadomości Zero",
+      "continent": "nexus",
+      "category": "hidden",
+      "minLevel": 1,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 1,
+      "xp": 400,
+      "coins": 240,
+      "itemId": "sword",
+      "itemCount": 1
+    },
+    "IC-01": {
+      "id": "IC-01",
+      "title": "Pakt Żywicy i Popiołu",
+      "continent": "verdant",
+      "category": "intercontinental",
+      "minLevel": 4,
+      "prereqs": [
+        "O-V02",
+        "O-P02"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 320,
+      "coins": 190,
+      "itemId": "sword",
+      "itemCount": 1,
+      "factionId": "F-L",
+      "factionAmount": 45
+    },
+    "IC-02": {
+      "id": "IC-02",
+      "title": "Harmonia Kory i Dzwonu",
+      "continent": "verdant",
+      "category": "intercontinental",
+      "minLevel": 4,
+      "prereqs": [
+        "O-V01",
+        "O-A01"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 350,
+      "coins": 210,
+      "itemId": "vest",
+      "itemCount": 1,
+      "factionId": "F-L",
+      "factionAmount": 50
+    },
+    "IC-03": {
+      "id": "IC-03",
+      "title": "Traktat Archiwum i Rdzenia",
+      "continent": "aether",
+      "category": "intercontinental",
+      "minLevel": 5,
+      "prereqs": [
+        "O-A02",
+        "O-N01"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 380,
+      "coins": 220,
+      "itemId": "potion",
+      "itemCount": 1,
+      "factionId": "F-L",
+      "factionAmount": 55
+    },
+    "IC-04": {
+      "id": "IC-04",
+      "title": "Stal i Reaktor",
+      "continent": "nexus",
+      "category": "intercontinental",
+      "minLevel": 5,
+      "prereqs": [
+        "O-N02",
+        "O-P01"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 410,
+      "coins": 240,
+      "itemId": "vest",
+      "itemCount": 1,
+      "factionId": "F-L",
+      "factionAmount": 60
+    },
+    "IC-05": {
+      "id": "IC-05",
+      "title": "Obserwatorzy Czterech Horyzontów",
+      "continent": "aether",
+      "category": "intercontinental",
+      "minLevel": 6,
+      "prereqs": [
+        "O-V05",
+        "O-P05",
+        "O-A05",
+        "O-N05"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 480,
+      "coins": 290,
+      "itemId": "sword",
+      "itemCount": 1,
+      "factionId": "F-L",
+      "factionAmount": 75
+    },
+    "IC-06": {
+      "id": "IC-06",
+      "title": "Konklawe Czterech Stolic",
+      "continent": "verdant",
+      "category": "intercontinental",
+      "minLevel": 8,
+      "prereqs": [
+        "O-V06",
+        "O-P06",
+        "O-A06",
+        "O-N06"
+      ],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 650,
+      "coins": 400,
+      "itemId": "sword",
+      "itemCount": 1,
+      "factionId": "F-L",
+      "factionAmount": 100
+    }
+  },
+  "speciesDrops": {
+    "verdant-mchowy-szlamak": [
+      {
+        "itemId": "mchowa-galaretka",
+        "chance": 0.7
+      },
+      {
+        "itemId": "zielone-ziele",
+        "chance": 0.35
+      }
+    ],
+    "verdant-cierniowy-wilk": [
+      {
+        "itemId": "ciern-wilka",
+        "chance": 0.7
+      },
+      {
+        "itemId": "skora-wilcza",
+        "chance": 0.35
+      }
+    ],
+    "verdant-lisciak-skrytobojca": [
+      {
+        "itemId": "zielone-ostrze",
+        "chance": 0.7
+      },
+      {
+        "itemId": "sok-lisciaka",
+        "chance": 0.35
+      }
+    ],
+    "verdant-korzeniowy-pelzacz": [
+      {
+        "itemId": "zywy-korzen",
+        "chance": 0.7
+      },
+      {
+        "itemId": "nasiona",
+        "chance": 0.35
+      }
+    ],
+    "verdant-grzybowy-zarodnik": [
+      {
+        "itemId": "zarodniki",
+        "chance": 0.7
+      },
+      {
+        "itemId": "czerwony-grzyb",
+        "chance": 0.35
+      }
+    ],
+    "verdant-bursztynowa-osa": [
+      {
+        "itemId": "bursztyn",
+        "chance": 0.7
+      },
+      {
+        "itemId": "zadlo-osy",
+        "chance": 0.35
+      }
+    ],
+    "verdant-skalny-jelen": [
+      {
+        "itemId": "poroze",
+        "chance": 0.7
+      },
+      {
+        "itemId": "skalna-skora",
+        "chance": 0.35
+      }
+    ],
+    "verdant-lesny-pajak": [
+      {
+        "itemId": "jedwab-pajaka",
+        "chance": 0.7
+      },
+      {
+        "itemId": "jad",
+        "chance": 0.35
+      }
+    ],
+    "verdant-puchacz-pylowy": [
+      {
+        "itemId": "pioro-puchacza",
+        "chance": 0.7
+      },
+      {
+        "itemId": "pyl",
+        "chance": 0.35
+      }
+    ],
+    "verdant-straznik-ruin": [
+      {
+        "itemId": "kamien-runiczny",
+        "chance": 0.7
+      },
+      {
+        "itemId": "fragment-ruin",
+        "chance": 0.35
+      }
+    ],
+    "aether-swietlik-pieczeci": [
+      {
+        "itemId": "pyl-swiatla",
+        "chance": 0.7
+      }
+    ],
+    "aether-pergaminowy-straznik": [
+      {
+        "itemId": "karta-pergaminu",
+        "chance": 0.7
+      }
+    ],
+    "aether-krysztalowy-motyl": [
+      {
+        "itemId": "skrzydlo-krysztalowe",
+        "chance": 0.7
+      }
+    ],
+    "aether-szmaragdowy-waz": [
+      {
+        "itemId": "szmaragdowa-luska",
+        "chance": 0.7
+      }
+    ],
+    "aether-duch-bibliotekarza": [
+      {
+        "itemId": "eter-bibliotekarza",
+        "chance": 0.7
+      }
+    ],
+    "aether-zloty-skarabeusz": [
+      {
+        "itemId": "zloty-pancerz",
+        "chance": 0.7
+      },
+      {
+        "itemId": "skarabeusz",
+        "chance": 0.35
+      }
+    ],
+    "aether-lew-swiatyni": [
+      {
+        "itemId": "kamien-swiatynny",
+        "chance": 0.7
+      }
+    ],
+    "aether-oko-wiedzy": [
+      {
+        "itemId": "soczewka-wiedzy",
+        "chance": 0.7
+      }
+    ],
+    "aether-marionetka-rytualu": [
+      {
+        "itemId": "nic-eteru",
+        "chance": 0.7
+      },
+      {
+        "itemId": "maska-rytualu",
+        "chance": 0.35
+      }
+    ],
+    "aether-mgielny-zuraw": [
+      {
+        "itemId": "pioro-mgly",
+        "chance": 0.7
+      }
+    ],
+    "nexus-dron-zwiadowca": [
+      {
+        "itemId": "zlom",
+        "chance": 0.7
+      },
+      {
+        "itemId": "modul-optyczny",
+        "chance": 0.35
+      }
+    ],
+    "nexus-pelzacz-serwisowy": [
+      {
+        "itemId": "zestaw-naprawczy",
+        "chance": 0.7
+      }
+    ],
+    "nexus-skaner-gasienicowy": [
+      {
+        "itemId": "gasienica",
+        "chance": 0.7
+      },
+      {
+        "itemId": "soczewka",
+        "chance": 0.35
+      }
+    ],
+    "nexus-pajak-spawalniczy": [
+      {
+        "itemId": "elektroda",
+        "chance": 0.7
+      },
+      {
+        "itemId": "zlom",
+        "chance": 0.35
+      }
+    ],
+    "nexus-wiezyczka-autonomiczna": [
+      {
+        "itemId": "cewka",
+        "chance": 0.7
+      },
+      {
+        "itemId": "lufa",
+        "chance": 0.35
+      }
+    ],
+    "nexus-roj-nanitow": [
+      {
+        "itemId": "nanopyl",
+        "chance": 0.7
+      }
+    ],
+    "nexus-pies-lowca": [
+      {
+        "itemId": "silownik",
+        "chance": 0.7
+      },
+      {
+        "itemId": "czujnik",
+        "chance": 0.35
+      }
+    ],
+    "nexus-straznik-rdzenia": [
+      {
+        "itemId": "rdzen-energii",
+        "chance": 0.7
+      },
+      {
+        "itemId": "plyta-pancerna",
+        "chance": 0.35
+      }
+    ],
+    "nexus-latarnia-plazmowa": [
+      {
+        "itemId": "rdzen-plazmy",
+        "chance": 0.7
+      }
+    ],
+    "nexus-kruk-danych": [
+      {
+        "itemId": "pamiec-danych",
+        "chance": 0.7
+      }
+    ],
+    "pyra-wegielek": [
+      {
+        "itemId": "wegiel",
+        "chance": 0.7
+      }
+    ],
+    "pyra-ognista-salamandra": [
+      {
+        "itemId": "luska-salamandry",
+        "chance": 0.7
+      }
+    ],
+    "pyra-popielny-wilk": [
+      {
+        "itemId": "popielne-futro",
+        "chance": 0.7
+      }
+    ],
+    "pyra-skalny-berserker": [
+      {
+        "itemId": "skalny-kastet",
+        "chance": 0.7
+      }
+    ],
+    "pyra-magmowy-krab": [
+      {
+        "itemId": "magmowy-pancerz",
+        "chance": 0.7
+      }
+    ],
+    "pyra-zarowy-nietoperz": [
+      {
+        "itemId": "skrzydlo-zaru",
+        "chance": 0.7
+      }
+    ],
+    "pyra-golem-ruin": [
+      {
+        "itemId": "obsydian",
+        "chance": 0.7
+      }
+    ],
+    "pyra-plomien-duch": [
+      {
+        "itemId": "esencja-plomienia",
+        "chance": 0.7
+      }
+    ],
+    "pyra-byk-areny": [
+      {
+        "itemId": "rog-areny",
+        "chance": 0.7
+      }
+    ],
+    "pyra-skorpion-obsydianowy": [
+      {
+        "itemId": "szklo-obsydianowe",
+        "chance": 0.7
+      }
+    ],
+    "verdant-mala-osa": []
+  },
+  "islands": {
+    "island-1": {
+      "id": "island-1",
+      "name": "Wyspa Pierwszego Echa",
+      "recommendedLevel": 5,
+      "voyageCost": 10
+    },
+    "island-2": {
+      "id": "island-2",
+      "name": "Wyspa Złamanej Pieczęci",
+      "recommendedLevel": 8,
+      "voyageCost": 20
+    },
+    "island-3": {
+      "id": "island-3",
+      "name": "Wyspa Odwróconej Latarki",
+      "recommendedLevel": 11,
+      "voyageCost": 20
+    },
+    "island-4": {
+      "id": "island-4",
+      "name": "Wyspa Czterech Cum",
+      "recommendedLevel": 14,
+      "voyageCost": 30
+    },
+    "island-5": {
+      "id": "island-5",
+      "name": "Wyspa Milczącego Nieba",
+      "recommendedLevel": 18,
+      "voyageCost": 30
+    },
+    "island-6": {
+      "id": "island-6",
+      "name": "Wyspa Ostatniego Tonu",
+      "recommendedLevel": 22,
+      "voyageCost": 30
+    }
+  }
+}

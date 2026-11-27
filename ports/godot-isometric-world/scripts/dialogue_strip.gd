@@ -227,6 +227,10 @@ func open_dialogue(npc: Dictionary) -> void:
 		actor.hide_bubble()
 
 	var greeting := _greeting_for(n_name, n_role, land, bool(npc.get("is_interior", false)))
+	if world != null and world.get("quest_engine") != null and not bool(npc.get("is_interior", false)):
+		var adv: Array = world.quest_engine.on_talk_to_npc(str(npc.get("id", "")), n_name)
+		if not adv.is_empty():
+			greeting = "Zaktualizowano postęp zadania (%d)! %s" % [adv.size(), greeting]
 	_set_text(greeting)
 	_rebuild_choices()
 	if world != null and world.has_method("layout_minimap"):
@@ -282,11 +286,7 @@ func _rebuild_choices() -> void:
 	var land_s := str(active_npc.get("land", "pyra"))
 	var name_s := str(active_npc.get("name", ""))
 	var role_s := str(active_npc.get("role", ""))
-	var q_key := "npc:%s:%s" % [land_s, name_s]
-	var legacy_key := "%s:%s" % [land_s, name_s]
-	var qm := str(active_npc.get("quest_mark", ""))
-	var already_done := completed_quests.has(q_key) or completed_quests.has(legacy_key)
-	var has_quest := (qm == "!" or qm == "?") and not already_done
+	var npc_id := str(active_npc.get("id", ""))
 
 	# 1) Inside building: Direct pill to open the functional Service Window!
 	if bool(active_npc.get("is_interior", false)):
@@ -300,38 +300,34 @@ func _rebuild_choices() -> void:
 				(cb as Callable).call()
 		)
 		choices_vbox.add_child(b_srv)
-	elif has_quest:
-		var b_q := Button.new()
-		b_q.text = "! ZADANIE (+45 XP / +80 zł)" if qm == "!" else "? ODBIERZ NAGRODĘ"
-		_style_pill(b_q, Color(0.28, 0.20, 0.06, 0.96), Color(1.0, 0.84, 0.30, 0.98))
-		b_q.pressed.connect(func() -> void:
-			var clear_agent_mark := func() -> void:
-				completed_quests[q_key] = true
-				completed_quests[legacy_key] = true
-				active_npc["quest_mark"] = ""
-				var actor = active_npc.get("actor", null)
-				if is_instance_valid(actor):
-					actor.quest_mark = ""
-					actor.queue_redraw()
-				if world != null and ("active_talk_agent" in world) and world.active_talk_agent is Dictionary:
-					world.active_talk_agent["quest_mark"] = ""
-			if world != null and world.has_method("dispatch_server_action") and world.dispatch_server_action({"type": "quest_complete", "questId": q_key}, func(res: Dictionary) -> void:
-				if bool(res.get("ok", false)):
-					clear_agent_mark.call()
-					_set_text(str(res.get("notice", "Nagroda przyznana przez serwer!")))
-					_rebuild_choices()
-				else:
-					_set_text(str(res.get("notice", "Serwer odrzucił odbiór nagrody.")))
-			):
-				return
-			clear_agent_mark.call()
-			if world != null and world.rpg_hud != null:
-				world.rpg_hud.hero_gold += 80
-				world.rpg_hud.grant_local_xp(45)
-			_set_text("Znakomita robota! Oto Twoja nagroda: +45 PD i +80 zł.")
-			_rebuild_choices()
-		)
-		choices_vbox.add_child(b_q)
+	elif world != null and world.get("quest_engine") != null:
+		var qbundle: Dictionary = world.quest_engine.quests_for_npc(npc_id, name_s, land_s)
+		for q_done: Dictionary in (qbundle.get("turn_in", []) as Array).slice(0, 2):
+			var qid_d := str(q_done.get("id", ""))
+			var b_done := Button.new()
+			var qt_d := str(q_done.get("title", qid_d))
+			if qt_d.length() > 26: qt_d = qt_d.substr(0, 25) + "…"
+			b_done.text = "? ODBIERZ: %s" % qt_d
+			_style_pill(b_done, Color(0.12, 0.30, 0.16, 0.98), Color(0.46, 0.98, 0.68, 0.98))
+			b_done.pressed.connect(func() -> void:
+				world.quest_engine.complete_quest(qid_d)
+				_set_text("Dobra robota, wędrowcze! Zadanie \"%s\" zostało zapisane w kronice." % str(q_done.get("title", qid_d)))
+				_rebuild_choices()
+			)
+			choices_vbox.add_child(b_done)
+		for q_av: Dictionary in (qbundle.get("available", []) as Array).slice(0, 2):
+			var qid_a := str(q_av.get("id", ""))
+			var b_av := Button.new()
+			var qt_a := str(q_av.get("title", qid_a))
+			if qt_a.length() > 26: qt_a = qt_a.substr(0, 25) + "…"
+			b_av.text = "! PRZYJMIJ: %s" % qt_a
+			_style_pill(b_av, Color(0.28, 0.20, 0.06, 0.96), Color(1.0, 0.84, 0.30, 0.98))
+			b_av.pressed.connect(func() -> void:
+				world.quest_engine.accept_quest(qid_a)
+				_set_text("Przyjęto: %s — %s" % [str(q_av.get("title", qid_a)), str(q_av.get("summary", ""))])
+				_rebuild_choices()
+			)
+			choices_vbox.add_child(b_av)
 
 	# 1b) Onboarding Guide Topics for City Guides / Mentors & Trainers
 	if not bool(active_npc.get("is_interior", false)) and (_is_guide_npc(name_s, role_s) or _is_trainer_npc(name_s, role_s)):

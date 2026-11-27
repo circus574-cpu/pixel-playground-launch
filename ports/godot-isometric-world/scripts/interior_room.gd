@@ -101,6 +101,11 @@ var drill_feedback := ""
 var drill_canvas: Control = null
 var drill_strike_btn: Button = null
 var drill_info_lbl: Label = null
+var drill_dojo_trial_id := ""
+
+# Stage 4: 3-Tab Smithy state (Crafting 265 recipes | Enhance +1..+9 | Heritage Weapons I..VI)
+var smithy_tab := "craft"
+var smithy_filter := "all"
 
 # Persistent Bank Vault across visits (24 slots + bank gold, matching server BANK_SIZE = 24)
 const BANK_SLOTS := 24
@@ -791,33 +796,192 @@ func _build_shop_ui(hud_ref) -> void:
 		emp.add_theme_color_override("font_color", Color(0.68, 0.66, 0.62))
 		service_vbox.add_child(emp)
 
+func _recipe_filter_bucket(out_def: Dictionary, station: String) -> String:
+	var cat := str(out_def.get("cat", ""))
+	if cat == "consumable" or station == "alchemik":
+		return "alchemy"
+	var sl := int(out_def.get("slot", -1))
+	if sl == 2:
+		return "weapon"
+	if sl == 1 or sl == 6:
+		return "jewel"
+	if sl >= 0:
+		return "armor"
+	return "alchemy"
+
 func _build_crafting_ui(hud_ref) -> void:
+	var v2_recipes: Array[Dictionary] = GmPanelScript.get_recipes()
+	var heritage_stage_cur := int(hud_ref.heritage_stage) if hud_ref.get("heritage_stage") != null else 0
+
+	# Top 3-Tab Smithy Switcher
+	var tab_row := HBoxContainer.new()
+	tab_row.add_theme_constant_override("separation", 8)
+	service_vbox.add_child(tab_row)
+	var tab_specs := [
+		["craft", "⚒ CRAFTING (%d)" % v2_recipes.size()],
+		["enhance", "✦ ULEPSZ (+1..+9)"],
+		["heritage", "★ DZIEDZICTWO (%d/6)" % heritage_stage_cur],
+	]
+	for ts: Array in tab_specs:
+		var tkey := str(ts[0])
+		var tb := Button.new()
+		tb.text = str(ts[1])
+		tb.custom_minimum_size = Vector2(0, 42)
+		tb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var active_t := (smithy_tab == tkey)
+		ForgedUI.style_button(tb, "gold" if active_t else "slate", 13, 14.0, 10.0)
+		tb.pressed.connect(func() -> void:
+			smithy_tab = tkey
+			_refresh_service_ui()
+		)
+		tab_row.add_child(tb)
+
+	if smithy_tab == "enhance":
+		_build_smithy_enhance_tab(hud_ref)
+		return
+	if smithy_tab == "heritage":
+		_build_smithy_heritage_tab(hud_ref)
+		return
+
 	var note := Label.new()
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	note.text = "Kuźnia — główna droga do mocnego ekwipunku (Tier 2–4). Wymaga poziomu postaci, surowców ze zbieractwa, trofeów z potworów (lub Rdzeni Elity) i złota."
+	note.text = "Kuźnia Mistrzowska — pełny katalog %d receptur rzemieślniczych (broń, pancerze, zestawy V2, biżuteria i eliksiry)." % v2_recipes.size()
 	note.add_theme_font_override("font", MapStyle.body_font())
 	note.add_theme_font_size_override("font_size", 12)
 	note.add_theme_color_override("font_color", Color(0.86, 0.82, 0.72))
 	service_vbox.add_child(note)
 
-	var recipes: Array[Dictionary] = []
+	# Category filter pills
+	var f_row := HBoxContainer.new()
+	f_row.add_theme_constant_override("separation", 6)
+	service_vbox.add_child(f_row)
+	var filters := [
+		["all", "Wszystkie"],
+		["ready", "✓ Mogę wykuć"],
+		["weapon", "Broń"],
+		["armor", "Pancerz"],
+		["jewel", "Biżuteria"],
+		["alchemy", "Alchemia"],
+	]
+	for fl: Array in filters:
+		var fkey := str(fl[0])
+		var fb := Button.new()
+		fb.text = str(fl[1])
+		var is_sel := (smithy_filter == fkey)
+		_style_btn(
+			fb,
+			Color(0.32, 0.21, 0.08, 0.96) if is_sel else Color(0.10, 0.12, 0.18, 0.92),
+			Color(1.0, 0.82, 0.36, 0.96) if is_sel else Color(0.46, 0.54, 0.66, 0.80),
+			11
+		)
+		fb.pressed.connect(func() -> void:
+			smithy_filter = fkey
+			_refresh_service_ui()
+		)
+		f_row.add_child(fb)
+
+	var entries: Array[Dictionary] = []
+	var seen_out := {}
+	# Legacy starter/core craftable items
 	for it: Dictionary in GmPanelScript.get_catalog():
 		if it.get("craftCost", null) != null:
-			recipes.append(it)
-	recipes.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+			var iid := str(it.get("id", ""))
+			seen_out[iid] = true
+			entries.append({
+				"is_v2": false,
+				"id": iid,
+				"name": str(it.get("name", iid)),
+				"minLevel": int(it.get("minLevel", 1)),
+				"cost": int(it.get("craftCost", 120)),
+				"ingredients": it.get("craftIngredients", it.get("craftRecipe", [])),
+				"resultItem": it,
+				"resultCount": 1,
+				"station": "kowal",
+			})
+	# Full 265 V2 recipes
+	for rec: Dictionary in v2_recipes:
+		var res_id := str(rec.get("resultItemId", ""))
+		var out_def := GmPanelScript.find_item(res_id)
+		if out_def.is_empty():
+			continue
+		entries.append({
+			"is_v2": true,
+			"id": str(rec.get("id", "")),
+			"name": str(rec.get("name", out_def.get("name", res_id))),
+			"minLevel": int(rec.get("requiredLevel", out_def.get("minLevel", 1))),
+			"cost": int(rec.get("cost", 50)),
+			"ingredients": rec.get("ingredients", []),
+			"resultItem": out_def,
+			"resultCount": maxi(1, int(rec.get("resultCount", 1))),
+			"station": str(rec.get("station", "kowal")),
+		})
+
+	var hero_lv := int(hud_ref.hero_level)
+	var hero_g := int(hud_ref.hero_gold)
+	var filtered: Array[Dictionary] = []
+	for e: Dictionary in entries:
+		var out_def: Dictionary = e["resultItem"]
+		var bucket := _recipe_filter_bucket(out_def, str(e["station"]))
+		var cost := int(e["cost"])
+		var min_lv := int(e["minLevel"])
+		var ings: Array = e["ingredients"]
+		var missing := false
+		for ing in ings:
+			if ing is Dictionary:
+				var ing_d: Dictionary = ing as Dictionary
+				var ing_id := str(ing_d.get("id", ing_d.get("itemId", "")))
+				var need := int(ing_d.get("qty", 1))
+				if _count_item_in_backpack(hud_ref, ing_id) < need:
+					missing = true
+					break
+		var can_c := (hero_lv >= min_lv) and (hero_g >= cost) and (not missing)
+		e["_can"] = can_c
+		e["_bucket"] = bucket
+		if smithy_filter == "ready" and not can_c:
+			continue
+		elif smithy_filter != "all" and smithy_filter != "ready" and bucket != smithy_filter:
+			continue
+		filtered.append(e)
+
+	filtered.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		var ca := bool(a.get("_can", false))
+		var cb := bool(b.get("_can", false))
+		if ca != cb:
+			return ca
 		var la := int(a.get("minLevel", 1))
 		var lb := int(b.get("minLevel", 1))
 		if la != lb:
 			return la < lb
-		return int(a.get("craftCost", 0)) < int(b.get("craftCost", 0))
+		return int(a.get("cost", 0)) < int(b.get("cost", 0))
 	)
 
-	var hero_lv := int(hud_ref.hero_level)
-	for it: Dictionary in recipes:
-		var cost := int(it.get("craftCost", 200))
-		var min_lv := int(it.get("minLevel", 1))
-		var recipe_arr: Array = it.get("craftIngredients", it.get("craftRecipe", []))
-		var missing_mats := false
+	var max_rows := mini(filtered.size(), 36)
+	var cnt_lbl := Label.new()
+	cnt_lbl.text = "Wyświetlono %d z %d pasujących receptur (gotowe do wykucia na górze)." % [max_rows, filtered.size()]
+	cnt_lbl.add_theme_font_override("font", MapStyle.body_font())
+	cnt_lbl.add_theme_font_size_override("font_size", 11)
+	cnt_lbl.add_theme_color_override("font_color", Color(0.68, 0.78, 0.88))
+	service_vbox.add_child(cnt_lbl)
+
+	if max_rows == 0:
+		var emp := Label.new()
+		emp.text = "Brak receptur spełniających ten filtr — zbierz surowce w świecie lub wybierz kategorię."
+		emp.add_theme_font_override("font", MapStyle.body_font())
+		emp.add_theme_font_size_override("font_size", 12)
+		emp.add_theme_color_override("font_color", Color(0.76, 0.72, 0.66))
+		service_vbox.add_child(emp)
+		return
+
+	for ri in max_rows:
+		var e: Dictionary = filtered[ri]
+		var it: Dictionary = e["resultItem"]
+		var cost := int(e["cost"])
+		var min_lv := int(e["minLevel"])
+		var recipe_arr: Array = e["ingredients"]
+		var can_craft := bool(e["_can"])
+		var is_v2 := bool(e["is_v2"])
+		var rec_id := str(e["id"])
+		var res_cnt := int(e["resultCount"])
 		var mat_parts: PackedStringArray = []
 		for ing in recipe_arr:
 			if ing is Dictionary:
@@ -827,10 +991,7 @@ func _build_crafting_ui(hud_ref) -> void:
 				var have := _count_item_in_backpack(hud_ref, ing_id)
 				var ing_def := GmPanelScript.find_item(ing_id)
 				var ing_name := str(ing_def.get("name", ing_id))
-				if have < need:
-					missing_mats = true
 				mat_parts.append("%s %d/%d" % [ing_name, have, need])
-		var can_craft := (hero_lv >= min_lv) and (int(hud_ref.hero_gold) >= cost) and (not missing_mats)
 
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", 10)
@@ -840,19 +1001,21 @@ func _build_crafting_ui(hud_ref) -> void:
 		ico.custom_minimum_size = Vector2(36, 36)
 		ico.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		ico.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		ico.texture = world.load_tex("res://assets/ui/icons/" + str(it["icon"]))
+		ico.texture = world.load_tex("res://assets/ui/icons/" + str(it.get("icon", "gear-sword.webp")))
 		row.add_child(ico)
 
 		var info_v := VBoxContainer.new()
 		info_v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(info_v)
 
+		var set_tag := (" [%s]" % str(it.get("setCode", ""))) if not str(it.get("setCode", "")).is_empty() else ""
+		var qty_tag := (" ×%d" % res_cnt) if res_cnt > 1 else ""
 		var lbl := Label.new()
-		lbl.text = "%s [Poz.%d] — %s" % [str(it["name"]), min_lv, str(it["desc"])]
+		lbl.text = "%s%s%s [Poz.%d] — %s" % [str(it.get("name", rec_id)), qty_tag, set_tag, min_lv, str(it.get("desc", ""))]
 		lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		lbl.add_theme_font_override("font", MapStyle.body_font())
 		lbl.add_theme_font_size_override("font_size", 13)
-		lbl.add_theme_color_override("font_color", it["rarity"] as Color)
+		lbl.add_theme_color_override("font_color", it.get("rarity", Color(0.92, 0.90, 0.86)) as Color)
 		info_v.add_child(lbl)
 
 		var sub := Label.new()
@@ -869,7 +1032,8 @@ func _build_crafting_ui(hud_ref) -> void:
 		_style_btn(b_craft, Color(0.28, 0.16, 0.06, 0.96) if can_craft else Color(0.14, 0.12, 0.16, 0.92), Color(1.0, 0.72, 0.28, 0.96) if can_craft else Color(0.42, 0.38, 0.36, 0.8), 12)
 		var it_c := it.duplicate(true)
 		b_craft.pressed.connect(func() -> void:
-			if _srv_act({"type": "craft", "itemId": str(it_c["id"])}):
+			var payload: Dictionary = {"type": "craft_recipe", "recipeId": rec_id} if is_v2 else {"type": "craft", "itemId": str(it_c["id"])}
+			if _srv_act(payload):
 				return
 			if int(hud_ref.hero_level) < min_lv:
 				service_status.text = "Wymagany poziom %d, aby wykuć %s!" % [min_lv, str(it_c["name"])]
@@ -890,15 +1054,269 @@ func _build_crafting_ui(hud_ref) -> void:
 				if ing is Dictionary:
 					var ing_d: Dictionary = ing as Dictionary
 					_consume_item_from_backpack(hud_ref, str(ing_d.get("id", ing_d.get("itemId", ""))), int(ing_d.get("qty", 1)))
-			if hud_ref.add_item_to_backpack(it_c, 1):
+			if hud_ref.add_item_to_backpack(it_c, res_cnt):
 				hud_ref.hero_gold -= cost
 				hud_ref.recalc_stats()
-				service_status.text = "Wykuto w kuźni: %s!" % str(it_c["name"])
+				service_status.text = "Wykuto w kuźni: %s%s!" % [str(it_c["name"]), (" ×%d" % res_cnt) if res_cnt > 1 else ""]
 				_refresh_service_ui()
 			else:
 				service_status.text = "Brak miejsca w plecaku (24/24)!"
 		)
 		row.add_child(b_craft)
+
+func _build_smithy_enhance_tab(hud_ref) -> void:
+	var note := Label.new()
+	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	note.text = "Kowalskie Ulepszanie (+1 do +9): każdy poziom wzmacnia statystyki założonego slotu o +8% (max +72%). Broń od +3/+6/+9 zyskuje widoczną aurę Ki!"
+	note.add_theme_font_override("font", MapStyle.body_font())
+	note.add_theme_font_size_override("font_size", 12)
+	note.add_theme_color_override("font_color", Color(0.74, 0.92, 1.0))
+	service_vbox.add_child(note)
+
+	var slot_names := ["Hełm", "Amulet", "Broń", "Rękawice", "Pancerz", "Tarcza", "Pierścień", "Buty"]
+	for si in mini(8, hud_ref.equip_slots.size()):
+		var eq: Dictionary = hud_ref.equip_slots[si]
+		var eq_id := str(eq.get("id", ""))
+		var sname: String = str(slot_names[si]) if si < slot_names.size() else ("Slot %d" % si)
+		var cur_rank: int = int(hud_ref.get_slot_upgrade_rank(si)) if hud_ref.has_method("get_slot_upgrade_rank") else 0
+
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 10)
+		service_vbox.add_child(row)
+
+		var ico := TextureRect.new()
+		ico.custom_minimum_size = Vector2(36, 36)
+		ico.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		ico.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		var icon_file := str(eq.get("icon", ""))
+		ico.texture = world.load_tex("res://assets/ui/icons/" + (icon_file if not icon_file.is_empty() else "gear-shield.webp"))
+		row.add_child(ico)
+
+		var info_v := VBoxContainer.new()
+		info_v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(info_v)
+
+		var lbl := Label.new()
+		if eq_id.is_empty():
+			lbl.text = "%s — Pusty slot" % sname
+			lbl.add_theme_color_override("font_color", Color(0.58, 0.56, 0.54))
+		else:
+			var plus_txt := (" +%d" % cur_rank) if cur_rank > 0 else ""
+			lbl.text = "%s: %s%s  (Premia slotu: +%d%%)" % [sname, str(eq.get("name", eq_id)), plus_txt, cur_rank * 8]
+			lbl.add_theme_color_override("font_color", eq.get("rarity", Color(0.95, 0.92, 0.86)) as Color)
+		lbl.add_theme_font_override("font", MapStyle.body_font())
+		lbl.add_theme_font_size_override("font_size", 13)
+		info_v.add_child(lbl)
+
+		if eq_id.is_empty():
+			var sub_e := Label.new()
+			sub_e.text = "Załóż przedmiot w oknie Postaci [I], aby go ulepszyć."
+			sub_e.add_theme_font_override("font", MapStyle.body_font())
+			sub_e.add_theme_font_size_override("font_size", 11)
+			sub_e.add_theme_color_override("font_color", Color(0.56, 0.56, 0.60))
+			info_v.add_child(sub_e)
+			continue
+
+		if cur_rank >= 9:
+			var sub_m := Label.new()
+			sub_m.text = "★ Osiągnięto maksymalne mistrzowskie ulepszenie +9 (+72% statystyk)!"
+			sub_m.add_theme_font_override("font", MapStyle.body_font())
+			sub_m.add_theme_font_size_override("font_size", 11)
+			sub_m.add_theme_color_override("font_color", Color(1.0, 0.88, 0.34))
+			info_v.add_child(sub_m)
+			continue
+
+		var spec: Dictionary = GmPanelScript.get_enhance_tier(cur_rank)
+		var next_t := int(spec.get("nextTier", cur_rank + 1))
+		var g_cost := int(spec.get("gold", 50 + cur_rank * 45))
+		var ings: Array = spec.get("ingredients", [])
+		var missing := false
+		var parts: PackedStringArray = []
+		for ing in ings:
+			if ing is Dictionary:
+				var ing_d: Dictionary = ing as Dictionary
+				var iid := str(ing_d.get("id", ""))
+				var need := int(ing_d.get("qty", 1))
+				var have := _count_item_in_backpack(hud_ref, iid)
+				if have < need:
+					missing = true
+				var idef := GmPanelScript.find_item(iid)
+				parts.append("%s %d/%d" % [str(idef.get("name", iid)), have, need])
+		var can_up := (int(hud_ref.hero_gold) >= g_cost) and (not missing)
+
+		var sub := Label.new()
+		sub.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		sub.text = "Następny: +%d (+%d%%)  •  Koszt: %d zł  •  %s" % [next_t, next_t * 8, g_cost, ", ".join(parts) if not parts.is_empty() else "Tylko złoto"]
+		sub.add_theme_font_override("font", MapStyle.body_font())
+		sub.add_theme_font_size_override("font_size", 11)
+		sub.add_theme_color_override("font_color", Color(0.56, 0.94, 0.68) if can_up else Color(0.92, 0.58, 0.46))
+		info_v.add_child(sub)
+
+		var slot_idx: int = int(si)
+		var b_up := Button.new()
+		b_up.text = "✦ ULEPSZ → +%d (%d zł)" % [next_t, g_cost]
+		_style_btn(b_up, Color(0.14, 0.24, 0.34, 0.96) if can_up else Color(0.14, 0.12, 0.16, 0.90), Color(0.46, 0.94, 1.0, 0.96) if can_up else Color(0.42, 0.40, 0.44, 0.78), 12)
+		b_up.pressed.connect(func() -> void:
+			if _srv_act({"type": "enhance_equip", "equipSlot": slot_idx}):
+				return
+			if int(hud_ref.hero_gold) < g_cost:
+				service_status.text = "Za mało złota na ulepszenie +%d (%d zł)!" % [next_t, g_cost]
+				return
+			for ing in ings:
+				if ing is Dictionary:
+					var ing_d: Dictionary = ing as Dictionary
+					var iid := str(ing_d.get("id", ""))
+					var need := int(ing_d.get("qty", 1))
+					if _count_item_in_backpack(hud_ref, iid) < need:
+						var idef := GmPanelScript.find_item(iid)
+						service_status.text = "Brak składnika: %s (×%d)!" % [str(idef.get("name", iid)), need]
+						return
+			for ing in ings:
+				if ing is Dictionary:
+					var ing_d: Dictionary = ing as Dictionary
+					_consume_item_from_backpack(hud_ref, str(ing_d.get("id", "")), int(ing_d.get("qty", 1)))
+			hud_ref.hero_gold -= g_cost
+			hud_ref.equip_upgrades[str(slot_idx)] = next_t
+			hud_ref.recalc_stats()
+			if world != null and world.get("audio") != null:
+				world.audio.sfx("common/level-up", 0.88, 0.04)
+			service_status.text = "✦ Ulepszono %s do +%d (+%d%% statystyk)!" % [str(eq.get("name", sname)), next_t, next_t * 8]
+			_refresh_service_ui()
+		)
+		row.add_child(b_up)
+
+func _build_smithy_heritage_tab(hud_ref) -> void:
+	var rkey: String = str(hud_ref._race_key()) if hud_ref.has_method("_race_key") else "legend"
+	var cur_stage: int = clampi(int(hud_ref.heritage_stage), 0, 6)
+	var stages: Array[Dictionary] = GmPanelScript.get_heritage_weapons(rkey)
+
+	var note := Label.new()
+	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	note.text = "Broń Dziedzictwa (Etapy I–VI) — osobista broń Twojej rasy, którą przekuwasz przez kolejne etapy przygody (Postęp: %d/6)." % cur_stage
+	note.add_theme_font_override("font", MapStyle.body_font())
+	note.add_theme_font_size_override("font_size", 12)
+	note.add_theme_color_override("font_color", Color(1.0, 0.90, 0.56))
+	service_vbox.add_child(note)
+
+	for hw: Dictionary in stages:
+		var st_num := int(hw.get("stage", 1))
+		var min_lv := int(hw.get("minLevel", 1))
+		var g_cost := int(hw.get("goldCost", 120))
+		var ings: Array = hw.get("ingredients", [])
+		var is_done := st_num <= cur_stage
+		var is_next := st_num == cur_stage + 1
+		var missing := false
+		var parts: PackedStringArray = []
+		for ing in ings:
+			if ing is Dictionary:
+				var ing_d: Dictionary = ing as Dictionary
+				var iid := str(ing_d.get("id", ""))
+				var need := int(ing_d.get("qty", 1))
+				var have := _count_item_in_backpack(hud_ref, iid)
+				if have < need:
+					missing = true
+				var idef := GmPanelScript.find_item(iid)
+				parts.append("%s %d/%d" % [str(idef.get("name", iid)), have, need])
+		var can_forge := is_next and (int(hud_ref.hero_level) >= min_lv) and (int(hud_ref.hero_gold) >= g_cost) and (not missing)
+
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 10)
+		service_vbox.add_child(row)
+
+		var hw_def := GmPanelScript.find_item(str(hw.get("id", "")))
+		var ico := TextureRect.new()
+		ico.custom_minimum_size = Vector2(38, 38)
+		ico.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		ico.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		ico.texture = world.load_tex("res://assets/ui/icons/" + str(hw_def.get("icon", "gear-sword.webp")))
+		row.add_child(ico)
+
+		var info_v := VBoxContainer.new()
+		info_v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(info_v)
+
+		var lbl := Label.new()
+		lbl.text = "Etap %d/6: %s [Poz.%d] — +%d ATK, +%.1f%% KRYT, +%d HP" % [
+			st_num, str(hw.get("name", "")), min_lv, int(hw.get("atk", 0)), float(hw.get("crit", 0.0)) * 100.0, int(hw.get("hp", 0))
+		]
+		lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		lbl.add_theme_font_override("font", MapStyle.body_font())
+		lbl.add_theme_font_size_override("font_size", 13)
+		lbl.add_theme_color_override("font_color", Color(0.56, 0.96, 0.68) if is_done else (Color(1.0, 0.88, 0.36) if is_next else Color(0.66, 0.66, 0.70)))
+		info_v.add_child(lbl)
+
+		var sub := Label.new()
+		sub.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		sub.text = "%s  •  Koszt: %d zł, %s" % [str(hw.get("desc", "")), g_cost, ", ".join(parts) if not parts.is_empty() else "Tylko złoto"]
+		sub.add_theme_font_override("font", MapStyle.body_font())
+		sub.add_theme_font_size_override("font_size", 11)
+		sub.add_theme_color_override("font_color", Color(0.76, 0.82, 0.88) if is_done else (Color(0.56, 0.94, 0.68) if can_forge else Color(0.88, 0.62, 0.50)))
+		info_v.add_child(sub)
+
+		var btn := Button.new()
+		if is_done:
+			btn.text = "✓ WYKUTO"
+			_style_btn(btn, Color(0.10, 0.24, 0.14, 0.92), Color(0.46, 0.94, 0.60, 0.88), 12)
+			btn.disabled = true
+		elif is_next:
+			btn.text = "★ WYKUJ ETAP %d (%d zł)" % [st_num, g_cost]
+			_style_btn(btn, Color(0.30, 0.20, 0.06, 0.98) if can_forge else Color(0.14, 0.12, 0.16, 0.92), Color(1.0, 0.84, 0.32, 0.98) if can_forge else Color(0.46, 0.42, 0.38, 0.80), 12)
+			var hw_c := hw.duplicate(true)
+			var hw_def_c := hw_def.duplicate(true)
+			btn.pressed.connect(func() -> void:
+				if _srv_act({"type": "forge_heritage_weapon"}):
+					return
+				if int(hud_ref.hero_level) < min_lv:
+					service_status.text = "Etap %d/6 wymaga poziomu %d!" % [st_num, min_lv]
+					return
+				if int(hud_ref.hero_gold) < g_cost:
+					service_status.text = "Za mało złota (%d zł)!" % g_cost
+					return
+				for ing in ings:
+					if ing is Dictionary:
+						var ing_d: Dictionary = ing as Dictionary
+						var iid := str(ing_d.get("id", ""))
+						var need := int(ing_d.get("qty", 1))
+						if _count_item_in_backpack(hud_ref, iid) < need:
+							var idef := GmPanelScript.find_item(iid)
+							service_status.text = "Brak składnika: %s (×%d)!" % [str(idef.get("name", iid)), need]
+							return
+				for ing in ings:
+					if ing is Dictionary:
+						var ing_d: Dictionary = ing as Dictionary
+						_consume_item_from_backpack(hud_ref, str(ing_d.get("id", "")), int(ing_d.get("qty", 1)))
+				hud_ref.hero_gold -= g_cost
+				hud_ref.heritage_stage = st_num
+				var eq_item: Dictionary = hw_def_c if not hw_def_c.is_empty() else {
+					"id": str(hw_c.get("id", "heritage_wep")),
+					"name": str(hw_c.get("name", "Broń Dziedzictwa")),
+					"icon": "gear-sword.webp",
+					"slot": 2,
+					"cat": "equip",
+					"atk": int(hw_c.get("atk", 15)),
+					"crit": float(hw_c.get("crit", 0.02)),
+					"hp": int(hw_c.get("hp", 20)),
+					"ki": int(hw_c.get("ki", 10)),
+					"rarity": Color(1.0, 0.82, 0.28),
+					"desc": str(hw_c.get("desc", "")),
+				}
+				if hud_ref.equip_slots.size() > 2:
+					eq_item["side"] = -1
+					eq_item["row"] = 2
+					hud_ref.equip_slots[2] = eq_item
+				else:
+					hud_ref.add_item_to_backpack(eq_item, 1)
+				hud_ref.recalc_stats()
+				if world != null and world.get("audio") != null:
+					world.audio.sfx("common/level-up", 0.94, 0.02)
+				service_status.text = "★ Wykuto Broń Dziedzictwa Etap %d/6: %s!" % [st_num, str(hw_c.get("name", ""))]
+				_refresh_service_ui()
+			)
+		else:
+			btn.text = "🔒 ETAP %d" % st_num
+			_style_btn(btn, Color(0.12, 0.12, 0.16, 0.84), Color(0.38, 0.38, 0.44, 0.72), 11)
+			btn.disabled = true
+		row.add_child(btn)
 
 func _build_bank_ui(hud_ref) -> void:
 	var g_row := HBoxContainer.new()
@@ -1020,6 +1438,7 @@ func _start_training_drill(hud_ref, stat_key: String, title: String, gain_desc: 
 	if int(hud_ref.hero_gold) < cost:
 		service_status.text = "Za mało złota (%d / %d zł)!" % [int(hud_ref.hero_gold), cost]
 		return
+	drill_dojo_trial_id = ""
 	drill_active = true
 	drill_stat = stat_key
 	drill_title = title
@@ -1031,6 +1450,23 @@ func _start_training_drill(hud_ref, stat_key: String, title: String, gain_desc: 
 	drill_perfects = 0
 	drill_hits = [0, 0, 0]
 	drill_feedback = "Trafiaj w ZŁOTĄ STREFĘ, aby zdobyć premię Perfekcyjnej Serii!"
+	if world != null and world.get("audio") != null:
+		world.audio.sfx("ui/open", 0.85)
+	_refresh_service_ui()
+
+func _start_dojo_trial(hud_ref, trial_id: String, title: String, gain_desc: String, anim_stat: String) -> void:
+	drill_dojo_trial_id = trial_id
+	drill_active = true
+	drill_stat = anim_stat
+	drill_title = title
+	drill_gain = gain_desc
+	drill_phase = 0.08
+	drill_dir = 1.0
+	drill_speed = 1.50
+	drill_step = 0
+	drill_perfects = 0
+	drill_hits = [0, 0, 0]
+	drill_feedback = "Próba Mistrza Dojo! Ukończ 3 idealne reakcje rytmu Ki!"
 	if world != null and world.get("audio") != null:
 		world.audio.sfx("ui/open", 0.85)
 	_refresh_service_ui()
@@ -1090,6 +1526,8 @@ func _trigger_drill_strike(hud_ref) -> void:
 		var perfect_series := drill_perfects >= 2
 		var finished_stat := drill_stat
 		var finished_gain := drill_gain
+		var finished_trial := drill_dojo_trial_id
+		drill_dojo_trial_id = ""
 		drill_active = false
 		var perf_note := ""
 		if perfect_series:
@@ -1098,6 +1536,21 @@ func _trigger_drill_strike(hud_ref) -> void:
 			perf_note = " ★ PERFEKCYJNA SERIA (+20% HP/KI)!"
 			if world != null and world.get("audio") != null:
 				world.audio.sfx("common/level-up", 0.88, 0.02)
+		if not finished_trial.is_empty():
+			if hero_actor != null and is_instance_valid(hero_actor) and hero_actor.has_method("show_damage_number"):
+				hero_actor.show_damage_number("🥋 PRÓBA DOJO UKOŃCZONA!", Color(0.42, 0.98, 0.72), true)
+			if _srv_act({"type": "complete_dojo_trial", "trialId": finished_trial}):
+				if perfect_series:
+					service_status.text += perf_note
+				return
+			var first_time := not bool(hud_ref.dojo_trials.get(finished_trial, false))
+			hud_ref.dojo_trials[finished_trial] = true
+			if first_time:
+				hud_ref.hero_gold += 35
+			hud_ref.recalc_stats()
+			service_status.text = ("🥋 Ukończono %s! (+35 zł)" % drill_title if first_time else "🥋 Powtórzono %s!" % drill_title) + perf_note
+			_refresh_service_ui()
+			return
 		if hero_actor != null and is_instance_valid(hero_actor) and hero_actor.has_method("show_damage_number"):
 			hero_actor.show_damage_number("%s (0 PD)" % finished_gain, Color(1.0, 0.90, 0.36), true)
 		if _srv_act({"type": "city_train", "stat": finished_stat}):
@@ -1156,7 +1609,7 @@ func _build_active_drill_card(hud_ref) -> void:
 	var top_r := HBoxContainer.new()
 	vb.add_child(top_r)
 	var t_lbl := Label.new()
-	t_lbl.text = "🔥 AKTYWNA PRÓBA: %s  (%s • 0 PD)" % [drill_title.to_upper(), drill_gain]
+	t_lbl.text = "🔥 AKTYWNA PRÓBA: %s  (%s)" % [drill_title.to_upper(), drill_gain]
 	t_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	t_lbl.add_theme_font_override("font", MapStyle.font())
 	t_lbl.add_theme_font_size_override("font_size", 14)
@@ -1168,6 +1621,7 @@ func _build_active_drill_card(hud_ref) -> void:
 	_style_btn(b_cancel, Color(0.24, 0.08, 0.08, 0.94), Color(0.90, 0.40, 0.36, 0.90), 11)
 	b_cancel.pressed.connect(func() -> void:
 		drill_active = false
+		drill_dojo_trial_id = ""
 		_refresh_service_ui()
 	)
 	top_r.add_child(b_cancel)
@@ -1286,6 +1740,59 @@ func _add_training_drill_row(hud_ref, stat_key: String, title: String, gain_desc
 	btn.pressed.connect(func() -> void: _start_training_drill(hud_ref, stat_key, title, gain_desc))
 	row.add_child(btn)
 
+func _build_dojo_trials_section(hud_ref) -> void:
+	var core_done := 0
+	for tid: String in ["dojo_dodge", "dojo_skill", "dojo_ki"]:
+		if bool(hud_ref.dojo_trials.get(tid, false)):
+			core_done += 1
+	var dojo_rank := "Mistrz Dojo" if core_done >= 3 else ("Adept Dojo" if core_done == 2 else ("Uczeń Dojo" if core_done == 1 else "Rekrut Dojo"))
+	service_vbox.add_child(_section_hdr("🥋 PRÓBY MISTRZA DOJO (%d/3 • Ranga: %s):" % [core_done, dojo_rank], Color(0.48, 0.98, 0.74)))
+	var trial_defs := [
+		["dojo_dodge", "Próba I: Krok Poza Strefę", "Wyćwicz unik czerwonych stref AoE bossów (+35 zł, tytuł Dojo)", "spd"],
+		["dojo_skill", "Próba II: Uderzenie Techniki Ki", "Wprowadź serię czystych uderzeń Techniki Ki (+35 zł, tytuł Dojo)", "atk"],
+		["dojo_ki", "Próba III: Dyscyplina Przepływu Ki", "Utrzymaj stabilny przepływ Ki podczas kanału (+35 zł, tytuł Dojo)", "ki"],
+	]
+	for td: Array in trial_defs:
+		var tid := str(td[0])
+		var ttitle := str(td[1])
+		var tdesc := str(td[2])
+		var anim_s := str(td[3])
+		var done := bool(hud_ref.dojo_trials.get(tid, false))
+
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 10)
+		service_vbox.add_child(row)
+
+		var iv := VBoxContainer.new()
+		iv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(iv)
+
+		var l1 := Label.new()
+		l1.text = "%s%s" % ["✓ " if done else "○ ", ttitle]
+		l1.add_theme_font_override("font", MapStyle.body_font())
+		l1.add_theme_font_size_override("font_size", 13)
+		l1.add_theme_color_override("font_color", Color(0.56, 0.96, 0.68) if done else Color(1.0, 0.92, 0.64))
+		iv.add_child(l1)
+
+		var l2 := Label.new()
+		l2.text = tdesc
+		l2.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		l2.add_theme_font_override("font", MapStyle.body_font())
+		l2.add_theme_font_size_override("font_size", 11)
+		l2.add_theme_color_override("font_color", Color(0.76, 0.84, 0.90))
+		iv.add_child(l2)
+
+		var b := Button.new()
+		b.text = "✓ POWTÓRZ PRÓBĘ" if done else "🥋 ROZPOCZNIJ"
+		_style_btn(
+			b,
+			Color(0.10, 0.24, 0.16, 0.94) if done else Color(0.14, 0.24, 0.34, 0.96),
+			Color(0.46, 0.96, 0.64, 0.94) if done else Color(0.46, 0.94, 1.0, 0.96),
+			12
+		)
+		b.pressed.connect(func() -> void: _start_dojo_trial(hud_ref, tid, ttitle, "Próba Mistrza Dojo", anim_s))
+		row.add_child(b)
+
 func _build_arena_ui(hud_ref) -> void:
 	_build_mastery_header_card(hud_ref, "Trwały rozwój siły, wytrzymałości, gardy i zwinności bez wbijania poziomu.")
 	_build_active_drill_card(hud_ref)
@@ -1294,6 +1801,7 @@ func _build_arena_ui(hud_ref) -> void:
 	_add_training_drill_row(hud_ref, "hp", "Hart Ciała i Wytrzymałość (HP)", "+12 Max HP na stałe")
 	_add_training_drill_row(hud_ref, "def", "Szkoła Gardy i Parowania (DEF)", "+1–2 DEF na stałe")
 	_add_training_drill_row(hud_ref, "spd", "Bieg Zwiadowcy i Zwinność (SPD)", "+6 Szybkości na stałe")
+	_build_dojo_trials_section(hud_ref)
 
 func _build_hall_ui(hud_ref) -> void:
 	_build_mastery_header_card(hud_ref, "Medytacja Ki i Oko Mistrza w %s (0 PD) oraz 15-minutowe Błogosławieństwa Wyprawy." % room_title)
@@ -1301,6 +1809,7 @@ func _build_hall_ui(hud_ref) -> void:
 	service_vbox.add_child(_section_hdr("TRENING SANKTUARIUM (KI I KRYT — 0 PD):"))
 	_add_training_drill_row(hud_ref, "ki", "Medytacja Przepływu Ki (KI)", "+8 Max KI oraz +0.08 KI/s na stałe")
 	_add_training_drill_row(hud_ref, "crit", "Oko Mistrza i Precyzja (KRYT)", "+0.6% Szansy Kryt na stałe")
+	_build_dojo_trials_section(hud_ref)
 
 	service_vbox.add_child(_section_hdr("BŁOGOSŁAWIEŃSTWA MIEJSKIE (15 MIN + 100% HP/KI):", Color(0.46, 0.90, 1.0)))
 	var bless_defs := [

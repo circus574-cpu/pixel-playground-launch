@@ -42,12 +42,13 @@ const FALLBACK_CHAPTERS := {
 
 var world: Node2D
 var goals_data: Array = []
-var active_tab := "heritage" # "heritage" | "development" | "adventure"
+var active_tab := "story" # "story" | "heritage" | "development" | "adventure"
 var local_claimed: Dictionary = {}
 
 var backdrop := ColorRect.new()
 var panel := Panel.new()
 var status_lbl := Label.new()
+var tab_story := Button.new()
 var tab_heritage := Button.new()
 var tab_dev := Button.new()
 var tab_adv := Button.new()
@@ -92,11 +93,19 @@ func _build_ui() -> void:
 	root_vb.add_theme_constant_override("separation", 10)
 	inner_margin.add_child(root_vb)
 
-	root_vb.add_child(ForgedUI.make_header_bar("DZIENNIK ZADAŃ I ROZWOJU", close_journal, "← WSTECZ", "Rozdziały dziedzictwa, cele rasy i labirynty"))
+	root_vb.add_child(ForgedUI.make_header_bar("DZIENNIK ZADAŃ I ROZWOJU", close_journal, "← WSTECZ", "102 misje fabularne, reputacja frakcji, rozdziały dziedzictwa i wyprawy"))
 
 	var tabs_hb := HBoxContainer.new()
-	tabs_hb.add_theme_constant_override("separation", 10)
+	tabs_hb.add_theme_constant_override("separation", 8)
 	root_vb.add_child(tabs_hb)
+
+	tab_story.text = "📜 PRZYGODY"
+	tab_story.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tab_story.pressed.connect(func() -> void:
+		active_tab = "story"
+		_rebuild_list()
+	)
+	tabs_hb.add_child(tab_story)
 
 	tab_heritage.text = "◆ DZIEDZICTWO (6)"
 	tab_heritage.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -114,7 +123,7 @@ func _build_ui() -> void:
 	)
 	tabs_hb.add_child(tab_dev)
 
-	tab_adv.text = "⚔ LABIRYNTY (4)"
+	tab_adv.text = "⚔ WYPRAWY (6)"
 	tab_adv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	tab_adv.pressed.connect(func() -> void:
 		active_tab = "adventure"
@@ -163,6 +172,10 @@ func count_ready() -> int:
 	for g in _active_goals():
 		if str((g as Dictionary).get("status", "")) == "ready":
 			n += 1
+	if world != null and world.get("quest_engine") != null:
+		for qid: String in world.quest_engine.active_quests.keys():
+			if world.quest_engine.is_quest_ready_to_turn_in(qid):
+				n += 1
 	return n
 
 func open_journal() -> void:
@@ -217,6 +230,103 @@ func _active_goals() -> Array:
 		out.append(c)
 	return out
 
+func _rebuild_story_tab() -> void:
+	if world == null or world.get("quest_engine") == null:
+		return
+	var jl: Dictionary = world.quest_engine.get_journal_lists(world.current_land)
+	var fac: Dictionary = jl.get("factions", {})
+	var rep_lbl := Label.new()
+	rep_lbl.text = "Reputacja frakcji:  Pyra %d  •  Verdantia %d  •  Aetheria %d  •  Nexus-9 %d   |   Ukończone: %d / %d" % [
+		int(fac.get("pyra", 0)), int(fac.get("verdant", 0)), int(fac.get("aether", 0)), int(fac.get("nexus", 0)),
+		(jl.get("completed", []) as Array).size(), int(jl.get("total_playable", 102))
+	]
+	rep_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	rep_lbl.add_theme_font_override("font", MapStyle.body_font())
+	rep_lbl.add_theme_font_size_override("font_size", 13)
+	rep_lbl.add_theme_color_override("font_color", Color(0.56, 0.96, 0.88))
+	list_vbox.add_child(rep_lbl)
+
+	var sections := [
+		["AKTYWNE MISJE", jl.get("active", []) as Array, "active"],
+		["DOSTĘPNE W TYM REGIONIE", (jl.get("available", []) as Array).slice(0, 14), "available"],
+	]
+	for sec: Array in sections:
+		var arr: Array = sec[1]
+		var sh := Label.new()
+		sh.text = "— %s (%d) —" % [str(sec[0]), arr.size()]
+		sh.add_theme_font_override("font", MapStyle.font())
+		sh.add_theme_font_size_override("font_size", 14)
+		sh.add_theme_color_override("font_color", Color(1.0, 0.88, 0.44))
+		list_vbox.add_child(sh)
+		if arr.is_empty():
+			var nl := Label.new()
+			nl.text = "Brak misji w tej kategorii — porozmawiaj z NPC z wykrzyknikiem (!) w mieście."
+			nl.add_theme_font_override("font", MapStyle.body_font())
+			nl.add_theme_font_size_override("font_size", 13)
+			nl.add_theme_color_override("font_color", Color(0.72, 0.74, 0.80))
+			list_vbox.add_child(nl)
+			continue
+		for q: Dictionary in arr:
+			var qid := str(q.get("id", ""))
+			var is_act := str(sec[2]) == "active"
+			var is_ready: bool = is_act and world.quest_engine.is_quest_ready_to_turn_in(qid)
+			var card := PanelContainer.new()
+			var cstyle := StyleBoxFlat.new()
+			cstyle.bg_color = Color(0.14, 0.12, 0.07, 0.96) if is_ready else (Color(0.08, 0.12, 0.15, 0.94) if is_act else Color(0.09, 0.09, 0.13, 0.92))
+			cstyle.border_color = Color(0.46, 0.98, 0.68, 0.96) if is_ready else (Color(0.36, 0.86, 1.0, 0.88) if is_act else Color(0.78, 0.64, 0.34, 0.72))
+			cstyle.set_border_width_all(2)
+			cstyle.set_corner_radius_all(8)
+			cstyle.content_margin_left = 12
+			cstyle.content_margin_right = 12
+			cstyle.content_margin_top = 8
+			cstyle.content_margin_bottom = 8
+			card.add_theme_stylebox_override("panel", cstyle)
+			list_vbox.add_child(card)
+			var row := HBoxContainer.new()
+			row.add_theme_constant_override("separation", 10)
+			card.add_child(row)
+			var left := VBoxContainer.new()
+			left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			row.add_child(left)
+			var tl := Label.new()
+			tl.text = "%s  [Poz.%d • %s]" % [str(q.get("title", qid)), int(q.get("recommendedLevel", 1)), str(q.get("giverName", ""))]
+			tl.add_theme_font_override("font", MapStyle.font())
+			tl.add_theme_font_size_override("font_size", 14)
+			tl.add_theme_color_override("font_color", Color(0.46, 0.98, 0.72) if is_ready else Color(1.0, 0.92, 0.62))
+			left.add_child(tl)
+			var dl := Label.new()
+			dl.text = str(q.get("summary", ""))
+			dl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			dl.add_theme_font_override("font", MapStyle.body_font())
+			dl.add_theme_font_size_override("font_size", 12)
+			dl.add_theme_color_override("font_color", Color(0.84, 0.86, 0.90))
+			left.add_child(dl)
+			var btn := Button.new()
+			btn.custom_minimum_size = Vector2(180, 42)
+			if is_ready:
+				btn.text = "★ ODBIERZ NAGRODĘ"
+				_style_btn(btn, Color(0.28, 0.20, 0.05, 0.98), Color(1.0, 0.84, 0.30, 0.98), 13)
+				btn.pressed.connect(func() -> void:
+					world.quest_engine.complete_quest(qid)
+					_rebuild_list()
+				)
+			elif is_act:
+				var trk: bool = world.quest_engine.is_tracked(qid)
+				btn.text = "✓ ŚLEDZONE" if trk else "★ ŚLEDŹ NA HUD"
+				_style_btn(btn, Color(0.10, 0.24, 0.28, 0.95) if trk else Color(0.12, 0.12, 0.18, 0.94), Color(0.38, 0.94, 1.0, 0.94) if trk else Color(0.68, 0.60, 0.42, 0.80), 13)
+				btn.pressed.connect(func() -> void:
+					world.quest_engine.toggle_track(qid)
+					_rebuild_list()
+				)
+			else:
+				btn.text = "! PRZYJMIJ MISJĘ"
+				_style_btn(btn, Color(0.26, 0.18, 0.05, 0.96), Color(1.0, 0.80, 0.30, 0.96), 13)
+				btn.pressed.connect(func() -> void:
+					world.quest_engine.accept_quest(qid)
+					_rebuild_list()
+				)
+			row.add_child(btn)
+
 func _rebuild_list() -> void:
 	var all_g := _active_goals()
 	var cnt_h := 0
@@ -227,32 +337,29 @@ func _rebuild_list() -> void:
 		if k == "heritage": cnt_h += 1
 		elif k == "development": cnt_d += 1
 		elif k == "adventure": cnt_a += 1
+	var cnt_s: int = world.quest_engine.active_quests.size() if (world != null and world.get("quest_engine") != null) else 0
+	tab_story.text = "📜 PRZYGODY (%d)" % cnt_s
 	tab_heritage.text = "◆ DZIEDZICTWO (%d)" % cnt_h
-	tab_dev.text = "★ CELE ROZWOJU (%d)" % cnt_d
+	tab_dev.text = "★ CELE (%d)" % cnt_d
 	tab_adv.text = "⚔ WYPRAWY (%d)" % cnt_a
 
-	_style_btn(
-		tab_heritage,
-		Color(0.30, 0.20, 0.06, 0.98) if active_tab == "heritage" else Color(0.11, 0.11, 0.16, 0.94),
-		Color(1.0, 0.80, 0.30, 0.98) if active_tab == "heritage" else Color(0.50, 0.44, 0.34, 0.72),
-		14
-	)
-	_style_btn(
-		tab_dev,
-		Color(0.30, 0.20, 0.06, 0.98) if active_tab == "development" else Color(0.11, 0.11, 0.16, 0.94),
-		Color(1.0, 0.80, 0.30, 0.98) if active_tab == "development" else Color(0.50, 0.44, 0.34, 0.72),
-		14
-	)
-	_style_btn(
-		tab_adv,
-		Color(0.30, 0.20, 0.06, 0.98) if active_tab == "adventure" else Color(0.11, 0.11, 0.16, 0.94),
-		Color(1.0, 0.80, 0.30, 0.98) if active_tab == "adventure" else Color(0.50, 0.44, 0.34, 0.72),
-		14
-	)
+	for pair: Array in [[tab_story, "story"], [tab_heritage, "heritage"], [tab_dev, "development"], [tab_adv, "adventure"]]:
+		var tb: Button = pair[0]
+		var on := active_tab == str(pair[1])
+		_style_btn(
+			tb,
+			Color(0.30, 0.20, 0.06, 0.98) if on else Color(0.11, 0.11, 0.16, 0.94),
+			Color(1.0, 0.80, 0.30, 0.98) if on else Color(0.50, 0.44, 0.34, 0.72),
+			13
+		)
 
 	for ch in list_vbox.get_children():
 		list_vbox.remove_child(ch)
 		ch.queue_free()
+
+	if active_tab == "story":
+		_rebuild_story_tab()
+		return
 
 	var gm_script = preload("res://scripts/gm_panel.gd")
 	var shown := 0

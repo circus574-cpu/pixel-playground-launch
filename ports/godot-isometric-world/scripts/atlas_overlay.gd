@@ -18,6 +18,7 @@ var space_tex: Texture2D
 var map_json: Dictionary = {}
 var region_bboxes: Dictionary = {}
 var continent_data: Dictionary = {} # rid -> parsed buildings.json (roads, buildings, exp_zones, capital_center)
+var islands_meta: Dictionary = {} # island-1..6 -> parsed islands.json entry
 var hovered_land := ""
 var mode := "atlas" # "atlas" (full world 2D) or "globe" (3D)
 var globe
@@ -89,10 +90,23 @@ func _ready() -> void:
 	if FileAccess.file_exists("res://data/map.json"):
 		map_json = JSON.parse_string(FileAccess.get_file_as_string("res://data/map.json"))
 		_cache_region_bboxes()
+	_load_islands_meta()
 	_load_all_continent_details()
 
 	build_controls()
 	set_mode("atlas")
+
+func _load_islands_meta() -> void:
+	islands_meta.clear()
+	if world != null and world.get("islands_db") is Dictionary and not (world.get("islands_db") as Dictionary).is_empty():
+		islands_meta = (world.get("islands_db") as Dictionary).duplicate(true)
+		return
+	if FileAccess.file_exists("res://data/islands.json"):
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/islands.json"))
+		if parsed is Dictionary:
+			for isl in (parsed as Dictionary).get("islands", []):
+				if isl is Dictionary and str((isl as Dictionary).get("id", "")) != "":
+					islands_meta[str((isl as Dictionary)["id"])] = isl
 
 func _cache_region_bboxes() -> void:
 	region_bboxes.clear()
@@ -144,6 +158,12 @@ func world_to_atlas(rid: String, wx: float, wz: float, world_size: float = 1024.
 			fposmod(float(m[0]) + float(m[1]) * u + float(m[2]) * v, 2000.0),
 			clampf(float(m[3]) + float(m[4]) * u + float(m[5]) * v, 0.0, 1000.0)
 		)
+	if islands_meta.has(rid):
+		var isl: Dictionary = islands_meta[rid]
+		var ap: Array = isl.get("atlas_pos", [1000.0, 500.0])
+		var u := clampf(wx / maxf(world_size, 1.0), 0.0, 1.0) - 0.5
+		var v := clampf(wz / maxf(world_size, 1.0), 0.0, 1.0) - 0.5
+		return Vector2(fposmod(float(ap[0]) + u * 16.0, 2000.0), clampf(float(ap[1]) + v * 16.0, 0.0, 1000.0))
 	var meta: Dictionary = CONTINENT_META.get(rid, CONTINENT_META["pyra"])
 	return meta["pos"]
 
@@ -178,7 +198,8 @@ func sync_live_hero() -> void:
 	if globe != null:
 		globe.set_player_atlas(hero_atlas_pos())
 		if world != null:
-			globe.set_player_land(str(world.current_land))
+			var pin_land: String = str(world.hero_race_land) if str(world.get("hero_race_land")) != "" else (world.get_theme_land(str(world.current_land)) if world.has_method("get_theme_land") else str(world.current_land))
+			globe.set_player_land(pin_land)
 	if visible:
 		queue_redraw()
 
@@ -235,7 +256,7 @@ func build_controls() -> void:
 		globe.position = mr.position
 		globe.size = mr.size
 		var p_atlas := hero_atlas_pos()
-		globe.setup(color_tex, cloud_tex, regions_arr, p_atlas, continent_data, ATLAS_WORLD_AFFINE)
+		globe.setup(color_tex, cloud_tex, regions_arr, p_atlas, continent_data, ATLAS_WORLD_AFFINE, islands_meta)
 		globe.select(str(world.current_land))
 		globe.focus_on(MapMathScript.atlas_to_lonlat(p_atlas))
 		globe.region_picked.connect(_on_globe_region_picked)
@@ -393,7 +414,13 @@ func _screen_to_atlas(s: Vector2, mr: Rect2) -> Vector2:
 	return Vector2(fposmod(raw.x, 2000.0), clampf(raw.y, 0.0, 1000.0))
 
 func _on_globe_region_picked(rid: String) -> void:
-	if world != null and CONTINENT_META.has(rid):
+	if world == null:
+		return
+	if islands_meta.has(rid) and world.has_method("sea_voyage_to"):
+		if bool(world.sea_voyage_to(rid)):
+			world.toggle_atlas(false)
+		return
+	if CONTINENT_META.has(rid):
 		world.switch_region(rid)
 		world.toggle_atlas(false)
 
@@ -446,7 +473,12 @@ func _gui_input(event: InputEvent) -> void:
 					var tp_exact: bool = world.can_use_gm() and bool(world.gm_map_teleport_mode)
 					if tp_exact:
 						var picked_gm := pick_continent(mb.position, true)
-						if not picked_gm.is_empty():
+						if islands_meta.has(picked_gm) and world.has_method("sea_voyage_to"):
+							world.gm_map_teleport_mode = false
+							_refresh_mode_buttons()
+							world.sea_voyage_to(picked_gm)
+							world.toggle_atlas(false)
+						elif not picked_gm.is_empty():
 							var a_pt := _screen_to_atlas(mb.position, mr)
 							var w_pt := atlas_to_world(picked_gm, a_pt.x, a_pt.y, float(world.world_size))
 							world.gm_map_teleport_mode = false
@@ -454,9 +486,9 @@ func _gui_input(event: InputEvent) -> void:
 							world.teleport_to_world_pos(picked_gm, w_pt.x, w_pt.y)
 							world.toggle_atlas(false)
 					else:
-						# Check fast-travel pins (Capitals + Waystones) first!
+						# Check fast-travel pins (Islands, Capitals, Waystones) first!
 						var best_pin: Dictionary = {}
-						var best_pin_d := 34.0
+						var best_pin_d := 36.0
 						for pin: Dictionary in fast_travel_pins:
 							var psp: Vector2 = pin["sp"]
 							var d := mb.position.distance_to(psp)
@@ -464,8 +496,16 @@ func _gui_input(event: InputEvent) -> void:
 								best_pin_d = d
 								best_pin = pin
 						if not best_pin.is_empty():
-							if bool(best_pin.get("discovered", false)):
-								var target_land := str(best_pin.get("land", "pyra"))
+							var pkind := str(best_pin.get("kind", ""))
+							var target_land := str(best_pin.get("land", "pyra"))
+							if pkind == "island" and world.has_method("sea_voyage_to"):
+								if bool(world.sea_voyage_to(target_land)):
+									world.toggle_atlas(false)
+								else:
+									atlas_notice = "⛵ Za mało złota na rejs na %s (%d zł)!" % [str(best_pin.get("label", target_land)), int(world.sea_voyage_fee_for(target_land))]
+									atlas_notice_t = 3.5
+									queue_redraw()
+							elif bool(best_pin.get("discovered", false)):
 								world.teleport_to_world_pos(target_land, float(best_pin.get("x", 2048.0)), float(best_pin.get("z", 2048.0)))
 								world.toggle_atlas(false)
 							else:
@@ -474,10 +514,13 @@ func _gui_input(event: InputEvent) -> void:
 								queue_redraw()
 						elif atlas_zoom <= 1.25:
 							var picked := pick_continent(mb.position, false)
-							if not picked.is_empty():
+							if islands_meta.has(picked) and world.has_method("sea_voyage_to"):
+								if bool(world.sea_voyage_to(picked)):
+									world.toggle_atlas(false)
+							elif not picked.is_empty():
 								focus_atlas_continent(picked, 3.6)
 						else:
-							atlas_notice = "Szybka podróż: kliknij Stolicę lub odkryty Kamień Szlaku (✦)!"
+							atlas_notice = "Szybka podróż: kliknij Stolicę, odkryty Kamień Szlaku (✦) lub Wyspę Archipelagu (⚓)!"
 							atlas_notice_t = 3.2
 							queue_redraw()
 				atlas_dragging = false
@@ -501,6 +544,19 @@ func pick_continent(local_pos: Vector2, allow_nearest_coast: bool = false) -> St
 	var mr := _map_rect()
 	if not mr.has_point(local_pos):
 		return ""
+	# Check Archipelago Island pins first so hover/click picks islands cleanly over open ocean
+	var best_isl := ""
+	var best_isl_d := 30.0
+	for iid: String in islands_meta.keys():
+		var isl: Dictionary = islands_meta[iid]
+		var ap: Array = isl.get("atlas_pos", [1000.0, 500.0])
+		var sp := _atlas_to_screen(Vector2(float(ap[0]), float(ap[1])), mr)
+		var d := local_pos.distance_to(sp)
+		if d < best_isl_d:
+			best_isl_d = d
+			best_isl = iid
+	if not best_isl.is_empty():
+		return best_isl
 	var atlas_p := _screen_to_atlas(local_pos, mr)
 	var regions_arr: Array = map_json.get("regions", [])
 	var hit := MapMathScript.region_at(regions_arr, atlas_p)
@@ -885,6 +941,48 @@ func _draw() -> void:
 		for rid: String in ["pyra", "verdant", "aether", "nexus"]:
 			_draw_continent_real_details(rid, mr, f, fb, placed_labels)
 
+		# Stage 4: 6 Clickable Archipelago Islands (island-1..6) with turquoise anchor medallions & sea-voyage fees!
+		var safe_isl_lbl := Rect2(mr.position.x + 12.0, mr.position.y + 18.0, mr.size.x - 104.0, mr.size.y - 28.0)
+		for iid: String in islands_meta.keys():
+			var isl: Dictionary = islands_meta[iid]
+			var ap: Array = isl.get("atlas_pos", [1000.0, 500.0])
+			var sp := _atlas_to_screen(Vector2(float(ap[0]), float(ap[1])), mr)
+			if not mr.has_point(sp):
+				continue
+			var is_act: bool = (world != null and str(world.current_land) == iid)
+			var is_hov: bool = (hovered_land == iid)
+			var fee: int = int(world.sea_voyage_fee_for(iid)) if (world != null and world.has_method("sea_voyage_fee_for")) else int(isl.get("voyage_cost", 10))
+			var lb: Array = isl.get("level_band", [5, 8])
+			var r_pin := clampf(11.0 * pow(atlas_zoom, 0.20), 11.0, 17.0)
+			# Turquoise maritime halo + anchor diamond medallion
+			draw_circle(sp, r_pin * (1.75 if (is_act or is_hov) else 1.45), Color(0.16, 0.88, 0.96, 0.30 if (is_act or is_hov) else 0.20))
+			draw_arc(sp, r_pin * 1.15, 0.0, TAU, 22, Color(1.0, 0.90, 0.44, 0.98) if (is_act or is_hov) else Color(0.32, 0.96, 1.0, 0.94), 2.4, true)
+			draw_circle(sp, r_pin * 0.92, Color(0.04, 0.14, 0.22, 0.94))
+			draw_string_outline(f, sp + Vector2(-6.5, 5.5), "⚓", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 3, Color(0.02, 0.04, 0.06, 0.96))
+			draw_string(f, sp + Vector2(-6.5, 5.5), "⚓", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.92, 0.48) if (is_act or is_hov) else Color(0.46, 0.98, 1.0))
+
+			fast_travel_pins.append({
+				"land": iid,
+				"x": 256.0,
+				"z": 356.0,
+				"sp": sp,
+				"label": str(isl.get("name", iid)),
+				"kind": "island",
+				"discovered": true,
+			})
+
+			var fee_tag := "FREE" if fee <= 0 else ("%d zł" % fee)
+			var itag := "%s • Poz.%d–%d (%s)" % [str(isl.get("short_name", iid)), int(lb[0]), int(lb[1]), fee_tag]
+			var tw := fb.get_string_size(itag, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+			var lx := clampf(sp.x - tw * 0.5, safe_isl_lbl.position.x + 2.0, safe_isl_lbl.end.x - tw - 2.0)
+			var ly := clampf(sp.y + r_pin + 16.0, safe_isl_lbl.position.y + 14.0, safe_isl_lbl.end.y - 4.0)
+			var pbox := Rect2(lx - 6.0, ly - 12.5, tw + 12.0, 17.0)
+			draw_rect(pbox, Color(0.03, 0.08, 0.14, 0.88), true)
+			draw_rect(pbox, Color(1.0, 0.86, 0.36, 0.92) if (is_act or is_hov) else Color(0.28, 0.88, 0.96, 0.78), false, 1.3)
+			draw_string_outline(fb, Vector2(lx, ly), itag, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 3, Color(0.02, 0.04, 0.06, 0.96))
+			draw_string(fb, Vector2(lx, ly), itag, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.94, 0.58) if (is_act or is_hov) else Color(0.76, 0.98, 1.0))
+			placed_labels.append(pbox)
+
 		# Region titles & subtle hover highlight ONLY at global overview (drawn AFTER roads/pins with crisp dark plaque for snow contrast!)
 		var regions_arr: Array = map_json.get("regions", [])
 		for reg: Dictionary in regions_arr:
@@ -905,6 +1003,8 @@ func _draw() -> void:
 						draw_line(seg[0], seg[1], Color(1.0, 0.90, 0.56, 0.55), 1.6, true)
 
 			if atlas_zoom < 2.2:
+				if not is_cont and not islands_meta.is_empty():
+					continue
 				var r_lbl = reg.get("label")
 				if r_lbl is Dictionary:
 					var lp := _atlas_to_screen(Vector2(float(r_lbl.get("x", 1000.0)), float(r_lbl.get("y", 500.0))), mr)
@@ -922,9 +1022,9 @@ func _draw() -> void:
 						draw_string_outline(f, Vector2(draw_x, draw_y), rname, HORIZONTAL_ALIGNMENT_LEFT, -1, fsize, 5, Color(0.02, 0.02, 0.03, 0.98))
 						draw_string(f, Vector2(draw_x, draw_y), rname, HORIZONTAL_ALIGNMENT_LEFT, -1, fsize, tcol)
 
-		# Live Hero Portrait Medallion — ALWAYS matches hero's own race (never morphs on foreign continents!)
+		# Live Hero Portrait Medallion — ALWAYS matches hero's own race (never morphs on foreign continents or islands!)
 		if mr.has_point(hp):
-			var race_land: String = str(world.hero_race_land) if (world != null and str(world.hero_race_land) != "") else (str(world.current_land) if world != null else "pyra")
+			var race_land: String = str(world.hero_race_land) if (world != null and str(world.hero_race_land) != "") else (world.get_theme_land(str(world.current_land)) if (world != null and world.has_method("get_theme_land")) else "pyra")
 			draw_arc(hp, hd * 0.64, 0.0, TAU, 24, Color(0.32, 0.98, 1.0, 0.95), 2.8, true)
 			_draw_pin("hero_" + race_land, hp, hd)
 			if atlas_zoom >= 2.2:
@@ -953,29 +1053,43 @@ func _draw() -> void:
 	draw_rect(bar, Color(0.76, 0.58, 0.30, 0.88), false, 2.0)
 
 	var inspect_id: String = hovered_land if not hovered_land.is_empty() else (str(world.current_land) if world != null else "pyra")
-	var meta: Dictionary = CONTINENT_META.get(inspect_id, CONTINENT_META["pyra"])
-	draw_string(f, bar.position + Vector2(18, 26), "%s  •  Lud: %s  •  Stolica: %s" % [
-		str(meta.name), str(meta.race), str(meta.capital)
-	], HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.90, 0.62))
-	draw_string(fb, bar.position + Vector2(18, 48), str(meta.lore), HORIZONTAL_ALIGNMENT_LEFT, int(bar.size.x - 36.0), 13, Color(0.90, 0.88, 0.84))
+	if islands_meta.has(inspect_id):
+		var im: Dictionary = islands_meta[inspect_id]
+		var lb: Array = im.get("level_band", [5, 8])
+		var fee_v: int = int(world.sea_voyage_fee_for(inspect_id)) if (world != null and world.has_method("sea_voyage_fee_for")) else int(im.get("voyage_cost", 10))
+		var fee_s := "ZA DARMO (1. rejs)" if fee_v <= 0 else ("%d zł (powrót darmowy)" % fee_v)
+		draw_string(f, bar.position + Vector2(18, 26), "⚓ %s  •  Wyspa Archipelagu (Poz.%d–%d)  •  Rejs: %s" % [
+			str(im.get("name", inspect_id)), int(lb[0]), int(lb[1]), fee_s
+		], HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.48, 0.98, 1.0))
+		draw_string(fb, bar.position + Vector2(18, 48), str(im.get("lore", "")), HORIZONTAL_ALIGNMENT_LEFT, int(bar.size.x - 36.0), 13, Color(0.90, 0.94, 0.96))
+	else:
+		var meta: Dictionary = CONTINENT_META.get(inspect_id, CONTINENT_META["pyra"])
+		draw_string(f, bar.position + Vector2(18, 26), "%s  •  Lud: %s  •  Stolica: %s" % [
+			str(meta.name), str(meta.race), str(meta.capital)
+		], HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.90, 0.62))
+		draw_string(fb, bar.position + Vector2(18, 48), str(meta.lore), HORIZONTAL_ALIGNMENT_LEFT, int(bar.size.x - 36.0), 13, Color(0.90, 0.88, 0.84))
 
 	# Painted Medallion Legend Row
 	var ly := bar.position.y + 74.0
 	var lx := bar.position.x + 26.0
 	_draw_pin("capital", Vector2(lx, ly - 3.0), 22.0)
 	draw_string(fb, Vector2(lx + 16.0, ly + 2.0), "Stolica (TP)", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.90, 0.56))
-	lx += 116.0
+	lx += 112.0
 	var ldia := PackedVector2Array([Vector2(lx, ly - 10.0), Vector2(lx + 7.0, ly - 3.0), Vector2(lx, ly + 4.0), Vector2(lx - 7.0, ly - 3.0)])
 	draw_colored_polygon(ldia, Color(0.24, 0.94, 1.0, 0.96))
-	draw_string(fb, Vector2(lx + 14.0, ly + 2.0), "Kamień Szlaku (TP)", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.64, 0.96, 1.0))
-	lx += 158.0
+	draw_string(fb, Vector2(lx + 14.0, ly + 2.0), "Szlak (TP)", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.64, 0.96, 1.0))
+	lx += 96.0
+	draw_circle(Vector2(lx, ly - 3.0), 7.5, Color(0.04, 0.16, 0.24, 0.96))
+	draw_arc(Vector2(lx, ly - 3.0), 7.5, 0.0, TAU, 16, Color(0.32, 0.96, 1.0, 0.96), 2.0, true)
+	draw_string(fb, Vector2(lx + 14.0, ly + 2.0), "⚓ Wyspy Archipelagu (Rejs)", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.56, 0.98, 1.0))
+	lx += 206.0
 	_draw_pin("smithy", Vector2(lx, ly - 3.0), 20.0)
 	draw_string(fb, Vector2(lx + 15.0, ly + 2.0), "Budynki", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.88, 0.94, 0.86))
-	lx += 94.0
+	lx += 88.0
 	draw_arc(Vector2(lx, ly - 3.0), 7.0, 0.0, TAU, 16, Color(1.0, 0.36, 0.30, 0.92), 2.0, true)
-	draw_string(fb, Vector2(lx + 14.0, ly + 2.0), "Strefy potworów", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.72, 0.66))
-	lx += 152.0
+	draw_string(fb, Vector2(lx + 14.0, ly + 2.0), "Potwory", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.72, 0.66))
+	lx += 96.0
 	draw_line(Vector2(lx - 6.0, ly - 3.0), Vector2(lx + 14.0, ly - 3.0), Color(0.96, 0.86, 0.60, 0.95), 3.0, true)
 	draw_string(fb, Vector2(lx + 20.0, ly + 2.0), "Drogi (+10% SPD)", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.94, 0.88, 0.74))
-	lx += 144.0
+	lx += 136.0
 	draw_string(fb, Vector2(lx, ly + 2.0), "|  + / − przybliż  •  ◎ Bohater", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.76, 0.88, 0.98))

@@ -989,4 +989,58 @@ describe.runIf(url)("Android backend on PostgreSQL", () => {
     },
     25_000,
   );
+
+  it("persists travel to Archipelago Islands (island-1..6), first-free voyage, and Dojo/Heritage state in PG17", async () => {
+    const created = await call("POST", "/characters", {
+      token: tokens["gracz1"]!,
+      body: { race: "legend", name: "Korsarz Wysp" },
+    });
+    expect(created.status).toBe(201);
+    const charId = created.json!["character"].id as string;
+
+    // 1. First voyage to island-1 is FREE and persisted in godot_android.characters.land (CHECK constraint 011)
+    const voyage1 = await call("POST", `/characters/${charId}/action`, {
+      token: tokens["gracz1"]!,
+      body: { type: "travel", land: "island-1" },
+    });
+    expect(voyage1.status).toBe(200);
+    expect(voyage1.json!["character"].land).toBe("island-1");
+    expect(voyage1.json!["character"].gold).toBe(120);
+    expect(voyage1.json!["character"].state.progress.discoveredIslands).toContain("island-1");
+
+    // 2. Complete Dojo trial and verify persistence across GET /characters
+    const dojoRes = await call("POST", `/characters/${charId}/action`, {
+      token: tokens["gracz1"]!,
+      body: { type: "complete_dojo_trial", trialId: "dojo_dodge" },
+    });
+    expect(dojoRes.status).toBe(200);
+    expect(dojoRes.json!["character"].gold).toBe(155);
+    expect(dojoRes.json!["character"].state.progress.dojoTrials).toContain("dojo_dodge");
+
+    // 3. Return to continent is FREE
+    const home = await call("POST", `/characters/${charId}/action`, {
+      token: tokens["gracz1"]!,
+      body: { type: "travel", land: "pyra" },
+    });
+    expect(home.status).toBe(200);
+    expect(home.json!["character"].land).toBe("pyra");
+    expect(home.json!["character"].gold).toBe(155);
+
+    // 4. Repeat island voyage charges 10g (island-1)
+    const voyage2 = await call("POST", `/characters/${charId}/action`, {
+      token: tokens["gracz1"]!,
+      body: { type: "travel", land: "island-1" },
+    });
+    expect(voyage2.status).toBe(200);
+    expect(voyage2.json!["character"].land).toBe("island-1");
+    expect(voyage2.json!["character"].gold).toBe(145);
+
+    // 5. Verify fresh GET /characters returns persisted land = island-1
+    const list = await call("GET", "/characters", { token: tokens["gracz1"]! });
+    expect(list.status).toBe(200);
+    const saved = (list.json!["characters"] as Array<{ id: string; land: string }>).find(
+      (c) => c.id === charId,
+    );
+    expect(saved?.land).toBe("island-1");
+  });
 });

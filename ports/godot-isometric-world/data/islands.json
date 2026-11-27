@@ -1,0 +1,761 @@
+{
+  "version": 1,
+  "islands": [
+    {
+      "id": "island-1",
+      "name": "Wyspa Pierwszego Echa",
+      "short_name": "Wyspa I: Pierwsze Echo",
+      "theme": "verdant",
+      "recommended_level": 5,
+      "level_band": [
+        5,
+        8
+      ],
+      "voyage_cost": 10,
+      "atlas_pos": [
+        1333.0,
+        42.0
+      ],
+      "lore": "Północna wyspa spotkań czterech ludów. Ruiny pierwszego przekaźnika Chóru rozbrzmiewają echem dawnego paktu.",
+      "world_size": 512.0,
+      "grid_size": 128,
+      "seed": 101,
+      "safe_harbor": [
+        256.0,
+        356.0
+      ],
+      "safe_radius": 72.0,
+      "npc": {
+        "actor_id": "verdant.npc.hunter",
+        "name": "Nima",
+        "role": "Kartografka Ligi Szlaków",
+        "x": 264.0,
+        "z": 344.0,
+        "quest_mark": "!"
+      },
+      "monsters": [
+        {
+          "id": "isl1-m1",
+          "actor_id": "verdant-lisciak-skrytobojca",
+          "name": "Echowy Skrytobójca",
+          "level": 6,
+          "is_elite": false,
+          "x": 182.0,
+          "z": 244.0
+        },
+        {
+          "id": "isl1-m2",
+          "actor_id": "verdant-korzeniowy-pelzacz",
+          "name": "Pełzacz Pierwszego Echa",
+          "level": 6,
+          "is_elite": false,
+          "x": 328.0,
+          "z": 242.0
+        },
+        {
+          "id": "isl1-m3",
+          "actor_id": "verdant-grzybowy-zarodnik",
+          "name": "Zarodnik Północny",
+          "level": 7,
+          "is_elite": false,
+          "x": 212.0,
+          "z": 176.0
+        },
+        {
+          "id": "isl1-m4",
+          "actor_id": "aether-krysztalowy-motyl",
+          "name": "Motyl Przekaźnika",
+          "level": 7,
+          "is_elite": false,
+          "x": 308.0,
+          "z": 174.0
+        },
+        {
+          "id": "isl1-el1",
+          "actor_id": "verdant-straznik-ruin",
+          "name": "Strażnik Pierwszego Echa",
+          "level": 8,
+          "is_elite": true,
+          "x": 256.0,
+          "z": 146.0
+        }
+      ],
+      "treasures": [
+        {
+          "id": "chest-island-1-echo",
+          "title": "Skrzynia Pierwszego Echa",
+          "min_level": 5,
+          "gold": 140,
+          "xp": 140,
+          "item_id": "crystal_ki",
+          "x": 256.0,
+          "z": 130.0
+        }
+      ],
+      "gatherables": [
+        {
+          "id": "island-1-fire",
+          "kind": "campfire",
+          "title": "Ognisko Przystani Echa",
+          "sprite": "res://assets/library/props/prop_runic_obelisk.webp",
+          "x": 236.0,
+          "z": 348.0
+        },
+        {
+          "id": "island-1-mat1",
+          "kind": "gather",
+          "title": "Złoty Bursztyn Echa",
+          "item_id": "mat_amber",
+          "sprite": "res://assets/biomes/verdant_moss_shrine.webp",
+          "x": 168.0,
+          "z": 284.0
+        },
+        {
+          "id": "island-1-mat2",
+          "kind": "gather",
+          "title": "Nasiona Północy",
+          "item_id": "mat_seeds",
+          "sprite": "res://assets/objects/48c51d4d-verdantia-extra-flowers.webp",
+          "x": 342.0,
+          "z": 286.0
+        }
+      ],
+      "props": [
+        "res://assets/objects/21caeb8f-ki-v2-objects-verdant-oak-1.webp",
+        "res://assets/objects/74b2bb88-verdantia-extra-ancient-oak.webp",
+        "res://assets/biomes/verdant_druid_dolmen.webp",
+        "res://assets/biomes/verdant_sakura_lantern.webp"
+      ]
+    },
+    {
+      "id": "island-2",
+      "name": "Wyspa Złamanej Pieczęci",
+      "short_name": "Wyspa II: Złamana Pieczęć",
+      "theme": "aether",
+      "recommended_level": 8,
+      "level_band": [
+        8,
+        12
+      ],
+      "voyage_cost": 20,
+      "atlas_pos": [
+        1079.6,
+        496.6
+      ],
+      "lore": "Lodowcowy archipelag, gdzie dwie sprzeczne kroniki ewakuacji zostały zapieczętowane w kryształach eteru.",
+      "world_size": 512.0,
+      "grid_size": 128,
+      "seed": 202,
+      "safe_harbor": [
+        256.0,
+        356.0
+      ],
+      "safe_radius": 72.0,
+      "npc": {
+        "actor_id": "aether.npc.hunter",
+        "name": "Dalen",
+        "role": "Negocjator Konklawe Miar",
+        "x": 264.0,
+        "z": 344.0,
+        "quest_mark": "!"
+      },
+      "monsters": [
+        {
+          "id": "isl2-m1",
+          "actor_id": "aether-pergaminowy-straznik",
+          "name": "Kustosz Pękniętej Pieczęci",
+          "level": 9,
+          "is_elite": false,
+          "x": 184.0,
+          "z": 246.0
+        },
+        {
+          "id": "isl2-m2",
+          "actor_id": "aether-szmaragdowy-waz",
+          "name": "Wąż Złamanych Kronik",
+          "level": 10,
+          "is_elite": false,
+          "x": 330.0,
+          "z": 244.0
+        },
+        {
+          "id": "isl2-m3",
+          "actor_id": "aether-oko-wiedzy",
+          "name": "Oko Archiwum",
+          "level": 11,
+          "is_elite": false,
+          "x": 210.0,
+          "z": 176.0
+        },
+        {
+          "id": "isl2-m4",
+          "actor_id": "aether-marionetka-rytualu",
+          "name": "Marionetka Pieczęci",
+          "level": 11,
+          "is_elite": false,
+          "x": 308.0,
+          "z": 176.0
+        },
+        {
+          "id": "isl2-el1",
+          "actor_id": "aether-lew-swiatyni",
+          "name": "Archiwalny Lew Pieczęci",
+          "level": 12,
+          "is_elite": true,
+          "x": 256.0,
+          "z": 146.0
+        }
+      ],
+      "treasures": [
+        {
+          "id": "chest-island-2-seal",
+          "title": "Relikwiarz Złamanej Pieczęci",
+          "min_level": 8,
+          "gold": 210,
+          "xp": 210,
+          "item_id": "mat_labyrinth_relic",
+          "x": 256.0,
+          "z": 130.0
+        }
+      ],
+      "gatherables": [
+        {
+          "id": "island-2-fire",
+          "kind": "campfire",
+          "title": "Ognisko Tarasów Pieczęci",
+          "sprite": "res://assets/library/props/prop_runic_obelisk.webp",
+          "x": 236.0,
+          "z": 348.0
+        },
+        {
+          "id": "island-2-mat1",
+          "kind": "gather",
+          "title": "Kamień Runiczny",
+          "item_id": "mat_rune",
+          "sprite": "res://assets/objects/aether-ice-crystal.webp",
+          "x": 168.0,
+          "z": 284.0
+        },
+        {
+          "id": "island-2-mat2",
+          "kind": "gather",
+          "title": "Pył Światła",
+          "item_id": "mat_lightdust",
+          "sprite": "res://assets/biomes/aether_ice_crystals.webp",
+          "x": 342.0,
+          "z": 286.0
+        }
+      ],
+      "props": [
+        "res://assets/objects/6c34a261-aetheria-continent-glacier-ridge.webp",
+        "res://assets/objects/aether-ice-crystal.webp",
+        "res://assets/objects/aether-ice-ruin.webp",
+        "res://assets/library/props/prop_guardian_statue.webp"
+      ]
+    },
+    {
+      "id": "island-3",
+      "name": "Wyspa Odwróconej Latarki",
+      "short_name": "Wyspa III: Odwrócona Latarka",
+      "theme": "nexus",
+      "recommended_level": 11,
+      "level_band": [
+        11,
+        15
+      ],
+      "voyage_cost": 20,
+      "atlas_pos": [
+        1589.4,
+        500.0
+      ],
+      "lore": "Poligon synchronizacji Veyra. Autonomiczne wieżyczki i drony strzegą rdzenia posłuszeństwa.",
+      "world_size": 512.0,
+      "grid_size": 128,
+      "seed": 303,
+      "safe_harbor": [
+        256.0,
+        356.0
+      ],
+      "safe_radius": 72.0,
+      "npc": {
+        "actor_id": "nexus.npc.hunter",
+        "name": "Eko-0",
+        "role": "Wolna Jednostka Serwisowa",
+        "x": 264.0,
+        "z": 344.0,
+        "quest_mark": "!"
+      },
+      "monsters": [
+        {
+          "id": "isl3-m1",
+          "actor_id": "nexus-dron-zwiadowca",
+          "name": "Dron Latarki",
+          "level": 12,
+          "is_elite": false,
+          "x": 184.0,
+          "z": 246.0
+        },
+        {
+          "id": "isl3-m2",
+          "actor_id": "nexus-wiezyczka-autonomiczna",
+          "name": "Wieżyczka Przekaźnika",
+          "level": 13,
+          "is_elite": false,
+          "x": 330.0,
+          "z": 244.0
+        },
+        {
+          "id": "isl3-m3",
+          "actor_id": "nexus-pies-lowca",
+          "name": "Łowca Veyra",
+          "level": 14,
+          "is_elite": false,
+          "x": 210.0,
+          "z": 176.0
+        },
+        {
+          "id": "isl3-m4",
+          "actor_id": "nexus-roj-nanitow",
+          "name": "Rój Synchronizacji",
+          "level": 14,
+          "is_elite": false,
+          "x": 308.0,
+          "z": 176.0
+        },
+        {
+          "id": "isl3-el1",
+          "actor_id": "nexus-straznik-rdzenia",
+          "name": "Egzekutor Odwróconej Latarki",
+          "level": 15,
+          "is_elite": true,
+          "x": 256.0,
+          "z": 146.0
+        }
+      ],
+      "treasures": [
+        {
+          "id": "chest-island-3-lantern",
+          "title": "Skrytka Odwróconej Latarki",
+          "min_level": 11,
+          "gold": 280,
+          "xp": 280,
+          "item_id": "mat_elite_core",
+          "x": 256.0,
+          "z": 130.0
+        }
+      ],
+      "gatherables": [
+        {
+          "id": "island-3-fire",
+          "kind": "campfire",
+          "title": "Moduł Ogniska Portowego",
+          "sprite": "res://assets/library/props/prop_runic_obelisk.webp",
+          "x": 236.0,
+          "z": 348.0
+        },
+        {
+          "id": "island-3-mat1",
+          "kind": "gather",
+          "title": "Złom Tytanowy",
+          "item_id": "mat_titanium",
+          "sprite": "res://assets/biomes/nexus_plasma_pylon.webp",
+          "x": 168.0,
+          "z": 284.0
+        },
+        {
+          "id": "island-3-mat2",
+          "kind": "gather",
+          "title": "Ogniwo Plazmowe",
+          "item_id": "mat_plasma_cell",
+          "sprite": "res://assets/biomes/nexus_holo_monolith.webp",
+          "x": 342.0,
+          "z": 286.0
+        }
+      ],
+      "props": [
+        "res://assets/objects/24d5db1c-nexus-continent-silver-cypress.webp",
+        "res://assets/biomes/nexus_holo_monolith.webp",
+        "res://assets/biomes/nexus_plasma_pylon.webp",
+        "res://assets/biomes/nexus_plasma_spire.webp"
+      ]
+    },
+    {
+      "id": "island-4",
+      "name": "Wyspa Czterech Cum",
+      "short_name": "Wyspa IV: Cztery Cumy",
+      "theme": "verdant",
+      "recommended_level": 14,
+      "level_band": [
+        14,
+        18
+      ],
+      "voyage_cost": 30,
+      "atlas_pos": [
+        91.3,
+        498.5
+      ],
+      "lore": "Neutralny port sojuszu i punkt ewakuacyjny czterech flot. Okoliczne klify opanowały najsilniejsze bestie.",
+      "world_size": 512.0,
+      "grid_size": 128,
+      "seed": 404,
+      "safe_harbor": [
+        256.0,
+        356.0
+      ],
+      "safe_radius": 72.0,
+      "npc": {
+        "actor_id": "pyra.npc.hunter",
+        "name": "Kapitan Daro",
+        "role": "Dowódca Portu Czterech Cum",
+        "x": 264.0,
+        "z": 344.0,
+        "quest_mark": "!"
+      },
+      "monsters": [
+        {
+          "id": "isl4-m1",
+          "actor_id": "verdant-lesny-pajak",
+          "name": "Tkacz Klifów",
+          "level": 15,
+          "is_elite": false,
+          "x": 184.0,
+          "z": 246.0
+        },
+        {
+          "id": "isl4-m2",
+          "actor_id": "pyra-byk-areny",
+          "name": "Byk Czerwonych Żagli",
+          "level": 16,
+          "is_elite": false,
+          "x": 330.0,
+          "z": 244.0
+        },
+        {
+          "id": "isl4-m3",
+          "actor_id": "verdant-puchacz-pylowy",
+          "name": "Puchacz Mgły Morskiej",
+          "level": 16,
+          "is_elite": false,
+          "x": 210.0,
+          "z": 176.0
+        },
+        {
+          "id": "isl4-m4",
+          "actor_id": "pyra-skorpion-obsydianowy",
+          "name": "Skorpion Przystani",
+          "level": 17,
+          "is_elite": false,
+          "x": 308.0,
+          "z": 176.0
+        },
+        {
+          "id": "isl4-el1",
+          "actor_id": "verdant-skalny-jelen",
+          "name": "Prastary Jeleń Czterech Cum",
+          "level": 18,
+          "is_elite": true,
+          "x": 256.0,
+          "z": 146.0
+        }
+      ],
+      "treasures": [
+        {
+          "id": "chest-island-4-moor",
+          "title": "Skarbiec Czterech Cum",
+          "min_level": 14,
+          "gold": 360,
+          "xp": 340,
+          "item_id": "mat_elite_core",
+          "x": 256.0,
+          "z": 130.0
+        }
+      ],
+      "gatherables": [
+        {
+          "id": "island-4-fire",
+          "kind": "campfire",
+          "title": "Ognisko Sojuszu",
+          "sprite": "res://assets/library/props/prop_runic_obelisk.webp",
+          "x": 236.0,
+          "z": 348.0
+        },
+        {
+          "id": "island-4-mat1",
+          "kind": "gather",
+          "title": "Złoty Bursztyn Morski",
+          "item_id": "mat_amber",
+          "sprite": "res://assets/biomes/verdant_moss_shrine.webp",
+          "x": 168.0,
+          "z": 284.0
+        },
+        {
+          "id": "island-4-mat2",
+          "kind": "gather",
+          "title": "Czerwony Grzyb Klifu",
+          "item_id": "mat_shroom",
+          "sprite": "res://assets/objects/48c51d4d-verdantia-extra-flowers.webp",
+          "x": 342.0,
+          "z": 286.0
+        }
+      ],
+      "props": [
+        "res://assets/objects/21caeb8f-ki-v2-objects-verdant-oak-1.webp",
+        "res://assets/biomes/verdant_druid_dolmen.webp",
+        "res://assets/biomes/verdant_sakura_lantern.webp",
+        "res://assets/objects/74b2bb88-verdantia-extra-ancient-oak.webp"
+      ]
+    },
+    {
+      "id": "island-5",
+      "name": "Wyspa Milczącego Nieba",
+      "short_name": "Wyspa V: Milczące Niebo",
+      "theme": "aether",
+      "recommended_level": 18,
+      "level_band": [
+        18,
+        24
+      ],
+      "voyage_cost": 30,
+      "atlas_pos": [
+        581.5,
+        502.9
+      ],
+      "lore": "Strefa Endgame Poz. 18–24. Roztrzaskane przekaźniki podniebne i zniekształcone echa Ciszy.",
+      "world_size": 512.0,
+      "grid_size": 128,
+      "seed": 505,
+      "safe_harbor": [
+        256.0,
+        356.0
+      ],
+      "safe_radius": 72.0,
+      "npc": {
+        "actor_id": "aether.npc.guide",
+        "name": "Archiwista Kael",
+        "role": "Strażnik Zapasowych Przekaźników",
+        "x": 264.0,
+        "z": 344.0,
+        "quest_mark": "!"
+      },
+      "monsters": [
+        {
+          "id": "isl5-m1",
+          "actor_id": "aether-mgielny-zuraw",
+          "name": "Żuraw Ciszy",
+          "level": 20,
+          "is_elite": false,
+          "x": 184.0,
+          "z": 246.0
+        },
+        {
+          "id": "isl5-m2",
+          "actor_id": "nexus-kruk-danych",
+          "name": "Kruk Zakłóceń",
+          "level": 22,
+          "is_elite": false,
+          "x": 330.0,
+          "z": 244.0
+        },
+        {
+          "id": "isl5-m3",
+          "actor_id": "aether-duch-bibliotekarza",
+          "name": "Widmo Milczącego Nieba",
+          "level": 23,
+          "is_elite": false,
+          "x": 210.0,
+          "z": 176.0
+        },
+        {
+          "id": "isl5-m4",
+          "actor_id": "nexus-latarnia-plazmowa",
+          "name": "Przekaźnik Burzy",
+          "level": 24,
+          "is_elite": false,
+          "x": 308.0,
+          "z": 176.0
+        },
+        {
+          "id": "isl5-el1",
+          "actor_id": "aether-marionetka-rytualu",
+          "name": "Herold Milczącego Nieba",
+          "level": 26,
+          "is_elite": true,
+          "x": 256.0,
+          "z": 146.0
+        }
+      ],
+      "treasures": [
+        {
+          "id": "chest-island-5-sky",
+          "title": "Kapsula Milczącego Nieba",
+          "min_level": 18,
+          "gold": 480,
+          "xp": 420,
+          "item_id": "mat_labyrinth_relic",
+          "x": 256.0,
+          "z": 130.0
+        }
+      ],
+      "gatherables": [
+        {
+          "id": "island-5-fire",
+          "kind": "campfire",
+          "title": "Ognisko Zapasowego Węzła",
+          "sprite": "res://assets/library/props/prop_runic_obelisk.webp",
+          "x": 236.0,
+          "z": 348.0
+        },
+        {
+          "id": "island-5-mat1",
+          "kind": "gather",
+          "title": "Krystaliczny Rdzeń Nieba",
+          "item_id": "mat_crystal_shard",
+          "sprite": "res://assets/objects/aether-ice-crystal.webp",
+          "x": 168.0,
+          "z": 284.0
+        },
+        {
+          "id": "island-5-mat2",
+          "kind": "gather",
+          "title": "Kamień Runiczny Ciszy",
+          "item_id": "mat_rune",
+          "sprite": "res://assets/biomes/aether_ice_crystals.webp",
+          "x": 342.0,
+          "z": 286.0
+        }
+      ],
+      "props": [
+        "res://assets/objects/6c34a261-aetheria-continent-glacier-ridge.webp",
+        "res://assets/objects/aether-ice-crystal.webp",
+        "res://assets/objects/aether-ice-ruin.webp",
+        "res://assets/library/props/prop_guardian_statue.webp"
+      ]
+    },
+    {
+      "id": "island-6",
+      "name": "Wyspa Ostatniego Tonu",
+      "short_name": "Wyspa VI: Ostatni Ton",
+      "theme": "pyra",
+      "recommended_level": 22,
+      "level_band": [
+        22,
+        40
+      ],
+      "voyage_cost": 30,
+      "atlas_pos": [
+        1410.6,
+        958.0
+      ],
+      "lore": "Południowy krater Endgame Poz. 22–40 i brama do Jądra Chóru Architekta Veyra. Najwyższa próba dla Mistrzów Ki.",
+      "world_size": 512.0,
+      "grid_size": 128,
+      "seed": 606,
+      "safe_harbor": [
+        256.0,
+        356.0
+      ],
+      "safe_radius": 72.0,
+      "npc": {
+        "actor_id": "pyra.npc.guide",
+        "name": "Strażniczka Paktu",
+        "role": "Wysłanniczka Czterech Głosów",
+        "x": 264.0,
+        "z": 344.0,
+        "quest_mark": "!"
+      },
+      "monsters": [
+        {
+          "id": "isl6-m1",
+          "actor_id": "pyra-plomien-duch",
+          "name": "Duch Jądra Chóru",
+          "level": 26,
+          "is_elite": false,
+          "x": 184.0,
+          "z": 246.0
+        },
+        {
+          "id": "isl6-m2",
+          "actor_id": "pyra-golem-ruin",
+          "name": "Kolos Ostatniego Tonu",
+          "level": 30,
+          "is_elite": false,
+          "x": 330.0,
+          "z": 244.0
+        },
+        {
+          "id": "isl6-m3",
+          "actor_id": "pyra-skorpion-obsydianowy",
+          "name": "Obsydianowy Strażnik Veyra",
+          "level": 34,
+          "is_elite": false,
+          "x": 210.0,
+          "z": 176.0
+        },
+        {
+          "id": "isl6-m4",
+          "actor_id": "nexus-straznik-rdzenia",
+          "name": "Awatar Jedynego Tonu",
+          "level": 36,
+          "is_elite": false,
+          "x": 308.0,
+          "z": 176.0
+        },
+        {
+          "id": "isl6-el1",
+          "actor_id": "pyra-skalny-berserker",
+          "name": "Echo Architekta Veyra (Poz. 40)",
+          "level": 40,
+          "is_elite": true,
+          "x": 256.0,
+          "z": 146.0
+        }
+      ],
+      "treasures": [
+        {
+          "id": "chest-island-6-core",
+          "title": "Skarbiec Ostatniego Tonu",
+          "min_level": 20,
+          "gold": 600,
+          "xp": 520,
+          "item_id": "mat_elite_core",
+          "x": 256.0,
+          "z": 130.0
+        }
+      ],
+      "gatherables": [
+        {
+          "id": "island-6-fire",
+          "kind": "campfire",
+          "title": "Ognisko Paktu Czterech Głosów",
+          "sprite": "res://assets/library/props/prop_runic_obelisk.webp",
+          "x": 236.0,
+          "z": 348.0
+        },
+        {
+          "id": "island-6-mat1",
+          "kind": "gather",
+          "title": "Obsydian Jądra",
+          "item_id": "mat_obsidian",
+          "sprite": "res://assets/objects/49b51ecf-pyra-continent-crystals.webp",
+          "x": 168.0,
+          "z": 284.0
+        },
+        {
+          "id": "island-6-mat2",
+          "kind": "gather",
+          "title": "Esencja Ostatniego Tonu",
+          "item_id": "mat_ember",
+          "sprite": "res://assets/biomes/pyra_fire_arch.webp",
+          "x": 342.0,
+          "z": 286.0
+        }
+      ],
+      "props": [
+        "res://assets/biomes/pyra_fire_arch.webp",
+        "res://assets/biomes/pyra_charred_ironwood.webp",
+        "res://assets/biomes/pyra_obsidian_bridge_arch.webp",
+        "res://assets/objects/49b51ecf-pyra-continent-crystals.webp"
+      ]
+    }
+  ]
+}

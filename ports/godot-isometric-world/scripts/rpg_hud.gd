@@ -185,6 +185,10 @@ var skill_points := 0
 var free_stat_points := 0
 var bonus_stat_pts: Dictionary = {"hp": 0, "ki": 0, "atk": 0, "def": 0, "spd": 0, "crit": 0}
 var training_ranks: Dictionary = {"hp": 0, "ki": 0, "atk": 0, "def": 0, "spd": 0, "crit": 0}
+var equip_upgrades: Dictionary = {} # slot_str -> 0..9 (+8% stats per tier)
+var heritage_stage := 0
+var dojo_trials: Dictionary = {}
+var quest_tracker_collapsed := false
 var last_training_ms := 0
 var active_blessing: Dictionary = {} # {"kind": "march"|"might"|"focus", "expires_ms": int}
 var stat_plus_hitboxes: Array[Dictionary] = []
@@ -569,13 +573,55 @@ func _refresh_visuals() -> void:
 	if mc != null:
 		mc.queue_redraw()
 
+func get_slot_upgrade_rank(slot_i: int) -> int:
+	return clampi(int(equip_upgrades.get(str(slot_i), 0)), 0, 9)
+
 func _equip_bonus(key: String) -> float:
 	var sum := 0.0
-	for sl: Dictionary in equip_slots:
+	for si in equip_slots.size():
+		var sl: Dictionary = equip_slots[si]
 		if str(sl.get("id", "")) == "":
 			continue
-		sum += float(sl.get(key, 0.0))
+		var upg := get_slot_upgrade_rank(si)
+		var mult := 1.0 + float(upg) * 0.08
+		sum += float(sl.get(key, 0.0)) * mult
 	return sum
+
+func get_active_equipment_sets() -> Array[Dictionary]:
+	var gm_script = preload("res://scripts/gm_panel.gd")
+	var sets_def: Dictionary = gm_script.get_equipment_sets()
+	var counts: Dictionary = {}
+	for sl: Dictionary in equip_slots:
+		var sid := str(sl.get("setId", ""))
+		if not sid.is_empty():
+			counts[sid] = int(counts.get(sid, 0)) + 1
+	var out: Array[Dictionary] = []
+	for sid: String in counts.keys():
+		var cnt := int(counts[sid])
+		var tiers: Variant = sets_def.get(sid, [])
+		if not (tiers is Array):
+			continue
+		var active_effects: Array[Dictionary] = []
+		for t: Variant in (tiers as Array):
+			if t is Dictionary and cnt >= int((t as Dictionary).get("requiredPieces", 99)):
+				active_effects.append(t as Dictionary)
+		if not active_effects.is_empty():
+			out.append({"setId": sid, "count": cnt, "effects": active_effects})
+	return out
+
+func _set_pct_bonuses() -> Dictionary:
+	var b := {"hpPct": 0.0, "kiPct": 0.0, "atkPct": 0.0, "defPct": 0.0, "spdPct": 0.0, "critFlat": 0.0}
+	for s: Dictionary in get_active_equipment_sets():
+		for ef: Dictionary in s.get("effects", []):
+			var ek := str(ef.get("effect", ""))
+			var v := float(ef.get("value", 0.0))
+			if ek == "maxHpPercent": b["hpPct"] += v / 100.0
+			elif ek == "maxKiPercent": b["kiPct"] += v / 100.0
+			elif ek == "atkPercent": b["atkPct"] += v / 100.0
+			elif ek == "defPercent": b["defPct"] += v / 100.0
+			elif ek == "moveSpeedPercent": b["spdPct"] += v / 100.0
+			elif ek == "critChancePercent" or ek == "critChancePoints": b["critFlat"] += v
+	return b
 
 func get_total_training_sessions() -> int:
 	var tot := 0
@@ -696,9 +742,10 @@ func get_total_attack() -> int:
 	var per_lv: Dictionary = rd.get("perLevel", {})
 	var lv_off := float(hero_level - 1)
 	var p := get_talent_passives()
+	var sb := _set_pct_bonuses()
 	var b_mult := 1.10 if get_active_blessing_kind() == "might" else 1.0
 	var raw := float(base.get("attack", 14)) + float(per_lv.get("attack", 4)) * lv_off + float(bonus_stat_pts.get("atk", 0)) * 5.0 + float(training_ranks.get("atk", 0)) * 2.0 + _training_mastery_bonus().y + _equip_bonus("atk")
-	return maxi(1, int(round(raw * (1.0 + float(p["atkPct"])) * b_mult)))
+	return maxi(1, int(round(raw * (1.0 + float(p["atkPct"]) + float(sb["atkPct"])) * b_mult)))
 
 func get_total_defense() -> int:
 	var rd := _race_data()
@@ -706,9 +753,10 @@ func get_total_defense() -> int:
 	var per_lv: Dictionary = rd.get("perLevel", {})
 	var lv_off := float(hero_level - 1)
 	var p := get_talent_passives()
+	var sb := _set_pct_bonuses()
 	var b_mult := 1.10 if get_active_blessing_kind() == "might" else 1.0
 	var raw := float(base.get("defense", 5)) + float(per_lv.get("defense", 2.2)) * lv_off + float(bonus_stat_pts.get("def", 0)) * 4.0 + ceilf(float(training_ranks.get("def", 0)) * 1.5) + _training_mastery_bonus().z + _equip_bonus("def")
-	return maxi(0, int(round(raw * (1.0 + float(p["defPct"])) * b_mult)))
+	return maxi(0, int(round(raw * (1.0 + float(p["defPct"]) + float(sb["defPct"])) * b_mult)))
 
 func get_total_speed() -> int:
 	var rd := _race_data()
@@ -716,9 +764,10 @@ func get_total_speed() -> int:
 	var lv_off := float(mini(hero_level - 1, 19))
 	var spd_base := float(base.get("speed", 185))
 	var p := get_talent_passives()
+	var sb := _set_pct_bonuses()
 	var b_mult := 1.15 if get_active_blessing_kind() == "march" else 1.0
 	var raw := spd_base * (1.0 + 0.05 * lv_off) + float(bonus_stat_pts.get("spd", 0)) * 15.0 + float(training_ranks.get("spd", 0)) * 6.0 + _equip_bonus("spd")
-	return maxi(30, int(round(raw * (1.0 + float(p["spdPct"])) * b_mult)))
+	return maxi(30, int(round(raw * (1.0 + float(p["spdPct"]) + float(sb["spdPct"])) * b_mult)))
 
 func get_speed_mult() -> float:
 	var rd := _race_data()
@@ -732,7 +781,8 @@ func get_total_crit() -> float:
 	var per_lv: Dictionary = rd.get("perLevel", {})
 	var lv_off := float(hero_level - 1)
 	var p := get_talent_passives()
-	var raw := float(base.get("criticalChancePercent", 5.0)) + float(per_lv.get("criticalChancePercent", 0.25)) * lv_off + float(bonus_stat_pts.get("crit", 0)) * 2.0 + float(training_ranks.get("crit", 0)) * 0.6 + float(p["critFlat"]) + _equip_bonus("crit")
+	var sb := _set_pct_bonuses()
+	var raw := float(base.get("criticalChancePercent", 5.0)) + float(per_lv.get("criticalChancePercent", 0.25)) * lv_off + float(bonus_stat_pts.get("crit", 0)) * 2.0 + float(training_ranks.get("crit", 0)) * 0.6 + float(p["critFlat"]) + float(sb["critFlat"]) + _equip_bonus("crit")
 	return clampf(raw, 0.0, 100.0)
 
 func get_total_ki_regen() -> float:
@@ -788,24 +838,44 @@ func apply_local_blessing(kind: String) -> void:
 	active_blessing = {"kind": kind, "expires_ms": Time.get_ticks_msec() + BLESSING_DURATION_MS}
 	recalc_stats(true)
 
+func _sync_hero_weapon_glow() -> void:
+	if world == null or world.hero == null or not ("weapon_glow_tier" in world.hero):
+		return
+	var wep: Dictionary = equip_slots[2] if equip_slots.size() > 2 else {}
+	var rtier := str(wep.get("rarity_tier", "common"))
+	var upg := get_slot_upgrade_rank(2)
+	var gtier := 0
+	if rtier == "legendary" or upg >= 7:
+		gtier = 3
+	elif rtier == "epic" or upg >= 4:
+		gtier = 2
+	elif rtier == "rare" or upg >= 2:
+		gtier = 1
+	if int(world.hero.weapon_glow_tier) != gtier:
+		world.hero.weapon_glow_tier = gtier
+		world.hero.queue_redraw()
+
 func recalc_stats(refill: bool = false) -> void:
 	var rd := _race_data()
 	var base: Dictionary = rd.get("base", {})
 	var per_lv: Dictionary = rd.get("perLevel", {})
 	var lv_off := float(hero_level - 1)
 	var p := get_talent_passives()
+	var sb := _set_pct_bonuses()
 	var old_mhp := hero_max_hp
 	var old_mki := hero_max_ki
 	var raw_hp := float(base.get("hp", 140)) + float(per_lv.get("hp", 35)) * lv_off + float(bonus_stat_pts.get("hp", 0)) * 25.0 + float(training_ranks.get("hp", 0)) * 12.0 + _training_mastery_bonus().x + _equip_bonus("hp")
 	var raw_ki := float(base.get("ki", 45)) + float(per_lv.get("ki", 4)) * lv_off + float(bonus_stat_pts.get("ki", 0)) * 15.0 + float(training_ranks.get("ki", 0)) * 8.0 + _equip_bonus("ki")
-	hero_max_hp = maxf(10.0, round(raw_hp * (1.0 + float(p["hpPct"]))))
-	hero_max_ki = maxf(0.0, round(raw_ki * (1.0 + float(p["kiPct"]))))
+	hero_max_hp = maxf(10.0, round(raw_hp * (1.0 + float(p["hpPct"]) + float(sb["hpPct"]))))
+	hero_max_ki = maxf(0.0, round(raw_ki * (1.0 + float(p["kiPct"]) + float(sb["kiPct"]))))
+	hero_max_xp = xp_needed_for_level(hero_level)
 	if refill:
 		hero_hp = hero_max_hp
 		hero_ki = hero_max_ki
 	else:
 		hero_hp = clampf(hero_hp + maxf(0.0, hero_max_hp - old_mhp), 1.0, hero_max_hp)
 		hero_ki = clampf(hero_ki + maxf(0.0, hero_max_ki - old_mki), 0.0, hero_max_ki)
+	_sync_hero_weapon_glow()
 	_sync_bar_uniforms()
 	_refresh_visuals()
 
@@ -816,16 +886,19 @@ func reset_cooldowns_gm() -> void:
 	channel_cd = 0.0
 	_refresh_visuals()
 
+# Stage 4 rebalanced XP curve (~46,010 XP Lv. 1->20, matching server economy.ts)
 const XP_NEEDED_BY_LEVEL := [
-	1400, 2400, 3500, 4700,
-	11000, 15500, 20500, 25000, 30000,
-	42000, 54000, 68000, 82000, 98000,
-	115000, 132000, 150000, 170000, 195000, 220000,
+	180, 300, 450, 620,
+	820, 1040, 1280, 1540, 1820,
+	2120, 2440, 2780, 3140, 3520,
+	3920, 4340, 4780, 5240, 5720, 6200,
 ]
 
 static func xp_needed_for_level(lv: int) -> float:
-	var idx := clampi(lv - 1, 0, XP_NEEDED_BY_LEVEL.size() - 1)
-	return float(XP_NEEDED_BY_LEVEL[idx])
+	if lv <= XP_NEEDED_BY_LEVEL.size():
+		var idx := clampi(lv - 1, 0, XP_NEEDED_BY_LEVEL.size() - 1)
+		return float(XP_NEEDED_BY_LEVEL[idx])
+	return float(6200 + (lv - 20) * 650)
 
 func grant_local_xp(rxp: int) -> bool:
 	if rxp <= 0:
@@ -833,14 +906,14 @@ func grant_local_xp(rxp: int) -> bool:
 	hero_max_xp = xp_needed_for_level(hero_level)
 	hero_xp = maxf(0.0, hero_xp + float(rxp))
 	var leveled := false
-	while hero_level < 20 and hero_xp >= hero_max_xp:
+	while hero_level < 40 and hero_xp >= hero_max_xp:
 		hero_xp -= hero_max_xp
 		hero_level += 1
 		free_stat_points += 3
 		skill_points += 1
 		hero_max_xp = xp_needed_for_level(hero_level)
 		leveled = true
-	if hero_level >= 20:
+	if hero_level >= 40:
 		hero_xp = minf(hero_xp, hero_max_xp)
 	if leveled:
 		recalc_stats(true)
@@ -888,6 +961,21 @@ func apply_server_character(ch: Dictionary) -> void:
 	var tr: Dictionary = st.get("training", {})
 	for k in ["hp", "ki", "atk", "def", "spd", "crit"]:
 		training_ranks[k] = maxi(0, int(tr.get(k, 0)))
+	var eu_raw: Variant = st.get("equipUpgrades", {})
+	equip_upgrades.clear()
+	if eu_raw is Dictionary:
+		for ek: String in (eu_raw as Dictionary).keys():
+			equip_upgrades[ek] = clampi(int((eu_raw as Dictionary)[ek]), 0, 9)
+	heritage_stage = clampi(int(st.get("heritageStage", heritage_stage)), 0, 6)
+	var prog_d: Dictionary = st.get("progress", {}) if st.get("progress") is Dictionary else {}
+	var dt_raw: Variant = prog_d.get("dojoTrials", st.get("dojoTrials", []))
+	dojo_trials.clear()
+	if dt_raw is Array:
+		for dk in (dt_raw as Array):
+			dojo_trials[str(dk)] = true
+	elif dt_raw is Dictionary:
+		for dk: String in (dt_raw as Dictionary).keys():
+			dojo_trials[dk] = bool((dt_raw as Dictionary)[dk])
 	var ab: Variant = st.get("activeBlessing", null)
 	if ab is Dictionary and str((ab as Dictionary).get("kind", "")) != "":
 		var srv_exp := int((ab as Dictionary).get("expiresAt", 0))
@@ -1044,6 +1132,9 @@ func use_backpack_slot(idx: int, on_done: Callable = Callable()) -> void:
 		return
 	var heal_hp := _restored_vital(it, "healHp")
 	var heal_ki := _restored_vital(it, "healKi")
+	if heal_hp > 0.0 and world != null and world.get("boss_ai") != null and world.boss_ai.is_hero_healing_blocked():
+		world.show_combat_toast("🔥 KLĄTWA BOSSA — leczenie miksturami jest zablokowane!", Color(1.0, 0.32, 0.44))
+		return
 	var item_name := str(it.get("name", "Przedmiot"))
 	var hp_before := hero_hp
 	if world != null and world.is_server_authoritative():
@@ -2092,11 +2183,67 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	c.draw_string_outline(fb, Vector2(174.0, 160.0) + p_off, "%s • %s%s" % [zone_prefix, loc_short, b_tag], HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 4, Color(0.02, 0.01, 0.02, 0.95))
 	c.draw_string(fb, Vector2(174.0, 160.0) + p_off, "%s • %s%s" % [zone_prefix, loc_short, b_tag], HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.96, 0.92, 0.84, 0.98))
 
+	# --- A1a. Hero Active Debuff Pills (poison/burn/slow/root/stun/healBlock) ---
+	if not hud_edit_mode and world != null and world.get("boss_ai") != null:
+		var dpills: Array = world.boss_ai.get_hero_debuff_pills()
+		var dx_p := 174.0 + p_off.x
+		var dy_p := 168.0 + p_off.y
+		for dp: Dictionary in dpills:
+			var dlbl := str(dp.get("label", ""))
+			var dcol: Color = dp.get("col", Color(1.0, 0.4, 0.3)) as Color
+			var dw := fb.get_string_size(dlbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x + 12.0
+			var dr := Rect2(dx_p, dy_p, dw, 18.0)
+			c.draw_rect(dr, Color(dcol.r * 0.22, dcol.g * 0.22, dcol.b * 0.22, 0.94), true)
+			c.draw_rect(dr, dcol, false, 1.3)
+			c.draw_string(fb, Vector2(dx_p + 6.0, dy_p + 13.5), dlbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, dcol)
+			dx_p += dw + 6.0
+			if dx_p > 490.0:
+				break
+
 	# --- A2. BIG 4-Medallion Top-Left Utility Row (draggable as "utils" zone!) ---
 	util_hitboxes.clear()
 
-	# --- A1b. Target Lock Enemy Frame (top-center gap between Portrait & Minimap) ---
-	if not hud_edit_mode and world != null and world.has_method("get_locked_target_info"):
+	# --- A1b. Epic Boss HP Bar (top-center) OR Target Lock Enemy Frame (zero overlap!) ---
+	var active_boss: Dictionary = {}
+	if not hud_edit_mode and world != null and world.get("boss_ai") != null:
+		active_boss = world.boss_ai.get_active_boss_hud()
+	if not active_boss.is_empty():
+		var vs_b := _vp_size()
+		var bw := clampf(vs_b.x - 830.0, 420.0, 620.0)
+		var bh := 96.0
+		var bx := clampf((vs_b.x - bw) * 0.5, 518.0, maxf(vs_b.x - 302.0 - bw, 518.0))
+		var by := 12.0
+		var br_box := Rect2(bx, by, bw, bh)
+		var b_phase := int(active_boss.get("phase", 1))
+		var b_border := Color(1.0, 0.34, 0.18, 0.98) if b_phase >= 3 else (Color(0.88, 0.42, 1.0, 0.98) if b_phase == 2 else Color(1.0, 0.78, 0.28, 0.98))
+		_draw_obsidian_plate(c, br_box, b_border)
+		var b_head := "☠ %s  [Poz.%d • Faza %d]" % [str(active_boss.get("name", "Boss")), int(active_boss.get("level", 15)), b_phase]
+		var pname_s := str(active_boss.get("phase_name", ""))
+		if not pname_s.is_empty() and b_head.length() + pname_s.length() <= 46:
+			b_head += " · " + pname_s
+		c.draw_string_outline(f, Vector2(bx + 16.0, by + 25.0), b_head, HORIZONTAL_ALIGNMENT_LEFT, int(bw - 32.0), 14, 4, Color(0.02, 0.01, 0.02, 0.98))
+		c.draw_string(f, Vector2(bx + 16.0, by + 25.0), b_head, HORIZONTAL_ALIGNMENT_LEFT, int(bw - 32.0), 14, Color(1.0, 0.84, 0.36))
+		var bhp := float(active_boss.get("hp", 0.0))
+		var bmax := maxf(1.0, float(active_boss.get("max_hp", 1.0)))
+		var bfrac := clampf(bhp / bmax, 0.0, 1.0)
+		var bbar := Rect2(bx + 16.0, by + 36.0, bw - 32.0, 24.0)
+		c.draw_rect(bbar, Color(0.08, 0.03, 0.04, 0.98), true)
+		var bar_fill_c := Color(0.32, 0.78, 1.0, 0.96) if bool(active_boss.get("shield", false)) else (Color(1.0, 0.56, 0.16, 0.98) if bool(active_boss.get("vulnerable", false)) else Color(0.92, 0.18, 0.14, 0.98))
+		c.draw_rect(Rect2(bbar.position + Vector2(2.0, 2.0), Vector2((bbar.size.x - 4.0) * bfrac, bbar.size.y - 4.0)), bar_fill_c, true)
+		# Phase divider notches
+		for thr: Variant in active_boss.get("thresholds", []):
+			var nx := bbar.position.x + bbar.size.x * clampf(float(thr), 0.05, 0.95)
+			c.draw_line(Vector2(nx, bbar.position.y), Vector2(nx, bbar.position.y + bbar.size.y), Color(1.0, 0.92, 0.52, 0.96), 2.4)
+		c.draw_rect(bbar, Color(1.0, 0.80, 0.34, 0.94), false, 1.8)
+		var bhp_txt := "%d / %d HP (%d%%)" % [int(round(bhp)), int(round(bmax)), int(round(bfrac * 100.0))]
+		var bhw := fb.get_string_size(bhp_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
+		c.draw_string_outline(fb, Vector2(bbar.position.x + (bbar.size.x - bhw) * 0.5, bbar.position.y + 17.0), bhp_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.0, 0.0, 0.0, 0.98))
+		c.draw_string(fb, Vector2(bbar.position.x + (bbar.size.x - bhw) * 0.5, bbar.position.y + 17.0), bhp_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.98, 0.94))
+		var bhint := str(active_boss.get("hint", ""))
+		if not bhint.is_empty():
+			var hcol := Color(0.42, 0.96, 1.0) if bool(active_boss.get("shield", false)) or bool(active_boss.get("vulnerable", false)) else Color(0.96, 0.86, 0.62)
+			c.draw_string(fb, Vector2(bx + 16.0, by + 82.0), bhint, HORIZONTAL_ALIGNMENT_LEFT, int(bw - 32.0), 13, hcol)
+	elif not hud_edit_mode and world != null and world.has_method("get_locked_target_info"):
 		var tgt: Dictionary = world.get_locked_target_info()
 		if not tgt.is_empty():
 			var vs_t := _vp_size()
@@ -2109,7 +2256,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			_draw_obsidian_plate(c, tr, Color(1.0, 0.52, 0.24, 0.96) if is_boss else Color(0.96, 0.76, 0.34, 0.94))
 			var t_name := str(tgt.get("name", "Cel"))
 			var t_lv := int(tgt.get("level", 1))
-			var title_t := ("%s  [BOSS Poz.%d]" if is_boss else "%s  [Poz.%d]") % [t_name, t_lv]
+			var title_t := ("%s  [ELITA Poz.%d]" if is_boss else "%s  [Poz.%d]") % [t_name, t_lv]
 			c.draw_string_outline(f, Vector2(tx + 16.0, ty + 28.0), title_t, HORIZONTAL_ALIGNMENT_LEFT, int(tw - 58.0), 16, 4, Color(0.02, 0.01, 0.02, 0.98))
 			c.draw_string(f, Vector2(tx + 16.0, ty + 28.0), title_t, HORIZONTAL_ALIGNMENT_LEFT, int(tw - 58.0), 16, Color(1.0, 0.78, 0.42) if is_boss else Color(1.0, 0.94, 0.76))
 			var clr_r := Rect2(tx + tw - 34.0, ty + 10.0, 24.0, 24.0)
@@ -2147,6 +2294,16 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 				c.draw_rect(cr, s_col, false, 1.1)
 				c.draw_string(fb, Vector2(sx + 5.0, ty + 72.0), s_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, s_col)
 				sx += sw + 6.0
+			for wk_lbl in tgt.get("weaknesses", []):
+				var w_txt := "SŁABOŚĆ: %s" % str(wk_lbl)
+				var ww := fb.get_string_size(w_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x + 10.0
+				if sx + ww > tx + tw - 14.0:
+					break
+				var wr := Rect2(sx, ty + 60.0, ww, 16.0)
+				c.draw_rect(wr, Color(0.08, 0.24, 0.30, 0.94), true)
+				c.draw_rect(wr, Color(0.36, 0.96, 1.0, 0.92), false, 1.1)
+				c.draw_string(fb, Vector2(sx + 5.0, ty + 72.0), w_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.54, 0.98, 1.0))
+				sx += ww + 6.0
 
 	var ring_obs := _load_tex("res://assets/ui/obsidian/ring_star.webp")
 	var ring_cyan := _load_tex("res://assets/ui/hud_node_ring_avail.png")
@@ -2399,6 +2556,52 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		c.draw_line(pill_r.position + Vector2(118.0, 8.0), pill_r.position + Vector2(118.0, pill_h - 8.0), Color(0.75, 0.60, 0.32, 0.55), 1.5)
 		c.draw_circle(pill_r.position + Vector2(134.0, pill_h * 0.5), 5.5, ping_col)
 		c.draw_string(fb, pill_r.position + Vector2(146.0, 27.0), "PING %s" % ping_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, ping_col)
+
+	# --- D3. Stage 4 Collapsible HUD Quest Tracker & Active World Event Strip (below Minimap) ---
+	if not hud_edit_mode and world != null:
+		var vs_q := _vp_size()
+		var mm_off_q := get_zone_offset("minimap")
+		var q_y := 14.0 + 256.0 * sc + mm_off_q.y + (52.0 if is_perf_hud_enabled() else 8.0)
+		var q_w := 290.0
+		var q_x := vs_q.x - q_w - 12.0 + mm_off_q.x
+		var max_q_bottom := vs_q.y - 252.0 # Clean gap above bottom-right Wild Rift combat orbs!
+		if world.get("world_events") != null:
+			var ev_hud: Dictionary = world.world_events.get_active_event_hud()
+			if not ev_hud.is_empty() and q_y + 56.0 < max_q_bottom:
+				var er := Rect2(q_x, q_y, q_w, 54.0)
+				_draw_obsidian_plate(c, er, Color(1.0, 0.82, 0.28, 0.98))
+				var ev_nm := str(ev_hud.get("name", "Zdarzenie"))
+				if ev_nm.length() > 30: ev_nm = ev_nm.substr(0, 29) + "…"
+				c.draw_string(f, er.position + Vector2(12.0, 20.0), "⚡ %s" % ev_nm, HORIZONTAL_ALIGNMENT_LEFT, int(q_w - 24.0), 13, Color(1.0, 0.90, 0.42))
+				c.draw_string(fb, er.position + Vector2(12.0, 40.0), str(ev_hud.get("progress", "")), HORIZONTAL_ALIGNMENT_LEFT, int(q_w - 24.0), 12, Color(0.56, 0.98, 0.78))
+				q_y += 58.0
+		if world.get("quest_engine") != null:
+			var tr_entries: Array = world.quest_engine.get_tracker_entries()
+			if not tr_entries.is_empty() and q_y + 32.0 < max_q_bottom:
+				var hdr_r := Rect2(q_x, q_y, q_w, 26.0)
+				util_hitboxes.append({"rect": hdr_r.grow(4.0), "id": "toggle_tracker"})
+				c.draw_rect(hdr_r, Color(0.05, 0.04, 0.08, 0.92), true)
+				c.draw_rect(hdr_r, Color(0.86, 0.68, 0.34, 0.90), false, 1.4)
+				var arrow := "▸" if quest_tracker_collapsed else "▾"
+				c.draw_string(f, hdr_r.position + Vector2(10.0, 18.0), "%s ŚLEDZONE ZADANIA (%d)" % [arrow, tr_entries.size()], HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.90, 0.54))
+				if not quest_tracker_collapsed:
+					var body_y := q_y + 28.0
+					for qe: Dictionary in tr_entries:
+						var lines: Array = qe.get("lines", [])
+						var row_h := 20.0 + float(mini(lines.size(), 2)) * 16.0 + 6.0
+						if body_y + row_h > max_q_bottom:
+							break
+						var qr := Rect2(q_x, body_y, q_w, row_h)
+						c.draw_rect(qr, Color(0.04, 0.035, 0.065, 0.86), true)
+						c.draw_rect(qr, Color(0.46, 0.96, 0.68, 0.76) if bool(qe.get("ready", false)) else Color(0.68, 0.56, 0.32, 0.58), false, 1.1)
+						var qt := str(qe.get("title", ""))
+						if qt.length() > 32: qt = qt.substr(0, 31) + "…"
+						c.draw_string(f, qr.position + Vector2(10.0, 16.0), qt, HORIZONTAL_ALIGNMENT_LEFT, int(q_w - 20.0), 13, Color(0.46, 0.98, 0.72) if bool(qe.get("ready", false)) else Color(1.0, 0.94, 0.74))
+						for li in mini(lines.size(), 2):
+							var ltxt := str(lines[li])
+							if ltxt.length() > 40: ltxt = ltxt.substr(0, 39) + "…"
+							c.draw_string(fb, qr.position + Vector2(12.0, 32.0 + float(li) * 16.0), ltxt, HORIZONTAL_ALIGNMENT_LEFT, int(q_w - 20.0), 12, Color(0.86, 0.92, 0.96))
+						body_y += row_h + 4.0
 
 	# Hover tooltip anchored cleanly above bottom-right Wild Rift combat cluster
 	if hovered_hotbar_idx >= 0 and hovered_hotbar_idx < hotbar_nodes.size() and not (show_talents or show_character or hud_edit_mode):
@@ -2908,6 +3111,13 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 			c.draw_texture_rect(slot_tex, Rect2(sx - 2.0, sy - 2.0, eq_sz + 4.0, eq_sz + 4.0), false)
 		if is_sel:
 			c.draw_rect(sr.grow(3.0), Color(1.0, 0.86, 0.28, 0.98), false, 3.0)
+		var upg_lvl := get_slot_upgrade_rank(ei)
+		if has_it and upg_lvl > 0:
+			var up_txt := "+%d" % upg_lvl
+			var up_r := Rect2(sx + eq_sz - 28.0, sy + 2.0, 26.0, 18.0)
+			c.draw_rect(up_r, Color(0.18, 0.10, 0.02, 0.95), true)
+			c.draw_rect(up_r, Color(1.0, 0.84, 0.28, 0.98), false, 1.3)
+			c.draw_string(f, up_r.position + Vector2(4.0, 13.5), up_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.92, 0.44))
 		var slot_hint := str(EQUIP_SLOT_NAMES[ei]) if ei < EQUIP_SLOT_NAMES.size() else "Slot"
 		var gname := str(sl.get("name", slot_hint)) if has_it else slot_hint
 		if gname.length() > 14:
@@ -2915,6 +3125,22 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 		var gnw := fb.get_string_size(gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
 		c.draw_string_outline(fb, Vector2(sx + (eq_sz - gnw) * 0.5, sy + eq_sz + 15.0), gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 3, Color(0.02, 0.02, 0.03, 0.95))
 		c.draw_string(fb, Vector2(sx + (eq_sz - gnw) * 0.5, sy + eq_sz + 15.0), gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, rcol if has_it else Color(0.76, 0.72, 0.64))
+
+	# Active Equipment Sets & Dojo Trials compact ribbon above stats ledger
+	var act_sets := get_active_equipment_sets()
+	var trials_done := 0
+	for tk: String in dojo_trials.keys():
+		if bool(dojo_trials[tk]):
+			trials_done += 1
+	if not act_sets.is_empty() or trials_done > 0 or heritage_stage > 0:
+		var badge_parts: PackedStringArray = []
+		if heritage_stage > 0:
+			badge_parts.append("★ Dziedzictwo %d/6" % heritage_stage)
+		if trials_done > 0:
+			badge_parts.append("🥋 Próby Dojo %d/3" % trials_done)
+		for as_d: Dictionary in act_sets:
+			badge_parts.append("✦ Zestaw %s (%d cz.)" % [str(as_d["setId"]), int(as_d["count"])])
+		c.draw_string(fb, Vector2(lx + 16.0, mr.position.y + 428.0), " • ".join(badge_parts), HORIZONTAL_ALIGNMENT_LEFT, int(lw - 32.0), 13, Color(0.46, 0.98, 0.78))
 
 	# Lower-Left Panel: BIG 2-Column Readable Stats Ledger + [+] Buttons
 	var stats_y := mr.position.y + 436.0
@@ -3288,6 +3514,9 @@ func _handle_primary_tap(p: Vector2) -> bool:
 				"clear_target":
 					if world != null and world.has_method("set_locked_target"):
 						world.set_locked_target("")
+				"toggle_tracker":
+					quest_tracker_collapsed = not quest_tracker_collapsed
+					_refresh_visuals()
 				"potion":
 					if not use_quick_hp_potion() and world != null:
 						world.show_combat_toast("Brak eliksirów życia w plecaku — kup w Sklepie lub odpocznij w Gospodzie!", Color(1.0, 0.56, 0.36))

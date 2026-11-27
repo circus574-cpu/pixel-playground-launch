@@ -70,6 +70,10 @@ var role_title := ""
 var monster_level := 0
 var hp_ratio := 1.0
 var is_elite := false
+var is_boss := false
+var boss_phase := 1
+var boss_shield_active := false
+var weapon_glow_tier := 0
 var is_locked_target := false
 var status_flags: Dictionary = {}
 
@@ -165,17 +169,20 @@ func setup(
 	if not display_name.is_empty():
 		var full_text := display_name
 		if kind == "monster" and level > 0:
-			full_text = ("★ Poz.%d %s" % [level, display_name]) if elite else ("Poz.%d %s" % [level, display_name])
+			if is_boss:
+				full_text = "☠ BOSS Poz.%d %s" % [level, display_name]
+			else:
+				full_text = ("★ Poz.%d %s" % [level, display_name]) if elite else ("Poz.%d %s" % [level, display_name])
 		elif kind == "npc" and not role.is_empty():
 			full_text = "%s\n<%s>" % [display_name, role]
 		label.text = full_text
-		label.position = Vector2(-230, -display.y - (52 if kind == "npc" and not role.is_empty() else (44 if elite else 36)))
-		label.size = Vector2(460, 56)
+		label.position = Vector2(-260, -display.y - (58 if is_boss else (52 if kind == "npc" and not role.is_empty() else (44 if elite else 36))))
+		label.size = Vector2(520, 58)
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.add_theme_font_size_override("font_size", 24 if elite else (21 if kind != "hero" else 23))
+		label.add_theme_font_size_override("font_size", 26 if is_boss else (24 if elite else (21 if kind != "hero" else 23)))
 		var fcol := Color("ffe8b8")
 		if kind == "monster":
-			fcol = Color("ffd54a") if elite else (Color("ff7860") if level >= 10 else Color("ffbe78"))
+			fcol = Color("ff4838") if is_boss else (Color("ffd54a") if elite else (Color("ff7860") if level >= 10 else Color("ffbe78")))
 		elif kind == "npc":
 			fcol = Color("8ef6ff")
 		elif kind == "animal":
@@ -482,7 +489,17 @@ func _draw() -> void:
 	draw_set_transform(Vector2(0, -2), 0.0, Vector2(1, 0.36))
 	draw_circle(Vector2.ZERO, 24.0 * shadow_scale, Color(0.02, 0.01, 0.01, 0.38))
 	if actor_kind == "monster":
-		if is_elite:
+		if is_boss:
+			var bt := Time.get_ticks_msec() / 1000.0
+			var bp_s := 1.0 + sin(bt * (4.0 + float(boss_phase) * 1.6)) * 0.10
+			var phase_col := Color(1.0, 0.36, 0.16, 0.95) if boss_phase <= 1 else (Color(0.92, 0.24, 1.0, 0.96) if boss_phase == 2 else Color(1.0, 0.14, 0.12, 0.98))
+			draw_circle(Vector2.ZERO, 48.0 * shadow_scale * bp_s, Color(phase_col.r, phase_col.g, phase_col.b, 0.22))
+			draw_arc(Vector2.ZERO, 46.0 * shadow_scale * bp_s, 0.0, TAU, 40, Color(1.0, 0.84, 0.28, 0.96), 4.4)
+			draw_arc(Vector2.ZERO, 36.0 * shadow_scale, 0.0, TAU, 32, phase_col, 3.2)
+			for seg in 6:
+				var ba := bt * (1.2 + float(boss_phase) * 0.5) + float(seg) * (TAU / 6.0)
+				draw_arc(Vector2.ZERO, 54.0 * shadow_scale, ba, ba + 0.45, 8, Color(1.0, 0.90, 0.46, 0.88), 2.8)
+		elif is_elite:
 			var et := Time.get_ticks_msec() / 1000.0
 			var ep := 1.0 + sin(et * 4.5) * 0.08
 			draw_circle(Vector2.ZERO, 36.0 * shadow_scale * ep, Color(1.0, 0.34, 0.12, 0.22))
@@ -495,6 +512,12 @@ func _draw() -> void:
 	elif actor_kind == "npc":
 		draw_arc(Vector2.ZERO, 24.0 * shadow_scale, 0.0, TAU, 24, Color(0.28, 0.88, 1.0, 0.58), 2.0)
 	elif is_hero:
+		if weapon_glow_tier > 0:
+			var wt := Time.get_ticks_msec() / 1000.0
+			var wcol := Color(0.32, 0.86, 1.0, 0.88) if weapon_glow_tier == 1 else (Color(0.84, 0.42, 1.0, 0.92) if weapon_glow_tier == 2 else Color(1.0, 0.84, 0.28, 0.96))
+			var wr := (31.0 + float(weapon_glow_tier) * 3.0 + sin(wt * 5.0) * 2.2) * shadow_scale
+			draw_circle(Vector2.ZERO, wr, Color(wcol.r, wcol.g, wcol.b, 0.14 + float(weapon_glow_tier) * 0.04))
+			draw_arc(Vector2.ZERO, wr, 0.0, TAU, 32, wcol, 2.4 + float(weapon_glow_tier) * 0.6)
 		draw_arc(Vector2.ZERO, 26.0 * shadow_scale, 0.0, TAU, 28, Color(1.0, 0.82, 0.32, 0.80), 2.5)
 	if is_locked_target:
 		var lt := Time.get_ticks_msec() / 1000.0
@@ -502,6 +525,11 @@ func _draw() -> void:
 		draw_arc(Vector2.ZERO, 42.0 * shadow_scale * lp, 0.0, TAU, 36, Color(1.0, 0.88, 0.24, 0.96), 4.0)
 		draw_arc(Vector2.ZERO, 36.0 * shadow_scale, 0.0, TAU, 32, Color(1.0, 0.32, 0.16, 0.90), 2.4)
 	draw_set_transform(Vector2.ZERO)
+	if is_boss and boss_shield_active:
+		var st_b := Time.get_ticks_msec() / 1000.0
+		var srad := maxf(display.x * 0.52, 58.0)
+		draw_arc(Vector2(0.0, -display.y * 0.46), srad, 0.0, TAU, 36, Color(0.38, 0.92, 1.0, 0.82 + 0.16 * sin(st_b * 6.0)), 3.6)
+		draw_circle(Vector2(0.0, -display.y * 0.46), srad, Color(0.28, 0.78, 1.0, 0.14))
 
 	# Monster & Damaged Wildlife Animal HP bar (gilded wider bar for named Elites)
 	if actor_kind == "monster" or (actor_kind == "animal" and hp_ratio < 0.999):

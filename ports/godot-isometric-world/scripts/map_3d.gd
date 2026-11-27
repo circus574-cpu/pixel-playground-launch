@@ -237,8 +237,9 @@ func rebuild_for_region() -> void:
 	if world == null:
 		return
 	var land: String = str(world.current_land)
-	var rdir := "res://regions/" + land
-	var relief_path := rdir + "/relief_3d.r32"
+	var theme_land: String = world.get_theme_land(land) if world.has_method("get_theme_land") else land
+	var rdir := "res://regions/" + theme_land
+	var relief_path := ("res://regions/" + land + "/relief_3d.r32")
 	if FileAccess.file_exists(relief_path):
 		relief_heights = FileAccess.get_file_as_bytes(relief_path).to_float32_array()
 		relief_grid = int(round(sqrt(float(relief_heights.size()))))
@@ -277,12 +278,14 @@ func rebuild_for_region() -> void:
 	if art_tex == null:
 		art_tex = world.load_tex("%s/minimap_hq.png" % rdir)
 	var surf_tex: Texture2D = world.load_tex("%s/surface.png" % rdir)
+	if world.has_method("is_island_land") and bool(world.is_island_land(land)) and world.get("surface_img") is Image:
+		surf_tex = ImageTexture.create_from_image(world.surface_img as Image)
 	terrain_mat.set_shader_parameter("map_art_tex", art_tex)
 	terrain_mat.set_shader_parameter("surface_tex", surf_tex)
 	terrain_mat.set_shader_parameter("has_surface", 1.0 if surf_tex != null else 0.0)
 	terrain_mat.set_shader_parameter("zoom_detail", zoom_detail_level())
-	terrain_mat.set_shader_parameter("is_pyra", 1.0 if land == "pyra" else 0.0)
-	terrain_mat.set_shader_parameter("is_aether", 1.0 if land == "aether" else 0.0)
+	terrain_mat.set_shader_parameter("is_pyra", 1.0 if theme_land == "pyra" else 0.0)
+	terrain_mat.set_shader_parameter("is_aether", 1.0 if theme_land == "aether" else 0.0)
 	terrain_node.material_override = terrain_mat
 
 func cell(gx: int, gz: int, ws: float) -> Dictionary:
@@ -543,12 +546,13 @@ func _draw() -> void:
 			draw_string(f, Vector2(tx, ty), lname, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.96, 0.68, 1.0))
 
 	# 3. Live Hero Portrait Medallion (replaces the old blue cone!)
+	var pin_land: String = str(world.hero_race_land) if (str(world.get("hero_race_land")) != "") else (world.get_theme_land(str(world.current_land)) if world.has_method("get_theme_land") else str(world.current_land))
 	var hp_s_v: Variant = _project(world.hero_pos.x, world.hero_pos.y, 12.0)
 	if hp_s_v != null:
 		var hs: Vector2 = hp_s_v
 		if inner_rect.has_point(hs):
 			var hd := lerpf(28.0, 34.0, detail)
-			_draw_pin("hero_" + str(world.current_land), hs, hd)
+			_draw_pin("hero_" + pin_land, hs, hd)
 
 	# 4. Top Header Plaque & Bottom Painted Medallion Legend Bar
 	draw_rect(rect, Color(0.86, 0.68, 0.36, 0.90), false, 3.0)
@@ -577,5 +581,5 @@ func _draw() -> void:
 	draw_line(Vector2(lx_pos - 6, ly_mid), Vector2(lx_pos + 16, ly_mid), Color(0.96, 0.86, 0.60, 0.95), 3.0, true)
 	draw_string(f, Vector2(lx_pos + 22, ly_mid + 4), "Wszystkie drogi", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.94, 0.88, 0.74))
 	lx_pos += 144.0
-	_draw_pin("hero_" + str(world.current_land), Vector2(lx_pos, ly_mid), 20.0)
+	_draw_pin("hero_" + pin_land, Vector2(lx_pos, ly_mid), 20.0)
 	draw_string(f, Vector2(lx_pos + 14, ly_mid + 4), "Twoja pozycja", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.46, 0.96, 1.0))

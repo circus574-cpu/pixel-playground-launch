@@ -22,6 +22,12 @@ const LAND_NAMES: Record<string, string> = {
   verdant: "Verdantia",
   aether: "Aetheria",
   nexus: "Nexus-9",
+  "island-1": "Wyspa I: Pierwsze Echo",
+  "island-2": "Wyspa II: Złamana Pieczęć",
+  "island-3": "Wyspa III: Odwrócona Latarka",
+  "island-4": "Wyspa IV: Cztery Cumy",
+  "island-5": "Wyspa V: Milczące Niebo",
+  "island-6": "Wyspa VI: Ostatni Ton",
 };
 const RACE_NAMES: Record<string, string> = {
   legend: "Legenda",

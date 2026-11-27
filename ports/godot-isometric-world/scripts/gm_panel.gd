@@ -19,6 +19,10 @@ const RARITY_COLORS := {
 
 static var _catalog_cache: Array[Dictionary] = []
 static var _catalog_by_id: Dictionary = {}
+static var _recipes_cache: Array[Dictionary] = []
+static var _sets_cache: Dictionary = {}
+static var _heritage_cache: Array[Dictionary] = []
+static var _enhance_cache: Array[Dictionary] = []
 
 static func rarity_color(tier: String) -> Color:
 	return RARITY_COLORS.get(tier, Color(0.86, 0.86, 0.88)) as Color
@@ -29,7 +33,8 @@ static func get_catalog() -> Array[Dictionary]:
 	if FileAccess.file_exists("res://data/items_catalog.json"):
 		var raw: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/items_catalog.json"))
 		if raw is Dictionary:
-			var arr: Array = (raw as Dictionary).get("items", [])
+			var rd: Dictionary = raw as Dictionary
+			var arr: Array = rd.get("items", [])
 			for entry in arr:
 				if not (entry is Dictionary):
 					continue
@@ -39,7 +44,50 @@ static func get_catalog() -> Array[Dictionary]:
 				it["rarity"] = rarity_color(r_tier)
 				_catalog_cache.append(it)
 				_catalog_by_id[str(it.get("id", ""))] = it
+			_recipes_cache.clear()
+			for rec: Variant in rd.get("recipes", []):
+				if rec is Dictionary:
+					_recipes_cache.append((rec as Dictionary).duplicate(true))
+			_sets_cache = (rd.get("equipment_sets", {}) as Dictionary).duplicate(true) if rd.get("equipment_sets") is Dictionary else {}
+			_heritage_cache.clear()
+			for hw: Variant in rd.get("heritage_weapons", []):
+				if hw is Dictionary:
+					_heritage_cache.append((hw as Dictionary).duplicate(true))
+			_enhance_cache.clear()
+			for et: Variant in rd.get("enhance_tiers", []):
+				if et is Dictionary:
+					_enhance_cache.append((et as Dictionary).duplicate(true))
 	return _catalog_cache
+
+static func get_recipes() -> Array[Dictionary]:
+	if _catalog_cache.is_empty():
+		get_catalog()
+	return _recipes_cache
+
+static func get_equipment_sets() -> Dictionary:
+	if _catalog_cache.is_empty():
+		get_catalog()
+	return _sets_cache
+
+static func get_heritage_weapons(race_k: String = "") -> Array[Dictionary]:
+	if _catalog_cache.is_empty():
+		get_catalog()
+	if race_k.is_empty():
+		return _heritage_cache
+	var out: Array[Dictionary] = []
+	for hw: Dictionary in _heritage_cache:
+		if str(hw.get("race", "")) == race_k:
+			out.append(hw)
+	return out
+
+static func get_enhance_tier(current_tier: int) -> Dictionary:
+	if _catalog_cache.is_empty():
+		get_catalog()
+	var next_t := current_tier + 1
+	for et: Dictionary in _enhance_cache:
+		if int(et.get("nextTier", 0)) == next_t:
+			return et
+	return {}
 
 static func find_item(iid: String) -> Dictionary:
 	if _catalog_cache.is_empty():
