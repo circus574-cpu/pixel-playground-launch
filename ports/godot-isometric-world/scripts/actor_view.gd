@@ -85,6 +85,9 @@ var hp_ratio := 1.0
 var is_elite := false
 var is_boss := false
 var boss_phase := 1
+var _boss_motion := false
+var _boss_motion_time := 0.0
+var _boss_action_duration := 0.0
 var boss_shield_active := false
 var weapon_glow_tier := 0
 var is_locked_target := false
@@ -136,6 +139,7 @@ func setup(
 	elite: bool = false
 ) -> void:
 	definition = data
+	_boss_motion = bool(data.get("boss_motion", false))
 	is_hero = hero
 	actor_kind = kind
 	monster_level = level
@@ -330,6 +334,8 @@ func play_action(clip_name: String, fallback_clip: String = "attack", lock_sec: 
 		dur = lock_sec
 	one_shot_clip = resolved
 	one_shot_until = Time.get_ticks_msec() / 1000.0 + dur
+	if _boss_motion:
+		_boss_action_duration = dur
 	play_clip(chosen, true, 1.0)
 	if clip_name in ["hit", "hitheavy"]:
 		flash = 0.22
@@ -788,7 +794,28 @@ func hide_bubble() -> void:
 	if bubble_panel != null:
 		bubble_panel.visible = false
 
+func _update_boss_motion(delta: float) -> void:
+	_boss_motion_time += delta
+	var pose := Vector2(0.0, -2.0 * (1.0 + sin(_boss_motion_time * 2.6)))
+	var remaining := one_shot_until - Time.get_ticks_msec() / 1000.0
+	if _boss_action_duration > 0.0 and remaining > 0.0:
+		var progress := clampf(1.0 - remaining / _boss_action_duration, 0.0, 1.0)
+		var pulse := sin(progress * PI)
+		var angle := float(DIRECTIONS.find(direction)) * PI / 4.0
+		var forward := Vector2.from_angle(angle)
+		if one_shot_clip.begins_with("attack") or one_shot_clip.begins_with("skill"):
+			pose += forward * (16.0 * pulse)
+		elif one_shot_clip.begins_with("hit"):
+			pose -= forward * (8.0 * pulse)
+		elif one_shot_clip == "death":
+			pose.y += 22.0 * progress
+	elif state == "walk" or state == "run":
+		pose.y -= 5.0 * absf(sin(_boss_motion_time * 8.0))
+	sprite.offset = pose
+
 func _process(delta: float) -> void:
+	if _boss_motion:
+		_update_boss_motion(delta)
 	if flash > 0.0:
 		flash = maxf(0.0, flash - delta)
 		sprite.modulate = Color(1.55, 0.75, 0.70, 1.0) if flash > 0.0 else Color.WHITE
