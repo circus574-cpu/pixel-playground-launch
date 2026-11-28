@@ -178,33 +178,33 @@ static func inset_card(border: Color = Color(0.58, 0.46, 0.24, 0.72), bg: Color 
 
 static func make_header_bar(title_txt: String, on_back: Callable, back_label: String = "← WSTECZ", subtitle_txt: String = "") -> HBoxContainer:
 	var bar := HBoxContainer.new()
-	bar.add_theme_constant_override("separation", 16)
+	bar.add_theme_constant_override("separation", 18)
 
 	var btn_back := Button.new()
 	btn_back.text = back_label
-	btn_back.custom_minimum_size = Vector2(168.0, 50.0)
-	style_button(btn_back, "slate", 16, 22.0, 8.0)
+	btn_back.custom_minimum_size = Vector2(190.0, 56.0)
+	style_button(btn_back, "slate", 20, 24.0, 10.0)
 	btn_back.pressed.connect(on_back)
 	bar.add_child(btn_back)
 
 	var tbox := VBoxContainer.new()
 	tbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	tbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	tbox.add_theme_constant_override("separation", 2)
+	tbox.add_theme_constant_override("separation", 3)
 	var lbl := Label.new()
 	lbl.text = title_txt
 	lbl.add_theme_font_override("font", MapStyle.font())
-	lbl.add_theme_font_size_override("font_size", 22)
-	lbl.add_theme_color_override("font_color", Color(1.0, 0.91, 0.60))
-	lbl.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.01, 0.96))
-	lbl.add_theme_constant_override("outline_size", 4)
+	lbl.add_theme_font_size_override("font_size", 26)
+	lbl.add_theme_color_override("font_color", Color(1.0, 0.92, 0.62))
+	lbl.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.01, 0.98))
+	lbl.add_theme_constant_override("outline_size", 5)
 	tbox.add_child(lbl)
 	if not subtitle_txt.is_empty():
 		var sub := Label.new()
 		sub.text = subtitle_txt
 		sub.add_theme_font_override("font", MapStyle.body_font())
-		sub.add_theme_font_size_override("font_size", 14)
-		sub.add_theme_color_override("font_color", Color(0.84, 0.80, 0.72))
+		sub.add_theme_font_size_override("font_size", 17)
+		sub.add_theme_color_override("font_color", Color(0.88, 0.85, 0.78))
 		tbox.add_child(sub)
 	bar.add_child(tbox)
 	return bar

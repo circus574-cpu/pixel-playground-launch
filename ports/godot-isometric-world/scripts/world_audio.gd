@@ -13,6 +13,7 @@ const MUSIC := {
 }
 const HOST_ROOT := "res:" + "//assets/audio/"
 const HOST_GM_ROOT := "res:" + "//assets/gm/sfx/"
+const HOST_PREMIUM_ROOT := "res:" + "//assets/premium_sfx/"
 const FADE := 1.4
 const STEP_INTERVAL := 0.44
 const POOL := 16
@@ -39,6 +40,7 @@ var fading_out: AudioStreamPlayer
 var fade_t := 1.0
 var step_clock := 0.0
 var _step_alt := false
+var _mon_atk_alt := false
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -100,6 +102,23 @@ func load_stream(rel_path: String) -> AudioStream:
 			if gs != null:
 				cache[rel_path] = gs
 				return gs
+		return null
+	# Premium mastered monster archetype SFX & dungeon soundtracks/SFX (ships in core-c101)
+	if rel_path.begins_with("sfx/premium_mon/"):
+		var mf := rel_path.trim_prefix("sfx/premium_mon/")
+		for mp in ["res://assets/premium_sfx/monsters/" + mf, HOST_PREMIUM_ROOT + "monsters/" + mf]:
+			var ms := _load_from(mp)
+			if ms != null:
+				cache[rel_path] = ms
+				return ms
+		return null
+	if rel_path.begins_with("sfx/premium_dun/"):
+		var df := rel_path.trim_prefix("sfx/premium_dun/")
+		for dp in ["res://assets/premium_sfx/dungeon/" + df, HOST_PREMIUM_ROOT + "dungeon/" + df]:
+			var ds := _load_from(dp)
+			if ds != null:
+				cache[rel_path] = ds
+				return ds
 		return null
 	# Try OTA pack path (rewritten to res://service_preview/pyra/assets/audio/...) FIRST, then APK host path!
 	for p in ["res://assets/audio/" + rel_path, HOST_ROOT + rel_path]:
@@ -188,7 +207,49 @@ func play_transform_sfx(race: String) -> void:
 	sfx("development/ki-source", 0.68, 0.02)
 	play_race_skill(race, "A9", 0.62)
 
+func _monster_archetype(actor_id: String) -> String:
+	var k := actor_id.to_lower()
+	if k.contains("boss") or k.contains("arbiter") or k.contains("arcykaplan") or k.contains("hydra") or k.contains("aurelith") or k.contains("kustosz") or k.contains("egzekutor"):
+		return "boss_colossus"
+	if k.contains("golem") or k.contains("skalny") or k.contains("ruin") or k.contains("bazalt") or k.contains("tytan"):
+		return "stone_golem"
+	if k.contains("smok") or k.contains("plomien") or k.contains("zar") or k.contains("magm") or k.contains("ognist") or k.contains("wegiel") or k.contains("kalder"):
+		return "fire_dragon"
+	if k.contains("pajak") or k.contains("skorpion") or k.contains("osa") or k.contains("skarabeusz") or k.contains("motyl") or k.contains("roj") or k.contains("krab") or k.contains("gasienic"):
+		return "insect_spider"
+	if k.contains("waz") or k.contains("szlam") or k.contains("pelzacz") or k.contains("galaret"):
+		return "serpent_slime"
+	if k.contains("krysztal") or k.contains("lod") or k.contains("mroz") or k.contains("swietlik") or k.contains("mgiel"):
+		return "frost_crystal"
+	if k.contains("duch") or k.contains("oko") or k.contains("marionet") or k.contains("bibliotek") or k.contains("pergamin") or k.contains("astrolab") or k.contains("pieczec") or k.contains("pustk"):
+		return "arcane_spirit"
+	if k.contains("nexus") or k.contains("dron") or k.contains("wiezycz") or k.contains("mech") or k.contains("plazm") or k.contains("skaner") or k.contains("rdzen") or k.contains("danych") or k.contains("spawal"):
+		return "mech_cyber"
+	if k.contains("korzen") or k.contains("lisciak") or k.contains("grzyb") or k.contains("mchow") or k.contains("lotos") or k.contains("druid"):
+		return "plant_druid"
+	if k.contains("wilk") or k.contains("byk") or k.contains("lew") or k.contains("pies") or k.contains("jelen") or k.contains("puchacz") or k.contains("nietoperz") or k.contains("kruk") or k.contains("zuraw"):
+		return "beast"
+	if k.begins_with("pyra"):
+		return "fire_dragon"
+	if k.begins_with("verdant"):
+		return "plant_druid"
+	if k.begins_with("aether"):
+		return "frost_crystal"
+	return "beast"
+
 func play_monster_sfx(actor_id: String, kind: String) -> void:
+	var arch := _monster_archetype(actor_id)
+	var track_kind := kind
+	if kind == "atk":
+		_mon_atk_alt = not _mon_atk_alt
+		track_kind = "atk1" if _mon_atk_alt else "atk2"
+	elif kind != "roar" and kind != "die":
+		track_kind = "atk1"
+	var prem_key := "premium_mon/%s_%s" % [arch, track_kind]
+	if load_stream("sfx/%s.mp3" % prem_key) != null:
+		var g := 0.94 if kind == "roar" else (0.92 if kind == "die" else 0.90)
+		sfx(prem_key, g, 0.07)
+		return
 	var path := "monsters/%s/%s" % [actor_id, kind]
 	if load_stream("sfx/%s.mp3" % path) != null:
 		sfx(path, 0.88, 0.08)
@@ -198,6 +259,30 @@ func play_monster_sfx(actor_id: String, kind: String) -> void:
 		sfx("common/hit", 0.78, 0.10)
 	elif kind == "roar":
 		sfx("common/boss-warning", 0.76, 0.06)
+
+func play_dungeon_music(theme: String) -> void:
+	var tk := theme if theme in ["pyra", "verdant", "aether", "nexus"] else "pyra"
+	var mkey := "dungeon_" + tk
+	if mkey == active_music:
+		return
+	var s := load_stream("sfx/premium_dun/lab_%s.mp3" % tk)
+	if s == null:
+		return
+	if s is AudioStreamMP3:
+		(s as AudioStreamMP3).loop = true
+	var next := music_b if fading_in == music_a else music_a
+	fading_out = fading_in
+	fading_in = next
+	active_music = mkey
+	next.stream = s
+	next.volume_db = -60.0
+	next.play()
+	fade_t = 0.0
+	ambience.stop()
+	active_ambience = ""
+
+func play_dungeon_sfx(key: String, gain: float = 0.90, pitch_jitter: float = 0.04) -> void:
+	sfx("premium_dun/" + key, gain, pitch_jitter)
 
 func play_gm_sfx(key: String, gain: float = 0.92, pitch_jitter: float = 0.03, pitch_base: float = 1.0) -> void:
 	sfx("gm/" + key, gain, pitch_jitter, pitch_base)

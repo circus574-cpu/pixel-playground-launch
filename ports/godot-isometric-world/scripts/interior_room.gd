@@ -141,9 +141,9 @@ func _ready() -> void:
 	resized.connect(_layout_stage)
 	_layout_stage()
 
-func _style_btn(btn: Button, bg: Color, border: Color, fsz: int = 15) -> void:
-	btn.custom_minimum_size.x = maxf(btn.custom_minimum_size.x, 168.0)
-	btn.custom_minimum_size.y = maxf(btn.custom_minimum_size.y, 42.0)
+func _style_btn(btn: Button, bg: Color, border: Color, fsz: int = 18) -> void:
+	btn.custom_minimum_size.x = maxf(btn.custom_minimum_size.x, 196.0)
+	btn.custom_minimum_size.y = maxf(btn.custom_minimum_size.y, 52.0)
 	var variant := "slate"
 	if bg.r > bg.b + 0.14 and bg.g < 0.14:
 		variant = "crimson"
@@ -151,7 +151,19 @@ func _style_btn(btn: Button, bg: Color, border: Color, fsz: int = 15) -> void:
 		variant = "gold"
 	elif bg.g > bg.r + 0.08:
 		variant = "gold"
-	ForgedUI.style_button(btn, variant, fsz, 18.0, 7.0)
+	ForgedUI.style_button(btn, variant, maxi(fsz, 17), 20.0, 9.0)
+
+func _make_row_card(accent_border: Color = Color(0.68, 0.54, 0.28, 0.72)) -> HBoxContainer:
+	var card := PanelContainer.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.add_theme_stylebox_override("panel", ForgedUI.inset_card(accent_border, Color(0.06, 0.055, 0.09, 0.94), 14, 10))
+	service_vbox.add_child(card)
+	var row := HBoxContainer.new()
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 14)
+	card.add_child(row)
+	return row
 
 func _build_hud() -> void:
 	# Clean floating top-left Exit + Title strip over the fullscreen interior (no bulky windowed chrome!)
@@ -162,8 +174,8 @@ func _build_hud() -> void:
 	top_bar.add_child(top_h)
 
 	btn_exit.text = "← WYJDŹ"
-	btn_exit.custom_minimum_size = Vector2(182.0, 56.0)
-	ForgedUI.style_button(btn_exit, "slate", 20, 24.0, 10.0)
+	btn_exit.custom_minimum_size = Vector2(188.0, 56.0)
+	ForgedUI.style_button(btn_exit, "slate", 21, 24.0, 10.0)
 	btn_exit.pressed.connect(func() -> void:
 		if world != null and world.has_method("exit_building"):
 			world.exit_building()
@@ -173,14 +185,14 @@ func _build_hud() -> void:
 	title_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	title_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	title_lbl.add_theme_font_override("font", MapStyle.font())
-	title_lbl.add_theme_font_size_override("font_size", 22)
+	title_lbl.add_theme_font_size_override("font_size", 24)
 	title_lbl.add_theme_color_override("font_color", Color(1.0, 0.92, 0.60))
 	title_lbl.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.01, 0.98))
 	title_lbl.add_theme_constant_override("outline_size", 5)
 	top_h.add_child(title_lbl)
 
 	btn_service.text = "◆ USŁUGI"
-	ForgedUI.style_button(btn_service, "gold", 21, 28.0, 12.0)
+	ForgedUI.style_button(btn_service, "gold", 22, 28.0, 12.0)
 	btn_service.pressed.connect(func() -> void:
 		toggle_service_panel(not service_open)
 	)
@@ -188,12 +200,12 @@ func _build_hud() -> void:
 
 	# Dark scrim + full-width Forged Obsidian & Gold Service Modal (big readable mobile fonts)
 	service_scrim.set_anchors_preset(Control.PRESET_FULL_RECT)
-	service_scrim.color = Color(0.015, 0.012, 0.025, 0.84)
+	service_scrim.color = Color(0.015, 0.012, 0.025, 0.86)
 	service_scrim.mouse_filter = Control.MOUSE_FILTER_STOP
 	service_scrim.visible = false
 	hud_root.add_child(service_scrim)
 
-	service_panel.add_theme_stylebox_override("panel", ForgedUI.panel_box(36.0, 32.0))
+	service_panel.add_theme_stylebox_override("panel", ForgedUI.panel_box(34.0, 28.0))
 	service_panel.visible = false
 	hud_root.add_child(service_panel)
 
@@ -201,8 +213,8 @@ func _build_hud() -> void:
 	mg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	mg.add_theme_constant_override("margin_left", 36)
 	mg.add_theme_constant_override("margin_right", 36)
-	mg.add_theme_constant_override("margin_top", 30)
-	mg.add_theme_constant_override("margin_bottom", 28)
+	mg.add_theme_constant_override("margin_top", 26)
+	mg.add_theme_constant_override("margin_bottom", 24)
 	service_panel.add_child(mg)
 
 	var sv := VBoxContainer.new()
@@ -212,13 +224,13 @@ func _build_hud() -> void:
 	mg.add_child(sv)
 
 	var shdr := HBoxContainer.new()
-	shdr.add_theme_constant_override("separation", 16)
+	shdr.add_theme_constant_override("separation", 18)
 	sv.add_child(shdr)
 
 	var s_close := Button.new()
 	s_close.text = "← WSTECZ"
-	s_close.custom_minimum_size = Vector2(180.0, 56.0)
-	ForgedUI.style_button(s_close, "slate", 19, 22.0, 10.0)
+	s_close.custom_minimum_size = Vector2(196.0, 58.0)
+	ForgedUI.style_button(s_close, "slate", 21, 24.0, 10.0)
 	s_close.pressed.connect(func() -> void: toggle_service_panel(false))
 	shdr.add_child(s_close)
 
@@ -227,8 +239,8 @@ func _build_hud() -> void:
 	service_hdr_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	service_hdr_lbl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	service_hdr_lbl.add_theme_font_override("font", MapStyle.font())
-	service_hdr_lbl.add_theme_font_size_override("font_size", 22)
-	service_hdr_lbl.add_theme_color_override("font_color", Color(1.0, 0.90, 0.54))
+	service_hdr_lbl.add_theme_font_size_override("font_size", 27)
+	service_hdr_lbl.add_theme_color_override("font_color", Color(1.0, 0.92, 0.58))
 	service_hdr_lbl.add_theme_color_override("font_outline_color", Color(0.03, 0.02, 0.01, 0.98))
 	service_hdr_lbl.add_theme_constant_override("outline_size", 5)
 	shdr.add_child(service_hdr_lbl)
@@ -243,8 +255,8 @@ func _build_hud() -> void:
 	service_scroll.add_child(service_vbox)
 
 	service_status.add_theme_font_override("font", MapStyle.body_font())
-	service_status.add_theme_font_size_override("font_size", 17)
-	service_status.add_theme_color_override("font_color", Color(0.56, 0.96, 0.72))
+	service_status.add_theme_font_size_override("font_size", 19)
+	service_status.add_theme_color_override("font_color", Color(0.56, 0.98, 0.74))
 	service_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	sv.add_child(service_status)
 
@@ -265,14 +277,14 @@ func _layout_stage() -> void:
 		npc_actor.scale = Vector2(0.72 * aspect_fix, 0.72)
 
 	top_bar.position = Vector2(14.0, 10.0)
-	top_bar.size = Vector2(minf(vs.x - 28.0, 780.0), 70.0)
+	top_bar.size = Vector2(minf(vs.x - 28.0, 820.0), 72.0)
 
-	var srv_w := clampf(vs.x * 0.36, 380.0, 480.0)
-	btn_service.position = Vector2((vs.x - srv_w) * 0.5, vs.y - 78.0)
-	btn_service.size = Vector2(srv_w, 64.0)
+	var srv_w := clampf(vs.x * 0.36, 400.0, 500.0)
+	btn_service.position = Vector2((vs.x - srv_w) * 0.5, vs.y - 80.0)
+	btn_service.size = Vector2(srv_w, 66.0)
 
-	var pw := clampf(vs.x - 36.0, 680.0, 1280.0)
-	var ph := clampf(vs.y - 30.0, 480.0, 720.0)
+	var pw := clampf(vs.x - 28.0, 720.0, 1520.0)
+	var ph := clampf(vs.y - 24.0, 500.0, 696.0)
 	service_panel.position = Vector2((vs.x - pw) * 0.5, (vs.y - ph) * 0.5)
 	service_panel.size = Vector2(pw, ph)
 
@@ -571,13 +583,13 @@ func _refresh_service_ui() -> void:
 		return
 
 	var gold_lbl := Label.new()
-	gold_lbl.text = "Twoje Złoto: %d szt.  •  HP: %d/%d  •  KI: %d/%d" % [
+	gold_lbl.text = "Złoto: %d szt.   •   HP: %d/%d   •   KI: %d/%d" % [
 		int(hud_ref.hero_gold), int(round(hud_ref.hero_hp)), int(round(hud_ref.hero_max_hp)),
 		int(round(hud_ref.hero_ki)), int(round(hud_ref.hero_max_ki))
 	]
 	gold_lbl.add_theme_font_override("font", MapStyle.body_font())
-	gold_lbl.add_theme_font_size_override("font_size", 14)
-	gold_lbl.add_theme_color_override("font_color", Color(1.0, 0.92, 0.66))
+	gold_lbl.add_theme_font_size_override("font_size", 20)
+	gold_lbl.add_theme_color_override("font_color", Color(1.0, 0.93, 0.66))
 	service_vbox.add_child(gold_lbl)
 
 	if room_role == "shop":
@@ -623,11 +635,11 @@ func _srv_act(payload: Dictionary) -> bool:
 		)
 	return false
 
-func _section_hdr(txt: String, col: Color = Color(0.96, 0.82, 0.46)) -> Label:
+func _section_hdr(txt: String, col: Color = Color(0.98, 0.85, 0.48)) -> Label:
 	var l := Label.new()
 	l.text = txt
 	l.add_theme_font_override("font", MapStyle.font())
-	l.add_theme_font_size_override("font_size", 13)
+	l.add_theme_font_size_override("font_size", 20)
 	l.add_theme_color_override("font_color", col)
 	return l
 
@@ -661,13 +673,13 @@ func _consume_item_from_backpack(hud_ref, iid: String, qty: int) -> bool:
 func _build_shop_ui(hud_ref) -> void:
 	var note := Label.new()
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	note.text = "Sklep oferuje mikstury oraz podstawowy ekwipunek Tier 1 (Poz. 1–2). Wyższe tiery wykuwasz w Kuźni z surowców i trofeów lub zdobywasz w trudnych zadaniach!"
+	note.text = "Sklep oferuje mikstury oraz podstawowy ekwipunek Tier 1 (Poz. 1–2). Wyższe tiery wykuwasz w Kuźni z surowców i trofeów!"
 	note.add_theme_font_override("font", MapStyle.body_font())
-	note.add_theme_font_size_override("font_size", 12)
-	note.add_theme_color_override("font_color", Color(0.84, 0.80, 0.72))
+	note.add_theme_font_size_override("font_size", 17)
+	note.add_theme_color_override("font_color", Color(0.88, 0.85, 0.78))
 	service_vbox.add_child(note)
 
-	service_vbox.add_child(_section_hdr("KUP W SKLEPIE (MIKSTURY I PODSTAWOWY SPRZĘT):"))
+	service_vbox.add_child(_section_hdr("KUP W SKLEPIE (MIKSTURY I SPRZĘT):"))
 	for it: Dictionary in GmPanelScript.get_catalog():
 		var sp_raw: Variant = it.get("shopPrice", null)
 		if sp_raw == null:
@@ -675,30 +687,41 @@ func _build_shop_ui(hud_ref) -> void:
 		var price := int(sp_raw)
 		if price <= 0:
 			continue
-		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 10)
-		service_vbox.add_child(row)
+		var row := _make_row_card(Color(0.76, 0.60, 0.30, 0.75))
 
 		var ico := TextureRect.new()
-		ico.custom_minimum_size = Vector2(34, 34)
+		ico.custom_minimum_size = Vector2(52, 52)
 		ico.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		ico.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		ico.texture = world.load_tex("res://assets/ui/icons/" + str(it["icon"]))
 		row.add_child(ico)
 
 		var min_lv := int(it.get("minLevel", 1))
+		var info_v := VBoxContainer.new()
+		info_v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		info_v.add_theme_constant_override("separation", 3)
+		row.add_child(info_v)
+
 		var lbl := Label.new()
-		lbl.text = "%s [Poz.%d] (%s) — %d zł" % [str(it["name"]), min_lv, str(it["desc"]), price]
-		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		lbl.text = "%s  [Poz.%d]  —  %d zł" % [str(it["name"]), min_lv, price]
 		lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		lbl.add_theme_font_override("font", MapStyle.body_font())
-		lbl.add_theme_font_size_override("font_size", 13)
+		lbl.add_theme_font_size_override("font_size", 20)
 		lbl.add_theme_color_override("font_color", it["rarity"] as Color)
-		row.add_child(lbl)
+		info_v.add_child(lbl)
+
+		var d_lbl := Label.new()
+		d_lbl.text = str(it.get("desc", ""))
+		d_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		d_lbl.add_theme_font_override("font", MapStyle.body_font())
+		d_lbl.add_theme_font_size_override("font_size", 17)
+		d_lbl.add_theme_color_override("font_color", Color(0.84, 0.86, 0.90))
+		info_v.add_child(d_lbl)
 
 		var b_buy := Button.new()
 		b_buy.text = "KUP (%d zł)" % price
-		_style_btn(b_buy, Color(0.12, 0.28, 0.16, 0.96), Color(0.42, 0.92, 0.56, 0.95), 13)
+		b_buy.custom_minimum_size = Vector2(210.0, 54.0)
+		_style_btn(b_buy, Color(0.12, 0.28, 0.16, 0.96), Color(0.42, 0.92, 0.56, 0.95), 19)
 		var it_c := it.duplicate(true)
 		b_buy.pressed.connect(func() -> void:
 			if _srv_act({"type": "shop_buy", "itemId": str(it_c["id"])}):
@@ -729,12 +752,10 @@ func _build_shop_ui(hud_ref) -> void:
 			continue
 		sell_any = true
 		var qty := maxi(1, int(bag_it.get("qty", 1)))
-		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 8)
-		service_vbox.add_child(row)
+		var row := _make_row_card(Color(0.42, 0.72, 0.54, 0.68))
 
 		var ico := TextureRect.new()
-		ico.custom_minimum_size = Vector2(30, 30)
+		ico.custom_minimum_size = Vector2(46, 46)
 		ico.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		ico.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		ico.texture = world.load_tex("res://assets/ui/icons/" + str(bag_it.get("icon", "gear-coin.webp")))
@@ -744,7 +765,7 @@ func _build_shop_ui(hud_ref) -> void:
 		lbl.text = "%s ×%d  (+%d zł/szt.)" % [str(bag_it.get("name", iid)), qty, unit_sell]
 		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		lbl.add_theme_font_override("font", MapStyle.body_font())
-		lbl.add_theme_font_size_override("font_size", 13)
+		lbl.add_theme_font_size_override("font_size", 19)
 		var rcol: Color = bag_it.get("rarity", Color(0.9, 0.9, 0.9)) as Color
 		lbl.add_theme_color_override("font_color", rcol)
 		row.add_child(lbl)
@@ -752,7 +773,8 @@ func _build_shop_ui(hud_ref) -> void:
 		var slot_idx: int = int(i)
 		var b_sell1 := Button.new()
 		b_sell1.text = "SPRZEDAJ 1 (+%d zł)" % unit_sell
-		_style_btn(b_sell1, Color(0.24, 0.16, 0.08, 0.96), Color(0.96, 0.78, 0.34, 0.95), 12)
+		b_sell1.custom_minimum_size = Vector2(228.0, 52.0)
+		_style_btn(b_sell1, Color(0.24, 0.16, 0.08, 0.96), Color(0.96, 0.78, 0.34, 0.95), 18)
 		b_sell1.pressed.connect(func() -> void:
 			if _srv_act({"type": "shop_sell", "slotIndex": slot_idx}):
 				return
@@ -775,8 +797,8 @@ func _build_shop_ui(hud_ref) -> void:
 		if qty > 1:
 			var b_sell_all := Button.new()
 			b_sell_all.text = "×%d (+%d zł)" % [qty, unit_sell * qty]
-			b_sell_all.custom_minimum_size = Vector2(118.0, 42.0)
-			ForgedUI.style_button(b_sell_all, "crimson", 12, 12.0, 7.0)
+			b_sell_all.custom_minimum_size = Vector2(168.0, 52.0)
+			ForgedUI.style_button(b_sell_all, "crimson", 18, 16.0, 8.0)
 			b_sell_all.pressed.connect(func() -> void:
 				if _srv_act({"type": "shop_sell", "slotIndex": slot_idx, "sellAll": true}):
 					return
@@ -795,8 +817,8 @@ func _build_shop_ui(hud_ref) -> void:
 		var emp := Label.new()
 		emp.text = "Brak przedmiotów na sprzedaż w plecaku."
 		emp.add_theme_font_override("font", MapStyle.body_font())
-		emp.add_theme_font_size_override("font_size", 12)
-		emp.add_theme_color_override("font_color", Color(0.68, 0.66, 0.62))
+		emp.add_theme_font_size_override("font_size", 18)
+		emp.add_theme_color_override("font_color", Color(0.76, 0.74, 0.70))
 		service_vbox.add_child(emp)
 
 func _recipe_filter_bucket(out_def: Dictionary, station: String) -> String:
@@ -816,9 +838,9 @@ func _build_crafting_ui(hud_ref) -> void:
 	var v2_recipes: Array[Dictionary] = GmPanelScript.get_recipes()
 	var heritage_stage_cur := int(hud_ref.heritage_stage) if hud_ref.get("heritage_stage") != null else 0
 
-	# Top 3-Tab Smithy Switcher
+	# Top 3-Tab Smithy Switcher — BIG mobile tabs
 	var tab_row := HBoxContainer.new()
-	tab_row.add_theme_constant_override("separation", 8)
+	tab_row.add_theme_constant_override("separation", 10)
 	service_vbox.add_child(tab_row)
 	var tab_specs := [
 		["craft", "⚒ CRAFTING (%d)" % v2_recipes.size()],
@@ -829,10 +851,10 @@ func _build_crafting_ui(hud_ref) -> void:
 		var tkey := str(ts[0])
 		var tb := Button.new()
 		tb.text = str(ts[1])
-		tb.custom_minimum_size = Vector2(0, 42)
+		tb.custom_minimum_size = Vector2(0, 54)
 		tb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var active_t := (smithy_tab == tkey)
-		ForgedUI.style_button(tb, "gold" if active_t else "slate", 13, 14.0, 10.0)
+		ForgedUI.style_button(tb, "gold" if active_t else "slate", 19, 18.0, 10.0)
 		tb.pressed.connect(func() -> void:
 			smithy_tab = tkey
 			_refresh_service_ui()
@@ -846,21 +868,13 @@ func _build_crafting_ui(hud_ref) -> void:
 		_build_smithy_heritage_tab(hud_ref)
 		return
 
-	var note := Label.new()
-	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	note.text = "Kuźnia Mistrzowska — pełny katalog %d receptur rzemieślniczych (broń, pancerze, zestawy V2, biżuteria i eliksiry)." % v2_recipes.size()
-	note.add_theme_font_override("font", MapStyle.body_font())
-	note.add_theme_font_size_override("font_size", 12)
-	note.add_theme_color_override("font_color", Color(0.86, 0.82, 0.72))
-	service_vbox.add_child(note)
-
-	# Category filter pills
+	# Category filter pills — BIG readable pills
 	var f_row := HBoxContainer.new()
-	f_row.add_theme_constant_override("separation", 6)
+	f_row.add_theme_constant_override("separation", 8)
 	service_vbox.add_child(f_row)
 	var filters := [
 		["all", "Wszystkie"],
-		["ready", "✓ Mogę wykuć"],
+		["ready", "✓ Gotowe"],
 		["weapon", "Broń"],
 		["armor", "Pancerz"],
 		["jewel", "Biżuteria"],
@@ -870,13 +884,10 @@ func _build_crafting_ui(hud_ref) -> void:
 		var fkey := str(fl[0])
 		var fb := Button.new()
 		fb.text = str(fl[1])
+		fb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		fb.custom_minimum_size = Vector2(0, 48)
 		var is_sel := (smithy_filter == fkey)
-		_style_btn(
-			fb,
-			Color(0.32, 0.21, 0.08, 0.96) if is_sel else Color(0.10, 0.12, 0.18, 0.92),
-			Color(1.0, 0.82, 0.36, 0.96) if is_sel else Color(0.46, 0.54, 0.66, 0.80),
-			11
-		)
+		ForgedUI.style_button(fb, "gold" if is_sel else "slate", 17, 14.0, 8.0)
 		fb.pressed.connect(func() -> void:
 			smithy_filter = fkey
 			_refresh_service_ui()
@@ -960,18 +971,18 @@ func _build_crafting_ui(hud_ref) -> void:
 
 	var max_rows := mini(filtered.size(), 36)
 	var cnt_lbl := Label.new()
-	cnt_lbl.text = "Wyświetlono %d z %d pasujących receptur (gotowe do wykucia na górze)." % [max_rows, filtered.size()]
+	cnt_lbl.text = "Receptury: %d z %d (gotowe do wykucia na górze)" % [max_rows, filtered.size()]
 	cnt_lbl.add_theme_font_override("font", MapStyle.body_font())
-	cnt_lbl.add_theme_font_size_override("font_size", 11)
-	cnt_lbl.add_theme_color_override("font_color", Color(0.68, 0.78, 0.88))
+	cnt_lbl.add_theme_font_size_override("font_size", 17)
+	cnt_lbl.add_theme_color_override("font_color", Color(0.76, 0.86, 0.96))
 	service_vbox.add_child(cnt_lbl)
 
 	if max_rows == 0:
 		var emp := Label.new()
 		emp.text = "Brak receptur spełniających ten filtr — zbierz surowce w świecie lub wybierz kategorię."
 		emp.add_theme_font_override("font", MapStyle.body_font())
-		emp.add_theme_font_size_override("font_size", 12)
-		emp.add_theme_color_override("font_color", Color(0.76, 0.72, 0.66))
+		emp.add_theme_font_size_override("font_size", 18)
+		emp.add_theme_color_override("font_color", Color(0.84, 0.80, 0.74))
 		service_vbox.add_child(emp)
 		return
 
@@ -996,12 +1007,10 @@ func _build_crafting_ui(hud_ref) -> void:
 				var ing_name := str(ing_def.get("name", ing_id))
 				mat_parts.append("%s %d/%d" % [ing_name, have, need])
 
-		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 10)
-		service_vbox.add_child(row)
+		var row := _make_row_card(Color(0.42, 0.92, 0.56, 0.85) if can_craft else Color(0.62, 0.50, 0.30, 0.65))
 
 		var ico := TextureRect.new()
-		ico.custom_minimum_size = Vector2(36, 36)
+		ico.custom_minimum_size = Vector2(52, 52)
 		ico.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		ico.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		ico.texture = world.load_tex("res://assets/ui/icons/" + str(it.get("icon", "gear-sword.webp")))
@@ -1009,6 +1018,7 @@ func _build_crafting_ui(hud_ref) -> void:
 
 		var info_v := VBoxContainer.new()
 		info_v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		info_v.add_theme_constant_override("separation", 4)
 		row.add_child(info_v)
 
 		var set_tag := (" [%s]" % str(it.get("setCode", ""))) if not str(it.get("setCode", "")).is_empty() else ""
@@ -1017,8 +1027,8 @@ func _build_crafting_ui(hud_ref) -> void:
 		lbl.text = "%s%s%s [Poz.%d] — %s" % [str(it.get("name", rec_id)), qty_tag, set_tag, min_lv, str(it.get("desc", ""))]
 		lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		lbl.add_theme_font_override("font", MapStyle.body_font())
-		lbl.add_theme_font_size_override("font_size", 13)
-		lbl.add_theme_color_override("font_color", it.get("rarity", Color(0.92, 0.90, 0.86)) as Color)
+		lbl.add_theme_font_size_override("font_size", 20)
+		lbl.add_theme_color_override("font_color", it.get("rarity", Color(0.96, 0.94, 0.90)) as Color)
 		info_v.add_child(lbl)
 
 		var sub := Label.new()
@@ -1026,13 +1036,14 @@ func _build_crafting_ui(hud_ref) -> void:
 		sub.text = "Składniki: %s  •  Koszt: %d zł" % [mats_txt, cost]
 		sub.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		sub.add_theme_font_override("font", MapStyle.body_font())
-		sub.add_theme_font_size_override("font_size", 11)
-		sub.add_theme_color_override("font_color", Color(0.56, 0.94, 0.68) if can_craft else Color(0.92, 0.56, 0.46))
+		sub.add_theme_font_size_override("font_size", 17)
+		sub.add_theme_color_override("font_color", Color(0.56, 0.98, 0.72) if can_craft else Color(1.0, 0.68, 0.56))
 		info_v.add_child(sub)
 
 		var b_craft := Button.new()
 		b_craft.text = "⚒ WYKUJ (%d zł)" % cost if hero_lv >= min_lv else "🔒 POZ. %d" % min_lv
-		_style_btn(b_craft, Color(0.28, 0.16, 0.06, 0.96) if can_craft else Color(0.14, 0.12, 0.16, 0.92), Color(1.0, 0.72, 0.28, 0.96) if can_craft else Color(0.42, 0.38, 0.36, 0.8), 12)
+		b_craft.custom_minimum_size = Vector2(226.0, 56.0)
+		_style_btn(b_craft, Color(0.28, 0.16, 0.06, 0.96) if can_craft else Color(0.14, 0.12, 0.16, 0.92), Color(1.0, 0.72, 0.28, 0.96) if can_craft else Color(0.42, 0.38, 0.36, 0.8), 19)
 		var it_c := it.duplicate(true)
 		b_craft.pressed.connect(func() -> void:
 			var payload: Dictionary = {"type": "craft_recipe", "recipeId": rec_id} if is_v2 else {"type": "craft", "itemId": str(it_c["id"])}
@@ -1070,10 +1081,10 @@ func _build_crafting_ui(hud_ref) -> void:
 func _build_smithy_enhance_tab(hud_ref) -> void:
 	var note := Label.new()
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	note.text = "Kowalskie Ulepszanie (+1 do +9): każdy poziom wzmacnia statystyki założonego slotu o +8% (max +72%). Broń od +3/+6/+9 zyskuje widoczną aurę Ki!"
+	note.text = "Kowalskie Ulepszanie (+1 do +9): każdy poziom wzmacnia statystyki slotu o +8% (max +72%). Broń od +3/+6/+9 zyskuje aurę Ki!"
 	note.add_theme_font_override("font", MapStyle.body_font())
-	note.add_theme_font_size_override("font_size", 12)
-	note.add_theme_color_override("font_color", Color(0.74, 0.92, 1.0))
+	note.add_theme_font_size_override("font_size", 17)
+	note.add_theme_color_override("font_color", Color(0.76, 0.94, 1.0))
 	service_vbox.add_child(note)
 
 	var slot_names := ["Hełm", "Amulet", "Broń", "Rękawice", "Pancerz", "Tarcza", "Pierścień", "Buty"]
@@ -1083,12 +1094,10 @@ func _build_smithy_enhance_tab(hud_ref) -> void:
 		var sname: String = str(slot_names[si]) if si < slot_names.size() else ("Slot %d" % si)
 		var cur_rank: int = int(hud_ref.get_slot_upgrade_rank(si)) if hud_ref.has_method("get_slot_upgrade_rank") else 0
 
-		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 10)
-		service_vbox.add_child(row)
+		var row := _make_row_card(Color(0.46, 0.86, 1.0, 0.72) if not eq_id.is_empty() else Color(0.40, 0.38, 0.42, 0.50))
 
 		var ico := TextureRect.new()
-		ico.custom_minimum_size = Vector2(36, 36)
+		ico.custom_minimum_size = Vector2(52, 52)
 		ico.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		ico.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		var icon_file := str(eq.get("icon", ""))
@@ -1097,34 +1106,35 @@ func _build_smithy_enhance_tab(hud_ref) -> void:
 
 		var info_v := VBoxContainer.new()
 		info_v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		info_v.add_theme_constant_override("separation", 4)
 		row.add_child(info_v)
 
 		var lbl := Label.new()
 		if eq_id.is_empty():
 			lbl.text = "%s — Pusty slot" % sname
-			lbl.add_theme_color_override("font_color", Color(0.58, 0.56, 0.54))
+			lbl.add_theme_color_override("font_color", Color(0.68, 0.66, 0.64))
 		else:
 			var plus_txt := (" +%d" % cur_rank) if cur_rank > 0 else ""
-			lbl.text = "%s: %s%s  (Premia slotu: +%d%%)" % [sname, str(eq.get("name", eq_id)), plus_txt, cur_rank * 8]
+			lbl.text = "%s: %s%s  (Premia: +%d%%)" % [sname, str(eq.get("name", eq_id)), plus_txt, cur_rank * 8]
 			lbl.add_theme_color_override("font_color", eq.get("rarity", Color(0.95, 0.92, 0.86)) as Color)
 		lbl.add_theme_font_override("font", MapStyle.body_font())
-		lbl.add_theme_font_size_override("font_size", 13)
+		lbl.add_theme_font_size_override("font_size", 20)
 		info_v.add_child(lbl)
 
 		if eq_id.is_empty():
 			var sub_e := Label.new()
 			sub_e.text = "Załóż przedmiot w oknie Postaci [I], aby go ulepszyć."
 			sub_e.add_theme_font_override("font", MapStyle.body_font())
-			sub_e.add_theme_font_size_override("font_size", 11)
-			sub_e.add_theme_color_override("font_color", Color(0.56, 0.56, 0.60))
+			sub_e.add_theme_font_size_override("font_size", 17)
+			sub_e.add_theme_color_override("font_color", Color(0.66, 0.66, 0.72))
 			info_v.add_child(sub_e)
 			continue
 
 		if cur_rank >= 9:
 			var sub_m := Label.new()
-			sub_m.text = "★ Osiągnięto maksymalne mistrzowskie ulepszenie +9 (+72% statystyk)!"
+			sub_m.text = "★ Maksymalne mistrzowskie ulepszenie +9 (+72% statystyk)!"
 			sub_m.add_theme_font_override("font", MapStyle.body_font())
-			sub_m.add_theme_font_size_override("font_size", 11)
+			sub_m.add_theme_font_size_override("font_size", 17)
 			sub_m.add_theme_color_override("font_color", Color(1.0, 0.88, 0.34))
 			info_v.add_child(sub_m)
 			continue
@@ -1151,14 +1161,15 @@ func _build_smithy_enhance_tab(hud_ref) -> void:
 		sub.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		sub.text = "Następny: +%d (+%d%%)  •  Koszt: %d zł  •  %s" % [next_t, next_t * 8, g_cost, ", ".join(parts) if not parts.is_empty() else "Tylko złoto"]
 		sub.add_theme_font_override("font", MapStyle.body_font())
-		sub.add_theme_font_size_override("font_size", 11)
-		sub.add_theme_color_override("font_color", Color(0.56, 0.94, 0.68) if can_up else Color(0.92, 0.58, 0.46))
+		sub.add_theme_font_size_override("font_size", 17)
+		sub.add_theme_color_override("font_color", Color(0.56, 0.98, 0.72) if can_up else Color(1.0, 0.68, 0.56))
 		info_v.add_child(sub)
 
 		var slot_idx: int = int(si)
 		var b_up := Button.new()
 		b_up.text = "✦ ULEPSZ → +%d (%d zł)" % [next_t, g_cost]
-		_style_btn(b_up, Color(0.14, 0.24, 0.34, 0.96) if can_up else Color(0.14, 0.12, 0.16, 0.90), Color(0.46, 0.94, 1.0, 0.96) if can_up else Color(0.42, 0.40, 0.44, 0.78), 12)
+		b_up.custom_minimum_size = Vector2(246.0, 56.0)
+		_style_btn(b_up, Color(0.14, 0.24, 0.34, 0.96) if can_up else Color(0.14, 0.12, 0.16, 0.90), Color(0.46, 0.94, 1.0, 0.96) if can_up else Color(0.42, 0.40, 0.44, 0.78), 18)
 		b_up.pressed.connect(func() -> void:
 			if _srv_act({"type": "enhance_equip", "equipSlot": slot_idx}):
 				return
@@ -1195,9 +1206,9 @@ func _build_smithy_heritage_tab(hud_ref) -> void:
 
 	var note := Label.new()
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	note.text = "Broń Dziedzictwa (Etapy I–VI) — osobista broń Twojej rasy, którą przekuwasz przez kolejne etapy przygody (Postęp: %d/6)." % cur_stage
+	note.text = "Broń Dziedzictwa (Etapy I–VI) — osobista broń Twojej rasy, przekuwana na kolejnych etapach przygody (Postęp: %d/6)." % cur_stage
 	note.add_theme_font_override("font", MapStyle.body_font())
-	note.add_theme_font_size_override("font_size", 12)
+	note.add_theme_font_size_override("font_size", 17)
 	note.add_theme_color_override("font_color", Color(1.0, 0.90, 0.56))
 	service_vbox.add_child(note)
 
@@ -1222,13 +1233,11 @@ func _build_smithy_heritage_tab(hud_ref) -> void:
 				parts.append("%s %d/%d" % [str(idef.get("name", iid)), have, need])
 		var can_forge := is_next and (int(hud_ref.hero_level) >= min_lv) and (int(hud_ref.hero_gold) >= g_cost) and (not missing)
 
-		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 10)
-		service_vbox.add_child(row)
+		var row := _make_row_card(Color(0.46, 0.96, 0.64, 0.78) if is_done else (Color(1.0, 0.84, 0.32, 0.92) if is_next else Color(0.46, 0.44, 0.50, 0.55)))
 
 		var hw_def := GmPanelScript.find_item(str(hw.get("id", "")))
 		var ico := TextureRect.new()
-		ico.custom_minimum_size = Vector2(38, 38)
+		ico.custom_minimum_size = Vector2(54, 54)
 		ico.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		ico.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		ico.texture = world.load_tex("res://assets/ui/icons/" + str(hw_def.get("icon", "gear-sword.webp")))
@@ -1236,6 +1245,7 @@ func _build_smithy_heritage_tab(hud_ref) -> void:
 
 		var info_v := VBoxContainer.new()
 		info_v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		info_v.add_theme_constant_override("separation", 4)
 		row.add_child(info_v)
 
 		var lbl := Label.new()
@@ -1244,26 +1254,27 @@ func _build_smithy_heritage_tab(hud_ref) -> void:
 		]
 		lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		lbl.add_theme_font_override("font", MapStyle.body_font())
-		lbl.add_theme_font_size_override("font_size", 13)
-		lbl.add_theme_color_override("font_color", Color(0.56, 0.96, 0.68) if is_done else (Color(1.0, 0.88, 0.36) if is_next else Color(0.66, 0.66, 0.70)))
+		lbl.add_theme_font_size_override("font_size", 20)
+		lbl.add_theme_color_override("font_color", Color(0.56, 0.98, 0.70) if is_done else (Color(1.0, 0.90, 0.40) if is_next else Color(0.76, 0.76, 0.80)))
 		info_v.add_child(lbl)
 
 		var sub := Label.new()
 		sub.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		sub.text = "%s  •  Koszt: %d zł, %s" % [str(hw.get("desc", "")), g_cost, ", ".join(parts) if not parts.is_empty() else "Tylko złoto"]
 		sub.add_theme_font_override("font", MapStyle.body_font())
-		sub.add_theme_font_size_override("font_size", 11)
-		sub.add_theme_color_override("font_color", Color(0.76, 0.82, 0.88) if is_done else (Color(0.56, 0.94, 0.68) if can_forge else Color(0.88, 0.62, 0.50)))
+		sub.add_theme_font_size_override("font_size", 17)
+		sub.add_theme_color_override("font_color", Color(0.80, 0.86, 0.92) if is_done else (Color(0.56, 0.98, 0.72) if can_forge else Color(0.96, 0.70, 0.58)))
 		info_v.add_child(sub)
 
 		var btn := Button.new()
+		btn.custom_minimum_size = Vector2(246.0, 56.0)
 		if is_done:
 			btn.text = "✓ WYKUTO"
-			_style_btn(btn, Color(0.10, 0.24, 0.14, 0.92), Color(0.46, 0.94, 0.60, 0.88), 12)
+			_style_btn(btn, Color(0.10, 0.24, 0.14, 0.92), Color(0.46, 0.94, 0.60, 0.88), 18)
 			btn.disabled = true
 		elif is_next:
 			btn.text = "★ WYKUJ ETAP %d (%d zł)" % [st_num, g_cost]
-			_style_btn(btn, Color(0.30, 0.20, 0.06, 0.98) if can_forge else Color(0.14, 0.12, 0.16, 0.92), Color(1.0, 0.84, 0.32, 0.98) if can_forge else Color(0.46, 0.42, 0.38, 0.80), 12)
+			_style_btn(btn, Color(0.30, 0.20, 0.06, 0.98) if can_forge else Color(0.14, 0.12, 0.16, 0.92), Color(1.0, 0.84, 0.32, 0.98) if can_forge else Color(0.46, 0.42, 0.38, 0.80), 18)
 			var hw_c := hw.duplicate(true)
 			var hw_def_c := hw_def.duplicate(true)
 			btn.pressed.connect(func() -> void:
@@ -1317,26 +1328,24 @@ func _build_smithy_heritage_tab(hud_ref) -> void:
 			)
 		else:
 			btn.text = "🔒 ETAP %d" % st_num
-			_style_btn(btn, Color(0.12, 0.12, 0.16, 0.84), Color(0.38, 0.38, 0.44, 0.72), 11)
+			_style_btn(btn, Color(0.12, 0.12, 0.16, 0.84), Color(0.38, 0.38, 0.44, 0.72), 17)
 			btn.disabled = true
 		row.add_child(btn)
 
 func _build_bank_ui(hud_ref) -> void:
-	var g_row := HBoxContainer.new()
-	g_row.add_theme_constant_override("separation", 8)
-	service_vbox.add_child(g_row)
+	var g_row := _make_row_card(Color(1.0, 0.84, 0.36, 0.85))
 
 	var bl := Label.new()
 	bl.text = "Złoto w Skarbcu Banku: %d szt.  •  Pojemność: %d slotów" % [bank_gold, BANK_SLOTS]
 	bl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bl.add_theme_font_override("font", MapStyle.body_font())
-	bl.add_theme_font_size_override("font_size", 14)
-	bl.add_theme_color_override("font_color", Color(1.0, 0.88, 0.44))
+	bl.add_theme_font_size_override("font_size", 20)
+	bl.add_theme_color_override("font_color", Color(1.0, 0.90, 0.48))
 	g_row.add_child(bl)
 
 	var b_dep := Button.new()
 	b_dep.text = "WPŁAĆ 100 zł"
-	_style_btn(b_dep, Color(0.12, 0.26, 0.18, 0.96), Color(0.42, 0.92, 0.56, 0.95), 13)
+	_style_btn(b_dep, Color(0.12, 0.26, 0.18, 0.96), Color(0.42, 0.92, 0.56, 0.95), 18)
 	b_dep.pressed.connect(func() -> void:
 		if _srv_act({"type": "bank_deposit_gold", "amount": 100}):
 			return
@@ -1351,7 +1360,7 @@ func _build_bank_ui(hud_ref) -> void:
 
 	var b_wd := Button.new()
 	b_wd.text = "WYPŁAĆ 100 zł"
-	_style_btn(b_wd, Color(0.24, 0.18, 0.08, 0.96), Color(1.0, 0.82, 0.36, 0.95), 13)
+	_style_btn(b_wd, Color(0.24, 0.18, 0.08, 0.96), Color(1.0, 0.82, 0.36, 0.95), 18)
 	b_wd.pressed.connect(func() -> void:
 		if _srv_act({"type": "bank_withdraw_gold", "amount": 100}):
 			return
@@ -1372,7 +1381,7 @@ func _build_bank_ui(hud_ref) -> void:
 			continue
 		var btn := Button.new()
 		btn.text = "→ Deponuj: %s ×%d" % [str(it.get("name", "Przedmiot")), int(it.get("qty", 1))]
-		_style_btn(btn, Color(0.11, 0.14, 0.20, 0.95), Color(0.56, 0.78, 0.96, 0.90), 13)
+		_style_btn(btn, Color(0.11, 0.14, 0.20, 0.95), Color(0.56, 0.78, 0.96, 0.90), 18)
 		var idx: int = int(i)
 		btn.pressed.connect(func() -> void:
 			if _srv_act({"type": "bank_deposit_item", "backpackIndex": idx}):
@@ -1397,7 +1406,7 @@ func _build_bank_ui(hud_ref) -> void:
 			continue
 		var btn2 := Button.new()
 		btn2.text = "← Odbierz: %s ×%d" % [str(bit.get("name", "Przedmiot")), int(bit.get("qty", 1))]
-		_style_btn(btn2, Color(0.12, 0.24, 0.16, 0.95), Color(0.46, 0.94, 0.62, 0.92), 13)
+		_style_btn(btn2, Color(0.12, 0.24, 0.16, 0.95), Color(0.46, 0.94, 0.62, 0.92), 18)
 		var bidx: int = int(bi)
 		btn2.pressed.connect(func() -> void:
 			if _srv_act({"type": "bank_withdraw_item", "bankIndex": bidx}):
@@ -1413,7 +1422,8 @@ func _build_bank_ui(hud_ref) -> void:
 func _build_inn_ui(hud_ref) -> void:
 	var b_rest := Button.new()
 	b_rest.text = "🛏 PEŁNY ODPOCZYNEK I POSIŁEK (100% HP i KI — DARMOWE)"
-	_style_btn(b_rest, Color(0.12, 0.28, 0.18, 0.96), Color(0.46, 0.96, 0.64, 0.98), 15)
+	b_rest.custom_minimum_size = Vector2(0, 62)
+	_style_btn(b_rest, Color(0.12, 0.28, 0.18, 0.96), Color(0.46, 0.96, 0.64, 0.98), 20)
 	b_rest.pressed.connect(func() -> void:
 		if world != null:
 			if world.recent_world_combat():
@@ -1603,10 +1613,10 @@ func _build_active_drill_card(hud_ref) -> void:
 	if not drill_active:
 		return
 	var card := PanelContainer.new()
-	card.add_theme_stylebox_override("panel", ForgedUI.inset_card(Color(1.0, 0.80, 0.32, 0.95), Color(0.07, 0.055, 0.10, 0.98), 14, 12))
+	card.add_theme_stylebox_override("panel", ForgedUI.inset_card(Color(1.0, 0.80, 0.32, 0.95), Color(0.07, 0.055, 0.10, 0.98), 16, 14))
 	service_vbox.add_child(card)
 	var vb := VBoxContainer.new()
-	vb.add_theme_constant_override("separation", 8)
+	vb.add_theme_constant_override("separation", 10)
 	card.add_child(vb)
 
 	var top_r := HBoxContainer.new()
@@ -1615,13 +1625,13 @@ func _build_active_drill_card(hud_ref) -> void:
 	t_lbl.text = "🔥 AKTYWNA PRÓBA: %s  (%s)" % [drill_title.to_upper(), drill_gain]
 	t_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	t_lbl.add_theme_font_override("font", MapStyle.font())
-	t_lbl.add_theme_font_size_override("font_size", 14)
+	t_lbl.add_theme_font_size_override("font_size", 20)
 	t_lbl.add_theme_color_override("font_color", Color(1.0, 0.90, 0.44))
 	top_r.add_child(t_lbl)
 
 	var b_cancel := Button.new()
 	b_cancel.text = "✕ ANULUJ"
-	_style_btn(b_cancel, Color(0.24, 0.08, 0.08, 0.94), Color(0.90, 0.40, 0.36, 0.90), 11)
+	_style_btn(b_cancel, Color(0.24, 0.08, 0.08, 0.94), Color(0.90, 0.40, 0.36, 0.90), 17)
 	b_cancel.pressed.connect(func() -> void:
 		drill_active = false
 		drill_dojo_trial_id = ""
@@ -1630,7 +1640,7 @@ func _build_active_drill_card(hud_ref) -> void:
 	top_r.add_child(b_cancel)
 
 	drill_canvas = Control.new()
-	drill_canvas.custom_minimum_size = Vector2(0, 40)
+	drill_canvas.custom_minimum_size = Vector2(0, 48)
 	drill_canvas.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	drill_canvas.draw.connect(_draw_drill_bar)
 	vb.add_child(drill_canvas)
@@ -1639,14 +1649,14 @@ func _build_active_drill_card(hud_ref) -> void:
 	drill_info_lbl.text = drill_feedback
 	drill_info_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	drill_info_lbl.add_theme_font_override("font", MapStyle.body_font())
-	drill_info_lbl.add_theme_font_size_override("font_size", 13)
-	drill_info_lbl.add_theme_color_override("font_color", Color(0.84, 0.94, 1.0))
+	drill_info_lbl.add_theme_font_size_override("font_size", 18)
+	drill_info_lbl.add_theme_color_override("font_color", Color(0.86, 0.96, 1.0))
 	vb.add_child(drill_info_lbl)
 
 	drill_strike_btn = Button.new()
 	drill_strike_btn.text = "⚡ UDERZ / SKUP KI!  (Próba %d / 3)" % (drill_step + 1)
-	drill_strike_btn.custom_minimum_size = Vector2(0, 50)
-	ForgedUI.style_button(drill_strike_btn, "gold", 16)
+	drill_strike_btn.custom_minimum_size = Vector2(0, 60)
+	ForgedUI.style_button(drill_strike_btn, "gold", 21)
 	drill_strike_btn.pressed.connect(func() -> void: _trigger_drill_strike(hud_ref))
 	vb.add_child(drill_strike_btn)
 
@@ -1668,16 +1678,16 @@ func _build_mastery_header_card(hud_ref, subtitle: String) -> void:
 			break
 
 	var card := PanelContainer.new()
-	card.add_theme_stylebox_override("panel", ForgedUI.inset_card(Color(0.84, 0.66, 0.30, 0.85), Color(0.055, 0.048, 0.080, 0.95), 14, 10))
+	card.add_theme_stylebox_override("panel", ForgedUI.inset_card(Color(0.84, 0.66, 0.30, 0.85), Color(0.055, 0.048, 0.080, 0.95), 16, 12))
 	service_vbox.add_child(card)
 	var vb := VBoxContainer.new()
-	vb.add_theme_constant_override("separation", 4)
+	vb.add_theme_constant_override("separation", 6)
 	card.add_child(vb)
 
 	var h1 := Label.new()
 	h1.text = "★ RANGA MISTRZOSTWA MIASTA: %s  (%d sesji • 0 PD)" % [mastery_title.to_upper(), total_tr]
 	h1.add_theme_font_override("font", MapStyle.font())
-	h1.add_theme_font_size_override("font_size", 14)
+	h1.add_theme_font_size_override("font_size", 20)
 	h1.add_theme_color_override("font_color", Color(1.0, 0.88, 0.46))
 	vb.add_child(h1)
 
@@ -1685,8 +1695,8 @@ func _build_mastery_header_card(hud_ref, subtitle: String) -> void:
 	h2.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	h2.text = "%s\nNastępna ranga: %s  •  Limit na Poz.%d: %d sesji/stat  •  Pierwsze 3 sesje DARMOWE!" % [subtitle, next_tier_txt, lv, cap]
 	h2.add_theme_font_override("font", MapStyle.body_font())
-	h2.add_theme_font_size_override("font_size", 12)
-	h2.add_theme_color_override("font_color", Color(0.88, 0.86, 0.80))
+	h2.add_theme_font_size_override("font_size", 17)
+	h2.add_theme_color_override("font_color", Color(0.90, 0.88, 0.82))
 	vb.add_child(h2)
 
 func _add_training_drill_row(hud_ref, stat_key: String, title: String, gain_desc: String) -> void:
@@ -1694,19 +1704,17 @@ func _add_training_drill_row(hud_ref, stat_key: String, title: String, gain_desc
 	var cap: int = 3 + maxi(0, lv - 1) * 2
 	var cur_rank: int = int(hud_ref.training_ranks.get(stat_key, 0)) if hud_ref.get("training_ranks") is Dictionary else 0
 	var cost: int = 0 if cur_rank < 3 else (15 + (cur_rank - 2) * 10)
-	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 10)
-	service_vbox.add_child(row)
+	var row := _make_row_card(Color(0.46, 0.94, 0.64, 0.78) if cur_rank >= cap else Color(0.84, 0.66, 0.30, 0.72))
 
 	var info_v := VBoxContainer.new()
 	info_v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	info_v.add_theme_constant_override("separation", 3)
+	info_v.add_theme_constant_override("separation", 5)
 	row.add_child(info_v)
 
 	var lbl := Label.new()
 	lbl.text = "%s  (%s)  —  Ranga %d/%d" % [title, gain_desc, cur_rank, cap]
 	lbl.add_theme_font_override("font", MapStyle.body_font())
-	lbl.add_theme_font_size_override("font_size", 14)
+	lbl.add_theme_font_size_override("font_size", 20)
 	lbl.add_theme_color_override("font_color", Color(0.98, 0.92, 0.72) if cur_rank < cap else Color(0.56, 0.94, 0.68))
 	info_v.add_child(lbl)
 
@@ -1715,7 +1723,7 @@ func _add_training_drill_row(hud_ref, stat_key: String, title: String, gain_desc
 	pbar.max_value = float(maxi(cap, 1))
 	pbar.value = float(cur_rank)
 	pbar.show_percentage = false
-	pbar.custom_minimum_size = Vector2(0, 8)
+	pbar.custom_minimum_size = Vector2(0, 10)
 	var pbg := StyleBoxFlat.new()
 	pbg.bg_color = Color(0.08, 0.07, 0.12, 0.96)
 	pbg.set_corner_radius_all(4)
@@ -1729,17 +1737,18 @@ func _add_training_drill_row(hud_ref, stat_key: String, title: String, gain_desc
 	var sub := Label.new()
 	sub.text = "Koszt: %s  •  0 PD (nie wbija poziomu)  •  Próba rytmu Ki (3 uderzenia)" % ("DARMOWY" if cost == 0 else "%d zł" % cost)
 	sub.add_theme_font_override("font", MapStyle.body_font())
-	sub.add_theme_font_size_override("font_size", 11)
-	sub.add_theme_color_override("font_color", Color(0.76, 0.84, 0.92))
+	sub.add_theme_font_size_override("font_size", 17)
+	sub.add_theme_color_override("font_color", Color(0.80, 0.88, 0.96))
 	info_v.add_child(sub)
 
 	var btn := Button.new()
+	btn.custom_minimum_size = Vector2(220.0, 56.0)
 	if cur_rank >= cap:
 		btn.text = "MAX (POZ. %d)" % lv
-		_style_btn(btn, Color(0.14, 0.14, 0.18, 0.90), Color(0.44, 0.44, 0.48, 0.80), 12)
+		_style_btn(btn, Color(0.14, 0.14, 0.18, 0.90), Color(0.44, 0.44, 0.48, 0.80), 18)
 	else:
 		btn.text = "⚔ ĆWICZ (%s)" % ("FREE" if cost == 0 else "%d zł" % cost)
-		_style_btn(btn, Color(0.28, 0.15, 0.07, 0.96), Color(1.0, 0.72, 0.28, 0.98), 13)
+		_style_btn(btn, Color(0.28, 0.15, 0.07, 0.96), Color(1.0, 0.72, 0.28, 0.98), 19)
 	btn.pressed.connect(func() -> void: _start_training_drill(hud_ref, stat_key, title, gain_desc))
 	row.add_child(btn)
 
@@ -1762,36 +1771,36 @@ func _build_dojo_trials_section(hud_ref) -> void:
 		var anim_s := str(td[3])
 		var done := bool(hud_ref.dojo_trials.get(tid, false))
 
-		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 10)
-		service_vbox.add_child(row)
+		var row := _make_row_card(Color(0.46, 0.96, 0.64, 0.78) if done else Color(0.46, 0.90, 1.0, 0.72))
 
 		var iv := VBoxContainer.new()
 		iv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		iv.add_theme_constant_override("separation", 4)
 		row.add_child(iv)
 
 		var l1 := Label.new()
 		l1.text = "%s%s" % ["✓ " if done else "○ ", ttitle]
 		l1.add_theme_font_override("font", MapStyle.body_font())
-		l1.add_theme_font_size_override("font_size", 13)
-		l1.add_theme_color_override("font_color", Color(0.56, 0.96, 0.68) if done else Color(1.0, 0.92, 0.64))
+		l1.add_theme_font_size_override("font_size", 20)
+		l1.add_theme_color_override("font_color", Color(0.56, 0.98, 0.70) if done else Color(1.0, 0.94, 0.68))
 		iv.add_child(l1)
 
 		var l2 := Label.new()
 		l2.text = tdesc
 		l2.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		l2.add_theme_font_override("font", MapStyle.body_font())
-		l2.add_theme_font_size_override("font_size", 11)
-		l2.add_theme_color_override("font_color", Color(0.76, 0.84, 0.90))
+		l2.add_theme_font_size_override("font_size", 17)
+		l2.add_theme_color_override("font_color", Color(0.82, 0.88, 0.94))
 		iv.add_child(l2)
 
 		var b := Button.new()
-		b.text = "✓ POWTÓRZ PRÓBĘ" if done else "🥋 ROZPOCZNIJ"
+		b.text = "✓ POWTÓRZ" if done else "🥋 ROZPOCZNIJ"
+		b.custom_minimum_size = Vector2(220.0, 56.0)
 		_style_btn(
 			b,
 			Color(0.10, 0.24, 0.16, 0.94) if done else Color(0.14, 0.24, 0.34, 0.96),
 			Color(0.46, 0.96, 0.64, 0.94) if done else Color(0.46, 0.94, 1.0, 0.96),
-			12
+			18
 		)
 		b.pressed.connect(func() -> void: _start_dojo_trial(hud_ref, tid, ttitle, "Próba Mistrza Dojo", anim_s))
 		row.add_child(b)
@@ -1824,7 +1833,8 @@ func _build_hall_ui(hud_ref) -> void:
 		var bkind := str(bd[0])
 		var b_bl := Button.new()
 		b_bl.text = str(bd[1])
-		_style_btn(b_bl, Color(0.10, 0.22, 0.30, 0.96), Color(0.46, 0.90, 1.0, 0.98), 13)
+		b_bl.custom_minimum_size = Vector2(0, 56)
+		_style_btn(b_bl, Color(0.10, 0.22, 0.30, 0.96), Color(0.46, 0.90, 1.0, 0.98), 18)
 		b_bl.pressed.connect(func() -> void:
 			if _srv_act({"type": "city_blessing", "kind": bkind}):
 				return

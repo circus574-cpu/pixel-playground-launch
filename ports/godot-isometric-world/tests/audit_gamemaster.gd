@@ -204,5 +204,38 @@ func run() -> void:
 	world.audio.set_gm_flight_audio(false, false, false)
 	_check(world.audio.gm_flight_target <= 0.001, "Landing smoothly fades out airborne flight wind loop")
 
+	# 7. Verify all 40 premium monster archetype MP3s + 8 dungeon soundtrack/SFX MP3s load cleanly
+	var arch_list: Array[String] = ["beast", "insect_spider", "serpent_slime", "stone_golem", "fire_dragon", "frost_crystal", "arcane_spirit", "mech_cyber", "plant_druid", "boss_colossus"]
+	var mon_loaded := 0
+	for arch: String in arch_list:
+		for ev: String in ["atk1", "atk2", "roar", "die"]:
+			var mst: AudioStream = world.audio.load_stream("sfx/premium_mon/%s_%s.mp3" % [arch, ev])
+			if mst != null:
+				mon_loaded += 1
+	_check(mon_loaded == 40, "All 40 studio-mastered monster archetype MP3s load cleanly (%d/40)" % mon_loaded)
+	var dun_loaded := 0
+	for dk: String in ["lab_pyra", "lab_verdant", "lab_aether", "lab_nexus", "chest_open", "portal_enter", "dungeon_step", "guardian_alert"]:
+		var dst: AudioStream = world.audio.load_stream("sfx/premium_dun/%s.mp3" % dk)
+		if dst != null:
+			dun_loaded += 1
+	_check(dun_loaded == 8, "All 8 dungeon soundtrack & SFX MP3s load cleanly (%d/8)" % dun_loaded)
+
+	# 8. Verify AAA Labyrinth loads real 3D Hero Actor, real Biome Guardian Actors, textured walls/floors, and dungeon audio
+	world.load_terrain("verdant")
+	_check(world.labyrinths_data.size() >= 1, "Verdantia has real labyrinth definitions (%d)" % world.labyrinths_data.size())
+	if world.labyrinths_data.size() >= 1:
+		world.labyrinth_room.enter_labyrinth("verdant", world.labyrinths_data[0])
+		await process_frame
+		_check(world.labyrinth_room.hero_actor != null and is_instance_valid(world.labyrinth_room.hero_actor), "AAA Labyrinth spawns real animated 3D Hero Actor")
+		_check(world.labyrinth_room.guardians.size() >= 2, "AAA Labyrinth spawns biome monster guardians (%d)" % world.labyrinth_room.guardians.size())
+		var actors_ok := 0
+		for g: Dictionary in world.labyrinth_room.guardians:
+			if g.get("node") != null and is_instance_valid(g["node"]):
+				actors_ok += 1
+		_check(actors_ok == world.labyrinth_room.guardians.size(), "Every labyrinth guardian has a real animated IsoWorldActor (%d/%d)" % [actors_ok, world.labyrinth_room.guardians.size()])
+		_check(world.labyrinth_room._floor_tex_a != null and world.labyrinth_room._wall_tex != null, "AAA Labyrinth loaded biome floor & stone wall textures")
+		_check(world.labyrinth_room.braziers.size() >= 2, "AAA Labyrinth placed flickering torch braziers (%d)" % world.labyrinth_room.braziers.size())
+		world.labyrinth_room.on_exit_labyrinth()
+
 	print("GAMEMASTER_AUDIT_SUMMARY passed=%d failed=%d" % [passed, failed])
 	quit(0 if failed == 0 else 1)

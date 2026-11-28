@@ -158,7 +158,7 @@ func _style_mini_btn(btn: Button, kind: String = "slate", font_sz: int = 13, min
 		sb.content_margin_bottom = 4
 		btn.add_theme_stylebox_override(st_name, sb)
 	btn.add_theme_font_override("font", MapStyle.body_font())
-	btn.add_theme_font_size_override("font_size", font_sz)
+	btn.add_theme_font_size_override("font_size", maxi(font_sz, 16))
 	btn.add_theme_color_override("font_color", txt_col)
 	btn.add_theme_color_override("font_hover_color", Color.WHITE)
 	btn.add_theme_color_override("font_pressed_color", Color(1.0, 0.92, 0.65))
@@ -167,7 +167,7 @@ var _opened_msec := 0
 
 func _build_ui() -> void:
 	var bg_dim := ColorRect.new()
-	bg_dim.color = Color(0.015, 0.012, 0.025, 0.74)
+	bg_dim.color = Color(0.015, 0.012, 0.025, 0.80)
 	bg_dim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	bg_dim.mouse_filter = Control.MOUSE_FILTER_STOP
 	bg_dim.gui_input.connect(func(ev: InputEvent) -> void:
@@ -179,11 +179,11 @@ func _build_ui() -> void:
 	)
 	add_child(bg_dim)
 
-	panel_box.add_theme_stylebox_override("panel", ForgedUI.panel_box(28.0, 22.0))
+	panel_box.add_theme_stylebox_override("panel", ForgedUI.panel_box(32.0, 26.0))
 	add_child(panel_box)
 
 	var root_v := VBoxContainer.new()
-	root_v.add_theme_constant_override("separation", 10)
+	root_v.add_theme_constant_override("separation", 12)
 	panel_box.add_child(root_v)
 
 	# Consistent Forged Header Bar with "← WSTECZ"
@@ -194,7 +194,7 @@ func _build_ui() -> void:
 
 	# Tabs Row
 	var tabs_row := HBoxContainer.new()
-	tabs_row.add_theme_constant_override("separation", 8)
+	tabs_row.add_theme_constant_override("separation", 10)
 	root_v.add_child(tabs_row)
 	var tab_defs := [
 		["teleport", "⚡ TELEPORT & SZYBKOŚĆ"],
@@ -204,6 +204,7 @@ func _build_ui() -> void:
 	for td: Array in tab_defs:
 		var tb := Button.new()
 		tb.text = str(td[1])
+		tb.custom_minimum_size = Vector2(0, 52)
 		tb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var tid := str(td[0])
 		tb.pressed.connect(func() -> void:
@@ -220,13 +221,13 @@ func _build_ui() -> void:
 	root_v.add_child(content_scroll)
 
 	content_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	content_vbox.add_theme_constant_override("separation", 10)
+	content_vbox.add_theme_constant_override("separation", 12)
 	content_scroll.add_child(content_vbox)
 
 	# Status Footer
 	status_lbl.add_theme_font_override("font", MapStyle.body_font())
-	status_lbl.add_theme_font_size_override("font_size", 13)
-	status_lbl.add_theme_color_override("font_color", Color(0.56, 0.96, 0.72))
+	status_lbl.add_theme_font_size_override("font_size", 18)
+	status_lbl.add_theme_color_override("font_color", Color(0.56, 0.98, 0.74))
 	status_lbl.text = status_text
 	root_v.add_child(status_lbl)
 
@@ -234,8 +235,8 @@ func _layout_panel() -> void:
 	var vs := get_viewport_rect().size
 	if vs.x < 100.0:
 		vs = Vector2(1280.0, 720.0)
-	var pw := clampf(vs.x - 80.0, 640.0, 920.0)
-	var ph := clampf(vs.y - 68.0, 480.0, 650.0)
+	var pw := clampf(vs.x - 36.0, 760.0, 1480.0)
+	var ph := clampf(vs.y - 24.0, 500.0, 696.0)
 	panel_box.position = Vector2((vs.x - pw) * 0.5, (vs.y - ph) * 0.5)
 	panel_box.size = Vector2(pw, ph)
 
@@ -268,8 +269,8 @@ func _section_label(txt: String) -> Label:
 	var l := Label.new()
 	l.text = txt
 	l.add_theme_font_override("font", MapStyle.font())
-	l.add_theme_font_size_override("font_size", 13)
-	l.add_theme_color_override("font_color", Color(1.0, 0.86, 0.48))
+	l.add_theme_font_size_override("font_size", 19)
+	l.add_theme_color_override("font_color", Color(1.0, 0.88, 0.50))
 	return l
 
 func refresh_content() -> void:
@@ -279,9 +280,9 @@ func refresh_content() -> void:
 	for tid in tab_btns.keys():
 		var tb: Button = tab_btns[tid]
 		if str(tid) == active_tab:
-			_style_btn(tb, Color(0.28, 0.20, 0.08, 0.98), Color(1.0, 0.84, 0.36, 1.0), 13)
+			_style_btn(tb, Color(0.28, 0.20, 0.08, 0.98), Color(1.0, 0.84, 0.36, 1.0), 18)
 		else:
-			_style_btn(tb, Color(0.11, 0.09, 0.13, 0.94), Color(0.46, 0.38, 0.26, 0.80), 13)
+			_style_btn(tb, Color(0.11, 0.09, 0.13, 0.94), Color(0.46, 0.38, 0.26, 0.80), 18)
 
 	for ch in content_vbox.get_children():
 		ch.queue_free()
@@ -297,7 +298,7 @@ func refresh_content() -> void:
 func _build_teleport_tab() -> void:
 	content_vbox.add_child(_section_label("0. POSTAĆ GAMEMASTERA — MODEL 3D, LOT I PRZYSPIESZENIE"))
 	var gm_row := HBoxContainer.new()
-	gm_row.add_theme_constant_override("separation", 8)
+	gm_row.add_theme_constant_override("separation", 10)
 	content_vbox.add_child(gm_row)
 	var gmf_on: bool = world != null and bool(world.gm_form_active)
 	var fly_on: bool = world != null and bool(world.gm_flying)
@@ -306,7 +307,7 @@ func _build_teleport_tab() -> void:
 	var btn_form := Button.new()
 	btn_form.text = "✦ FORMA GM: %s [F2]" % ("AKTYWNA ✓" if gmf_on else "WYŁ.")
 	btn_form.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_style_mini_btn(btn_form, "gold" if gmf_on else "slate", 13, 0.0, 44.0)
+	_style_mini_btn(btn_form, "gold" if gmf_on else "slate", 17, 0.0, 52.0)
 	btn_form.pressed.connect(func() -> void:
 		if world != null and world.can_use_gm():
 			world.toggle_gm_form()
@@ -318,7 +319,7 @@ func _build_teleport_tab() -> void:
 	var btn_fly := Button.new()
 	btn_fly.text = "🕊 LOT NAD ZIEMIĄ: %s [L]" % ("LECISZ ✓" if fly_on else "WYŁ.")
 	btn_fly.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_style_mini_btn(btn_fly, "cyan" if fly_on else "slate", 13, 0.0, 44.0)
+	_style_mini_btn(btn_fly, "cyan" if fly_on else "slate", 17, 0.0, 52.0)
 	btn_fly.pressed.connect(func() -> void:
 		if world != null and world.can_use_gm():
 			world.toggle_gm_flight()
@@ -330,7 +331,7 @@ func _build_teleport_tab() -> void:
 	var btn_boost := Button.new()
 	btn_boost.text = "⚡ PRZYSPIESZENIE 3.5×: %s [U]" % ("ON ✓" if bst_on else "OFF")
 	btn_boost.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_style_mini_btn(btn_boost, "gold" if bst_on else "slate", 13, 0.0, 44.0)
+	_style_mini_btn(btn_boost, "gold" if bst_on else "slate", 17, 0.0, 52.0)
 	btn_boost.pressed.connect(func() -> void:
 		if world != null and world.can_use_gm():
 			world.toggle_gm_boost()
@@ -341,13 +342,14 @@ func _build_teleport_tab() -> void:
 
 	content_vbox.add_child(_section_label("1. TELEPORT NA DUŻEJ MAPIE ŚWIATA"))
 	var map_row := HBoxContainer.new()
-	map_row.add_theme_constant_override("separation", 8)
+	map_row.add_theme_constant_override("separation", 10)
 	content_vbox.add_child(map_row)
 
 	var btn_map_tp := Button.new()
 	btn_map_tp.text = "⚡ OTWÓRZ DUŻĄ MAPĘ ŚWIATA I KLIKNIJ PUNKT TELEPORTU"
+	btn_map_tp.custom_minimum_size = Vector2(0, 54)
 	btn_map_tp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_style_btn(btn_map_tp, Color(0.10, 0.28, 0.34, 0.96), Color(0.36, 0.92, 1.0, 0.98), 14)
+	_style_btn(btn_map_tp, Color(0.10, 0.28, 0.34, 0.96), Color(0.36, 0.92, 1.0, 0.98), 18)
 	btn_map_tp.pressed.connect(func() -> void:
 		if world != null and world.can_use_gm():
 			world.gm_map_teleport_mode = true
@@ -360,7 +362,7 @@ func _build_teleport_tab() -> void:
 
 	content_vbox.add_child(_section_label("2. SUPER SZYBKOŚĆ I PRZENIKANIE (NOCLIP)"))
 	var spd_row := HBoxContainer.new()
-	spd_row.add_theme_constant_override("separation", 8)
+	spd_row.add_theme_constant_override("separation", 10)
 	content_vbox.add_child(spd_row)
 	var cur_spd: float = float(world.gm_speed_mult) if world != null else 1.0
 	for mult_def: Array in [[0.5, "0.5× Wolna"], [1.0, "1× Normalna"], [2.0, "2× Szybka"], [4.0, "4× Super"], [8.0, "8× Błyskawica"]]:
@@ -369,7 +371,7 @@ func _build_teleport_tab() -> void:
 		sb.text = str(mult_def[1])
 		sb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var is_sel := absf(cur_spd - mv) < 0.05
-		_style_mini_btn(sb, "gold" if is_sel else "slate", 13, 0.0, 40.0)
+		_style_mini_btn(sb, "gold" if is_sel else "slate", 17, 0.0, 48.0)
 		sb.pressed.connect(func() -> void:
 			if world != null and world.can_use_gm():
 				world.gm_speed_mult = mv
@@ -381,7 +383,7 @@ func _build_teleport_tab() -> void:
 	var noclip_on: bool = world != null and bool(world.gm_noclip)
 	var btn_nc := Button.new()
 	btn_nc.text = "PRZENIKANIE (NOCLIP — OMIJANIE WODY/GÓR): %s" % ("WŁĄCZONE ✓" if noclip_on else "WYŁĄCZONE")
-	_style_mini_btn(btn_nc, "cyan" if noclip_on else "slate", 13, 0.0, 40.0)
+	_style_mini_btn(btn_nc, "cyan" if noclip_on else "slate", 17, 0.0, 48.0)
 	btn_nc.pressed.connect(func() -> void:
 		if world != null and world.can_use_gm():
 			world.gm_noclip = not world.gm_noclip
@@ -392,14 +394,14 @@ func _build_teleport_tab() -> void:
 
 	content_vbox.add_child(_section_label("3. SZYBKI TELEPORT — STOLICE 4 KONTYNENTÓW"))
 	var cap_row := HBoxContainer.new()
-	cap_row.add_theme_constant_override("separation", 8)
+	cap_row.add_theme_constant_override("separation", 10)
 	content_vbox.add_child(cap_row)
 	for land_def: Array in [["pyra", "Pyra"], ["verdant", "Verdantia"], ["aether", "Aetheria"], ["nexus", "Nexus-9"]]:
 		var lid := str(land_def[0])
 		var cb := Button.new()
 		cb.text = str(land_def[1])
 		cb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		_style_mini_btn(cb, "gold" if (world != null and str(world.current_land) == lid) else "slate", 14, 0.0, 40.0)
+		_style_mini_btn(cb, "gold" if (world != null and str(world.current_land) == lid) else "slate", 18, 0.0, 50.0)
 		cb.pressed.connect(func() -> void:
 			if world != null and world.can_use_gm():
 				world.switch_region(lid)
@@ -411,8 +413,8 @@ func _build_teleport_tab() -> void:
 		content_vbox.add_child(_section_label("4. WAROWNIE I MIASTA NA BIEŻĄCYM KONTYNENCIE"))
 		var grid := GridContainer.new()
 		grid.columns = 2
-		grid.add_theme_constant_override("h_separation", 8)
-		grid.add_theme_constant_override("v_separation", 6)
+		grid.add_theme_constant_override("h_separation", 10)
+		grid.add_theme_constant_override("v_separation", 8)
 		content_vbox.add_child(grid)
 		for b: Dictionary in world.buildings:
 			if str(b.get("map_kind", "")) != "town":
@@ -424,7 +426,7 @@ func _build_teleport_tab() -> void:
 			var tb := Button.new()
 			tb.text = "🏰 %s (%d, %d)" % [tname, int(round(tx)), int(round(tz))]
 			tb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			_style_mini_btn(tb, "slate", 13, 0.0, 38.0)
+			_style_mini_btn(tb, "slate", 17, 0.0, 48.0)
 			tb.pressed.connect(func() -> void:
 				if world != null and world.can_use_gm():
 					world.teleport_to_world_pos(str(world.current_land), tx, tz)
@@ -436,7 +438,7 @@ func _build_items_tab() -> void:
 	content_vbox.add_child(_section_label("WYBIERZ PRZEDMIOT Z LISTY I STWÓRZ DO PLECAKA [I]"))
 
 	var filter_row := HBoxContainer.new()
-	filter_row.add_theme_constant_override("separation", 6)
+	filter_row.add_theme_constant_override("separation", 8)
 	content_vbox.add_child(filter_row)
 	for cat_def: Array in [["all", "Wszystkie"], ["weapon", "Broń"], ["armor", "Pancerz"], ["jewelry", "Biżuteria"], ["consumable", "Użytkowe"], ["material", "Surowce"]]:
 		var cid := str(cat_def[0])
@@ -444,7 +446,7 @@ func _build_items_tab() -> void:
 		fb.text = str(cat_def[1])
 		fb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var is_sel := item_cat == cid
-		_style_mini_btn(fb, "gold" if is_sel else "slate", 13, 0.0, 36.0)
+		_style_mini_btn(fb, "gold" if is_sel else "slate", 17, 0.0, 46.0)
 		fb.pressed.connect(func() -> void:
 			item_cat = cid
 			refresh_content()
@@ -452,19 +454,19 @@ func _build_items_tab() -> void:
 		filter_row.add_child(fb)
 
 	var qty_row := HBoxContainer.new()
-	qty_row.add_theme_constant_override("separation", 8)
+	qty_row.add_theme_constant_override("separation", 10)
 	content_vbox.add_child(qty_row)
 	var ql := Label.new()
 	ql.text = "Ilość przy tworzeniu:"
 	ql.add_theme_font_override("font", MapStyle.body_font())
-	ql.add_theme_font_size_override("font_size", 13)
-	ql.add_theme_color_override("font_color", Color(0.92, 0.88, 0.78))
+	ql.add_theme_font_size_override("font_size", 18)
+	ql.add_theme_color_override("font_color", Color(0.94, 0.90, 0.80))
 	qty_row.add_child(ql)
 	for qv: int in [1, 5, 10]:
 		var qb := Button.new()
 		qb.text = "×%d" % qv
 		var is_q := item_qty == qv
-		_style_mini_btn(qb, "plus" if is_q else "slate", 13, 52.0, 34.0)
+		_style_mini_btn(qb, "plus" if is_q else "slate", 17, 68.0, 44.0)
 		qb.pressed.connect(func() -> void:
 			item_qty = qv
 			refresh_content()
@@ -473,7 +475,7 @@ func _build_items_tab() -> void:
 
 	var btn_open_bag := Button.new()
 	btn_open_bag.text = "OTWÓRZ PLECAK [I]"
-	_style_mini_btn(btn_open_bag, "gold", 13, 150.0, 34.0)
+	_style_mini_btn(btn_open_bag, "gold", 17, 210.0, 44.0)
 	btn_open_bag.pressed.connect(func() -> void:
 		if world != null and world.can_use_gm():
 			world.toggle_gm_panel(false)
@@ -486,11 +488,11 @@ func _build_items_tab() -> void:
 		if item_cat != "all" and str(item["cat"]) != item_cat:
 			continue
 		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 10)
+		row.add_theme_constant_override("separation", 12)
 		content_vbox.add_child(row)
 
 		var ico_rect := TextureRect.new()
-		ico_rect.custom_minimum_size = Vector2(36, 36)
+		ico_rect.custom_minimum_size = Vector2(48, 48)
 		ico_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		ico_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		if world != null and world.can_use_gm():
@@ -504,20 +506,20 @@ func _build_items_tab() -> void:
 		var nm := Label.new()
 		nm.text = "%s  [Poz.%d]" % [str(item["name"]), int(item.get("minLevel", 1))]
 		nm.add_theme_font_override("font", MapStyle.body_font())
-		nm.add_theme_font_size_override("font_size", 14)
+		nm.add_theme_font_size_override("font_size", 19)
 		nm.add_theme_color_override("font_color", item["rarity"] as Color)
 		info_v.add_child(nm)
 
 		var ds := Label.new()
 		ds.text = str(item["desc"])
 		ds.add_theme_font_override("font", MapStyle.body_font())
-		ds.add_theme_font_size_override("font_size", 11)
-		ds.add_theme_color_override("font_color", Color(0.80, 0.78, 0.72))
+		ds.add_theme_font_size_override("font_size", 16)
+		ds.add_theme_color_override("font_color", Color(0.84, 0.82, 0.78))
 		info_v.add_child(ds)
 
 		var btn_add := Button.new()
 		btn_add.text = "+ STWÓRZ ×%d" % item_qty
-		_style_mini_btn(btn_add, "plus", 13, 128.0, 34.0)
+		_style_mini_btn(btn_add, "plus", 17, 178.0, 48.0)
 		var item_id := str(item["id"])
 		btn_add.pressed.connect(func() -> void:
 			_send_gm_action("give_item", {"itemId": item_id, "qty": item_qty})
@@ -527,11 +529,11 @@ func _build_items_tab() -> void:
 func _gm_card(title: String) -> VBoxContainer:
 	var card := PanelContainer.new()
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	card.add_theme_stylebox_override("panel", ForgedUI.inset_card(Color(0.76, 0.58, 0.28, 0.72), Color(0.055, 0.050, 0.082, 0.94), 14, 10))
+	card.add_theme_stylebox_override("panel", ForgedUI.inset_card(Color(0.76, 0.58, 0.28, 0.72), Color(0.055, 0.050, 0.082, 0.94), 16, 12))
 	content_vbox.add_child(card)
 	var vb := VBoxContainer.new()
 	vb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	vb.add_theme_constant_override("separation", 7)
+	vb.add_theme_constant_override("separation", 10)
 	card.add_child(vb)
 	vb.add_child(_section_label(title))
 	return vb
@@ -593,7 +595,7 @@ func _build_stats_tab() -> void:
 	for rr: Dictionary in resource_rows:
 		var row := HBoxContainer.new()
 		row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		row.add_theme_constant_override("separation", 6)
+		row.add_theme_constant_override("separation", 8)
 		res_vb.add_child(row)
 
 		var lbl := Label.new()
@@ -601,14 +603,14 @@ func _build_stats_tab() -> void:
 		lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		lbl.clip_text = true
 		lbl.add_theme_font_override("font", MapStyle.body_font())
-		lbl.add_theme_font_size_override("font_size", 14)
+		lbl.add_theme_font_size_override("font_size", 18)
 		lbl.add_theme_color_override("font_color", Color(0.98, 0.93, 0.78))
 		row.add_child(lbl)
 
 		for bdef: Array in rr["btns"]:
 			var b := Button.new()
 			b.text = str(bdef[0])
-			_style_mini_btn(b, str(bdef[1]), 12, 48.0, 32.0)
+			_style_mini_btn(b, str(bdef[1]), 16, 68.0, 44.0)
 			var cb: Callable = bdef[2]
 			b.pressed.connect(cb)
 			row.add_child(b)
@@ -628,11 +630,11 @@ func _build_stats_tab() -> void:
 		var gm_bonus := int(hud_ref.bonus_stat_pts.get(skey, 0))
 		var row := HBoxContainer.new()
 		row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		row.add_theme_constant_override("separation", 6)
+		row.add_theme_constant_override("separation", 8)
 		attr_vb.add_child(row)
 
 		var ico := TextureRect.new()
-		ico.custom_minimum_size = Vector2(24, 24)
+		ico.custom_minimum_size = Vector2(30, 30)
 		ico.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		ico.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		if world != null and world.can_use_gm():
@@ -645,15 +647,15 @@ func _build_stats_tab() -> void:
 		sl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		sl.clip_text = true
 		sl.add_theme_font_override("font", MapStyle.body_font())
-		sl.add_theme_font_size_override("font_size", 13)
-		sl.add_theme_color_override("font_color", Color(0.95, 0.91, 0.82))
+		sl.add_theme_font_size_override("font_size", 18)
+		sl.add_theme_color_override("font_color", Color(0.96, 0.92, 0.84))
 		row.add_child(sl)
 
 		for delta_def: Array in [[-10, "−10", "minus"], [-1, "−1", "minus"], [1, "+1", "plus"], [10, "+10", "plus"]]:
 			var dv: int = int(delta_def[0])
 			var db := Button.new()
 			db.text = str(delta_def[1])
-			_style_mini_btn(db, str(delta_def[2]), 12, 46.0, 32.0)
+			_style_mini_btn(db, str(delta_def[2]), 16, 62.0, 44.0)
 			db.pressed.connect(func() -> void:
 				_send_gm_action("add_attribute", {"stat": skey, "value": dv})
 			)
@@ -661,7 +663,7 @@ func _build_stats_tab() -> void:
 
 		var btn_zero := Button.new()
 		btn_zero.text = "↺0"
-		_style_mini_btn(btn_zero, "slate", 12, 38.0, 32.0)
+		_style_mini_btn(btn_zero, "slate", 16, 52.0, 44.0)
 		btn_zero.pressed.connect(func() -> void:
 			_send_gm_action("set_attribute", {"stat": skey, "value": 0})
 		)
@@ -672,7 +674,7 @@ func _build_stats_tab() -> void:
 
 	var u_row1 := HBoxContainer.new()
 	u_row1.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	u_row1.add_theme_constant_override("separation", 8)
+	u_row1.add_theme_constant_override("separation", 10)
 	util_vb.add_child(u_row1)
 
 	var actions_1 := [
@@ -685,14 +687,14 @@ func _build_stats_tab() -> void:
 		var ab := Button.new()
 		ab.text = str(ad[0])
 		ab.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		_style_mini_btn(ab, str(ad[1]), 13, 0.0, 38.0)
+		_style_mini_btn(ab, str(ad[1]), 17, 0.0, 48.0)
 		var cb: Callable = ad[2]
 		ab.pressed.connect(cb)
 		u_row1.add_child(ab)
 
 	var u_row2 := HBoxContainer.new()
 	u_row2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	u_row2.add_theme_constant_override("separation", 8)
+	u_row2.add_theme_constant_override("separation", 10)
 	util_vb.add_child(u_row2)
 
 	var actions_2 := [
@@ -704,7 +706,7 @@ func _build_stats_tab() -> void:
 		var ab := Button.new()
 		ab.text = str(ad[0])
 		ab.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		_style_mini_btn(ab, str(ad[1]), 13, 0.0, 38.0)
+		_style_mini_btn(ab, str(ad[1]), 17, 0.0, 48.0)
 		var cb: Callable = ad[2]
 		ab.pressed.connect(cb)
 		u_row2.add_child(ab)

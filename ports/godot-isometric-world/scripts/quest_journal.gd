@@ -63,13 +63,13 @@ func _ready() -> void:
 	resized.connect(_layout_panel)
 	_layout_panel()
 
-func _style_btn(btn: Button, bg: Color, border: Color, font_sz: int = 14) -> void:
-	btn.custom_minimum_size.y = 44.0
+func _style_btn(btn: Button, bg: Color, border: Color, font_sz: int = 18) -> void:
+	btn.custom_minimum_size.y = 52.0
 	var variant := "gold" if (border.r > 0.90 and border.g > 0.72) else ("crimson" if (bg.r > 0.24 and bg.g < 0.14) else "slate")
-	ForgedUI.style_button(btn, variant, maxi(font_sz, 14), 24.0, 8.0)
+	ForgedUI.style_button(btn, variant, maxi(font_sz, 17), 22.0, 9.0)
 
 func _build_ui() -> void:
-	backdrop.color = Color(0.015, 0.012, 0.025, 0.84)
+	backdrop.color = Color(0.015, 0.012, 0.025, 0.86)
 	backdrop.set_anchors_preset(Control.PRESET_FULL_RECT)
 	backdrop.gui_input.connect(func(ev: InputEvent) -> void:
 		if ev is InputEventMouseButton and ev.pressed and ev.button_index == MOUSE_BUTTON_LEFT:
@@ -77,26 +77,26 @@ func _build_ui() -> void:
 	)
 	add_child(backdrop)
 
-	panel.add_theme_stylebox_override("panel", ForgedUI.panel_box(42.0, 38.0))
+	panel.add_theme_stylebox_override("panel", ForgedUI.panel_box(36.0, 32.0))
 	panel.clip_contents = true
 	add_child(panel)
 
 	var inner_margin := MarginContainer.new()
 	inner_margin.set_anchors_preset(Control.PRESET_FULL_RECT)
-	inner_margin.add_theme_constant_override("margin_left", 44)
-	inner_margin.add_theme_constant_override("margin_right", 44)
-	inner_margin.add_theme_constant_override("margin_top", 40)
-	inner_margin.add_theme_constant_override("margin_bottom", 46)
+	inner_margin.add_theme_constant_override("margin_left", 38)
+	inner_margin.add_theme_constant_override("margin_right", 38)
+	inner_margin.add_theme_constant_override("margin_top", 30)
+	inner_margin.add_theme_constant_override("margin_bottom", 32)
 	panel.add_child(inner_margin)
 
 	var root_vb := VBoxContainer.new()
-	root_vb.add_theme_constant_override("separation", 10)
+	root_vb.add_theme_constant_override("separation", 12)
 	inner_margin.add_child(root_vb)
 
-	root_vb.add_child(ForgedUI.make_header_bar("DZIENNIK ZADAŃ I ROZWOJU", close_journal, "← WSTECZ", "102 misje fabularne, reputacja frakcji, rozdziały dziedzictwa i wyprawy"))
+	root_vb.add_child(ForgedUI.make_header_bar("DZIENNIK ZADAŃ I ROZWOJU", close_journal, "← WSTECZ", "102 misje fabularne, reputacja frakcji, dziedzictwo i wyprawy"))
 
 	var tabs_hb := HBoxContainer.new()
-	tabs_hb.add_theme_constant_override("separation", 8)
+	tabs_hb.add_theme_constant_override("separation", 10)
 	root_vb.add_child(tabs_hb)
 
 	tab_story.text = "📜 PRZYGODY"
@@ -115,7 +115,7 @@ func _build_ui() -> void:
 	)
 	tabs_hb.add_child(tab_heritage)
 
-	tab_dev.text = "★ CELE ROZWOJU (6)"
+	tab_dev.text = "★ CELE (6)"
 	tab_dev.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	tab_dev.pressed.connect(func() -> void:
 		active_tab = "development"
@@ -134,8 +134,8 @@ func _build_ui() -> void:
 	status_lbl.text = "Postęp i nagrody są weryfikowane oraz zapisywane na serwerze gry."
 	status_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	status_lbl.add_theme_font_override("font", MapStyle.body_font())
-	status_lbl.add_theme_font_size_override("font_size", 14)
-	status_lbl.add_theme_color_override("font_color", Color(0.84, 0.88, 0.94))
+	status_lbl.add_theme_font_size_override("font_size", 18)
+	status_lbl.add_theme_color_override("font_color", Color(0.88, 0.92, 0.96))
 	root_vb.add_child(status_lbl)
 
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -146,15 +146,15 @@ func _build_ui() -> void:
 	root_vb.add_child(scroll)
 
 	list_vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	list_vbox.add_theme_constant_override("separation", 8)
+	list_vbox.add_theme_constant_override("separation", 10)
 	scroll.add_child(list_vbox)
 
 func _layout_panel() -> void:
 	var vs := get_viewport_rect().size
 	if vs.x < 100.0:
 		vs = Vector2(1280.0, 720.0)
-	var pw := clampf(vs.x * 0.82, 560.0, 1020.0)
-	var ph := clampf(vs.y * 0.86, 420.0, 640.0)
+	var pw := clampf(vs.x - 32.0, 720.0, 1500.0)
+	var ph := clampf(vs.y - 24.0, 480.0, 696.0)
 	panel.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	panel.offset_left = (vs.x - pw) * 0.5
 	panel.offset_top = (vs.y - ph) * 0.5
@@ -236,14 +236,14 @@ func _rebuild_story_tab() -> void:
 	var jl: Dictionary = world.quest_engine.get_journal_lists(world.current_land)
 	var fac: Dictionary = jl.get("factions", {})
 	var rep_lbl := Label.new()
-	rep_lbl.text = "Reputacja frakcji:  Pyra %d  •  Verdantia %d  •  Aetheria %d  •  Nexus-9 %d   |   Ukończone: %d / %d" % [
+	rep_lbl.text = "Reputacja:  Pyra %d  •  Verdantia %d  •  Aetheria %d  •  Nexus-9 %d   |   Ukończone: %d / %d" % [
 		int(fac.get("pyra", 0)), int(fac.get("verdant", 0)), int(fac.get("aether", 0)), int(fac.get("nexus", 0)),
 		(jl.get("completed", []) as Array).size(), int(jl.get("total_playable", 102))
 	]
 	rep_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	rep_lbl.add_theme_font_override("font", MapStyle.body_font())
-	rep_lbl.add_theme_font_size_override("font_size", 13)
-	rep_lbl.add_theme_color_override("font_color", Color(0.56, 0.96, 0.88))
+	rep_lbl.add_theme_font_size_override("font_size", 18)
+	rep_lbl.add_theme_color_override("font_color", Color(0.56, 0.98, 0.90))
 	list_vbox.add_child(rep_lbl)
 
 	var sections := [
@@ -255,15 +255,15 @@ func _rebuild_story_tab() -> void:
 		var sh := Label.new()
 		sh.text = "— %s (%d) —" % [str(sec[0]), arr.size()]
 		sh.add_theme_font_override("font", MapStyle.font())
-		sh.add_theme_font_size_override("font_size", 14)
+		sh.add_theme_font_size_override("font_size", 20)
 		sh.add_theme_color_override("font_color", Color(1.0, 0.88, 0.44))
 		list_vbox.add_child(sh)
 		if arr.is_empty():
 			var nl := Label.new()
 			nl.text = "Brak misji w tej kategorii — porozmawiaj z NPC z wykrzyknikiem (!) w mieście."
 			nl.add_theme_font_override("font", MapStyle.body_font())
-			nl.add_theme_font_size_override("font_size", 13)
-			nl.add_theme_color_override("font_color", Color(0.72, 0.74, 0.80))
+			nl.add_theme_font_size_override("font_size", 18)
+			nl.add_theme_color_override("font_color", Color(0.78, 0.80, 0.86))
 			list_vbox.add_child(nl)
 			continue
 		for q: Dictionary in arr:
@@ -275,37 +275,38 @@ func _rebuild_story_tab() -> void:
 			cstyle.bg_color = Color(0.14, 0.12, 0.07, 0.96) if is_ready else (Color(0.08, 0.12, 0.15, 0.94) if is_act else Color(0.09, 0.09, 0.13, 0.92))
 			cstyle.border_color = Color(0.46, 0.98, 0.68, 0.96) if is_ready else (Color(0.36, 0.86, 1.0, 0.88) if is_act else Color(0.78, 0.64, 0.34, 0.72))
 			cstyle.set_border_width_all(2)
-			cstyle.set_corner_radius_all(8)
-			cstyle.content_margin_left = 12
-			cstyle.content_margin_right = 12
-			cstyle.content_margin_top = 8
-			cstyle.content_margin_bottom = 8
+			cstyle.set_corner_radius_all(10)
+			cstyle.content_margin_left = 16
+			cstyle.content_margin_right = 16
+			cstyle.content_margin_top = 12
+			cstyle.content_margin_bottom = 12
 			card.add_theme_stylebox_override("panel", cstyle)
 			list_vbox.add_child(card)
 			var row := HBoxContainer.new()
-			row.add_theme_constant_override("separation", 10)
+			row.add_theme_constant_override("separation", 14)
 			card.add_child(row)
 			var left := VBoxContainer.new()
 			left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			left.add_theme_constant_override("separation", 4)
 			row.add_child(left)
 			var tl := Label.new()
 			tl.text = "%s  [Poz.%d • %s]" % [str(q.get("title", qid)), int(q.get("recommendedLevel", 1)), str(q.get("giverName", ""))]
 			tl.add_theme_font_override("font", MapStyle.font())
-			tl.add_theme_font_size_override("font_size", 14)
+			tl.add_theme_font_size_override("font_size", 20)
 			tl.add_theme_color_override("font_color", Color(0.46, 0.98, 0.72) if is_ready else Color(1.0, 0.92, 0.62))
 			left.add_child(tl)
 			var dl := Label.new()
 			dl.text = str(q.get("summary", ""))
 			dl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			dl.add_theme_font_override("font", MapStyle.body_font())
-			dl.add_theme_font_size_override("font_size", 12)
-			dl.add_theme_color_override("font_color", Color(0.84, 0.86, 0.90))
+			dl.add_theme_font_size_override("font_size", 17)
+			dl.add_theme_color_override("font_color", Color(0.88, 0.90, 0.94))
 			left.add_child(dl)
 			var btn := Button.new()
-			btn.custom_minimum_size = Vector2(180, 42)
+			btn.custom_minimum_size = Vector2(236, 54)
 			if is_ready:
 				btn.text = "★ ODBIERZ NAGRODĘ"
-				_style_btn(btn, Color(0.28, 0.20, 0.05, 0.98), Color(1.0, 0.84, 0.30, 0.98), 13)
+				_style_btn(btn, Color(0.28, 0.20, 0.05, 0.98), Color(1.0, 0.84, 0.30, 0.98), 18)
 				btn.pressed.connect(func() -> void:
 					world.quest_engine.complete_quest(qid)
 					_rebuild_list()
@@ -313,14 +314,14 @@ func _rebuild_story_tab() -> void:
 			elif is_act:
 				var trk: bool = world.quest_engine.is_tracked(qid)
 				btn.text = "✓ ŚLEDZONE" if trk else "★ ŚLEDŹ NA HUD"
-				_style_btn(btn, Color(0.10, 0.24, 0.28, 0.95) if trk else Color(0.12, 0.12, 0.18, 0.94), Color(0.38, 0.94, 1.0, 0.94) if trk else Color(0.68, 0.60, 0.42, 0.80), 13)
+				_style_btn(btn, Color(0.10, 0.24, 0.28, 0.95) if trk else Color(0.12, 0.12, 0.18, 0.94), Color(0.38, 0.94, 1.0, 0.94) if trk else Color(0.68, 0.60, 0.42, 0.80), 18)
 				btn.pressed.connect(func() -> void:
 					world.quest_engine.toggle_track(qid)
 					_rebuild_list()
 				)
 			else:
 				btn.text = "! PRZYJMIJ MISJĘ"
-				_style_btn(btn, Color(0.26, 0.18, 0.05, 0.96), Color(1.0, 0.80, 0.30, 0.96), 13)
+				_style_btn(btn, Color(0.26, 0.18, 0.05, 0.96), Color(1.0, 0.80, 0.30, 0.96), 18)
 				btn.pressed.connect(func() -> void:
 					world.quest_engine.accept_quest(qid)
 					_rebuild_list()
@@ -350,7 +351,7 @@ func _rebuild_list() -> void:
 			tb,
 			Color(0.30, 0.20, 0.06, 0.98) if on else Color(0.11, 0.11, 0.16, 0.94),
 			Color(1.0, 0.80, 0.30, 0.98) if on else Color(0.50, 0.44, 0.34, 0.72),
-			13
+			18
 		)
 
 	for ch in list_vbox.get_children():
@@ -374,36 +375,36 @@ func _rebuild_list() -> void:
 		cstyle.bg_color = Color(0.10, 0.14, 0.11, 0.94) if st == "claimed" else (Color(0.15, 0.12, 0.07, 0.96) if st == "ready" else Color(0.09, 0.09, 0.13, 0.92))
 		cstyle.border_color = Color(0.38, 0.88, 0.54, 0.90) if st == "claimed" else (Color(1.0, 0.78, 0.26, 0.96) if st == "ready" else Color(0.42, 0.44, 0.54, 0.65))
 		cstyle.set_border_width_all(2)
-		cstyle.set_corner_radius_all(8)
-		cstyle.content_margin_left = 12
-		cstyle.content_margin_right = 12
-		cstyle.content_margin_top = 8
-		cstyle.content_margin_bottom = 8
+		cstyle.set_corner_radius_all(10)
+		cstyle.content_margin_left = 16
+		cstyle.content_margin_right = 16
+		cstyle.content_margin_top = 12
+		cstyle.content_margin_bottom = 12
 		card.add_theme_stylebox_override("panel", cstyle)
 		list_vbox.add_child(card)
 
 		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 12)
+		row.add_theme_constant_override("separation", 14)
 		card.add_child(row)
 
 		var left := VBoxContainer.new()
 		left.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		left.add_theme_constant_override("separation", 3)
+		left.add_theme_constant_override("separation", 4)
 		row.add_child(left)
 
 		var t_lbl := Label.new()
 		t_lbl.text = "%s  (Mentor: %s)" % [str(g.get("title", "")), str(g.get("mentor", "—"))]
 		t_lbl.add_theme_font_override("font", MapStyle.font())
-		t_lbl.add_theme_font_size_override("font_size", 15)
-		t_lbl.add_theme_color_override("font_color", Color(1.0, 0.92, 0.62) if st == "ready" else (Color(0.56, 0.96, 0.68) if st == "claimed" else Color(0.88, 0.86, 0.80)))
+		t_lbl.add_theme_font_size_override("font_size", 20)
+		t_lbl.add_theme_color_override("font_color", Color(1.0, 0.92, 0.62) if st == "ready" else (Color(0.56, 0.96, 0.68) if st == "claimed" else Color(0.92, 0.90, 0.84)))
 		left.add_child(t_lbl)
 
 		var desc_lbl := Label.new()
 		desc_lbl.text = str(g.get("summary", ""))
 		desc_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		desc_lbl.add_theme_font_override("font", MapStyle.body_font())
-		desc_lbl.add_theme_font_size_override("font_size", 13)
-		desc_lbl.add_theme_color_override("font_color", Color(0.82, 0.84, 0.88))
+		desc_lbl.add_theme_font_size_override("font_size", 18)
+		desc_lbl.add_theme_color_override("font_color", Color(0.88, 0.90, 0.94))
 		left.add_child(desc_lbl)
 
 		var rew_txt := "Nagroda: +%d PD • +%d zł" % [int(g.get("xpReward", 0)), int(g.get("goldReward", 0))]
@@ -420,35 +421,35 @@ func _rebuild_list() -> void:
 		meta_lbl.text = "%s   |   %s" % [rew_txt, str(g.get("progressText", ""))]
 		meta_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		meta_lbl.add_theme_font_override("font", MapStyle.body_font())
-		meta_lbl.add_theme_font_size_override("font_size", 12)
-		meta_lbl.add_theme_color_override("font_color", Color(0.52, 0.96, 0.64) if st == "claimed" else (Color(1.0, 0.84, 0.36) if st == "ready" else Color(0.68, 0.72, 0.82)))
+		meta_lbl.add_theme_font_size_override("font_size", 17)
+		meta_lbl.add_theme_color_override("font_color", Color(0.52, 0.96, 0.64) if st == "claimed" else (Color(1.0, 0.86, 0.38) if st == "ready" else Color(0.76, 0.80, 0.88)))
 		left.add_child(meta_lbl)
 
 		var act_btn := Button.new()
-		act_btn.custom_minimum_size = Vector2(232, 46)
+		act_btn.custom_minimum_size = Vector2(246, 54)
 		if st == "claimed":
 			act_btn.text = "✓ UKOŃCZONE"
 			act_btn.disabled = true
-			_style_btn(act_btn, Color(0.10, 0.22, 0.14, 0.85), Color(0.36, 0.82, 0.50, 0.75), 13)
+			_style_btn(act_btn, Color(0.10, 0.22, 0.14, 0.85), Color(0.36, 0.82, 0.50, 0.75), 18)
 			act_btn.add_theme_color_override("font_disabled_color", Color(0.62, 0.96, 0.72, 0.95))
 		elif st == "ready":
 			act_btn.text = "★ ODBIERZ NAGRODĘ"
-			_style_btn(act_btn, Color(0.34, 0.22, 0.05, 0.98), Color(1.0, 0.82, 0.28, 0.98), 13)
+			_style_btn(act_btn, Color(0.34, 0.22, 0.05, 0.98), Color(1.0, 0.82, 0.28, 0.98), 18)
 			var gid := str(g.get("id", ""))
 			var g_copy := g.duplicate(true)
 			act_btn.pressed.connect(func() -> void: _claim_goal(gid, g_copy))
 		else:
 			act_btn.text = "W TOKU" if st == "in_progress" else "ZABLOKOWANE"
 			act_btn.disabled = true
-			_style_btn(act_btn, Color(0.12, 0.12, 0.16, 0.80), Color(0.40, 0.42, 0.50, 0.60), 13)
-			act_btn.add_theme_color_override("font_disabled_color", Color(0.78, 0.76, 0.74, 0.92))
+			_style_btn(act_btn, Color(0.12, 0.12, 0.16, 0.80), Color(0.40, 0.42, 0.50, 0.60), 18)
+			act_btn.add_theme_color_override("font_disabled_color", Color(0.80, 0.78, 0.76, 0.92))
 		row.add_child(act_btn)
 
 	if shown == 0:
 		var empty_lbl := Label.new()
 		empty_lbl.text = "Połącz się z serwerem gry, aby zobaczyć cele rozwoju swojej rasy."
 		empty_lbl.add_theme_font_override("font", MapStyle.body_font())
-		empty_lbl.add_theme_font_size_override("font_size", 14)
+		empty_lbl.add_theme_font_size_override("font_size", 18)
 		list_vbox.add_child(empty_lbl)
 
 func _claim_goal(gid: String, g_copy: Dictionary) -> void:

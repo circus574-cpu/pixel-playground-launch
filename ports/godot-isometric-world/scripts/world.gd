@@ -3391,11 +3391,12 @@ func enter_labyrinth_by_id(lab_id: String) -> void:
 func exit_labyrinth() -> void:
 	if not in_labyrinth:
 		return
-	if audio != null:
-		audio.sfx("ui/portal", 0.85, 0.04)
 	in_labyrinth = false
 	if labyrinth_room != null:
-		labyrinth_room.visible = false
+		if labyrinth_room.has_method("on_exit_labyrinth"):
+			labyrinth_room.on_exit_labyrinth()
+		else:
+			labyrinth_room.visible = false
 	motion = Vector2.ZERO
 	move_pointer = -1
 	target_pos = Vector2(-1.0, -1.0)

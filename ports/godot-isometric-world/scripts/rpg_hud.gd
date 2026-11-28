@@ -2236,19 +2236,19 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			c.draw_line(Vector2(nx, bbar.position.y), Vector2(nx, bbar.position.y + bbar.size.y), Color(1.0, 0.92, 0.52, 0.96), 2.4)
 		c.draw_rect(bbar, Color(1.0, 0.80, 0.34, 0.94), false, 1.8)
 		var bhp_txt := "%d / %d HP (%d%%)" % [int(round(bhp)), int(round(bmax)), int(round(bfrac * 100.0))]
-		var bhw := fb.get_string_size(bhp_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-		c.draw_string_outline(fb, Vector2(bbar.position.x + (bbar.size.x - bhw) * 0.5, bbar.position.y + 17.0), bhp_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.0, 0.0, 0.0, 0.98))
-		c.draw_string(fb, Vector2(bbar.position.x + (bbar.size.x - bhw) * 0.5, bbar.position.y + 17.0), bhp_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.98, 0.94))
+		var bhw := fb.get_string_size(bhp_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+		c.draw_string_outline(fb, Vector2(bbar.position.x + (bbar.size.x - bhw) * 0.5, bbar.position.y + 18.0), bhp_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 4, Color(0.0, 0.0, 0.0, 0.98))
+		c.draw_string(fb, Vector2(bbar.position.x + (bbar.size.x - bhw) * 0.5, bbar.position.y + 18.0), bhp_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(1.0, 0.98, 0.94))
 		var bhint := str(active_boss.get("hint", ""))
 		if not bhint.is_empty():
 			var hcol := Color(0.42, 0.96, 1.0) if bool(active_boss.get("shield", false)) or bool(active_boss.get("vulnerable", false)) else Color(0.96, 0.86, 0.62)
-			c.draw_string(fb, Vector2(bx + 16.0, by + 82.0), bhint, HORIZONTAL_ALIGNMENT_LEFT, int(bw - 32.0), 13, hcol)
+			c.draw_string(fb, Vector2(bx + 16.0, by + 84.0), bhint, HORIZONTAL_ALIGNMENT_LEFT, int(bw - 32.0), 16, hcol)
 	elif not hud_edit_mode and world != null and world.has_method("get_locked_target_info"):
 		var tgt: Dictionary = world.get_locked_target_info()
 		if not tgt.is_empty():
 			var vs_t := _vp_size()
-			var tw := clampf(vs_t.x - 860.0, 320.0, 440.0)
-			var th := 82.0
+			var tw := clampf(vs_t.x - 840.0, 350.0, 470.0)
+			var th := 92.0
 			var tx := clampf((vs_t.x - tw) * 0.5, 526.0, maxf(vs_t.x - 304.0 - tw, 526.0))
 			var ty := 14.0
 			var tr := Rect2(tx, ty, tw, th)
@@ -2257,24 +2257,24 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			var t_name := str(tgt.get("name", "Cel"))
 			var t_lv := int(tgt.get("level", 1))
 			var title_t := ("%s  [ELITA Poz.%d]" if is_boss else "%s  [Poz.%d]") % [t_name, t_lv]
-			c.draw_string_outline(f, Vector2(tx + 16.0, ty + 28.0), title_t, HORIZONTAL_ALIGNMENT_LEFT, int(tw - 58.0), 16, 4, Color(0.02, 0.01, 0.02, 0.98))
-			c.draw_string(f, Vector2(tx + 16.0, ty + 28.0), title_t, HORIZONTAL_ALIGNMENT_LEFT, int(tw - 58.0), 16, Color(1.0, 0.78, 0.42) if is_boss else Color(1.0, 0.94, 0.76))
-			var clr_r := Rect2(tx + tw - 34.0, ty + 10.0, 24.0, 24.0)
+			c.draw_string_outline(f, Vector2(tx + 16.0, ty + 30.0), title_t, HORIZONTAL_ALIGNMENT_LEFT, int(tw - 58.0), 18, 4, Color(0.02, 0.01, 0.02, 0.98))
+			c.draw_string(f, Vector2(tx + 16.0, ty + 30.0), title_t, HORIZONTAL_ALIGNMENT_LEFT, int(tw - 58.0), 18, Color(1.0, 0.78, 0.42) if is_boss else Color(1.0, 0.94, 0.76))
+			var clr_r := Rect2(tx + tw - 38.0, ty + 10.0, 28.0, 28.0)
 			util_hitboxes.append({"rect": clr_r.grow(6.0), "id": "clear_target"})
 			c.draw_rect(clr_r, Color(0.24, 0.08, 0.08, 0.92), true)
 			c.draw_rect(clr_r, Color(0.92, 0.54, 0.36, 0.90), false, 1.4)
-			c.draw_string(f, clr_r.position + Vector2(6.5, 17.5), "×", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.90, 0.80))
+			c.draw_string(f, clr_r.position + Vector2(7.5, 20.5), "×", HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.90, 0.80))
 			var thp := float(tgt.get("hp", 0.0))
 			var tmax := maxf(1.0, float(tgt.get("max_hp", 1.0)))
 			var tfrac := clampf(thp / tmax, 0.0, 1.0)
-			var bar_r := Rect2(tx + 16.0, ty + 38.0, tw - 32.0, 18.0)
+			var bar_r := Rect2(tx + 16.0, ty + 40.0, tw - 32.0, 22.0)
 			c.draw_rect(bar_r, Color(0.08, 0.04, 0.05, 0.96), true)
 			c.draw_rect(Rect2(bar_r.position + Vector2(1.5, 1.5), Vector2((bar_r.size.x - 3.0) * tfrac, bar_r.size.y - 3.0)), Color(0.94, 0.24, 0.16, 0.96) if is_boss else Color(0.86, 0.26, 0.22, 0.95), true)
 			c.draw_rect(bar_r, Color(0.88, 0.68, 0.34, 0.88), false, 1.4)
 			var hp_lbl := "%d / %d HP" % [int(round(thp)), int(round(tmax))]
-			var hlw := fb.get_string_size(hp_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
-			c.draw_string_outline(fb, Vector2(bar_r.position.x + (bar_r.size.x - hlw) * 0.5, bar_r.position.y + 13.5), hp_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 3, Color(0.0, 0.0, 0.0, 0.98))
-			c.draw_string(fb, Vector2(bar_r.position.x + (bar_r.size.x - hlw) * 0.5, bar_r.position.y + 13.5), hp_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.98, 0.94))
+			var hlw := fb.get_string_size(hp_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+			c.draw_string_outline(fb, Vector2(bar_r.position.x + (bar_r.size.x - hlw) * 0.5, bar_r.position.y + 16.5), hp_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.0, 0.0, 0.0, 0.98))
+			c.draw_string(fb, Vector2(bar_r.position.x + (bar_r.size.x - hlw) * 0.5, bar_r.position.y + 16.5), hp_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.98, 0.94))
 			var st_arr: Array = tgt.get("statuses", [])
 			var sx := tx + 16.0
 			for st_code in st_arr:
@@ -2286,23 +2286,23 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 				elif sc_str == "slow": s_txt = "SPOWOL."; s_col = Color(0.46, 0.88, 1.0)
 				elif sc_str == "marked": s_txt = "NAMIERZ."; s_col = Color(0.32, 0.98, 1.0)
 				elif sc_str == "seal": s_txt = "PIECZĘĆ"; s_col = Color(1.0, 0.88, 0.42)
-				var sw := fb.get_string_size(s_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x + 10.0
+				var sw := fb.get_string_size(s_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x + 12.0
 				if sx + sw > tx + tw - 14.0:
 					break
-				var cr := Rect2(sx, ty + 60.0, sw, 16.0)
+				var cr := Rect2(sx, ty + 66.0, sw, 20.0)
 				c.draw_rect(cr, Color(s_col.r * 0.25, s_col.g * 0.25, s_col.b * 0.25, 0.92), true)
-				c.draw_rect(cr, s_col, false, 1.1)
-				c.draw_string(fb, Vector2(sx + 5.0, ty + 72.0), s_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, s_col)
+				c.draw_rect(cr, s_col, false, 1.2)
+				c.draw_string(fb, Vector2(sx + 6.0, ty + 81.0), s_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, s_col)
 				sx += sw + 6.0
 			for wk_lbl in tgt.get("weaknesses", []):
 				var w_txt := "SŁABOŚĆ: %s" % str(wk_lbl)
-				var ww := fb.get_string_size(w_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x + 10.0
+				var ww := fb.get_string_size(w_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x + 12.0
 				if sx + ww > tx + tw - 14.0:
 					break
-				var wr := Rect2(sx, ty + 60.0, ww, 16.0)
+				var wr := Rect2(sx, ty + 66.0, ww, 20.0)
 				c.draw_rect(wr, Color(0.08, 0.24, 0.30, 0.94), true)
-				c.draw_rect(wr, Color(0.36, 0.96, 1.0, 0.92), false, 1.1)
-				c.draw_string(fb, Vector2(sx + 5.0, ty + 72.0), w_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.54, 0.98, 1.0))
+				c.draw_rect(wr, Color(0.36, 0.96, 1.0, 0.92), false, 1.2)
+				c.draw_string(fb, Vector2(sx + 6.0, ty + 81.0), w_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.54, 0.98, 1.0))
 				sx += ww + 6.0
 
 	var ring_obs := _load_tex("res://assets/ui/obsidian/ring_star.webp")
@@ -2331,18 +2331,18 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	util_hitboxes.append({"rect": map_rect.grow(5.0), "id": "atlas"})
 	_draw_forged_pill(c, map_rect, false)
 	var m_txt := "MAPA ŚWIATA"
-	var mtw := f.get_string_size(m_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
-	c.draw_string_outline(f, Vector2(map_rect.position.x + (map_rect.size.x - mtw) * 0.5, map_rect.position.y + 34.0), m_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 5, Color(0.02, 0.01, 0.01, 0.98))
-	c.draw_string(f, Vector2(map_rect.position.x + (map_rect.size.x - mtw) * 0.5, map_rect.position.y + 34.0), m_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(1.0, 0.94, 0.74))
+	var mtw := f.get_string_size(m_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
+	c.draw_string_outline(f, Vector2(map_rect.position.x + (map_rect.size.x - mtw) * 0.5, map_rect.position.y + 34.0), m_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, 5, Color(0.02, 0.01, 0.01, 0.98))
+	c.draw_string(f, Vector2(map_rect.position.x + (map_rect.size.x - mtw) * 0.5, map_rect.position.y + 34.0), m_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.94, 0.74))
 
 	if world != null and world.can_use_gm():
 		var gm_rect := Rect2(Vector2(236.0, 304.0) + u_off, Vector2(198.0, 54.0))
 		util_hitboxes.append({"rect": gm_rect.grow(5.0), "id": "gm"})
 		_draw_forged_pill(c, gm_rect, gm_active or not spd_badge.is_empty())
 		var gm_txt := "PANEL GM" + spd_badge
-		var gtw := f.get_string_size(gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
-		c.draw_string_outline(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 34.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 5, Color(0.02, 0.01, 0.01, 0.98))
-		c.draw_string(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 34.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.62, 0.98, 1.0) if gm_active else Color(1.0, 0.94, 0.72))
+		var gtw := f.get_string_size(gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
+		c.draw_string_outline(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 34.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, 5, Color(0.02, 0.01, 0.01, 0.98))
+		c.draw_string(f, Vector2(gm_rect.position.x + (gm_rect.size.x - gtw) * 0.5, gm_rect.position.y + 34.0), gm_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(0.62, 0.98, 1.0) if gm_active else Color(1.0, 0.94, 0.72))
 
 		# Row 3 (Staff-only): One-tap FORMA GM pill right under MAPA ŚWIATA
 		var gmf_on: bool = bool(world.get("gm_form_active"))
@@ -2352,9 +2352,9 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		if gmf_on:
 			c.draw_rect(gmf_rect.grow(2.0), Color(0.42, 0.94, 1.0, 0.92), false, 2.4)
 		var gmf_txt := "✦ FORMA GM ✓" if gmf_on else "✦ FORMA GM [F2]"
-		var gmftw := f.get_string_size(gmf_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
-		c.draw_string_outline(f, Vector2(gmf_rect.position.x + (gmf_rect.size.x - gmftw) * 0.5, gmf_rect.position.y + 30.0), gmf_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 5, Color(0.02, 0.01, 0.01, 0.98))
-		c.draw_string(f, Vector2(gmf_rect.position.x + (gmf_rect.size.x - gmftw) * 0.5, gmf_rect.position.y + 30.0), gmf_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.54, 0.98, 1.0) if gmf_on else Color(1.0, 0.90, 0.58))
+		var gmftw := f.get_string_size(gmf_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+		c.draw_string_outline(f, Vector2(gmf_rect.position.x + (gmf_rect.size.x - gmftw) * 0.5, gmf_rect.position.y + 30.0), gmf_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 5, Color(0.02, 0.01, 0.01, 0.98))
+		c.draw_string(f, Vector2(gmf_rect.position.x + (gmf_rect.size.x - gmftw) * 0.5, gmf_rect.position.y + 30.0), gmf_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.54, 0.98, 1.0) if gmf_on else Color(1.0, 0.90, 0.58))
 
 	# Dedicated BIG Quick-Heal Potion Orb + Free Return-to-Capital Stone (Kamień Powrotu)
 	var c_base := _combat_base_center()
@@ -2374,11 +2374,11 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	var pot_qty := hp_potion_count()
 	if pot_qty > 0:
 		var pbc := pot_c + Vector2(pot_r * 0.76, -pot_r * 0.72)
-		c.draw_circle(pbc, 16.0, Color(0.78, 0.16, 0.14, 0.98))
-		c.draw_arc(pbc, 16.0, 0.0, TAU, 18, Color(1.0, 0.88, 0.46, 0.98), 2.4, true)
+		c.draw_circle(pbc, 17.0, Color(0.78, 0.16, 0.14, 0.98))
+		c.draw_arc(pbc, 17.0, 0.0, TAU, 18, Color(1.0, 0.88, 0.46, 0.98), 2.4, true)
 		var pq_s := str(pot_qty)
-		var pq_w := fb.get_string_size(pq_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
-		c.draw_string(fb, pbc + Vector2(-pq_w * 0.5, 6.0), pq_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(1.0, 0.98, 0.94))
+		var pq_w := fb.get_string_size(pq_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
+		c.draw_string(fb, pbc + Vector2(-pq_w * 0.5, 6.5), pq_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.98, 0.94))
 
 	# Kamień Powrotu (Free Return-to-Capital Stone — 2.5s channel, 45s CD)
 	var rec_c := pot_c + Vector2(-8.0 * sc, -104.0 * sc)
@@ -2396,21 +2396,21 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	if rec_ch > 0.01:
 		c.draw_arc(rec_c, rec_r + 3.0, -PI * 0.5, -PI * 0.5 + TAU * clampf(1.0 - rec_ch / 2.5, 0.0, 1.0), 28, Color(0.42, 0.96, 1.0, 0.98), 4.2, true)
 		var rcs := "%.1fs" % rec_ch
-		var rcw := fb.get_string_size(rcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
-		c.draw_string_outline(fb, rec_c + Vector2(-rcw * 0.5, 6.0), rcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.0, 0.0, 0.0, 0.98))
-		c.draw_string(fb, rec_c + Vector2(-rcw * 0.5, 6.0), rcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.54, 0.98, 1.0))
+		var rcw := fb.get_string_size(rcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+		c.draw_string_outline(fb, rec_c + Vector2(-rcw * 0.5, 6.0), rcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 4, Color(0.0, 0.0, 0.0, 0.98))
+		c.draw_string(fb, rec_c + Vector2(-rcw * 0.5, 6.0), rcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.54, 0.98, 1.0))
 	elif rec_cd > 0.1:
 		c.draw_circle(rec_c, rec_r - 1.0, Color(0.02, 0.02, 0.05, 0.72))
 		var rcd := "%ds" % int(ceil(rec_cd))
-		var rcdw := fb.get_string_size(rcd, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
-		c.draw_string(fb, rec_c + Vector2(-rcdw * 0.5, 6.0), rcd, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.92, 0.94, 0.98))
+		var rcdw := fb.get_string_size(rcd, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
+		c.draw_string(fb, rec_c + Vector2(-rcdw * 0.5, 6.0), rcd, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(0.92, 0.94, 0.98))
 	if ring_cyan != null and rec_cd <= 0.1:
 		var rr_c := rec_r + 8.0 * sc
 		c.draw_texture_rect(ring_cyan, Rect2(rec_c - Vector2(rr_c, rr_c), Vector2(rr_c * 2.0, rr_c * 2.0)), false)
 	var rec_lbl := "POWRÓT"
-	var rlw := f.get_string_size(rec_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-	c.draw_string_outline(f, rec_c + Vector2(-rlw * 0.5, rec_r + 18.0), rec_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.02, 0.01, 0.02, 0.98))
-	c.draw_string(f, rec_c + Vector2(-rlw * 0.5, rec_r + 18.0), rec_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.74, 0.96, 1.0))
+	var rlw := f.get_string_size(rec_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+	c.draw_string_outline(f, rec_c + Vector2(-rlw * 0.5, rec_r + 19.0), rec_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.02, 0.01, 0.02, 0.98))
+	c.draw_string(f, rec_c + Vector2(-rlw * 0.5, rec_r + 19.0), rec_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.74, 0.96, 1.0))
 
 	# UNIK [V] Tactical Dodge-Roll Orb (4.5s CD, 0.35s i-frames + speed dash!)
 	var dodge_c := pot_c + Vector2(-92.0 * sc, -48.0 * sc)
@@ -2426,15 +2426,15 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		c.draw_circle(dodge_c, dodge_r - 1.0, Color(0.02, 0.02, 0.05, 0.72))
 		c.draw_arc(dodge_c, dodge_r - 2.0, -PI * 0.5, -PI * 0.5 + TAU * clampf(dodge_cd / 4.5, 0.0, 1.0), 24, Color(0.46, 0.96, 0.72, 0.96), 3.6, true)
 		var dcs := "%.1f" % dodge_cd
-		var dcw := fb.get_string_size(dcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
-		c.draw_string(fb, dodge_c + Vector2(-dcw * 0.5, 6.0), dcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.96, 0.98, 0.88))
+		var dcw := fb.get_string_size(dcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
+		c.draw_string(fb, dodge_c + Vector2(-dcw * 0.5, 6.0), dcs, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(0.96, 0.98, 0.88))
 	elif ring_obs != null:
 		var rr_d := dodge_r + 8.0 * sc
 		c.draw_texture_rect(ring_obs, Rect2(dodge_c - Vector2(rr_d, rr_d), Vector2(rr_d * 2.0, rr_d * 2.0)), false)
 	var d_lbl := "UNIK [V]"
-	var dlw := f.get_string_size(d_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
-	c.draw_string_outline(f, dodge_c + Vector2(-dlw * 0.5, dodge_r + 17.0), d_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 4, Color(0.02, 0.01, 0.02, 0.98))
-	c.draw_string(f, dodge_c + Vector2(-dlw * 0.5, dodge_r + 17.0), d_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.68, 0.98, 0.78))
+	var dlw := f.get_string_size(d_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+	c.draw_string_outline(f, dodge_c + Vector2(-dlw * 0.5, dodge_r + 19.0), d_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.02, 0.01, 0.02, 0.98))
+	c.draw_string(f, dodge_c + Vector2(-dlw * 0.5, dodge_r + 19.0), d_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.68, 0.98, 0.78))
 
 	# KI+ [X] Active Ki-Channeling Orb (2.0s focus restoring +28% KI!)
 	var chan_c := dodge_c + Vector2(0.0, -96.0 * sc)
@@ -2450,21 +2450,21 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	if ki_ch_t > 0.05:
 		c.draw_arc(chan_c, chan_r + 3.0, 0.0, TAU, 28, Color(0.40, 0.96, 1.0, 0.98), 4.0, true)
 		var chs := "%.1fs" % ki_ch_t
-		var chw := fb.get_string_size(chs, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
-		c.draw_string_outline(fb, chan_c + Vector2(-chw * 0.5, 5.5), chs, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 4, Color(0.0, 0.0, 0.0, 0.98))
-		c.draw_string(fb, chan_c + Vector2(-chw * 0.5, 5.5), chs, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.46, 0.98, 1.0))
+		var chw := fb.get_string_size(chs, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+		c.draw_string_outline(fb, chan_c + Vector2(-chw * 0.5, 6.0), chs, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 4, Color(0.0, 0.0, 0.0, 0.98))
+		c.draw_string(fb, chan_c + Vector2(-chw * 0.5, 6.0), chs, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.46, 0.98, 1.0))
 	elif channel_cd > 0.05:
 		c.draw_circle(chan_c, chan_r - 1.0, Color(0.02, 0.02, 0.05, 0.70))
 		var ccd := "%.1f" % channel_cd
-		var ccdw := fb.get_string_size(ccd, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
-		c.draw_string(fb, chan_c + Vector2(-ccdw * 0.5, 5.5), ccd, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.84, 0.92, 1.0))
+		var ccdw := fb.get_string_size(ccd, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+		c.draw_string(fb, chan_c + Vector2(-ccdw * 0.5, 6.0), ccd, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.84, 0.92, 1.0))
 	elif ring_cyan != null:
 		var rr_ch := chan_r + 8.0 * sc
 		c.draw_texture_rect(ring_cyan, Rect2(chan_c - Vector2(rr_ch, rr_ch), Vector2(rr_ch * 2.0, rr_ch * 2.0)), false)
 	var ch_lbl := "KI+ [X]"
-	var chlw := f.get_string_size(ch_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
-	c.draw_string_outline(f, chan_c + Vector2(-chlw * 0.5, chan_r + 17.0), ch_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 4, Color(0.02, 0.01, 0.02, 0.98))
-	c.draw_string(f, chan_c + Vector2(-chlw * 0.5, chan_r + 17.0), ch_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.56, 0.94, 1.0))
+	var chlw := f.get_string_size(ch_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+	c.draw_string_outline(f, chan_c + Vector2(-chlw * 0.5, chan_r + 19.0), ch_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.02, 0.01, 0.02, 0.98))
+	c.draw_string(f, chan_c + Vector2(-chlw * 0.5, chan_r + 19.0), ch_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.56, 0.94, 1.0))
 
 	# Staff-only GameMaster Ability Orbs: LOT [L] (Levitation Flight) & SZYBKOŚĆ [U] (Celestial Acceleration 3.5x)
 	if world != null and world.can_use_gm():
@@ -2473,7 +2473,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		var gm_bst_on: bool = bool(world.get("gm_boost_active"))
 
 		# Orb A: LOT [L] — cleanly spaced above KI+ [X]
-		var fly_c := chan_c + Vector2(-10.0 * sc, -114.0 * sc)
+		var fly_c := chan_c + Vector2(-10.0 * sc, -116.0 * sc)
 		var fly_r := 32.0 * sc
 		util_hitboxes.append({"rect": Rect2(fly_c - Vector2(fly_r, fly_r), Vector2(fly_r * 2.0, fly_r * 2.0)).grow(10.0), "id": "gm_fly"})
 		c.draw_circle(fly_c + Vector2(0.0, 3.0), fly_r + 3.0, Color(0.0, 0.0, 0.0, 0.55))
@@ -2505,9 +2505,9 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			var rr_f := fly_r + 8.0 * sc
 			c.draw_texture_rect(ring_cyan, Rect2(fly_c - Vector2(rr_f, rr_f), Vector2(rr_f * 2.0, rr_f * 2.0)), false)
 		var f_lbl := "LECISZ [L]" if gm_fly_on else "LOT [L]"
-		var flw := f.get_string_size(f_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
-		c.draw_string_outline(f, fly_c + Vector2(-flw * 0.5, fly_r + 17.0), f_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 4, Color(0.02, 0.01, 0.02, 0.98))
-		c.draw_string(f, fly_c + Vector2(-flw * 0.5, fly_r + 17.0), f_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.48, 0.98, 1.0) if gm_fly_on else Color(1.0, 0.92, 0.62))
+		var flw := f.get_string_size(f_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+		c.draw_string_outline(f, fly_c + Vector2(-flw * 0.5, fly_r + 19.0), f_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.02, 0.01, 0.02, 0.98))
+		c.draw_string(f, fly_c + Vector2(-flw * 0.5, fly_r + 19.0), f_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.48, 0.98, 1.0) if gm_fly_on else Color(1.0, 0.92, 0.62))
 
 		# Orb B: SZYBKOŚĆ [U] — cleanly spaced above POWRÓT and clear of T Poz.20
 		var bst_c := rec_c + Vector2(-14.0 * sc, -120.0 * sc)
@@ -2534,9 +2534,9 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			var rr_b := bst_r + 8.0 * sc
 			c.draw_texture_rect(ring_obs, Rect2(bst_c - Vector2(rr_b, rr_b), Vector2(rr_b * 2.0, rr_b * 2.0)), false)
 		var b_lbl := "3.5× [U]" if gm_bst_on else "TURBO [U]"
-		var blw := f.get_string_size(b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
-		c.draw_string_outline(f, bst_c + Vector2(-blw * 0.5, bst_r + 17.0), b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 4, Color(0.02, 0.01, 0.02, 0.98))
-		c.draw_string(f, bst_c + Vector2(-blw * 0.5, bst_r + 17.0), b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.92, 0.36) if gm_bst_on else Color(1.0, 0.84, 0.52))
+		var blw := f.get_string_size(b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+		c.draw_string_outline(f, bst_c + Vector2(-blw * 0.5, bst_r + 19.0), b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.02, 0.01, 0.02, 0.98))
+		c.draw_string(f, bst_c + Vector2(-blw * 0.5, bst_r + 19.0), b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.92, 0.36) if gm_bst_on else Color(1.0, 0.84, 0.52))
 
 	nav_hitboxes.clear()
 
@@ -2569,21 +2569,21 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			c.draw_arc(center, r + 10.0 + pulse_k * 3.0, 0.0, TAU, 36, Color(0.32, 0.96, 1.0, 0.88), 4.0, true)
 			c.draw_arc(center, r + 5.0, 0.0, TAU, 36, Color(1.0, 0.88, 0.42, 0.92), 2.5, true)
 			var kt_s := "KI %ds" % int(ceil(float(world.ki_mode_timer)))
-			var ktw := f.get_string_size(kt_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
-			c.draw_string_outline(f, center + Vector2(-ktw * 0.5, -r - 22.0), kt_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 5, Color(0.02, 0.04, 0.08, 0.98))
-			c.draw_string(f, center + Vector2(-ktw * 0.5, -r - 22.0), kt_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.42, 0.98, 1.0))
+			var ktw := f.get_string_size(kt_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+			c.draw_string_outline(f, center + Vector2(-ktw * 0.5, -r - 22.0), kt_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 5, Color(0.02, 0.04, 0.08, 0.98))
+			c.draw_string(f, center + Vector2(-ktw * 0.5, -r - 22.0), kt_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.42, 0.98, 1.0))
 
 		if not unlocked_skill:
 			c.draw_circle(center, r - 1.0, Color(0.02, 0.02, 0.04, 0.80))
 			var lk_s := slot_nid
 			var req_lv := get_hotbar_skill_min_level(i)
 			var lv_s := "Poz.%d" % req_lv
-			var lkw := f.get_string_size(lk_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
-			var lvw := fb.get_string_size(lv_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-			c.draw_string_outline(f, center + Vector2(-lkw * 0.5, -2.0), lk_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.02, 0.01, 0.02, 0.98))
-			c.draw_string(f, center + Vector2(-lkw * 0.5, -2.0), lk_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.88, 0.82, 0.68, 0.98))
-			c.draw_string_outline(fb, center + Vector2(-lvw * 0.5, 16.0), lv_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.02, 0.01, 0.02, 0.98))
-			c.draw_string(fb, center + Vector2(-lvw * 0.5, 16.0), lv_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.76, 0.42, 0.98) if i == 5 else Color(0.82, 0.80, 0.76, 0.96))
+			var lkw := f.get_string_size(lk_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+			var lvw := fb.get_string_size(lv_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+			c.draw_string_outline(f, center + Vector2(-lkw * 0.5, -2.0), lk_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 4, Color(0.02, 0.01, 0.02, 0.98))
+			c.draw_string(f, center + Vector2(-lkw * 0.5, -2.0), lk_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.88, 0.82, 0.68, 0.98))
+			c.draw_string_outline(fb, center + Vector2(-lvw * 0.5, 17.0), lv_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.02, 0.01, 0.02, 0.98))
+			c.draw_string(fb, center + Vector2(-lvw * 0.5, 17.0), lv_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.76, 0.42, 0.98) if i == 5 else Color(0.82, 0.80, 0.76, 0.96))
 
 		# Radial cooldown veil + BOLD 22px numeric timer
 		var cd := cooldowns[i]
@@ -2603,10 +2603,10 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		if i != 0:
 			var kb := str(HOTBAR_KEYS[i])
 			var k_pos := center + Vector2(0.0, r + 4.0)
-			var kr := 16.0 if bool(spec["keystone"]) else 14.5
+			var kr := 17.0 if bool(spec["keystone"]) else 15.5
 			c.draw_circle(k_pos, kr, Color(0.06, 0.04, 0.05, 0.98))
 			c.draw_arc(k_pos, kr, 0.0, TAU, 20, Color(0.98, 0.76, 0.32, 0.98) if unlocked_skill else Color(0.48, 0.46, 0.50, 0.90), 2.2, true)
-			var ksz := 16 if bool(spec["keystone"]) else 15
+			var ksz := 17 if bool(spec["keystone"]) else 16
 			var kw := f.get_string_size(kb, HORIZONTAL_ALIGNMENT_LEFT, -1, ksz).x
 			c.draw_string(f, k_pos + Vector2(-kw * 0.5, float(ksz) * 0.36), kb, HORIZONTAL_ALIGNMENT_LEFT, -1, ksz, Color(1.0, 0.96, 0.76) if unlocked_skill else Color(0.68, 0.66, 0.64))
 
@@ -2624,8 +2624,8 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		var mm_sz := 232.0 * sc
 		var mm_cx := vs_p.x - 16.0 - mm_sz * 0.5 + mm_off.x
 		var mm_bottom := 14.0 + mm_sz + mm_off.y
-		var pill_w := 268.0
-		var pill_h := 42.0
+		var pill_w := 284.0
+		var pill_h := 44.0
 		var pill_x := clampf(mm_cx - pill_w * 0.5, 520.0, vs_p.x - pill_w - 12.0)
 		var pill_y := clampf(mm_bottom + 8.0, 16.0, vs_p.y - 380.0)
 		var pill_r := Rect2(pill_x, pill_y, pill_w, pill_h)
@@ -2636,55 +2636,55 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 		sb.set_corner_radius_all(10)
 		c.draw_style_box(sb, pill_r)
 		c.draw_circle(pill_r.position + Vector2(18.0, pill_h * 0.5), 5.5, fps_col)
-		c.draw_string(fb, pill_r.position + Vector2(30.0, 27.0), "FPS %d" % fps_val, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, fps_col)
-		c.draw_line(pill_r.position + Vector2(118.0, 8.0), pill_r.position + Vector2(118.0, pill_h - 8.0), Color(0.75, 0.60, 0.32, 0.55), 1.5)
-		c.draw_circle(pill_r.position + Vector2(134.0, pill_h * 0.5), 5.5, ping_col)
-		c.draw_string(fb, pill_r.position + Vector2(146.0, 27.0), "PING %s" % ping_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, ping_col)
+		c.draw_string(fb, pill_r.position + Vector2(30.0, 28.0), "FPS %d" % fps_val, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, fps_col)
+		c.draw_line(pill_r.position + Vector2(124.0, 8.0), pill_r.position + Vector2(124.0, pill_h - 8.0), Color(0.75, 0.60, 0.32, 0.55), 1.5)
+		c.draw_circle(pill_r.position + Vector2(140.0, pill_h * 0.5), 5.5, ping_col)
+		c.draw_string(fb, pill_r.position + Vector2(152.0, 28.0), "PING %s" % ping_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, ping_col)
 
 	# --- D3. Stage 4 Collapsible HUD Quest Tracker & Active World Event Strip (below Minimap) ---
 	if not hud_edit_mode and world != null:
 		var vs_q := _vp_size()
 		var mm_off_q := get_zone_offset("minimap")
-		var q_y := 14.0 + 256.0 * sc + mm_off_q.y + (52.0 if is_perf_hud_enabled() else 8.0)
-		var q_w := 290.0
+		var q_y := 14.0 + 256.0 * sc + mm_off_q.y + (54.0 if is_perf_hud_enabled() else 8.0)
+		var q_w := 330.0
 		var q_x := vs_q.x - q_w - 12.0 + mm_off_q.x
 		var max_q_bottom := vs_q.y - 252.0 # Clean gap above bottom-right Wild Rift combat orbs!
 		if world.get("world_events") != null:
 			var ev_hud: Dictionary = world.world_events.get_active_event_hud()
-			if not ev_hud.is_empty() and q_y + 56.0 < max_q_bottom:
-				var er := Rect2(q_x, q_y, q_w, 54.0)
+			if not ev_hud.is_empty() and q_y + 64.0 < max_q_bottom:
+				var er := Rect2(q_x, q_y, q_w, 62.0)
 				_draw_obsidian_plate(c, er, Color(1.0, 0.82, 0.28, 0.98))
 				var ev_nm := str(ev_hud.get("name", "Zdarzenie"))
-				if ev_nm.length() > 30: ev_nm = ev_nm.substr(0, 29) + "…"
-				c.draw_string(f, er.position + Vector2(12.0, 20.0), "⚡ %s" % ev_nm, HORIZONTAL_ALIGNMENT_LEFT, int(q_w - 24.0), 13, Color(1.0, 0.90, 0.42))
-				c.draw_string(fb, er.position + Vector2(12.0, 40.0), str(ev_hud.get("progress", "")), HORIZONTAL_ALIGNMENT_LEFT, int(q_w - 24.0), 12, Color(0.56, 0.98, 0.78))
-				q_y += 58.0
+				if ev_nm.length() > 28: ev_nm = ev_nm.substr(0, 27) + "…"
+				c.draw_string(f, er.position + Vector2(12.0, 24.0), "⚡ %s" % ev_nm, HORIZONTAL_ALIGNMENT_LEFT, int(q_w - 24.0), 17, Color(1.0, 0.90, 0.42))
+				c.draw_string(fb, er.position + Vector2(12.0, 48.0), str(ev_hud.get("progress", "")), HORIZONTAL_ALIGNMENT_LEFT, int(q_w - 24.0), 16, Color(0.56, 0.98, 0.78))
+				q_y += 66.0
 		if world.get("quest_engine") != null:
 			var tr_entries: Array = world.quest_engine.get_tracker_entries()
-			if not tr_entries.is_empty() and q_y + 32.0 < max_q_bottom:
-				var hdr_r := Rect2(q_x, q_y, q_w, 26.0)
+			if not tr_entries.is_empty() and q_y + 36.0 < max_q_bottom:
+				var hdr_r := Rect2(q_x, q_y, q_w, 32.0)
 				util_hitboxes.append({"rect": hdr_r.grow(4.0), "id": "toggle_tracker"})
-				c.draw_rect(hdr_r, Color(0.05, 0.04, 0.08, 0.92), true)
-				c.draw_rect(hdr_r, Color(0.86, 0.68, 0.34, 0.90), false, 1.4)
+				c.draw_rect(hdr_r, Color(0.05, 0.04, 0.08, 0.94), true)
+				c.draw_rect(hdr_r, Color(0.86, 0.68, 0.34, 0.90), false, 1.6)
 				var arrow := "▸" if quest_tracker_collapsed else "▾"
-				c.draw_string(f, hdr_r.position + Vector2(10.0, 18.0), "%s ŚLEDZONE ZADANIA (%d)" % [arrow, tr_entries.size()], HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.90, 0.54))
+				c.draw_string(f, hdr_r.position + Vector2(12.0, 22.0), "%s ZADANIA (%d)" % [arrow, tr_entries.size()], HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(1.0, 0.90, 0.54))
 				if not quest_tracker_collapsed:
-					var body_y := q_y + 28.0
+					var body_y := q_y + 34.0
 					for qe: Dictionary in tr_entries:
 						var lines: Array = qe.get("lines", [])
-						var row_h := 20.0 + float(mini(lines.size(), 2)) * 16.0 + 6.0
+						var row_h := 24.0 + float(mini(lines.size(), 2)) * 20.0 + 8.0
 						if body_y + row_h > max_q_bottom:
 							break
 						var qr := Rect2(q_x, body_y, q_w, row_h)
-						c.draw_rect(qr, Color(0.04, 0.035, 0.065, 0.86), true)
-						c.draw_rect(qr, Color(0.46, 0.96, 0.68, 0.76) if bool(qe.get("ready", false)) else Color(0.68, 0.56, 0.32, 0.58), false, 1.1)
+						c.draw_rect(qr, Color(0.04, 0.035, 0.065, 0.90), true)
+						c.draw_rect(qr, Color(0.46, 0.96, 0.68, 0.80) if bool(qe.get("ready", false)) else Color(0.68, 0.56, 0.32, 0.62), false, 1.3)
 						var qt := str(qe.get("title", ""))
-						if qt.length() > 32: qt = qt.substr(0, 31) + "…"
-						c.draw_string(f, qr.position + Vector2(10.0, 16.0), qt, HORIZONTAL_ALIGNMENT_LEFT, int(q_w - 20.0), 13, Color(0.46, 0.98, 0.72) if bool(qe.get("ready", false)) else Color(1.0, 0.94, 0.74))
+						if qt.length() > 30: qt = qt.substr(0, 29) + "…"
+						c.draw_string(f, qr.position + Vector2(10.0, 20.0), qt, HORIZONTAL_ALIGNMENT_LEFT, int(q_w - 20.0), 17, Color(0.46, 0.98, 0.72) if bool(qe.get("ready", false)) else Color(1.0, 0.94, 0.74))
 						for li in mini(lines.size(), 2):
 							var ltxt := str(lines[li])
-							if ltxt.length() > 40: ltxt = ltxt.substr(0, 39) + "…"
-							c.draw_string(fb, qr.position + Vector2(12.0, 32.0 + float(li) * 16.0), ltxt, HORIZONTAL_ALIGNMENT_LEFT, int(q_w - 20.0), 12, Color(0.86, 0.92, 0.96))
+							if ltxt.length() > 36: ltxt = ltxt.substr(0, 35) + "…"
+							c.draw_string(fb, qr.position + Vector2(12.0, 40.0 + float(li) * 20.0), ltxt, HORIZONTAL_ALIGNMENT_LEFT, int(q_w - 20.0), 16, Color(0.88, 0.94, 0.98))
 						body_y += row_h + 4.0
 
 	# Hover tooltip anchored cleanly above bottom-right Wild Rift combat cluster
@@ -2812,31 +2812,32 @@ func _draw_modal_canvas(c: CanvasItem) -> void:
 func _draw_modal_header_plaque(c: CanvasItem, f: Font, mr: Rect2, title_txt: String, sub_txt: String) -> void:
 	var fb: Font = MapStyle.body_font()
 	var pw := 610.0
-	var ph := 48.0 if not sub_txt.is_empty() else 34.0
+	var ph := 60.0 if not sub_txt.is_empty() else 42.0
 	var px := mr.position.x + (mr.size.x - pw) * 0.5
-	var py := mr.position.y + 52.0
+	var py := mr.position.y + 30.0
 	var pts := PackedVector2Array([
-		Vector2(px + 18.0, py),
-		Vector2(px + pw - 18.0, py),
+		Vector2(px + 20.0, py),
+		Vector2(px + pw - 20.0, py),
 		Vector2(px + pw, py + ph * 0.5),
-		Vector2(px + pw - 18.0, py + ph),
-		Vector2(px + 18.0, py + ph),
+		Vector2(px + pw - 20.0, py + ph),
+		Vector2(px + 20.0, py + ph),
 		Vector2(px, py + ph * 0.5),
 	])
 	_draw_beveled_chamfer(
 		c,
 		pts,
-		Color(0.05, 0.04, 0.06, 0.92),
-		Color(0.84, 0.66, 0.35, 0.90),
-		Color(1.0, 0.88, 0.56, 0.34)
+		Color(0.05, 0.04, 0.06, 0.94),
+		Color(0.88, 0.70, 0.36, 0.94),
+		Color(1.0, 0.90, 0.58, 0.38)
 	)
-	var tw := f.get_string_size(title_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
-	var ty := py + 23.0
-	c.draw_string_outline(f, Vector2(mr.position.x + (mr.size.x - tw) * 0.5, ty), title_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 4, Color(0.02, 0.01, 0.01, 0.96))
-	c.draw_string(f, Vector2(mr.position.x + (mr.size.x - tw) * 0.5, ty), title_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(1.0, 0.89, 0.56))
+	var tw := f.get_string_size(title_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 22).x
+	var ty := py + 28.0
+	c.draw_string_outline(f, Vector2(mr.position.x + (mr.size.x - tw) * 0.5, ty), title_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 22, 5, Color(0.02, 0.01, 0.01, 0.98))
+	c.draw_string(f, Vector2(mr.position.x + (mr.size.x - tw) * 0.5, ty), title_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 22, Color(1.0, 0.91, 0.58))
 	if not sub_txt.is_empty():
-		var sw := fb.get_string_size(sub_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
-		c.draw_string(fb, Vector2(mr.position.x + (mr.size.x - sw) * 0.5, py + 41.0), sub_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.88, 0.84, 0.76, 0.96))
+		var sw := fb.get_string_size(sub_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+		c.draw_string_outline(fb, Vector2(mr.position.x + (mr.size.x - sw) * 0.5, py + 52.0), sub_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 3, Color(0.02, 0.01, 0.02, 0.95))
+		c.draw_string(fb, Vector2(mr.position.x + (mr.size.x - sw) * 0.5, py + 52.0), sub_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.92, 0.89, 0.82, 0.98))
 
 func _draw_constellation_tree(c: CanvasItem, f: Font, mr: Rect2) -> void:
 	var fb: Font = MapStyle.body_font()
@@ -2849,25 +2850,25 @@ func _draw_constellation_tree(c: CanvasItem, f: Font, mr: Rect2) -> void:
 	var branches: Dictionary = rd.get("skillBranches", {})
 
 	# Clean translucent obsidian veil strictly BELOW ← WSTECZ and ABOVE bottom gold filigree
-	var veil_r := Rect2(gr.position.x - 4.0, gr.position.y, gr.size.x + 8.0, gr.size.y + 26.0)
-	c.draw_rect(veil_r, Color(0.03, 0.03, 0.05, 0.46), true)
-	c.draw_rect(veil_r, Color(0.74, 0.58, 0.30, 0.36), false, 1.2)
+	var veil_r := Rect2(gr.position.x - 4.0, gr.position.y, gr.size.x + 8.0, gr.size.y + 30.0)
+	c.draw_rect(veil_r, Color(0.03, 0.03, 0.05, 0.52), true)
+	c.draw_rect(veil_r, Color(0.78, 0.62, 0.32, 0.42), false, 1.4)
 
 	# Royal Engraved Obsidian Header Plaque cleanly framing the title & point counter
 	var race_pl := str(rd.get("raceName", "Legendy")).to_upper()
 	var realm_pl := str(meta["realm"]).to_upper()
 	var title_txt := "KONSTELACJA UMIEJĘTNOŚCI — %s (%s)" % [race_pl, realm_pl]
-	var sub_txt := "29 Węzłów Kanonicznych  •  Poziom %d  •  Dostępne Punkty Talentów: %d" % [hero_level, skill_points]
+	var sub_txt := "29 Węzłów Kanonicznych  •  Poziom %d  •  Punkty Talentów: %d" % [hero_level, skill_points]
 	_draw_modal_header_plaque(c, f, mr, title_txt, sub_txt)
 
 	# Consistent Forged "← WSTECZ" back button at top-left inside modal border
-	talent_close_rect = Rect2(mr.position.x + 48.0, mr.position.y + 52.0, 168.0, 44.0)
+	talent_close_rect = Rect2(mr.position.x + 32.0, mr.position.y + 34.0, 186.0, 52.0)
 	_draw_forged_pill(c, talent_close_rect, false)
 	var b_lbl := "← WSTECZ"
-	var b_lw := f.get_string_size(b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-	c.draw_string(f, Vector2(talent_close_rect.position.x + (talent_close_rect.size.x - b_lw) * 0.5, talent_close_rect.position.y + 27.0), b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.93, 0.74))
+	var b_lw := f.get_string_size(b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 19).x
+	c.draw_string(f, Vector2(talent_close_rect.position.x + (talent_close_rect.size.x - b_lw) * 0.5, talent_close_rect.position.y + 33.0), b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 19, Color(1.0, 0.94, 0.76))
 
-	# Branch Headers inscribed cleanly inside bottom of obsidian box (ZERO filigree overlap!)
+	# Branch Headers inscribed cleanly inside bottom of obsidian box
 	var b_specs: Array = [
 		{"k": "A", "xf": 0.175},
 		{"k": "B", "xf": 0.500},
@@ -2879,10 +2880,10 @@ func _draw_constellation_tree(c: CanvasItem, f: Font, mr: Rect2) -> void:
 		var b_name := str(b_info.get("name", "Gałąź " + bk)).to_upper()
 		var b_col: Color = BRANCH_COLORS.get(bk, Color(0.9, 0.8, 0.5))
 		var bx := gr.position.x + gr.size.x * float(bs["xf"])
-		var bw := f.get_string_size(b_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
-		var by := veil_r.position.y + veil_r.size.y - 9.0
-		c.draw_string_outline(f, Vector2(bx - bw * 0.5, by), b_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, 3, Color(0.02, 0.01, 0.02, 0.96))
-		c.draw_string(f, Vector2(bx - bw * 0.5, by), b_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, b_col)
+		var bw := f.get_string_size(b_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+		var by := veil_r.position.y + veil_r.size.y - 8.0
+		c.draw_string_outline(f, Vector2(bx - bw * 0.5, by), b_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.02, 0.01, 0.02, 0.98))
+		c.draw_string(f, Vector2(bx - bw * 0.5, by), b_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, b_col)
 
 	# Constellation Star-Chart Conduit Lines (every requiresAny edge!)
 	var node_positions: Dictionary = {}
@@ -2923,24 +2924,24 @@ func _draw_constellation_tree(c: CanvasItem, f: Font, mr: Rect2) -> void:
 		if pair_var is Array and (pair_var as Array).size() == 2:
 			var p0: Vector2 = node_positions.get(str((pair_var as Array)[0]), Vector2.ZERO)
 			var p1: Vector2 = node_positions.get(str((pair_var as Array)[1]), Vector2.ZERO)
-			c.draw_line(p0, p1, Color(0.86, 0.26, 0.24, 0.55), 1.4, true)
+			c.draw_line(p0, p1, Color(0.86, 0.26, 0.24, 0.62), 1.8, true)
 			var mid := (p0 + p1) * 0.5
-			c.draw_circle(mid, 7.5, Color(0.08, 0.04, 0.05, 0.92))
-			c.draw_string(fb, mid + Vector2(-4.5, 4.0), "⇄", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.98, 0.46, 0.38))
+			c.draw_circle(mid, 9.5, Color(0.08, 0.04, 0.05, 0.95))
+			c.draw_string(fb, mid + Vector2(-6.0, 5.0), "⇄", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.98, 0.48, 0.40))
 
 	# Selected / Hovered Node Radiant Halo Ring behind node medallion
 	var active_id := hovered_node_id if not hovered_node_id.is_empty() else selected_node_id
 	if node_positions.has(active_id):
 		var ap: Vector2 = node_positions[active_id]
-		c.draw_arc(ap, 32.0, 0.0, TAU, 36, Color(1.0, 0.90, 0.52, 0.86), 2.2, true)
-		c.draw_arc(ap, 36.0, 0.0, TAU, 36, Color(1.0, 0.80, 0.34, 0.35), 1.4, true)
+		c.draw_arc(ap, 32.0, 0.0, TAU, 36, Color(1.0, 0.90, 0.52, 0.90), 2.5, true)
+		c.draw_arc(ap, 37.0, 0.0, TAU, 36, Color(1.0, 0.80, 0.34, 0.40), 1.6, true)
 
 	# --- Right-Side Forged Obsidian Inspector Tablet ---
 	var ix := ir.position.x
 	var iy := ir.position.y
 	var iw := ir.size.x
 	var ih := ir.size.y
-	_draw_obsidian_plate(c, ir, Color(0.84, 0.66, 0.35, 0.90))
+	_draw_obsidian_plate(c, ir, Color(0.86, 0.68, 0.36, 0.94))
 
 	var sel_nd := _node_by_id(active_id)
 	if not sel_nd.is_empty():
@@ -2953,83 +2954,83 @@ func _draw_constellation_tree(c: CanvasItem, f: Font, mr: Rect2) -> void:
 		var b_key := active_id.substr(0, 1)
 		var b_col: Color = BRANCH_COLORS.get(b_key, Color(1.0, 0.84, 0.42))
 
-		var nw := f.get_string_size(s_name.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
-		c.draw_string_outline(f, Vector2(ix + (iw - nw) * 0.5, iy + 132.0), s_name.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.02, 0.01, 0.01, 0.96))
-		c.draw_string(f, Vector2(ix + (iw - nw) * 0.5, iy + 132.0), s_name.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.91, 0.62))
+		var nw := f.get_string_size(s_name.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
+		c.draw_string_outline(f, Vector2(ix + maxf(16.0, (iw - nw) * 0.5), iy + 130.0), s_name.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, int(iw - 32.0), 20, 5, Color(0.02, 0.01, 0.01, 0.98))
+		c.draw_string(f, Vector2(ix + maxf(16.0, (iw - nw) * 0.5), iy + 130.0), s_name.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, int(iw - 32.0), 20, Color(1.0, 0.92, 0.64))
 
 		var t_lbl := "%s  •  [%s]" % [str(TYPE_LABELS.get(s_type, "WĘZEŁ")), active_id]
-		var tlw := f.get_string_size(t_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
-		c.draw_string(f, Vector2(ix + (iw - tlw) * 0.5, iy + 152.0), t_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, b_col)
+		var tlw := f.get_string_size(t_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+		c.draw_string(f, Vector2(ix + maxf(16.0, (iw - tlw) * 0.5), iy + 156.0), t_lbl, HORIZONTAL_ALIGNMENT_LEFT, int(iw - 32.0), 16, b_col)
 
-		c.draw_line(Vector2(ix + 22.0, iy + 166.0), Vector2(ix + iw - 22.0, iy + 166.0), Color(0.80, 0.62, 0.32, 0.52), 1.0, true)
+		c.draw_line(Vector2(ix + 20.0, iy + 168.0), Vector2(ix + iw - 20.0, iy + 168.0), Color(0.82, 0.64, 0.34, 0.56), 1.4, true)
 
-		c.draw_string(f, Vector2(ix + 22.0, iy + 190.0), "WYMAGANY POZIOM:", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.76, 0.72, 0.66))
+		c.draw_string(f, Vector2(ix + 20.0, iy + 194.0), "POZIOM:", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.84, 0.80, 0.74))
 		var lv_ok := hero_level >= s_lvl
 		var lv_val := "Poz. %d" % s_lvl
-		var lvw := fb.get_string_size(lv_val, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-		c.draw_string(fb, Vector2(ix + iw - 24.0 - lvw, iy + 190.0), lv_val, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.42, 0.94, 0.58) if lv_ok else Color(1.0, 0.54, 0.36))
+		var lvw := fb.get_string_size(lv_val, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
+		c.draw_string(fb, Vector2(ix + iw - 22.0 - lvw, iy + 194.0), lv_val, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(0.46, 0.98, 0.62) if lv_ok else Color(1.0, 0.54, 0.36))
 
-		c.draw_string(f, Vector2(ix + 22.0, iy + 214.0), "WYMAGANIA:", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.76, 0.72, 0.66))
-		var rqw := fb.get_string_size(s_req, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
-		c.draw_string(fb, Vector2(ix + iw - 24.0 - rqw, iy + 214.0), s_req, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.94, 0.88, 0.76))
+		c.draw_string(f, Vector2(ix + 20.0, iy + 220.0), "WYMAGA:", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.84, 0.80, 0.74))
+		var rqw := fb.get_string_size(s_req, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+		c.draw_string(fb, Vector2(ix + iw - 22.0 - rqw, iy + 220.0), s_req, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.96, 0.92, 0.82))
 
-		c.draw_line(Vector2(ix + 22.0, iy + 228.0), Vector2(ix + iw - 22.0, iy + 228.0), Color(0.80, 0.62, 0.32, 0.38), 1.0, true)
+		c.draw_line(Vector2(ix + 20.0, iy + 234.0), Vector2(ix + iw - 20.0, iy + 234.0), Color(0.82, 0.64, 0.34, 0.42), 1.2, true)
 
-		c.draw_string(f, Vector2(ix + 22.0, iy + 250.0), "EFEKT UMIEJĘTNOŚCI", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.88, 0.74, 0.44))
-		c.draw_multiline_string(fb, Vector2(ix + 22.0, iy + 272.0), s_eff, HORIZONTAL_ALIGNMENT_LEFT, iw - 44.0, 14, 8, Color(0.95, 0.92, 0.86))
+		c.draw_string(f, Vector2(ix + 20.0, iy + 258.0), "EFEKT UMIEJĘTNOŚCI", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.96, 0.82, 0.48))
+		c.draw_multiline_string(fb, Vector2(ix + 20.0, iy + 282.0), s_eff, HORIZONTAL_ALIGNMENT_LEFT, iw - 40.0, 18, 8, Color(0.97, 0.95, 0.90))
 
 		# Hotbar Slot Assignment Pills [1] [2] [3] [4] for unlocked active / ultimate skills!
 		talent_slot_rects.clear()
 		if s_st == "unlocked" and (active_id in ASSIGNABLE_NODES):
-			var sl_y := iy + ih - 156.0
-			c.draw_string(f, Vector2(ix + 22.0, sl_y), "PRZYPISZ NA PASEK [1–4]:", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.76, 0.92, 1.0))
+			var sl_y := iy + ih - 168.0
+			c.draw_string(f, Vector2(ix + 20.0, sl_y), "PRZYPISZ NA PASEK [1–4]:", HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.78, 0.94, 1.0))
 			var sp_gap := 8.0
 			var sp_w := (iw - 40.0 - sp_gap * 3.0) / 4.0
 			for s_i in range(1, 5):
 				var sx_p := ix + 20.0 + float(s_i - 1) * (sp_w + sp_gap)
-				var s_rect := Rect2(sx_p, sl_y + 8.0, sp_w, 34.0)
+				var s_rect := Rect2(sx_p, sl_y + 10.0, sp_w, 42.0)
 				var is_cur := (get_hotbar_node(s_i) == active_id)
 				talent_slot_rects.append({"rect": s_rect.grow(3.0), "slot": s_i, "node": active_id})
 				_draw_forged_pill(c, s_rect, is_cur)
 				var s_lbl := "[%d] %s" % [s_i, get_hotbar_node(s_i)]
-				var slw := fb.get_string_size(s_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 12).x
-				c.draw_string(fb, Vector2(s_rect.position.x + (s_rect.size.x - slw) * 0.5, s_rect.position.y + 21.5), s_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.96, 0.72) if is_cur else Color(0.86, 0.88, 0.92))
+				var slw := fb.get_string_size(s_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+				c.draw_string(fb, Vector2(s_rect.position.x + (s_rect.size.x - slw) * 0.5, s_rect.position.y + 27.0), s_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.96, 0.72) if is_cur else Color(0.90, 0.92, 0.96))
 
 		# Interactive Unlock / Status Action Plaque at Bottom of Inspector
-		talent_unlock_btn_rect = Rect2(ix + 20.0, iy + ih - 98.0, iw - 40.0, 44.0)
+		talent_unlock_btn_rect = Rect2(ix + 20.0, iy + ih - 104.0, iw - 40.0, 50.0)
 		var can_unlock := (s_st == "available" and skill_points > 0)
 		_draw_forged_pill(c, talent_unlock_btn_rect, can_unlock or s_st == "unlocked")
 		var btn_txt := "WĘZEŁ ZABLOKOWANY"
-		var btn_tcol := Color(0.72, 0.68, 0.62)
+		var btn_tcol := Color(0.76, 0.72, 0.66)
 		if s_st == "unlocked":
 			btn_txt = "✦ ODBLOKOWANO ✦"
-			btn_tcol = Color(1.0, 0.92, 0.62)
+			btn_tcol = Color(1.0, 0.94, 0.64)
 		elif can_unlock:
-			btn_txt = "ODBLOKUJ WĘZEŁ (1 PKT)"
-			btn_tcol = Color(1.0, 0.98, 0.90)
+			btn_txt = "ODBLOKUJ (1 PKT)"
+			btn_tcol = Color(1.0, 0.98, 0.92)
 		elif s_st == "level_locked":
 			btn_txt = "WYMAGANY POZ. %d" % s_lvl
-			btn_tcol = Color(1.0, 0.64, 0.42)
+			btn_tcol = Color(1.0, 0.66, 0.44)
 		elif s_st == "available":
-			btn_txt = "BRAK PUNKTÓW TALENTÓW"
-			btn_tcol = Color(0.86, 0.80, 0.66)
+			btn_txt = "BRAK PUNKTÓW"
+			btn_tcol = Color(0.90, 0.84, 0.70)
 		elif s_st == "excluded":
-			btn_txt = "WYKLUCZONE PRZEZ WYBÓR"
+			btn_txt = "WYKLUCZONE"
 			btn_tcol = Color(1.0, 0.68, 0.64)
-		var btw := f.get_string_size(btn_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
-		c.draw_string(f, Vector2(talent_unlock_btn_rect.position.x + (talent_unlock_btn_rect.size.x - btw) * 0.5, talent_unlock_btn_rect.position.y + 27.0), btn_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, btn_tcol)
+		var btw := f.get_string_size(btn_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
+		c.draw_string(f, Vector2(talent_unlock_btn_rect.position.x + (talent_unlock_btn_rect.size.x - btw) * 0.5, talent_unlock_btn_rect.position.y + 32.0), btn_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, btn_tcol)
 
-		var ly := iy + ih - 32.0
+		var ly := iy + ih - 30.0
 		var leg: Array = [
 			[Color(1.0, 0.82, 0.36), "Odblok."],
 			[Color(0.36, 0.88, 1.0), "Dostępne"],
-			[Color(0.48, 0.46, 0.44), "Zablok."],
+			[Color(0.54, 0.52, 0.50), "Zablok."],
 		]
 		var lx := ix + 24.0
 		for lg: Array in leg:
-			c.draw_circle(Vector2(lx, ly), 4.5, lg[0] as Color)
-			c.draw_string(fb, Vector2(lx + 9.0, ly + 4.0), str(lg[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.86, 0.82, 0.76))
-			lx += 88.0
+			c.draw_circle(Vector2(lx, ly), 5.5, lg[0] as Color)
+			c.draw_string(fb, Vector2(lx + 11.0, ly + 5.5), str(lg[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.90, 0.86, 0.80))
+			lx += 102.0
 
 func _get_selected_char_item() -> Dictionary:
 	if selected_char_source == "backpack" and selected_char_idx >= 0 and selected_char_idx < backpack_items.size():
@@ -3104,22 +3105,23 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 	_draw_modal_header_plaque(c, f, mr, title_txt, sub_txt)
 
 	# Forged "← WSTECZ" back button at top-left
-	char_close_rect = Rect2(mr.position.x + 28.0, mr.position.y + 30.0, 174.0, 48.0)
+	char_close_rect = Rect2(mr.position.x + 24.0, mr.position.y + 22.0, 196.0, 54.0)
 	_draw_forged_pill(c, char_close_rect, false)
 	var b_lbl := "← WSTECZ"
-	var b_lw := f.get_string_size(b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
-	c.draw_string(f, Vector2(char_close_rect.position.x + (char_close_rect.size.x - b_lw) * 0.5, char_close_rect.position.y + 30.0), b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.93, 0.74))
+	var b_lw := f.get_string_size(b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
+	c.draw_string_outline(f, Vector2(char_close_rect.position.x + (char_close_rect.size.x - b_lw) * 0.5, char_close_rect.position.y + 34.0), b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, 4, Color(0.02, 0.01, 0.01, 0.98))
+	c.draw_string(f, Vector2(char_close_rect.position.x + (char_close_rect.size.x - b_lw) * 0.5, char_close_rect.position.y + 34.0), b_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color(1.0, 0.94, 0.76))
 
 	# ==========================================================================
-	# LEFT HALF: CLASSIC RPG PAPERDOLL SILHOUETTE + 8 BIG 66px EQUIPMENT SOCKETS + 2-COL STATS
+	# LEFT HALF: CLASSIC RPG PAPERDOLL SILHOUETTE + 8 BIG EQUIPMENT SOCKETS + BIG 2-COL STATS
 	# ==========================================================================
-	var lx := mr.position.x + 22.0
-	var lw := mr.size.x * 0.462
-	var paper_rect := Rect2(lx, mr.position.y + 98.0, lw, 328.0)
+	var lx := mr.position.x + 20.0
+	var lw := mr.size.x * 0.468
+	var paper_rect := Rect2(lx, mr.position.y + 92.0, lw, 330.0)
 	_draw_obsidian_plate(c, paper_rect, Color(0.84, 0.66, 0.35, 0.90))
 
-	var paper_cx := mr.position.x + mr.size.x * 0.245
-	var paper_cy := mr.position.y + 258.0
+	var paper_cx := lx + lw * 0.5
+	var paper_cy := mr.position.y + 248.0
 
 	# Stylized Warrior Paperdoll Silhouette behind hero portrait (head, shoulders, torso, arms, legs)
 	var sil_fill := Color(accent.r * 0.32 + 0.08, accent.g * 0.32 + 0.08, accent.b * 0.38 + 0.12, 0.34)
@@ -3143,24 +3145,21 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 	])
 	c.draw_colored_polygon(torso_poly, sil_fill)
 	c.draw_polyline(torso_poly + PackedVector2Array([torso_poly[0]]), sil_edge, 1.8, true)
-	c.draw_circle(Vector2(paper_cx, paper_cy), 86.0, Color(accent.r, accent.g, accent.b, 0.12))
-	c.draw_arc(Vector2(paper_cx, paper_cy), 88.0, 0.0, TAU, 48, Color(0.84, 0.68, 0.36, 0.34), 1.4, true)
+	c.draw_circle(Vector2(paper_cx, paper_cy), 84.0, Color(accent.r, accent.g, accent.b, 0.12))
+	c.draw_arc(Vector2(paper_cx, paper_cy), 86.0, 0.0, TAU, 48, Color(0.84, 0.68, 0.36, 0.34), 1.4, true)
 
-	# Classic RPG Paperdoll Slot Coordinates:
-	# 0:Hełm (top center), 7:Buty (bottom center)
-	# Left column: 2:Broń (top-left), 4:Pancerz (mid-left), 3:Rękawice (bot-left)
-	# Right column: 1:Amulet (top-right), 5:Tarcza (mid-right), 6:Pierścień (bot-right)
+	# Classic RPG Paperdoll Slot Coordinates — cleanly spaced for crisp 17px labels without overlap!
 	var eq_sz := 62.0
-	var col_dx := minf(162.0, lw * 0.345)
+	var col_dx := minf(212.0, lw * 0.355)
 	var slot_centers := {
-		0: Vector2(paper_cx, mr.position.y + 140.0),
-		1: Vector2(paper_cx + col_dx, mr.position.y + 164.0),
-		2: Vector2(paper_cx - col_dx, mr.position.y + 164.0),
-		3: Vector2(paper_cx - col_dx, mr.position.y + 348.0),
-		4: Vector2(paper_cx - col_dx, mr.position.y + 256.0),
-		5: Vector2(paper_cx + col_dx, mr.position.y + 256.0),
-		6: Vector2(paper_cx + col_dx, mr.position.y + 348.0),
-		7: Vector2(paper_cx, mr.position.y + 372.0),
+		0: Vector2(paper_cx, mr.position.y + 136.0),
+		1: Vector2(paper_cx + col_dx, mr.position.y + 150.0),
+		2: Vector2(paper_cx - col_dx, mr.position.y + 150.0),
+		3: Vector2(paper_cx - col_dx, mr.position.y + 338.0),
+		4: Vector2(paper_cx - col_dx, mr.position.y + 244.0),
+		5: Vector2(paper_cx + col_dx, mr.position.y + 244.0),
+		6: Vector2(paper_cx + col_dx, mr.position.y + 338.0),
+		7: Vector2(paper_cx, mr.position.y + 356.0),
 	}
 	var anchor_targets := {
 		0: Vector2(paper_cx, paper_cy - 68.0),
@@ -3198,19 +3197,19 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 		var upg_lvl := get_slot_upgrade_rank(ei)
 		if has_it and upg_lvl > 0:
 			var up_txt := "+%d" % upg_lvl
-			var up_r := Rect2(sx + eq_sz - 28.0, sy + 2.0, 26.0, 18.0)
-			c.draw_rect(up_r, Color(0.18, 0.10, 0.02, 0.95), true)
-			c.draw_rect(up_r, Color(1.0, 0.84, 0.28, 0.98), false, 1.3)
-			c.draw_string(f, up_r.position + Vector2(4.0, 13.5), up_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(1.0, 0.92, 0.44))
+			var up_r := Rect2(sx + eq_sz - 34.0, sy + 2.0, 32.0, 22.0)
+			c.draw_rect(up_r, Color(0.18, 0.10, 0.02, 0.96), true)
+			c.draw_rect(up_r, Color(1.0, 0.84, 0.28, 0.98), false, 1.5)
+			c.draw_string(f, up_r.position + Vector2(4.0, 16.5), up_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.94, 0.48))
 		var slot_hint := str(EQUIP_SLOT_NAMES[ei]) if ei < EQUIP_SLOT_NAMES.size() else "Slot"
 		var gname := str(sl.get("name", slot_hint)) if has_it else slot_hint
-		if gname.length() > 14:
-			gname = gname.substr(0, 13) + "…"
-		var gnw := fb.get_string_size(gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
-		c.draw_string_outline(fb, Vector2(sx + (eq_sz - gnw) * 0.5, sy + eq_sz + 15.0), gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 3, Color(0.02, 0.02, 0.03, 0.95))
-		c.draw_string(fb, Vector2(sx + (eq_sz - gnw) * 0.5, sy + eq_sz + 15.0), gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, rcol if has_it else Color(0.76, 0.72, 0.64))
+		if gname.length() > 15:
+			gname = gname.substr(0, 14) + "…"
+		var gnw := fb.get_string_size(gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+		c.draw_string_outline(fb, Vector2(sx + (eq_sz - gnw) * 0.5, sy + eq_sz + 18.0), gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 4, Color(0.02, 0.02, 0.03, 0.98))
+		c.draw_string(fb, Vector2(sx + (eq_sz - gnw) * 0.5, sy + eq_sz + 18.0), gname, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, rcol if has_it else Color(0.86, 0.82, 0.74))
 
-	# Active Equipment Sets & Dojo Trials compact ribbon above stats ledger
+	# Active Equipment Sets & Dojo Trials compact ribbon inside bottom of paper_rect
 	var act_sets := get_active_equipment_sets()
 	var trials_done := 0
 	for tk: String in dojo_trials.keys():
@@ -3224,20 +3223,20 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 			badge_parts.append("🥋 Próby Dojo %d/3" % trials_done)
 		for as_d: Dictionary in act_sets:
 			badge_parts.append("✦ Zestaw %s (%d cz.)" % [str(as_d["setId"]), int(as_d["count"])])
-		c.draw_string(fb, Vector2(lx + 16.0, mr.position.y + 428.0), " • ".join(badge_parts), HORIZONTAL_ALIGNMENT_LEFT, int(lw - 32.0), 13, Color(0.46, 0.98, 0.78))
+		c.draw_string(fb, Vector2(lx + 16.0, paper_rect.position.y + paper_rect.size.y - 6.0), " • ".join(badge_parts), HORIZONTAL_ALIGNMENT_LEFT, int(lw - 32.0), 16, Color(0.46, 0.98, 0.78))
 
-	# Lower-Left Panel: BIG 2-Column Readable Stats Ledger + [+] Buttons
-	var stats_y := mr.position.y + 436.0
-	var stats_h := maxf(180.0, mr.position.y + mr.size.y - stats_y - 18.0)
+	# Lower-Left Panel: BIG 2-Column Mobile-Readable Stats Ledger + [+] Buttons
+	var stats_y := mr.position.y + 432.0
+	var stats_h := maxf(210.0, mr.position.y + mr.size.y - stats_y - 14.0)
 	var stats_rect := Rect2(lx, stats_y, lw, stats_h)
 	_draw_obsidian_plate(c, stats_rect, Color(0.84, 0.66, 0.35, 0.88))
 
-	var pts_tag := "  •  WOLNE PKT: %d" % free_stat_points if free_stat_points > 0 else ""
-	c.draw_string(f, Vector2(lx + 18.0, stats_y + 28.0), "ATRYBUTY BOHATERA (POZ. %d)%s" % [hero_level, pts_tag], HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.46, 0.98, 0.64) if free_stat_points > 0 else Color(1.0, 0.88, 0.54))
+	var pts_tag := "  •  PKT: %d" % free_stat_points if free_stat_points > 0 else ""
+	c.draw_string(f, Vector2(lx + 18.0, stats_y + 30.0), "ATRYBUTY (POZ. %d)%s" % [hero_level, pts_tag], HORIZONTAL_ALIGNMENT_LEFT, -1, 19, Color(0.46, 0.98, 0.64) if free_stat_points > 0 else Color(1.0, 0.88, 0.54))
 	var ki_power_txt := "MOC KI: %d" % get_ki_power()
-	var kpw := f.get_string_size(ki_power_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
-	c.draw_string(f, Vector2(lx + lw - 18.0 - kpw, stats_y + 28.0), ki_power_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.42, 0.96, 1.0))
-	c.draw_line(Vector2(lx + 18.0, stats_y + 38.0), Vector2(lx + lw - 18.0, stats_y + 38.0), Color(0.80, 0.62, 0.32, 0.50), 1.2, true)
+	var kpw := f.get_string_size(ki_power_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 19).x
+	c.draw_string(f, Vector2(lx + lw - 18.0 - kpw, stats_y + 30.0), ki_power_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 19, Color(0.42, 0.96, 1.0))
+	c.draw_line(Vector2(lx + 18.0, stats_y + 42.0), Vector2(lx + lw - 18.0, stats_y + 42.0), Color(0.80, 0.62, 0.32, 0.50), 1.4, true)
 
 	var stats_rows: Array = [
 		["hud-hp.webp", "Życie (HP)", "%d" % int(round(hero_max_hp)), "hp"],
@@ -3250,57 +3249,57 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 		["gear-coin.webp", "Złoto", "%d zł" % hero_gold, ""],
 	]
 	stat_plus_hitboxes.clear()
-	var col_w := (lw - 36.0) * 0.5
-	var row_h := minf(42.0, (stats_h - 54.0) / 4.0)
+	var col_w := (lw - 42.0) * 0.5
+	var row_h := minf(48.0, (stats_h - 54.0) / 4.0)
 	for si in stats_rows.size():
 		var scol := si / 4
 		var srow := si % 4
-		var cell_x := lx + 18.0 + float(scol) * (col_w + 10.0)
-		var cell_y := stats_y + 62.0 + float(srow) * row_h
+		var cell_x := lx + 18.0 + float(scol) * (col_w + 14.0)
+		var cell_y := stats_y + 72.0 + float(srow) * row_h
 		var row: Array = stats_rows[si]
 		var skey := str(row[3])
 		var sico := _icon_tex(str(row[0]))
 		if sico != null:
-			c.draw_texture_rect(sico, Rect2(cell_x, cell_y - 16.0, 24.0, 24.0), false)
-		c.draw_string(fb, Vector2(cell_x + 30.0, cell_y + 2.0), str(row[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.94, 0.91, 0.85))
+			c.draw_texture_rect(sico, Rect2(cell_x, cell_y - 20.0, 28.0, 28.0), false)
+		c.draw_string(fb, Vector2(cell_x + 34.0, cell_y + 3.0), str(row[1]), HORIZONTAL_ALIGNMENT_LEFT, -1, 19, Color(0.96, 0.93, 0.87))
 		var val_s := str(row[2])
-		var vw := fb.get_string_size(val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
-		var right_pad := 42.0 if (free_stat_points > 0 and not skey.is_empty()) else 12.0
-		c.draw_string(fb, Vector2(cell_x + col_w - right_pad - vw, cell_y + 2.0), val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.91, 0.54))
+		var vw := fb.get_string_size(val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
+		var right_pad := 46.0 if (free_stat_points > 0 and not skey.is_empty()) else 10.0
+		c.draw_string(fb, Vector2(cell_x + col_w - right_pad - vw, cell_y + 3.0), val_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color(1.0, 0.92, 0.54))
 		if free_stat_points > 0 and not skey.is_empty():
-			var pbtn := Rect2(cell_x + col_w - 34.0, cell_y - 15.0, 28.0, 26.0)
-			c.draw_rect(pbtn, Color(0.10, 0.34, 0.20, 0.96), true)
-			c.draw_rect(pbtn, Color(0.42, 0.98, 0.60, 0.98), false, 1.8)
-			c.draw_string(f, Vector2(pbtn.position.x + 8.0, pbtn.position.y + 19.0), "+", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.94, 1.0, 0.96))
-			stat_plus_hitboxes.append({"rect": pbtn.grow(5.0), "key": skey})
+			var pbtn := Rect2(cell_x + col_w - 38.0, cell_y - 20.0, 34.0, 32.0)
+			c.draw_rect(pbtn, Color(0.10, 0.36, 0.22, 0.98), true)
+			c.draw_rect(pbtn, Color(0.42, 0.98, 0.60, 0.98), false, 2.0)
+			c.draw_string(f, Vector2(pbtn.position.x + 10.0, pbtn.position.y + 23.0), "+", HORIZONTAL_ALIGNMENT_LEFT, -1, 21, Color(0.96, 1.0, 0.98))
+			stat_plus_hitboxes.append({"rect": pbtn.grow(6.0), "key": skey})
 
 	# ==========================================================================
-	# RIGHT HALF: LARGE 6x4 BACKPACK (62px CELLS) + DETAILED ITEM INSPECTOR + ACTION BUTTON
+	# RIGHT HALF: LARGE 6x4 BACKPACK + BIG DETAILED ITEM INSPECTOR + ACTION BUTTON
 	# ==========================================================================
 	var rx := lx + lw + 16.0
-	var ry := mr.position.y + 98.0
-	var rw_box := mr.position.x + mr.size.x - rx - 22.0
-	var bp_panel_h := 328.0
+	var ry := mr.position.y + 92.0
+	var rw_box := mr.position.x + mr.size.x - rx - 20.0
+	var bp_panel_h := 330.0
 	_draw_obsidian_plate(c, Rect2(rx, ry, rw_box, bp_panel_h), Color(0.84, 0.66, 0.35, 0.90))
 
 	var used_slots := 0
 	for b_it: Dictionary in backpack_items:
 		if not b_it.is_empty():
 			used_slots += 1
-	c.draw_string(f, Vector2(rx + 20.0, ry + 28.0), "PLECAK (%d/%d)" % [used_slots, BACKPACK_SLOTS], HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.88, 0.52))
-	var hint_s := "1× klik = szczegóły  •  2× klik = użyj / załóż"
-	var hw := fb.get_string_size(hint_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
-	c.draw_string(fb, Vector2(rx + rw_box - 20.0 - hw, ry + 27.0), hint_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.76, 0.86, 0.96))
-	c.draw_line(Vector2(rx + 20.0, ry + 38.0), Vector2(rx + rw_box - 20.0, ry + 38.0), Color(0.80, 0.62, 0.32, 0.50), 1.2, true)
+	c.draw_string(f, Vector2(rx + 20.0, ry + 31.0), "PLECAK (%d/%d)" % [used_slots, BACKPACK_SLOTS], HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color(1.0, 0.88, 0.52))
+	var hint_s := "1× szczegóły  •  2× użyj / załóż"
+	var hw := fb.get_string_size(hint_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+	c.draw_string(fb, Vector2(rx + rw_box - 20.0 - hw, ry + 30.0), hint_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.78, 0.88, 0.98))
+	c.draw_line(Vector2(rx + 20.0, ry + 42.0), Vector2(rx + rw_box - 20.0, ry + 42.0), Color(0.80, 0.62, 0.32, 0.50), 1.4, true)
 
 	var cols := 6
 	var gap := 8.0
 	var max_cell_w := floorf((rw_box - 40.0 - float(cols - 1) * gap) / float(cols))
-	var max_cell_h := floorf((bp_panel_h - 56.0 - 3.0 * gap) / 4.0)
-	var cell := clampf(minf(max_cell_w, max_cell_h), 52.0, 68.0)
+	var max_cell_h := floorf((bp_panel_h - 60.0 - 3.0 * gap) / 4.0)
+	var cell := clampf(minf(max_cell_w, max_cell_h), 52.0, 66.0)
 	var grid_w := float(cols) * cell + float(cols - 1) * gap
 	var grid_x0 := rx + (rw_box - grid_w) * 0.5
-	var grid_y0 := ry + 46.0
+	var grid_y0 := ry + 50.0
 	backpack_hitboxes.clear()
 	for bi in mini(backpack_items.size(), BACKPACK_SLOTS):
 		var col_i := bi % cols
@@ -3315,7 +3314,7 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 		if not bi_d.is_empty():
 			var bico := _icon_tex(str(bi_d.get("icon", "")))
 			if bico != null:
-				c.draw_texture_rect(bico, Rect2(bx + 6.0, by + 6.0, cell - 12.0, cell - 12.0), false)
+				c.draw_texture_rect(bico, Rect2(bx + 5.0, by + 5.0, cell - 10.0, cell - 10.0), false)
 			var rcol_b: Color = bi_d.get("rarity", Color(0.70, 0.58, 0.36)) as Color
 			c.draw_rect(br.grow(-2.0), Color(rcol_b.r, rcol_b.g, rcol_b.b, 0.78), false, 2.0)
 		if slot_tex != null:
@@ -3325,9 +3324,9 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 		var qty_i := int(bi_d.get("qty", 0))
 		if qty_i > 1 or (qty_i == 1 and str(bi_d.get("cat", "")) in ["consumable", "material"]):
 			var qty := str(qty_i)
-			var qw := fb.get_string_size(qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-			c.draw_string_outline(fb, Vector2(bx + cell - qw - 5.0, by + cell - 5.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Color(0.0, 0.0, 0.0, 0.98))
-			c.draw_string(fb, Vector2(bx + cell - qw - 5.0, by + cell - 5.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.95, 0.76))
+			var qw := fb.get_string_size(qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
+			c.draw_string_outline(fb, Vector2(bx + cell - qw - 5.0, by + cell - 5.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, 4, Color(0.0, 0.0, 0.0, 0.98))
+			c.draw_string(fb, Vector2(bx + cell - qw - 5.0, by + cell - 5.0), qty, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.96, 0.78))
 
 	# Bottom-Right Panel: BIG Detailed Item Inspector + Explicit Action Button ("ZAŁÓŻ" / "UŻYJ" / "ZDEJMIJ")
 	var insp_rect := Rect2(rx, stats_y, rw_box, stats_h)
@@ -3337,24 +3336,24 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 	var sel_item := _get_selected_char_item()
 	if sel_item.is_empty():
 		var empty_t := "SZCZEGÓŁY PRZEDMIOTU"
-		c.draw_string(f, Vector2(rx + 22.0, stats_y + 34.0), empty_t, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.88, 0.52))
-		c.draw_string(fb, Vector2(rx + 22.0, stats_y + 72.0), "Dotknij dowolny przedmiot w plecaku lub na postaci,", HORIZONTAL_ALIGNMENT_LEFT, int(rw_box - 44.0), 16, Color(0.88, 0.86, 0.82))
-		c.draw_string(fb, Vector2(rx + 22.0, stats_y + 98.0), "aby zobaczyć jego dokładne statystyki i opis.", HORIZONTAL_ALIGNMENT_LEFT, int(rw_box - 44.0), 16, Color(0.88, 0.86, 0.82))
-		c.draw_string(fb, Vector2(rx + 22.0, stats_y + 134.0), "• Szybkie 2× kliknięcie: natychmiastowe założenie lub użycie", HORIZONTAL_ALIGNMENT_LEFT, int(rw_box - 44.0), 15, Color(0.56, 0.96, 0.72))
-		c.draw_string(fb, Vector2(rx + 22.0, stats_y + 158.0), "• Lub użyj przycisku akcji obok opisu przedmiotu", HORIZONTAL_ALIGNMENT_LEFT, int(rw_box - 44.0), 15, Color(0.56, 0.96, 0.72))
+		c.draw_string(f, Vector2(rx + 22.0, stats_y + 38.0), empty_t, HORIZONTAL_ALIGNMENT_LEFT, -1, 21, Color(1.0, 0.88, 0.52))
+		c.draw_string(fb, Vector2(rx + 22.0, stats_y + 84.0), "Dotknij dowolny przedmiot w plecaku lub na postaci,", HORIZONTAL_ALIGNMENT_LEFT, int(rw_box - 44.0), 19, Color(0.92, 0.90, 0.86))
+		c.draw_string(fb, Vector2(rx + 22.0, stats_y + 114.0), "aby zobaczyć jego dokładne statystyki i opis.", HORIZONTAL_ALIGNMENT_LEFT, int(rw_box - 44.0), 19, Color(0.92, 0.90, 0.86))
+		c.draw_string(fb, Vector2(rx + 22.0, stats_y + 158.0), "• 2× klik: natychmiastowe założenie lub użycie", HORIZONTAL_ALIGNMENT_LEFT, int(rw_box - 44.0), 18, Color(0.56, 0.98, 0.74))
+		c.draw_string(fb, Vector2(rx + 22.0, stats_y + 188.0), "• Lub użyj złotego przycisku akcji w rogu", HORIZONTAL_ALIGNMENT_LEFT, int(rw_box - 44.0), 18, Color(0.56, 0.98, 0.74))
 	else:
 		var rcol_s: Color = sel_item.get("rarity", Color(0.95, 0.90, 0.76)) as Color
-		var ico_box := Rect2(rx + 20.0, stats_y + 20.0, 74.0, 74.0)
+		var ico_box := Rect2(rx + 20.0, stats_y + 18.0, 82.0, 82.0)
 		c.draw_rect(ico_box, Color(0.05, 0.04, 0.07, 0.96), true)
 		var s_ico := _icon_tex(str(sel_item.get("icon", "")))
 		if s_ico != null:
 			c.draw_texture_rect(s_ico, ico_box.grow(-6.0), false)
-		c.draw_rect(ico_box, rcol_s, false, 2.4)
+		c.draw_rect(ico_box, rcol_s, false, 2.6)
 
-		var tx_x := rx + 108.0
-		var tx_w := rw_box - 128.0
+		var tx_x := rx + 116.0
+		var tx_w := rw_box - 134.0
 		var nm_s := "%s  [Poz.%d]" % [str(sel_item.get("name", "Przedmiot")), int(sel_item.get("minLevel", 1))]
-		c.draw_string(f, Vector2(tx_x, stats_y + 38.0), nm_s, HORIZONTAL_ALIGNMENT_LEFT, int(tx_w), 19, rcol_s)
+		c.draw_string(f, Vector2(tx_x, stats_y + 42.0), nm_s, HORIZONTAL_ALIGNMENT_LEFT, int(tx_w), 23, rcol_s)
 
 		var cat_s := str(sel_item.get("cat", ""))
 		var eq_slot_i := int(sel_item.get("slot", -1))
@@ -3365,8 +3364,8 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 			type_tag += "  •  ZAŁOŻONY"
 		var sell_v := int(sel_item.get("sellPrice", 0))
 		if sell_v > 0:
-			type_tag += "  •  Wartość: %d zł" % sell_v
-		c.draw_string(fb, Vector2(tx_x, stats_y + 60.0), type_tag, HORIZONTAL_ALIGNMENT_LEFT, int(tx_w), 14, Color(0.84, 0.80, 0.70))
+			type_tag += "  •  %d zł" % sell_v
+		c.draw_string(fb, Vector2(tx_x, stats_y + 70.0), type_tag, HORIZONTAL_ALIGNMENT_LEFT, int(tx_w), 18, Color(0.88, 0.84, 0.74))
 
 		# Stat bonuses + comparison vs equipped item
 		var cmp_eq: Dictionary = {}
@@ -3376,44 +3375,44 @@ func _draw_character_sheet(c: CanvasItem, f: Font, mr: Rect2) -> void:
 				cmp_eq = cur_eq
 		var slines := _item_stat_summary(sel_item, cmp_eq)
 		var stat_x := tx_x
-		var stat_y := stats_y + 84.0
+		var stat_y := stats_y + 102.0
 		for sli in mini(slines.size(), 4):
 			var sl_d: Dictionary = slines[sli]
 			var s_txt := str(sl_d["text"])
-			c.draw_string(fb, Vector2(stat_x, stat_y), s_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, sl_d["color"] as Color)
-			stat_x += fb.get_string_size(s_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x + 18.0
-			if stat_x > rx + rw_box - 140.0 and sli < slines.size() - 1:
+			c.draw_string(fb, Vector2(stat_x, stat_y), s_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 19, sl_d["color"] as Color)
+			stat_x += fb.get_string_size(s_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 19).x + 20.0
+			if stat_x > rx + rw_box - 150.0 and sli < slines.size() - 1:
 				stat_x = tx_x
-				stat_y += 20.0
+				stat_y += 26.0
 
 		# Description text (bottom-left of inspector, leaving space for big Action Button on bottom-right)
 		var desc_s := str(sel_item.get("desc", ""))
-		var btn_w := 192.0
+		var btn_w := 220.0
 		var desc_max_w := rw_box - btn_w - 48.0
-		c.draw_string(fb, Vector2(rx + 20.0, stats_y + stats_h - 46.0), desc_s, HORIZONTAL_ALIGNMENT_LEFT, int(maxf(140.0, desc_max_w)), 14, Color(0.90, 0.88, 0.84))
+		c.draw_multiline_string(fb, Vector2(rx + 20.0, stats_y + stats_h - 68.0), desc_s, HORIZONTAL_ALIGNMENT_LEFT, maxf(180.0, desc_max_w), 18, 2, Color(0.92, 0.90, 0.86))
 		var action_hint := "2× klik na ikonę lub przycisk obok"
-		c.draw_string(fb, Vector2(rx + 20.0, stats_y + stats_h - 22.0), action_hint, HORIZONTAL_ALIGNMENT_LEFT, int(maxf(140.0, desc_max_w)), 13, Color(0.62, 0.92, 0.74))
+		c.draw_string(fb, Vector2(rx + 20.0, stats_y + stats_h - 16.0), action_hint, HORIZONTAL_ALIGNMENT_LEFT, int(maxf(180.0, desc_max_w)), 16, Color(0.62, 0.94, 0.76))
 
 		# Explicit BIG Forged Gold Action Button on bottom-right of Inspector
-		var btn_rect := Rect2(rx + rw_box - btn_w - 18.0, stats_y + stats_h - 68.0, btn_w, 50.0)
+		var btn_rect := Rect2(rx + rw_box - btn_w - 18.0, stats_y + stats_h - 74.0, btn_w, 56.0)
 		if selected_char_source == "equip":
 			char_action_btn_rect = btn_rect
 			_draw_forged_pill(c, btn_rect, false)
 			var albl := "ZDEJMIJ"
-			var alw := f.get_string_size(albl, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
-			c.draw_string(f, Vector2(btn_rect.position.x + (btn_rect.size.x - alw) * 0.5, btn_rect.position.y + 32.0), albl, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(1.0, 0.94, 0.78))
+			var alw := f.get_string_size(albl, HORIZONTAL_ALIGNMENT_LEFT, -1, 21).x
+			c.draw_string(f, Vector2(btn_rect.position.x + (btn_rect.size.x - alw) * 0.5, btn_rect.position.y + 36.0), albl, HORIZONTAL_ALIGNMENT_LEFT, -1, 21, Color(1.0, 0.94, 0.78))
 		elif selected_char_source == "backpack" and cat_s != "material":
 			char_action_btn_rect = btn_rect
 			_draw_forged_pill(c, btn_rect, true)
 			var albl := "ZAŁÓŻ" if eq_slot_i >= 0 else "UŻYJ"
-			var alw := f.get_string_size(albl, HORIZONTAL_ALIGNMENT_LEFT, -1, 18).x
-			c.draw_string(f, Vector2(btn_rect.position.x + (btn_rect.size.x - alw) * 0.5, btn_rect.position.y + 32.0), albl, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(1.0, 0.97, 0.84))
+			var alw := f.get_string_size(albl, HORIZONTAL_ALIGNMENT_LEFT, -1, 21).x
+			c.draw_string(f, Vector2(btn_rect.position.x + (btn_rect.size.x - alw) * 0.5, btn_rect.position.y + 36.0), albl, HORIZONTAL_ALIGNMENT_LEFT, -1, 21, Color(1.0, 0.98, 0.86))
 		elif cat_s == "material":
 			c.draw_rect(btn_rect, Color(0.10, 0.09, 0.12, 0.88), true)
-			c.draw_rect(btn_rect, Color(0.56, 0.48, 0.34, 0.65), false, 1.4)
+			c.draw_rect(btn_rect, Color(0.56, 0.48, 0.34, 0.65), false, 1.6)
 			var mlbl := "KUŹNIA / SKLEP"
-			var mlw := fb.get_string_size(mlbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
-			c.draw_string(fb, Vector2(btn_rect.position.x + (btn_rect.size.x - mlw) * 0.5, btn_rect.position.y + 30.0), mlbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.84, 0.78, 0.64))
+			var mlw := fb.get_string_size(mlbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
+			c.draw_string(fb, Vector2(btn_rect.position.x + (btn_rect.size.x - mlw) * 0.5, btn_rect.position.y + 35.0), mlbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.88, 0.82, 0.68))
 
 # ==============================================================================
 # INPUT HANDLING (MOUSE HOVER, MOBILE TOUCH TAPS, CONSTELLATION UNLOCKING, WILD RIFT SKILLS)

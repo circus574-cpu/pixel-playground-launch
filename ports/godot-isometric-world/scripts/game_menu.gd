@@ -170,28 +170,28 @@ func _ready() -> void:
 
 func _section_card(title: String) -> Array:
 	var card := PanelContainer.new()
-	card.add_theme_stylebox_override("panel", ForgedUI.inset_card(Color(0.76, 0.58, 0.28, 0.70), Color(0.055, 0.050, 0.082, 0.94), 16, 14))
+	card.add_theme_stylebox_override("panel", ForgedUI.inset_card(Color(0.76, 0.58, 0.28, 0.76), Color(0.055, 0.050, 0.082, 0.95), 18, 14))
 	var vb := VBoxContainer.new()
 	vb.add_theme_constant_override("separation", 10)
 	card.add_child(vb)
 	var lbl := Label.new()
 	lbl.text = title
 	lbl.add_theme_font_override("font", MapStyle.font())
-	lbl.add_theme_font_size_override("font_size", 15)
-	lbl.add_theme_color_override("font_color", Color(1.0, 0.88, 0.54))
+	lbl.add_theme_font_size_override("font_size", 19)
+	lbl.add_theme_color_override("font_color", Color(1.0, 0.90, 0.56))
 	vb.add_child(lbl)
 	return [card, vb]
 
 func _style_slider(sl: HSlider) -> void:
-	sl.custom_minimum_size = Vector2(180, 34)
+	sl.custom_minimum_size = Vector2(200, 38)
 	sl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var bg := StyleBoxFlat.new()
 	bg.bg_color = Color(0.08, 0.07, 0.11, 0.96)
 	bg.border_color = Color(0.55, 0.42, 0.22, 0.85)
 	bg.set_border_width_all(1)
 	bg.set_corner_radius_all(6)
-	bg.content_margin_top = 6
-	bg.content_margin_bottom = 6
+	bg.content_margin_top = 7
+	bg.content_margin_bottom = 7
 	var fill := StyleBoxFlat.new()
 	fill.bg_color = Color(0.92, 0.70, 0.26, 0.96)
 	fill.set_corner_radius_all(6)
@@ -204,13 +204,13 @@ func _style_slider(sl: HSlider) -> void:
 
 func _make_slider_row(title: String, sl: HSlider, val_lbl: Label, min_v: float, max_v: float, step_v: float, on_change: Callable) -> HBoxContainer:
 	var row := HBoxContainer.new()
-	row.add_theme_constant_override("separation", 12)
+	row.add_theme_constant_override("separation", 14)
 	var lbl := Label.new()
 	lbl.text = title
-	lbl.custom_minimum_size = Vector2(210, 0)
+	lbl.custom_minimum_size = Vector2(260, 0)
 	lbl.add_theme_font_override("font", MapStyle.body_font())
-	lbl.add_theme_font_size_override("font_size", 15)
-	lbl.add_theme_color_override("font_color", Color(0.94, 0.90, 0.82))
+	lbl.add_theme_font_size_override("font_size", 18)
+	lbl.add_theme_color_override("font_color", Color(0.96, 0.92, 0.84))
 	row.add_child(lbl)
 
 	sl.min_value = min_v
@@ -223,10 +223,10 @@ func _make_slider_row(title: String, sl: HSlider, val_lbl: Label, min_v: float, 
 	)
 	row.add_child(sl)
 
-	val_lbl.custom_minimum_size = Vector2(68, 0)
+	val_lbl.custom_minimum_size = Vector2(82, 0)
 	val_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	val_lbl.add_theme_font_override("font", MapStyle.font())
-	val_lbl.add_theme_font_size_override("font_size", 16)
+	val_lbl.add_theme_font_size_override("font_size", 19)
 	val_lbl.add_theme_color_override("font_color", Color(1.0, 0.90, 0.56))
 	row.add_child(val_lbl)
 	return row
@@ -237,22 +237,22 @@ func _build_game_tab() -> VBoxContainer:
 
 	# Quick primary actions
 	var top_row := HBoxContainer.new()
-	top_row.add_theme_constant_override("separation", 10)
+	top_row.add_theme_constant_override("separation", 12)
 	box.add_child(top_row)
 
 	var btn_resume := Button.new()
 	btn_resume.text = "▶  WZNÓW GRĘ"
-	btn_resume.custom_minimum_size = Vector2(0, 56)
+	btn_resume.custom_minimum_size = Vector2(0, 60)
 	btn_resume.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	ForgedUI.style_button(btn_resume, "gold", 18)
+	ForgedUI.style_button(btn_resume, "gold", 20)
 	btn_resume.pressed.connect(close_menu)
 	top_row.add_child(btn_resume)
 
 	var btn_map := Button.new()
 	btn_map.text = "🗺 MAPA ŚWIATA"
-	btn_map.custom_minimum_size = Vector2(0, 56)
+	btn_map.custom_minimum_size = Vector2(0, 60)
 	btn_map.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	ForgedUI.style_button(btn_map, "slate", 16)
+	ForgedUI.style_button(btn_map, "slate", 19)
 	btn_map.pressed.connect(func() -> void:
 		_play_click()
 		close_menu()
@@ -263,8 +263,8 @@ func _build_game_tab() -> VBoxContainer:
 
 	var btn_cap := Button.new()
 	btn_cap.text = "🏰 STOLICA"
-	btn_cap.custom_minimum_size = Vector2(150, 56)
-	ForgedUI.style_button(btn_cap, "slate", 16)
+	btn_cap.custom_minimum_size = Vector2(180, 60)
+	ForgedUI.style_button(btn_cap, "slate", 19)
 	btn_cap.pressed.connect(func() -> void:
 		_play_click()
 		close_menu()
@@ -277,7 +277,7 @@ func _build_game_tab() -> VBoxContainer:
 	var perf_pair := _section_card("WYDAJNOŚĆ I SIEĆ (FPS / PING)")
 	box.add_child(perf_pair[0] as Control)
 	var perf_vb: VBoxContainer = perf_pair[1]
-	btn_perf_hud.custom_minimum_size = Vector2(0, 46)
+	btn_perf_hud.custom_minimum_size = Vector2(0, 52)
 	btn_perf_hud.pressed.connect(func() -> void:
 		if world != null and world.get("rpg_hud") != null and world.rpg_hud.has_method("set_perf_hud_enabled"):
 			var next_on := not bool(world.rpg_hud.is_perf_hud_enabled())
@@ -290,8 +290,8 @@ func _build_game_tab() -> VBoxContainer:
 	var perf_desc := Label.new()
 	perf_desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	perf_desc.add_theme_font_override("font", MapStyle.body_font())
-	perf_desc.add_theme_font_size_override("font_size", 13)
-	perf_desc.add_theme_color_override("font_color", Color(0.76, 0.84, 0.90))
+	perf_desc.add_theme_font_size_override("font_size", 17)
+	perf_desc.add_theme_color_override("font_color", Color(0.82, 0.88, 0.94))
 	perf_desc.text = "Wyświetla pod minimapą licznik klatek na sekundę (FPS) oraz bieżące opóźnienie do serwera (Ping ms)."
 	perf_vb.add_child(perf_desc)
 
@@ -305,12 +305,12 @@ func _build_game_tab() -> VBoxContainer:
 		_sync_ui_values()
 	))
 	var z_row := HBoxContainer.new()
-	z_row.add_theme_constant_override("separation", 8)
+	z_row.add_theme_constant_override("separation", 10)
 	cam_vb.add_child(z_row)
 	for zp: Array in [[0.85, "DALEKO (0.85×)"], [1.15, "DOMYŚLNIE (1.15×)"], [1.50, "BLISKO (1.50×)"]]:
 		var zb := Button.new()
 		zb.text = str(zp[1])
-		zb.custom_minimum_size = Vector2(0, 44)
+		zb.custom_minimum_size = Vector2(0, 50)
 		zb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var zv := float(zp[0])
 		zb.pressed.connect(func() -> void:
@@ -327,13 +327,13 @@ func _build_game_tab() -> VBoxContainer:
 	box.add_child(tod_pair[0] as Control)
 	var tod_vb: VBoxContainer = tod_pair[1]
 	var tod_row := HBoxContainer.new()
-	tod_row.add_theme_constant_override("separation", 8)
+	tod_row.add_theme_constant_override("separation", 10)
 	tod_vb.add_child(tod_row)
 	var tod_labels := ["☀ DZIEŃ", "🌤 ZŁOTA GODZ.", "🌅 ZMIERZCH", "🌙 NOC"]
 	for ti in tod_labels.size():
 		var tb := Button.new()
 		tb.text = tod_labels[ti]
-		tb.custom_minimum_size = Vector2(0, 44)
+		tb.custom_minimum_size = Vector2(0, 50)
 		tb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var idx := ti
 		tb.pressed.connect(func() -> void:
@@ -353,8 +353,8 @@ func _build_game_tab() -> VBoxContainer:
 	var help_lbl := Label.new()
 	help_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	help_lbl.add_theme_font_override("font", MapStyle.body_font())
-	help_lbl.add_theme_font_size_override("font_size", 14)
-	help_lbl.add_theme_color_override("font_color", Color(0.90, 0.87, 0.80))
+	help_lbl.add_theme_font_size_override("font_size", 17)
+	help_lbl.add_theme_color_override("font_color", Color(0.92, 0.90, 0.84))
 	help_lbl.text = "• Ruch: wirtualny joystick w lewym dolnym rogu (lekkie wychylenie = chód, pełne = bieg).\n• Duża Mapa Świata (tap na minimapę): szybka podróż do Stolic i odkrytych Kamieni Szlaku (✦).\n• Kamień Powrotu [C] / przycisk POWRÓT: darmowy powrót do bezpiecznej stolicy (2,5 s).\n• Walka: prawy dolny łuk umiejętności (Combo [Q], 1–4, Forma KI [R] od Poz. 20 oraz Mikstura [H])."
 	(help_pair[1] as VBoxContainer).add_child(help_lbl)
 	return box
@@ -367,7 +367,7 @@ func _build_audio_tab() -> VBoxContainer:
 	box.add_child(aud_pair[0] as Control)
 	var vb: VBoxContainer = aud_pair[1]
 
-	btn_mute.custom_minimum_size = Vector2(0, 48)
+	btn_mute.custom_minimum_size = Vector2(0, 54)
 	btn_mute.pressed.connect(func() -> void:
 		if world != null and world.get("audio") != null:
 			var next_m := not bool(world.audio.muted)
@@ -389,14 +389,14 @@ func _build_audio_tab() -> VBoxContainer:
 	))
 
 	var btn_row := HBoxContainer.new()
-	btn_row.add_theme_constant_override("separation", 10)
+	btn_row.add_theme_constant_override("separation", 12)
 	vb.add_child(btn_row)
 
 	var btn_test := Button.new()
 	btn_test.text = "▶  TESTUJ DŹWIĘK UMIEJĘTNOŚCI"
-	btn_test.custom_minimum_size = Vector2(0, 48)
+	btn_test.custom_minimum_size = Vector2(0, 54)
 	btn_test.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	ForgedUI.style_button(btn_test, "gold", 15)
+	ForgedUI.style_button(btn_test, "gold", 18)
 	btn_test.pressed.connect(func() -> void:
 		if world != null and world.get("audio") != null:
 			var rk: String = str(world._hero_race_key()) if world.has_method("_hero_race_key") else "legend"
@@ -406,8 +406,8 @@ func _build_audio_tab() -> VBoxContainer:
 
 	var btn_reset_a := Button.new()
 	btn_reset_a.text = "↺ DOMYŚLNE"
-	btn_reset_a.custom_minimum_size = Vector2(160, 48)
-	ForgedUI.style_button(btn_reset_a, "slate", 15)
+	btn_reset_a.custom_minimum_size = Vector2(180, 54)
+	ForgedUI.style_button(btn_reset_a, "slate", 18)
 	btn_reset_a.pressed.connect(func() -> void:
 		if world != null and world.get("audio") != null:
 			world.audio.set_muted(false)
@@ -419,9 +419,9 @@ func _build_audio_tab() -> VBoxContainer:
 	var note := Label.new()
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	note.add_theme_font_override("font", MapStyle.body_font())
-	note.add_theme_font_size_override("font_size", 13)
-	note.add_theme_color_override("font_color", Color(0.76, 0.84, 0.90))
-	note.text = "Aktywne ścieżki: 4 motywy kontynentów (Pyra, Verdantia, Aetheria, Nexus-9), tła miejskie i dziczy, 40 dźwięków umiejętności ras oraz odgłosy 40 potworów."
+	note.add_theme_font_size_override("font_size", 17)
+	note.add_theme_color_override("font_color", Color(0.82, 0.88, 0.94))
+	note.text = "Aktywne ścieżki: 4 motywy kontynentów, 4 ścieżki labiryntów, tła miejskie i dziczy, 40 dźwięków umiejętności ras oraz 40 premium odgłosów potworów."
 	vb.add_child(note)
 	return box
 
@@ -436,15 +436,15 @@ func _build_hud_tab() -> VBoxContainer:
 	var desc := Label.new()
 	desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	desc.add_theme_font_override("font", MapStyle.body_font())
-	desc.add_theme_font_size_override("font_size", 14)
+	desc.add_theme_font_size_override("font_size", 17)
 	desc.add_theme_color_override("font_color", Color(0.92, 0.89, 0.82))
 	desc.text = "Przeciągnij palcem każdy blok interfejsu bezpośrednio na ekranie gry: Portret i HP, Przyciski Menu, Minimapę, Przyciski Walki (łuk umiejętności + mikstura) oraz Pasek PD."
 	vb.add_child(desc)
 
 	var btn_edit := Button.new()
 	btn_edit.text = "✎  EDYTUJ POŁOŻENIE HUDU NA EKRANIE"
-	btn_edit.custom_minimum_size = Vector2(0, 58)
-	ForgedUI.style_button(btn_edit, "gold", 17)
+	btn_edit.custom_minimum_size = Vector2(0, 60)
+	ForgedUI.style_button(btn_edit, "gold", 19)
 	btn_edit.pressed.connect(func() -> void:
 		_play_click()
 		if world != null and world.has_method("start_hud_editor"):
@@ -459,12 +459,12 @@ func _build_hud_tab() -> VBoxContainer:
 	))
 
 	var sc_row := HBoxContainer.new()
-	sc_row.add_theme_constant_override("separation", 8)
+	sc_row.add_theme_constant_override("separation", 10)
 	vb.add_child(sc_row)
 	for sp: Array in [[0.85, "MAŁY (85%)"], [1.00, "STANDARD (100%)"], [1.15, "DUŻY (115%)"]]:
 		var sb := Button.new()
 		sb.text = str(sp[1])
-		sb.custom_minimum_size = Vector2(0, 44)
+		sb.custom_minimum_size = Vector2(0, 50)
 		sb.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var sv := float(sp[0])
 		sb.pressed.connect(func() -> void:
@@ -477,14 +477,14 @@ func _build_hud_tab() -> VBoxContainer:
 		hud_scale_btns.append(sb)
 
 	var pre_row := HBoxContainer.new()
-	pre_row.add_theme_constant_override("separation", 10)
+	pre_row.add_theme_constant_override("separation", 12)
 	vb.add_child(pre_row)
 
 	var btn_safe := Button.new()
 	btn_safe.text = "📱 MARGINES TELEFONU (NOTCH)"
-	btn_safe.custom_minimum_size = Vector2(0, 46)
+	btn_safe.custom_minimum_size = Vector2(0, 52)
 	btn_safe.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	ForgedUI.style_button(btn_safe, "slate", 14)
+	ForgedUI.style_button(btn_safe, "slate", 18)
 	btn_safe.pressed.connect(func() -> void:
 		_play_click()
 		if world != null and world.get("rpg_hud") != null and world.rpg_hud.has_method("apply_phone_safe_preset"):
@@ -495,9 +495,9 @@ func _build_hud_tab() -> VBoxContainer:
 
 	var btn_reset_h := Button.new()
 	btn_reset_h.text = "↺ RESETUJ UKŁAD HUD"
-	btn_reset_h.custom_minimum_size = Vector2(0, 46)
+	btn_reset_h.custom_minimum_size = Vector2(0, 52)
 	btn_reset_h.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	ForgedUI.style_button(btn_reset_h, "slate", 14)
+	ForgedUI.style_button(btn_reset_h, "slate", 18)
 	btn_reset_h.pressed.connect(func() -> void:
 		_play_click()
 		if world != null and world.get("rpg_hud") != null and world.rpg_hud.has_method("reset_hud_layout"):
@@ -515,14 +515,14 @@ func _build_account_tab() -> VBoxContainer:
 	box.add_child(info_pair[0] as Control)
 	account_info_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	account_info_lbl.add_theme_font_override("font", MapStyle.body_font())
-	account_info_lbl.add_theme_font_size_override("font_size", 15)
-	account_info_lbl.add_theme_color_override("font_color", Color(0.95, 0.91, 0.82))
+	account_info_lbl.add_theme_font_size_override("font_size", 18)
+	account_info_lbl.add_theme_color_override("font_color", Color(0.96, 0.93, 0.85))
 	(info_pair[1] as VBoxContainer).add_child(account_info_lbl)
 
 	var btn_switch := Button.new()
 	btn_switch.text = "⇄  ZMIEŃ POSTAĆ"
-	btn_switch.custom_minimum_size = Vector2(0, 54)
-	ForgedUI.style_button(btn_switch, "gold", 17)
+	btn_switch.custom_minimum_size = Vector2(0, 58)
+	ForgedUI.style_button(btn_switch, "gold", 19)
 	btn_switch.pressed.connect(func() -> void:
 		_play_click()
 		close_menu()
@@ -538,8 +538,8 @@ func _build_account_tab() -> VBoxContainer:
 	var btn_logout := Button.new()
 	btn_logout.text = "WYLOGUJ KONTO"
 	btn_logout.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	btn_logout.custom_minimum_size = Vector2(0, 52)
-	ForgedUI.style_button(btn_logout, "crimson", 16)
+	btn_logout.custom_minimum_size = Vector2(0, 56)
+	ForgedUI.style_button(btn_logout, "crimson", 18)
 	btn_logout.pressed.connect(func() -> void:
 		_play_click()
 		close_menu()
@@ -551,8 +551,8 @@ func _build_account_tab() -> VBoxContainer:
 	var btn_quit := Button.new()
 	btn_quit.text = "WYJDŹ Z GRY"
 	btn_quit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	btn_quit.custom_minimum_size = Vector2(0, 52)
-	ForgedUI.style_button(btn_quit, "crimson", 16)
+	btn_quit.custom_minimum_size = Vector2(0, 56)
+	ForgedUI.style_button(btn_quit, "crimson", 18)
 	btn_quit.pressed.connect(func() -> void:
 		_play_click()
 		if world != null and world.has_method("request_quit_game"):
@@ -569,7 +569,7 @@ func _select_tab(tid: String, play_sfx: bool) -> void:
 		world.audio.sfx("ui/tab", 0.78, 0.04)
 	for k in tab_btns.keys():
 		var tb: Button = tab_btns[k]
-		ForgedUI.style_button(tb, "gold" if str(k) == active_tab else "slate", 14, 12.0, 8.0)
+		ForgedUI.style_button(tb, "gold" if str(k) == active_tab else "slate", 18, 14.0, 9.0)
 	for k in tab_pages.keys():
 		(tab_pages[k] as Control).visible = (str(k) == active_tab)
 	_sync_ui_values()
@@ -596,13 +596,13 @@ func _sync_ui_values() -> void:
 	zoom_val_lbl.text = "%.2f×" % zl
 	var z_targets := [0.85, 1.15, 1.50]
 	for i in mini(zoom_preset_btns.size(), z_targets.size()):
-		ForgedUI.style_button(zoom_preset_btns[i], "gold" if absf(zl - float(z_targets[i])) < 0.08 else "slate", 13, 10.0, 6.0)
+		ForgedUI.style_button(zoom_preset_btns[i], "gold" if absf(zl - float(z_targets[i])) < 0.08 else "slate", 17, 12.0, 8.0)
 
 	var tmode := 0
 	if world != null and world.get("atmosphere") != null and ("time_idx" in world.atmosphere):
 		tmode = int(world.atmosphere.time_idx)
 	for i in time_btns.size():
-		ForgedUI.style_button(time_btns[i], "gold" if i == tmode else "slate", 14, 10.0, 6.0)
+		ForgedUI.style_button(time_btns[i], "gold" if i == tmode else "slate", 17, 12.0, 8.0)
 
 	var mv := 0.45
 	var av := 0.55
@@ -619,14 +619,14 @@ func _sync_ui_values() -> void:
 	music_val_lbl.text = "WYŁ" if (is_muted or mv <= 0.01) else ("%d%%" % int(round(mv * 100.0)))
 	amb_val_lbl.text = "WYŁ" if (is_muted or av <= 0.01) else ("%d%%" % int(round(av * 100.0)))
 	sfx_val_lbl.text = "WYŁ" if (is_muted or sv <= 0.01) else ("%d%%" % int(round(sv * 100.0)))
-	btn_mute.text = "🔇  WSZYSTKIE DŹWIĘKI WYCISZONE (KLIKNIJ ABY WŁĄCZYĆ)" if is_muted else "🔊  DŹWIĘK AKTYWNY (KLIKNIJ ABY WYCISZYĆ)"
-	ForgedUI.style_button(btn_mute, "crimson" if is_muted else "slate", 14, 14.0, 8.0)
+	btn_mute.text = "🔇  WSZYSTKIE DŹWIĘKI WYCISZONE (WŁĄCZ)" if is_muted else "🔊  DŹWIĘK AKTYWNY (WYCISZ)"
+	ForgedUI.style_button(btn_mute, "crimson" if is_muted else "slate", 18, 16.0, 9.0)
 
 	var perf_on := false
 	if world != null and world.get("rpg_hud") != null and world.rpg_hud.has_method("is_perf_hud_enabled"):
 		perf_on = bool(world.rpg_hud.is_perf_hud_enabled())
-	btn_perf_hud.text = "📊  WYKAZ FPS I PING: WŁĄCZONY (KLIKNIJ ABY UKRYĆ)" if perf_on else "📊  WYKAZ FPS I PING: WYŁĄCZONY (KLIKNIJ ABY WŁĄCZYĆ)"
-	ForgedUI.style_button(btn_perf_hud, "gold" if perf_on else "slate", 14, 14.0, 8.0)
+	btn_perf_hud.text = "📊  WYKAZ FPS I PING: WŁĄCZONY (UKRYJ)" if perf_on else "📊  WYKAZ FPS I PING: WYŁĄCZONY (WŁĄCZ)"
+	ForgedUI.style_button(btn_perf_hud, "gold" if perf_on else "slate", 18, 16.0, 9.0)
 
 	var hsc := 1.0
 	if world != null and world.get("rpg_hud") != null and world.rpg_hud.has_method("get_hud_scale"):
@@ -635,7 +635,7 @@ func _sync_ui_values() -> void:
 	hud_scale_lbl.text = "%d%%" % int(round(hsc * 100.0))
 	var s_targets := [0.85, 1.00, 1.15]
 	for i in mini(hud_scale_btns.size(), s_targets.size()):
-		ForgedUI.style_button(hud_scale_btns[i], "gold" if absf(hsc - float(s_targets[i])) < 0.04 else "slate", 13, 10.0, 6.0)
+		ForgedUI.style_button(hud_scale_btns[i], "gold" if absf(hsc - float(s_targets[i])) < 0.04 else "slate", 17, 12.0, 8.0)
 
 	if world != null:
 		var hname := str(world.start_name) if str(world.start_name) != "" else "Bohater"
@@ -654,8 +654,8 @@ func _layout() -> void:
 	var vs := get_viewport_rect().size
 	if vs.x < 100.0:
 		vs = size
-	var pw := clampf(vs.x * 0.78, 700.0, 960.0)
-	var ph := clampf(vs.y * 0.90, 540.0, 668.0)
+	var pw := clampf(vs.x * 0.88, 760.0, 1280.0)
+	var ph := clampf(vs.y * 0.94, 540.0, 696.0)
 	panel.size = Vector2(pw, ph)
 	panel.position = Vector2((vs.x - pw) * 0.5, (vs.y - ph) * 0.5)
 
