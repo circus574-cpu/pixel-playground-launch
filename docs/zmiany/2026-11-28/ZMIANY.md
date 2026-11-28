@@ -23,3 +23,5 @@ Zakładka „Świat Superior” domyślnie pokazuje Androida. Poprzedni atlas pr
 - Playwright na pliku z paczek Androida zaliczył 12/12 scenariuszy w Canvas i Software WebGL. Sprawdzono cztery rozmiary ekranu, odczyt współrzędnych, mapę wyspy, cele questów oraz odmowę dostępu dla gracza anonimowego i GM.
 - Test HTTP przeszedł z prywatnym plikiem i z danymi syntetycznymi. Pełny TypeScript i build zakończyły się powodzeniem. Lint zgłosił 16 istniejących ostrzeżeń i zero błędów.
 - Drugi eksport dał identyczny plik współrzędnych. Prywatny eksport i zrzut panelu są poza publicznym repozytorium.
+
+Eksport przygotowano do rozpoznawania późniejszej dostawy „Przygody na rubieżach”. Test z plikami tej gałęzi powiązał wszystkie osiem misji ze zleceniodawcami, skrytkami, celami i właściwymi instancjami potworów. Ponowny eksport opublikowanej wersji 1.14.38 dał identyczne dane. Nowe przygody pojawią się w atlasie po eksporcie z paczek wersji, która będzie je zawierała.

@@ -146,12 +146,16 @@ def make_region(meta, data, bosses, quests, runtime, image_url):
             refs = []
             if oid in runtime.get("objectives", {}):
                 point = position(*runtime["objectives"][oid], offset=0)
-                add("objective", oid, label, point, f"{qid} · {stage['title']}", questId=qid, radius=135)
+                options = {"radius": obj.get("activationRadius", 135)} if obj["type"] != "retrieve" else {}
+                add("objective", oid, label, point, f"{qid} · {stage['title']}", questId=qid, **options)
                 refs.append(points[-1]["id"])
             for i in runtime.get("talk", {}).get(oid, []):
                 refs.append(npc_points[i]["id"])
             if quest["playableInCurrentRuntime"] and obj["type"] == "combat":
-                refs += monsters.get(obj.get("targetId"), [])
+                if spawn_id := obj.get("targetSpawnId"):
+                    refs += [p["id"] for p in points if p["id"] == f"spawn:{spawn_id}"]
+                else:
+                    refs += monsters.get(obj.get("targetId"), [])
             quest_row["objectives"].append({"id": oid, "title": label, "refs": refs})
     objectives_by_target = {}
     for quest in quests["quests"]:
@@ -199,6 +203,8 @@ def main():
     bosses = load(src, "data/bosses.json")["bosses"]
     islands = {row["id"]: row for row in load(src, "data/islands.json")["islands"]}
     quests = load(src, "data/quests.json")
+    if (src / "data/quests_wilderness.json").is_file():
+        quests["quests"].extend(load(src, "data/quests_wilderness.json")["quests"])
     runtime = load(src, "runtime.json")
     MAPS.mkdir(parents=True, exist_ok=True)
     with Image.open(src / "atlas/planet_real_world.png") as image:

@@ -48,6 +48,11 @@ func _initialize() -> void:
 						"visit", "discover":
 							var point: Vector2 = engine._resolve_objective_world_pos(objective, land)
 							region.objectives[objective.id] = [point.x, point.y]
+						"retrieve":
+							for treasure: Dictionary in world.treasures_data:
+								if treasure.get("id") == objective.get("targetId"):
+									region.objectives[objective.id] = [treasure.x, treasure.z]
+									break
 						"talk", "deliver":
 							var target := str(objective.get("targetId", ""))
 							region.talk[objective.id] = find_npcs(engine, world.npcs_data, target)
@@ -62,6 +67,6 @@ func find_npcs(engine: RefCounted, npcs: Array, target: String) -> Array:
 	var indexes := []
 	for i: int in range(npcs.size()):
 		var npc: Dictionary = npcs[i]
-		if engine.npc_matches_canonical(target, str(npc.get("actor_id", "")), str(npc.get("name", ""))):
+		if engine.npc_matches_canonical(target, str(npc.get("quest_npc_id", npc.get("actor_id", ""))), str(npc.get("name", ""))):
 			indexes.append(i)
 	return indexes

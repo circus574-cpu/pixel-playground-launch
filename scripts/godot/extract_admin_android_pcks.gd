@@ -18,6 +18,8 @@ func _initialize() -> void:
 		"data": ["bosses.json", "islands.json", "map.json", "quests.json"],
 		"atlas": ["planet_real_world.png"],
 	}
+	if FileAccess.file_exists(prefix.path_join("data/quests_wilderness.json")):
+		(files["data"] as Array).append("quests_wilderness.json")
 	for land: String in ["pyra", "verdant", "aether", "nexus"]:
 		files["regions/" + land] = ["buildings.json", "minimap_hq.png", "height.r32", "walkable.u8", "surface.png"]
 	for directory: String in files:
