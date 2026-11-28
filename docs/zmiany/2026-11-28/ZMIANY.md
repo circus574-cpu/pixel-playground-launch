@@ -17,3 +17,9 @@ Zakładka „Świat Superior” domyślnie pokazuje Androida. Poprzedni atlas pr
 3. W tymczasowym projekcie Godota udostępnij katalogi `scripts/` właściwego commita Androida, `data/` z ekstrakcji i `regions/ID/` z czterema wyekstrahowanymi regionami. Uruchom `godot --headless --path PROJEKT_TYMCZASOWY -s SKRYPTY/export_admin_android_runtime.gd -- EKSTRAKCJA/runtime.json`.
 4. Uruchom `python scripts/godot/export_admin_android_world.py EKSTRAKCJA MANIFEST.json CORE.pck REGIONS.pck /katalog-prywatny/android-superior.json`. Eksporter sprawdzi SHA-256 obu paczek. Zapisze publiczne podkłady i osobny plik szczegółów z uprawnieniami 0600.
 5. Serwis gry odczytuje ścieżkę do prywatnego pliku ze zmiennej `KI_ANDROID_OVERVIEW_PATH`. Plik musi być dostępny dla procesu serwisu po wdrożeniu. Testy mogą skorzystać z rzeczywistych danych przez `KI_ANDROID_OVERVIEW_QA_SNAPSHOT`. Domyślne dane CI są syntetyczne.
+
+### Weryfikacja panelu
+
+- Playwright na pliku z paczek Androida zaliczył 12/12 scenariuszy w Canvas i Software WebGL. Sprawdzono cztery rozmiary ekranu, odczyt współrzędnych, mapę wyspy, cele questów oraz odmowę dostępu dla gracza anonimowego i GM.
+- Test HTTP przeszedł z prywatnym plikiem i z danymi syntetycznymi. Pełny TypeScript i build zakończyły się powodzeniem. Lint zgłosił 16 istniejących ostrzeżeń i zero błędów.
+- Drugi eksport dał identyczny plik współrzędnych. Prywatny eksport i zrzut panelu są poza publicznym repozytorium.
