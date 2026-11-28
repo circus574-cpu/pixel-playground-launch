@@ -3718,6 +3718,34 @@
         -1026.98,
         135.05
       ]
+    },
+    {
+      "id": "frontier-nexus-kanal",
+      "title": "Kanał bez Sygnału",
+      "role": "landmark",
+      "map_kind": "landmark",
+      "enterable": false,
+      "sprite": "res://assets/biomes/nexus_reactor_ruin.webp",
+      "w": 365,
+      "h": 390,
+      "footprint_r": 14.0,
+      "x": -949.86,
+      "z": 324.63,
+      "y": 17.88
+    },
+    {
+      "id": "frontier-nexus-obwod",
+      "title": "Stacja Ostatniej Zmiany",
+      "role": "landmark",
+      "map_kind": "landmark",
+      "enterable": false,
+      "sprite": "res://assets/biomes/nexus_holo_monolith.webp",
+      "w": 365,
+      "h": 390,
+      "footprint_r": 14.0,
+      "x": 789.54,
+      "z": -460.9,
+      "y": 21.54
     }
   ],
   "npcs": [
@@ -3924,6 +3952,30 @@
       "z": -931.9,
       "patrol_radius": 16.0,
       "quest_mark": ""
+    },
+    {
+      "id": "frontier-nexus-kanal-npc",
+      "quest_npc_id": "frontier-nexus-kanal-npc",
+      "actor_id": "nexus.npc.alchemist",
+      "name": "IRIS-12",
+      "role": "Techniczka przekaźników terenowych",
+      "quest_mark": "",
+      "patrol_radius": 0.0,
+      "x": -797.56,
+      "z": 324.63,
+      "y": 21.64
+    },
+    {
+      "id": "frontier-nexus-obwod-npc",
+      "quest_npc_id": "frontier-nexus-obwod-npc",
+      "actor_id": "nexus.npc.hunter",
+      "name": "KER-17",
+      "role": "Opiekun zapisu zmian",
+      "quest_mark": "",
+      "patrol_radius": 0.0,
+      "x": 653.28,
+      "z": -388.76,
+      "y": 16.07
     }
   ],
   "exp_zones": [
@@ -7027,6 +7079,64 @@
       "patrol_radius": 28.0,
       "is_elite": true,
       "scale_mult": 1.38
+    },
+    {
+      "id": "frontier-nexus-kanal-guard-1",
+      "actor_id": "nexus-pajak-spawalniczy",
+      "name": "Pająk ze zwartego obwodu",
+      "level": 6,
+      "hp": 833,
+      "atk": 76,
+      "xp": 100,
+      "gold": 46,
+      "x": -1078.11,
+      "z": 340.67,
+      "y": 18.68,
+      "patrol_radius": 20.0
+    },
+    {
+      "id": "frontier-nexus-kanal-guard-2",
+      "actor_id": "nexus-pelzacz-serwisowy",
+      "name": "Pełzacz zaślepki",
+      "level": 3,
+      "hp": 320,
+      "atk": 30,
+      "xp": 54,
+      "gold": 25,
+      "x": -1134.22,
+      "z": 316.62,
+      "y": 20.23,
+      "patrol_radius": 20.0
+    },
+    {
+      "id": "frontier-nexus-obwod-guard-1",
+      "actor_id": "nexus-skaner-gasienicowy",
+      "name": "Skaner Warty KER",
+      "level": 5,
+      "hp": 640,
+      "atk": 52,
+      "xp": 260,
+      "gold": 115,
+      "x": 877.71,
+      "z": -525.03,
+      "y": 24.1,
+      "patrol_radius": 20.0,
+      "is_elite": true,
+      "scale_mult": 1.38
+    },
+    {
+      "id": "frontier-nexus-obwod-guard-2",
+      "actor_id": "nexus-pelzacz-serwisowy",
+      "name": "Pełzacz z terminala odpraw",
+      "level": 2,
+      "hp": 225,
+      "atk": 22,
+      "xp": 40,
+      "gold": 19,
+      "x": 949.86,
+      "z": -549.07,
+      "y": 22.69,
+      "patrol_radius": 20.0
     }
   ],
   "fauna": [
@@ -36338,6 +36448,66 @@
       "x": 1267.24,
       "z": 1090.51,
       "y": 18.94
+    },
+    {
+      "id": "frontier-nexus-kanal-prop-1",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/006e9795-nexus-continent-terminal.webp",
+      "w": 172,
+      "h": 196,
+      "x": -965.89,
+      "z": 444.87,
+      "y": 16.94
+    },
+    {
+      "id": "frontier-nexus-kanal-prop-2",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/nexus_plasma_pylon.webp",
+      "w": 172,
+      "h": 196,
+      "x": -901.76,
+      "z": 196.38,
+      "y": 21.75
+    },
+    {
+      "id": "frontier-nexus-kanal-prop-3",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/nexus_cargo_stack.webp",
+      "w": 172,
+      "h": 196,
+      "x": -1038.03,
+      "z": 444.87,
+      "y": 16.12
+    },
+    {
+      "id": "frontier-nexus-obwod-prop-1",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/nexus_hover_wreck.webp",
+      "w": 172,
+      "h": 196,
+      "x": 749.46,
+      "z": -581.14,
+      "y": 21.87
+    },
+    {
+      "id": "frontier-nexus-obwod-prop-2",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/nexus_solar_dish.webp",
+      "w": 172,
+      "h": 196,
+      "x": 805.57,
+      "z": -324.63,
+      "y": 18.07
+    },
+    {
+      "id": "frontier-nexus-obwod-prop-3",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/nexus_cargo_stack.webp",
+      "w": 172,
+      "h": 196,
+      "x": 821.6,
+      "z": -613.2,
+      "y": 21.99
     }
   ],
   "labyrinths": [
@@ -36696,6 +36866,30 @@
       "x": -1273.26,
       "z": -33.77,
       "y": 19.05
+    },
+    {
+      "id": "frontier-nexus-kanal-cache",
+      "title": "Bęben kopii dziennika technicznego",
+      "lore": "Kanał zgłasza awarię z węzła, którego nie ma w rejestrze. IRIS-12 znalazła pętlę kabli i drugi rejestrator poza głównym obwodem.",
+      "min_level": 6,
+      "item_id": "mat_coil",
+      "gold": 25,
+      "xp": 32,
+      "x": -1102.15,
+      "z": 292.57,
+      "y": 20.23
+    },
+    {
+      "id": "frontier-nexus-obwod-cache",
+      "title": "Archiwum odpraw z czarnej skrzynki",
+      "lore": "Automaty wciąż zamykają bramę po odczytaniu spóźnionego meldunku z nieczynnej stacji. KER-17 chce rozpoznać autora i odzyskać sprawny zapis.",
+      "min_level": 5,
+      "item_id": "mat_plasma",
+      "gold": 25,
+      "xp": 32,
+      "x": 917.79,
+      "z": -525.03,
+      "y": 23.63
     }
   ],
   "gatherables": [

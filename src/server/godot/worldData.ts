@@ -57,6 +57,9 @@ export type AndroidPlayableQuestMeta = {
   prereqs: string[];
   repeatable: boolean;
   stageCount: number;
+  frontierStages?: Array<
+    Array<{ id: string; count: number; treasureId?: string; spawnId?: string }>
+  >;
   xp: number;
   coins: number;
   itemId?: string;

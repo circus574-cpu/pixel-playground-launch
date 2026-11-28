@@ -3551,6 +3551,34 @@
         1515.15,
         196.0
       ]
+    },
+    {
+      "id": "frontier-aether-igla",
+      "title": "Obserwatorium Czarnej Igły",
+      "role": "landmark",
+      "map_kind": "landmark",
+      "enterable": false,
+      "sprite": "res://assets/biomes/aether_snow_obelisk.webp",
+      "w": 365,
+      "h": 390,
+      "footprint_r": 14.0,
+      "x": -1126.2,
+      "z": 220.43,
+      "y": 15.39
+    },
+    {
+      "id": "frontier-aether-zrodla",
+      "title": "Źródło pod Szronem",
+      "role": "landmark",
+      "map_kind": "landmark",
+      "enterable": false,
+      "sprite": "res://assets/biomes/aether_hot_spring.webp",
+      "w": 365,
+      "h": 390,
+      "footprint_r": 14.0,
+      "x": 517.01,
+      "z": 717.4,
+      "y": 13.09
     }
   ],
   "npcs": [
@@ -3757,6 +3785,30 @@
       "z": -8.49,
       "patrol_radius": 16.0,
       "quest_mark": ""
+    },
+    {
+      "id": "frontier-aether-igla-npc",
+      "quest_npc_id": "frontier-aether-igla-npc",
+      "actor_id": "aether.npc.keeper",
+      "name": "Natsue",
+      "role": "Wędrowna astronomka",
+      "quest_mark": "",
+      "patrol_radius": 0.0,
+      "x": -973.9,
+      "z": 188.37,
+      "y": 15.15
+    },
+    {
+      "id": "frontier-aether-zrodla-npc",
+      "quest_npc_id": "frontier-aether-zrodla-npc",
+      "actor_id": "aether.npc.hunter",
+      "name": "Hakuo",
+      "role": "Dozorca przewodów źródlanych",
+      "quest_mark": "",
+      "patrol_radius": 0.0,
+      "x": 541.06,
+      "z": 565.1,
+      "y": 11.28
     }
   ],
   "exp_zones": [
@@ -6860,6 +6912,50 @@
       "patrol_radius": 28.0,
       "is_elite": true,
       "scale_mult": 1.38
+    },
+    {
+      "id": "frontier-aether-igla-guard-1",
+      "actor_id": "aether-krysztalowy-motyl",
+      "name": "Lustrzany Motyl",
+      "level": 5,
+      "hp": 640,
+      "atk": 52,
+      "xp": 260,
+      "gold": 115,
+      "x": -1246.43,
+      "z": 260.51,
+      "y": 13.7,
+      "patrol_radius": 20.0,
+      "is_elite": true,
+      "scale_mult": 1.38
+    },
+    {
+      "id": "frontier-aether-igla-guard-2",
+      "actor_id": "aether-pergaminowy-straznik",
+      "name": "Starty Zapis z Obserwatorium",
+      "level": 3,
+      "hp": 320,
+      "atk": 30,
+      "xp": 54,
+      "gold": 25,
+      "x": -1326.59,
+      "z": 228.45,
+      "y": 13.22,
+      "patrol_radius": 20.0
+    },
+    {
+      "id": "frontier-aether-zrodla-guard-1",
+      "actor_id": "aether-szmaragdowy-waz",
+      "name": "Wąż z nagrzanego tarasu",
+      "level": 6,
+      "hp": 833,
+      "atk": 76,
+      "xp": 100,
+      "gold": 46,
+      "x": 508.99,
+      "z": 829.62,
+      "y": 12.61,
+      "patrol_radius": 20.0
     }
   ],
   "fauna": [
@@ -37414,6 +37510,66 @@
       "x": -1031.27,
       "z": 1090.37,
       "y": 14.42
+    },
+    {
+      "id": "frontier-aether-igla-prop-1",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/aether_astrolabe.webp",
+      "w": 172,
+      "h": 196,
+      "x": -1118.18,
+      "z": 340.67,
+      "y": 15.51
+    },
+    {
+      "id": "frontier-aether-igla-prop-2",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/aether_ice_crystals.webp",
+      "w": 172,
+      "h": 196,
+      "x": -1102.15,
+      "z": 84.16,
+      "y": 15.11
+    },
+    {
+      "id": "frontier-aether-igla-prop-3",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/aether-snow-shrine.webp",
+      "w": 172,
+      "h": 196,
+      "x": -1190.32,
+      "z": 356.7,
+      "y": 15.03
+    },
+    {
+      "id": "frontier-aether-zrodla-prop-1",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/aether_marble_aqueduct.webp",
+      "w": 172,
+      "h": 196,
+      "x": 637.24,
+      "z": 749.46,
+      "y": 13.09
+    },
+    {
+      "id": "frontier-aether-zrodla-prop-2",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/aether_snow_gazebo.webp",
+      "w": 172,
+      "h": 196,
+      "x": 404.79,
+      "z": 653.28,
+      "y": 13.7
+    },
+    {
+      "id": "frontier-aether-zrodla-prop-3",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/aether_ice_crystals.webp",
+      "w": 172,
+      "h": 196,
+      "x": 621.21,
+      "z": 813.59,
+      "y": 12.01
     }
   ],
   "labyrinths": [
@@ -37772,6 +37928,30 @@
       "x": 140.8,
       "z": -114.47,
       "y": 15.71
+    },
+    {
+      "id": "frontier-aether-igla-cache",
+      "title": "Futerał zapasowego zwierciadła",
+      "lore": "Cień igły wskazuje od świtu tę samą godzinę. Natsue szuka starego zwierciadła, zanim kryształowy rój zmieni położenie jego odłamków.",
+      "min_level": 5,
+      "item_id": "mat_lightdust",
+      "gold": 25,
+      "xp": 32,
+      "x": -1286.51,
+      "z": 220.43,
+      "y": 13.34
+    },
+    {
+      "id": "frontier-aether-zrodla-cache",
+      "title": "Puszka narzędzi Hakuo",
+      "lore": "Stary przewód grzewczy kończy się w oblodzonym kamieniu. Hakuo znalazł cieplejszy ślad na dolnym tarasie i potrzebuje drugiej pary oczu.",
+      "min_level": 6,
+      "item_id": "mat_lightdust",
+      "gold": 25,
+      "xp": 32,
+      "x": 452.88,
+      "z": 837.64,
+      "y": 12.61
     }
   ],
   "gatherables": [

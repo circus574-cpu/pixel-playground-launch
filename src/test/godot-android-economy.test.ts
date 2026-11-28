@@ -26,6 +26,7 @@ import {
   androidIsland,
   androidPlayableQuest,
   androidTarget,
+  androidTreasure,
   androidWorldEvent,
   walkableAndroidPoint,
 } from "../server/godot/worldData";
@@ -872,6 +873,89 @@ describe("Android authoritative economy, city training & progression engine", ()
       { isStaff: false },
     );
     expect(repeat.gold).toBe(205);
+  });
+
+  it("registers two frontier adventures and reachable guards on each continent", () => {
+    const quests = {
+      verdant: ["listonoszka", "studnia"],
+      aether: ["igla", "zrodla"],
+      pyra: ["dzwon", "karawana"],
+      nexus: ["kanal", "obwod"],
+    } as const;
+    for (const land of ["verdant", "aether", "pyra", "nexus"] as const) {
+      for (const key of quests[land]) {
+        const id = `frontier-${land}-${key}`;
+        expect(androidPlayableQuest(id)).toMatchObject({ continent: land, stageCount: 2 });
+        const treasure = androidTreasure(land, id + "-cache")!;
+        expect(walkableAndroidPoint(land, treasure)).toBe(true);
+        const guard = androidTarget(land, id + "-guard-1")!;
+        expect(guard.kind).toBe("monster");
+        if (guard.kind === "monster") expect(walkableAndroidPoint(land, guard)).toBe(true);
+      }
+    }
+  });
+
+  it("pays a frontier hunt only after the registered guard and recovered cache", () => {
+    const questId = "frontier-pyra-dzwon";
+    const hero = freshHero("legend", 100, 8);
+    const dispatch = (action: AndroidAction, nowMs: number) =>
+      applyAndroidAction(hero, action, { isStaff: false, nowMs });
+    const progress = { [questId + "-clue"]: 1, [questId + "-hunt"]: 1, [questId + "-retrieve"]: 1 };
+    const finish = {
+      type: "quest_sync_progress",
+      questId,
+      stage: 1,
+      progress,
+      complete: true,
+    } as const;
+    expect(() => dispatch(finish, 1_000)).toThrowError(
+      expect.objectContaining({ code: "GOAL_NOT_MET" }),
+    );
+    Object.assign(hero, dispatch({ type: "quest_accept", questId }, 2_000));
+    expect(() => dispatch(finish, 3_000)).toThrowError(
+      expect.objectContaining({ code: "GOAL_NOT_MET" }),
+    );
+    const targetId = questId + "-guard-1";
+    const guard = androidTarget("pyra", targetId)!;
+    if (guard.kind !== "monster") throw new Error("Missing frontier guard");
+    Object.assign(
+      hero,
+      dispatch(
+        {
+          type: "pve_defeat",
+          targetId,
+          land: "pyra",
+          drop: { x: guard.x, z: guard.z },
+        },
+        4_000,
+      ),
+    );
+    expect(hero.state.activeQuests[questId]?.progress[questId + "-hunt"]).toBe(1);
+    Object.assign(hero, dispatch({ ...finish, complete: false }, 5_000));
+    expect(() => dispatch(finish, 6_000)).toThrowError(
+      expect.objectContaining({ code: "GOAL_NOT_MET" }),
+    );
+    const treasureId = questId + "-cache";
+    const chest = androidTreasure("pyra", treasureId)!;
+    Object.assign(
+      hero,
+      dispatch(
+        {
+          type: "claim_treasure",
+          treasureId,
+          position: { x: chest.x, z: chest.z },
+        },
+        7_000,
+      ),
+    );
+    const gold = hero.gold;
+    Object.assign(hero, dispatch(finish, 8_000));
+    expect(hero.state.completedQuests[questId]).toBeTruthy();
+    expect(hero.state.activeQuests[questId]).toBeUndefined();
+    expect(hero.gold).toBe(gold + androidPlayableQuest(questId)!.coins);
+    expect(() => dispatch(finish, 9_000)).toThrowError(
+      expect.objectContaining({ code: "QUEST_ALREADY_COMPLETED" }),
+    );
   });
 
   it("Stage 4: supports canonical quests, 8 bosses, 14 world events & Archipelago Island sea voyages", () => {

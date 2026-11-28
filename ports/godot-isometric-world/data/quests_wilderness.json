@@ -1,0 +1,645 @@
+{
+  "quests": [
+    {
+      "id": "frontier-verdant-listonoszka",
+      "title": "Listy, które nie odpłynęły",
+      "continent": "verdant",
+      "category": "side",
+      "giverNpcId": "frontier-verdant-listonoszka-npc",
+      "giverName": "Ilyna",
+      "recommendedLevel": 3,
+      "repeatable": false,
+      "frontier": true,
+      "playableInCurrentRuntime": true,
+      "unlockCondition": {
+        "minLevel": 3
+      },
+      "summary": "Ilyna odnalazła korespondencję z domów wykreślonych z planu doliny. Przy zwalonym przyczółku wciąż czeka worek z ostatniego kursu. Początek przy lokacji Przeprawa Porzuconych Listów, na południowy zachód od stolicy.",
+      "stages": [
+        {
+          "id": "frontier-verdant-listonoszka-s1",
+          "title": "Miejsce postoju",
+          "objectives": [
+            {
+              "id": "frontier-verdant-listonoszka-clue",
+              "type": "discover",
+              "description": "Obejrzyj kamień z nacięciami wskazującymi dawny poziom rzeki.",
+              "targetId": "frontier-verdant-listonoszka",
+              "targetCount": 1,
+              "continent": "verdant",
+              "activationRadius": 62,
+              "coordinates": {
+                "x": 929.82,
+                "y": 2332.56,
+                "radius": 62
+              }
+            }
+          ]
+        },
+        {
+          "id": "frontier-verdant-listonoszka-s2",
+          "title": "Odzyskanie śladów",
+          "objectives": [
+            {
+              "id": "frontier-verdant-listonoszka-retrieve",
+              "type": "retrieve",
+              "description": "Odzyskaj: Worek z niedoręczoną pocztą.",
+              "targetId": "frontier-verdant-listonoszka-cache",
+              "targetCount": 1,
+              "continent": "verdant"
+            }
+          ]
+        }
+      ],
+      "reward": {
+        "xp": 80,
+        "coins": 35
+      }
+    },
+    {
+      "id": "frontier-verdant-studnia",
+      "title": "Drzewo rośnie w dół",
+      "continent": "verdant",
+      "category": "side",
+      "giverNpcId": "frontier-verdant-studnia-npc",
+      "giverName": "Lir",
+      "recommendedLevel": 5,
+      "repeatable": false,
+      "frontier": true,
+      "playableInCurrentRuntime": true,
+      "unlockCondition": {
+        "minLevel": 5
+      },
+      "summary": "W nieczynnym sadzie obręcze studni zarosły od środka. Lir chce sprawdzić, czy krzewy zasila rzeka, czy przestrzeń pod starym kamiennym kręgiem. Początek przy lokacji Studnia Długiego Korzenia, na wschód od stolicy.",
+      "stages": [
+        {
+          "id": "frontier-verdant-studnia-s1",
+          "title": "Pierwszy ślad",
+          "objectives": [
+            {
+              "id": "frontier-verdant-studnia-clue",
+              "type": "discover",
+              "description": "Porównaj układ korzeni przy obręczy studni i na odsłoniętej skarpie.",
+              "targetId": "frontier-verdant-studnia",
+              "targetCount": 1,
+              "continent": "verdant",
+              "activationRadius": 62,
+              "coordinates": {
+                "x": 3166.18,
+                "y": 1506.94,
+                "radius": 62
+              }
+            }
+          ]
+        },
+        {
+          "id": "frontier-verdant-studnia-s2",
+          "title": "Pomiary poza ścieżką",
+          "objectives": [
+            {
+              "id": "frontier-verdant-studnia-trace",
+              "type": "visit",
+              "description": "Sprawdź drugi ślad przy kamiennym znaczniku.",
+              "targetId": "frontier-verdant-studnia-trace",
+              "targetCount": 1,
+              "continent": "verdant",
+              "activationRadius": 62,
+              "coordinates": {
+                "x": 3206.26,
+                "y": 1386.71,
+                "radius": 62
+              }
+            }
+          ]
+        }
+      ],
+      "reward": {
+        "xp": 115,
+        "coins": 35
+      }
+    },
+    {
+      "id": "frontier-aether-igla",
+      "title": "Godzina wyjęta z nieba",
+      "continent": "aether",
+      "category": "side",
+      "giverNpcId": "frontier-aether-igla-npc",
+      "giverName": "Natsue",
+      "recommendedLevel": 5,
+      "repeatable": false,
+      "frontier": true,
+      "playableInCurrentRuntime": true,
+      "unlockCondition": {
+        "minLevel": 5
+      },
+      "summary": "Cień igły wskazuje od świtu tę samą godzinę. Natsue szuka starego zwierciadła, zanim kryształowy rój zmieni położenie jego odłamków. Początek przy lokacji Obserwatorium Czarnej Igły, na południowy zachód od stolicy.",
+      "stages": [
+        {
+          "id": "frontier-aether-igla-s1",
+          "title": "Ślad i strażnik",
+          "objectives": [
+            {
+              "id": "frontier-aether-igla-clue",
+              "type": "discover",
+              "description": "Odczytaj znak kierunku na podstawie Czarnej Igły.",
+              "targetId": "frontier-aether-igla",
+              "targetCount": 1,
+              "continent": "aether",
+              "activationRadius": 62,
+              "coordinates": {
+                "x": 921.8,
+                "y": 2268.43,
+                "radius": 62
+              }
+            },
+            {
+              "id": "frontier-aether-igla-hunt",
+              "type": "combat",
+              "description": "Pokonaj: Lustrzany Motyl.",
+              "targetId": "aether-krysztalowy-motyl",
+              "targetCount": 1,
+              "continent": "aether",
+              "targetSpawnId": "frontier-aether-igla-guard-1"
+            }
+          ]
+        },
+        {
+          "id": "frontier-aether-igla-s2",
+          "title": "Ocalony zapis",
+          "objectives": [
+            {
+              "id": "frontier-aether-igla-retrieve",
+              "type": "retrieve",
+              "description": "Otwórz: Futerał zapasowego zwierciadła.",
+              "targetId": "frontier-aether-igla-cache",
+              "targetCount": 1,
+              "continent": "aether"
+            }
+          ]
+        }
+      ],
+      "reward": {
+        "xp": 115,
+        "coins": 35
+      }
+    },
+    {
+      "id": "frontier-aether-zrodla",
+      "title": "Ciepło pod śniegiem",
+      "continent": "aether",
+      "category": "side",
+      "giverNpcId": "frontier-aether-zrodla-npc",
+      "giverName": "Hakuo",
+      "recommendedLevel": 6,
+      "repeatable": false,
+      "frontier": true,
+      "playableInCurrentRuntime": true,
+      "unlockCondition": {
+        "minLevel": 6
+      },
+      "summary": "Stary przewód grzewczy kończy się w oblodzonym kamieniu. Hakuo znalazł cieplejszy ślad na dolnym tarasie i potrzebuje drugiej pary oczu. Początek przy lokacji Źródło pod Szronem, na południe od stolicy.",
+      "stages": [
+        {
+          "id": "frontier-aether-zrodla-s1",
+          "title": "Pierwszy ślad",
+          "objectives": [
+            {
+              "id": "frontier-aether-zrodla-clue",
+              "type": "discover",
+              "description": "Sprawdź pierwszy wylot przewodu pod szronem. Porównaj go z zaworem na niższym tarasie.",
+              "targetId": "frontier-aether-zrodla",
+              "targetCount": 1,
+              "continent": "aether",
+              "activationRadius": 62,
+              "coordinates": {
+                "x": 2565.01,
+                "y": 2765.4,
+                "radius": 62
+              }
+            }
+          ]
+        },
+        {
+          "id": "frontier-aether-zrodla-s2",
+          "title": "Pomiary poza ścieżką",
+          "objectives": [
+            {
+              "id": "frontier-aether-zrodla-trace",
+              "type": "visit",
+              "description": "Sprawdź drugi ślad przy kamiennym znaczniku.",
+              "targetId": "frontier-aether-zrodla-trace",
+              "targetCount": 1,
+              "continent": "aether",
+              "activationRadius": 62,
+              "coordinates": {
+                "x": 2685.24,
+                "y": 2797.46,
+                "radius": 62
+              }
+            }
+          ]
+        }
+      ],
+      "reward": {
+        "xp": 115,
+        "coins": 35
+      }
+    },
+    {
+      "id": "frontier-pyra-dzwon",
+      "title": "Uderzenie po Ciszy",
+      "continent": "pyra",
+      "category": "side",
+      "giverNpcId": "frontier-pyra-dzwon-npc",
+      "giverName": "Mavren",
+      "recommendedLevel": 5,
+      "repeatable": false,
+      "frontier": true,
+      "playableInCurrentRuntime": true,
+      "unlockCondition": {
+        "minLevel": 5
+      },
+      "summary": "Z wygasłej czuwalni znów słychać dzwon. Mavren znalazł świeże ślady łap i metalową taśmę, której używano do alarmów o spływie lawy. Początek przy lokacji Czuwalnia Siódmego Dzwonu, na zachód od stolicy.",
+      "stages": [
+        {
+          "id": "frontier-pyra-dzwon-s1",
+          "title": "Ślad i strażnik",
+          "objectives": [
+            {
+              "id": "frontier-pyra-dzwon-clue",
+              "type": "discover",
+              "description": "Obejrzyj podstawę dzwonnicy i prowadnicę sygnału.",
+              "targetId": "frontier-pyra-dzwon",
+              "targetCount": 1,
+              "continent": "pyra",
+              "activationRadius": 62,
+              "coordinates": {
+                "x": 1370.68,
+                "y": 1667.26,
+                "radius": 62
+              }
+            },
+            {
+              "id": "frontier-pyra-dzwon-hunt",
+              "type": "combat",
+              "description": "Pokonaj: Popielny Wilk spod Dzwonnicy.",
+              "targetId": "pyra-popielny-wilk",
+              "targetCount": 1,
+              "continent": "pyra",
+              "targetSpawnId": "frontier-pyra-dzwon-guard-1"
+            }
+          ]
+        },
+        {
+          "id": "frontier-pyra-dzwon-s2",
+          "title": "Ocalony zapis",
+          "objectives": [
+            {
+              "id": "frontier-pyra-dzwon-retrieve",
+              "type": "retrieve",
+              "description": "Otwórz: Skrzynka stroiciela dzwonu.",
+              "targetId": "frontier-pyra-dzwon-cache",
+              "targetCount": 1,
+              "continent": "pyra"
+            }
+          ]
+        }
+      ],
+      "reward": {
+        "xp": 115,
+        "coins": 35
+      }
+    },
+    {
+      "id": "frontier-pyra-karawana",
+      "title": "Cena jednego dzbana",
+      "continent": "pyra",
+      "category": "side",
+      "giverNpcId": "frontier-pyra-karawana-npc",
+      "giverName": "Ressa",
+      "recommendedLevel": 6,
+      "repeatable": false,
+      "frontier": true,
+      "playableInCurrentRuntime": true,
+      "unlockCondition": {
+        "minLevel": 6
+      },
+      "summary": "Wóz z wodą zniknął pod zielonym płomieniem siarki. Ressa odnalazła koło i rzemienie po wyładunku. Coś tu nie pasuje do opowieści o rabunku. Początek przy lokacji Postój Pękniętych Cystern, na południe od stolicy.",
+      "stages": [
+        {
+          "id": "frontier-pyra-karawana-s1",
+          "title": "Miejsce postoju",
+          "objectives": [
+            {
+              "id": "frontier-pyra-karawana-clue",
+              "type": "discover",
+              "description": "Rozpoznaj ślady osi i ślady przenoszenia dzbanów przy postoju.",
+              "targetId": "frontier-pyra-karawana",
+              "targetCount": 1,
+              "continent": "pyra",
+              "activationRadius": 62,
+              "coordinates": {
+                "x": 1867.65,
+                "y": 2717.31,
+                "radius": 62
+              }
+            }
+          ]
+        },
+        {
+          "id": "frontier-pyra-karawana-s2",
+          "title": "Odzyskanie śladów",
+          "objectives": [
+            {
+              "id": "frontier-pyra-karawana-retrieve",
+              "type": "retrieve",
+              "description": "Odzyskaj: Zapieczętowana księga przewozowa.",
+              "targetId": "frontier-pyra-karawana-cache",
+              "targetCount": 1,
+              "continent": "pyra"
+            }
+          ]
+        }
+      ],
+      "reward": {
+        "xp": 115,
+        "coins": 35
+      }
+    },
+    {
+      "id": "frontier-nexus-kanal",
+      "title": "Numer, którego brakowało",
+      "continent": "nexus",
+      "category": "side",
+      "giverNpcId": "frontier-nexus-kanal-npc",
+      "giverName": "IRIS-12",
+      "recommendedLevel": 6,
+      "repeatable": false,
+      "frontier": true,
+      "playableInCurrentRuntime": true,
+      "unlockCondition": {
+        "minLevel": 6
+      },
+      "summary": "Kanał zgłasza awarię z węzła, którego nie ma w rejestrze. IRIS-12 znalazła pętlę kabli i drugi rejestrator poza głównym obwodem. Początek przy lokacji Kanał bez Sygnału, na zachód od stolicy.",
+      "stages": [
+        {
+          "id": "frontier-nexus-kanal-s1",
+          "title": "Miejsce postoju",
+          "objectives": [
+            {
+              "id": "frontier-nexus-kanal-clue",
+              "type": "discover",
+              "description": "Prześledź przewód od rozdzielnicy do starego rejestratora.",
+              "targetId": "frontier-nexus-kanal",
+              "targetCount": 1,
+              "continent": "nexus",
+              "activationRadius": 62,
+              "coordinates": {
+                "x": 1098.14,
+                "y": 2372.63,
+                "radius": 62
+              }
+            }
+          ]
+        },
+        {
+          "id": "frontier-nexus-kanal-s2",
+          "title": "Odzyskanie śladów",
+          "objectives": [
+            {
+              "id": "frontier-nexus-kanal-retrieve",
+              "type": "retrieve",
+              "description": "Odzyskaj: Bęben kopii dziennika technicznego.",
+              "targetId": "frontier-nexus-kanal-cache",
+              "targetCount": 1,
+              "continent": "nexus"
+            }
+          ]
+        }
+      ],
+      "reward": {
+        "xp": 115,
+        "coins": 35
+      }
+    },
+    {
+      "id": "frontier-nexus-obwod",
+      "title": "Odprawa po awarii",
+      "continent": "nexus",
+      "category": "side",
+      "giverNpcId": "frontier-nexus-obwod-npc",
+      "giverName": "KER-17",
+      "recommendedLevel": 5,
+      "repeatable": false,
+      "frontier": true,
+      "playableInCurrentRuntime": true,
+      "unlockCondition": {
+        "minLevel": 5
+      },
+      "summary": "Automaty wciąż zamykają bramę po odczytaniu spóźnionego meldunku z nieczynnej stacji. KER-17 chce rozpoznać autora i odzyskać sprawny zapis. Początek przy lokacji Stacja Ostatniej Zmiany, na północny wschód od stolicy.",
+      "stages": [
+        {
+          "id": "frontier-nexus-obwod-s1",
+          "title": "Ślad i strażnik",
+          "objectives": [
+            {
+              "id": "frontier-nexus-obwod-clue",
+              "type": "discover",
+              "description": "Sprawdź znak ostatniej zmiany przy pulpicie odpraw.",
+              "targetId": "frontier-nexus-obwod",
+              "targetCount": 1,
+              "continent": "nexus",
+              "activationRadius": 62,
+              "coordinates": {
+                "x": 2837.54,
+                "y": 1587.1,
+                "radius": 62
+              }
+            },
+            {
+              "id": "frontier-nexus-obwod-hunt",
+              "type": "combat",
+              "description": "Pokonaj: Skaner Warty KER.",
+              "targetId": "nexus-skaner-gasienicowy",
+              "targetCount": 1,
+              "continent": "nexus",
+              "targetSpawnId": "frontier-nexus-obwod-guard-1"
+            }
+          ]
+        },
+        {
+          "id": "frontier-nexus-obwod-s2",
+          "title": "Ocalony zapis",
+          "objectives": [
+            {
+              "id": "frontier-nexus-obwod-retrieve",
+              "type": "retrieve",
+              "description": "Otwórz: Archiwum odpraw z czarnej skrzynki.",
+              "targetId": "frontier-nexus-obwod-cache",
+              "targetCount": 1,
+              "continent": "nexus"
+            }
+          ]
+        }
+      ],
+      "reward": {
+        "xp": 115,
+        "coins": 35
+      }
+    }
+  ],
+  "dialogues": {
+    "frontier-verdant-listonoszka-npc": {
+      "npcId": "frontier-verdant-listonoszka-npc",
+      "npcName": "Ilyna",
+      "role": "Listonoszka rzeczna",
+      "greetings": [
+        "Ilyna odnalazła korespondencję z domów wykreślonych z planu doliny. Przy zwalonym przyczółku wciąż czeka worek z ostatniego kursu."
+      ],
+      "rumors": [
+        "Obejrzyj kamień z nacięciami wskazującymi dawny poziom rzeki."
+      ],
+      "quests": {
+        "frontier-verdant-listonoszka": {
+          "questId": "frontier-verdant-listonoszka",
+          "before": "Ilyna odnalazła korespondencję z domów wykreślonych z planu doliny. Przy zwalonym przyczółku wciąż czeka worek z ostatniego kursu.",
+          "during": "Obejrzyj kamień z nacięciami wskazującymi dawny poziom rzeki.",
+          "after": "Teraz wiem, do kogo należał każdy list. Dostarczę je, choćbym miała przejść całą rzekę pieszo."
+        }
+      }
+    },
+    "frontier-verdant-studnia-npc": {
+      "npcId": "frontier-verdant-studnia-npc",
+      "npcName": "Lir",
+      "role": "Opiekun zdziczałego sadu",
+      "greetings": [
+        "W nieczynnym sadzie obręcze studni zarosły od środka. Lir chce sprawdzić, czy krzewy zasila rzeka, czy przestrzeń pod starym kamiennym kręgiem."
+      ],
+      "rumors": [
+        "Porównaj układ korzeni przy obręczy studni i na odsłoniętej skarpie."
+      ],
+      "quests": {
+        "frontier-verdant-studnia": {
+          "questId": "frontier-verdant-studnia",
+          "before": "W nieczynnym sadzie obręcze studni zarosły od środka. Lir chce sprawdzić, czy krzewy zasila rzeka, czy przestrzeń pod starym kamiennym kręgiem.",
+          "during": "Porównaj układ korzeni przy obręczy studni i na odsłoniętej skarpie.",
+          "after": "To nie studnia wyschła. Korzenie zabrały wodę do porzuconego sadu. Lepiej zapiszmy, gdzie wolno tu kopać."
+        }
+      }
+    },
+    "frontier-aether-igla-npc": {
+      "npcId": "frontier-aether-igla-npc",
+      "npcName": "Natsue",
+      "role": "Wędrowna astronomka",
+      "greetings": [
+        "Cień igły wskazuje od świtu tę samą godzinę. Natsue szuka starego zwierciadła, zanim kryształowy rój zmieni położenie jego odłamków."
+      ],
+      "rumors": [
+        "Odczytaj znak kierunku na podstawie Czarnej Igły."
+      ],
+      "quests": {
+        "frontier-aether-igla": {
+          "questId": "frontier-aether-igla",
+          "before": "Cień igły wskazuje od świtu tę samą godzinę. Natsue szuka starego zwierciadła, zanim kryształowy rój zmieni położenie jego odłamków.",
+          "during": "Odczytaj znak kierunku na podstawie Czarnej Igły.",
+          "after": "Zwierciadło nie zatrzymało czasu. Oszroniony pryzmat kładł drugi cień na podziałce. Zapiszmy obie godziny w dzienniku stacji."
+        }
+      }
+    },
+    "frontier-aether-zrodla-npc": {
+      "npcId": "frontier-aether-zrodla-npc",
+      "npcName": "Hakuo",
+      "role": "Dozorca przewodów źródlanych",
+      "greetings": [
+        "Stary przewód grzewczy kończy się w oblodzonym kamieniu. Hakuo znalazł cieplejszy ślad na dolnym tarasie i potrzebuje drugiej pary oczu."
+      ],
+      "rumors": [
+        "Sprawdź pierwszy wylot przewodu pod szronem. Porównaj go z zaworem na niższym tarasie."
+      ],
+      "quests": {
+        "frontier-aether-zrodla": {
+          "questId": "frontier-aether-zrodla",
+          "before": "Stary przewód grzewczy kończy się w oblodzonym kamieniu. Hakuo znalazł cieplejszy ślad na dolnym tarasie i potrzebuje drugiej pary oczu.",
+          "during": "Sprawdź pierwszy wylot przewodu pod szronem. Porównaj go z zaworem na niższym tarasie.",
+          "after": "Ciepło uciekało do odciętego skrzydła. Zamknę obejście, zanim pęknie kolejny przewód."
+        }
+      }
+    },
+    "frontier-pyra-dzwon-npc": {
+      "npcId": "frontier-pyra-dzwon-npc",
+      "npcName": "Mavren",
+      "role": "Dozorca dzwonów lawowych",
+      "greetings": [
+        "Z wygasłej czuwalni znów słychać dzwon. Mavren znalazł świeże ślady łap i metalową taśmę, której używano do alarmów o spływie lawy."
+      ],
+      "rumors": [
+        "Obejrzyj podstawę dzwonnicy i prowadnicę sygnału."
+      ],
+      "quests": {
+        "frontier-pyra-dzwon": {
+          "questId": "frontier-pyra-dzwon",
+          "before": "Z wygasłej czuwalni znów słychać dzwon. Mavren znalazł świeże ślady łap i metalową taśmę, której używano do alarmów o spływie lawy.",
+          "during": "Obejrzyj podstawę dzwonnicy i prowadnicę sygnału.",
+          "after": "Mechanizm odbija od pękniętej prowadnicy. Naprawię go przed następnym alarmem. Tym razem służba usłyszy prawdziwy sygnał."
+        }
+      }
+    },
+    "frontier-pyra-karawana-npc": {
+      "npcId": "frontier-pyra-karawana-npc",
+      "npcName": "Ressa",
+      "role": "Wozaczka z Popielnego Szlaku",
+      "greetings": [
+        "Wóz z wodą zniknął pod zielonym płomieniem siarki. Ressa odnalazła koło i rzemienie po wyładunku. Coś tu nie pasuje do opowieści o rabunku."
+      ],
+      "rumors": [
+        "Rozpoznaj ślady osi i ślady przenoszenia dzbanów przy postoju."
+      ],
+      "quests": {
+        "frontier-pyra-karawana": {
+          "questId": "frontier-pyra-karawana",
+          "before": "Wóz z wodą zniknął pod zielonym płomieniem siarki. Ressa odnalazła koło i rzemienie po wyładunku. Coś tu nie pasuje do opowieści o rabunku.",
+          "during": "Rozpoznaj ślady osi i ślady przenoszenia dzbanów przy postoju.",
+          "after": "Rozlali wodę na wrzący kamień, żeby uwolnić zaprzęg. Rozliczę przewóz jako akcję ratunkową. Nikt nie będzie za to płacił."
+        }
+      }
+    },
+    "frontier-nexus-kanal-npc": {
+      "npcId": "frontier-nexus-kanal-npc",
+      "npcName": "IRIS-12",
+      "role": "Techniczka przekaźników terenowych",
+      "greetings": [
+        "Kanał zgłasza awarię z węzła, którego nie ma w rejestrze. IRIS-12 znalazła pętlę kabli i drugi rejestrator poza głównym obwodem."
+      ],
+      "rumors": [
+        "Prześledź przewód od rozdzielnicy do starego rejestratora."
+      ],
+      "quests": {
+        "frontier-nexus-kanal": {
+          "questId": "frontier-nexus-kanal",
+          "before": "Kanał zgłasza awarię z węzła, którego nie ma w rejestrze. IRIS-12 znalazła pętlę kabli i drugi rejestrator poza głównym obwodem.",
+          "during": "Prześledź przewód od rozdzielnicy do starego rejestratora.",
+          "after": "Numer należał do ekipy budowlanej. Ich sygnał zapiszę pod prawdziwymi imionami i przeniosę na aktualną listę alarmową."
+        }
+      }
+    },
+    "frontier-nexus-obwod-npc": {
+      "npcId": "frontier-nexus-obwod-npc",
+      "npcName": "KER-17",
+      "role": "Opiekun zapisu zmian",
+      "greetings": [
+        "Automaty wciąż zamykają bramę po odczytaniu spóźnionego meldunku z nieczynnej stacji. KER-17 chce rozpoznać autora i odzyskać sprawny zapis."
+      ],
+      "rumors": [
+        "Sprawdź znak ostatniej zmiany przy pulpicie odpraw."
+      ],
+      "quests": {
+        "frontier-nexus-obwod": {
+          "questId": "frontier-nexus-obwod",
+          "before": "Automaty wciąż zamykają bramę po odczytaniu spóźnionego meldunku z nieczynnej stacji. KER-17 chce rozpoznać autora i odzyskać sprawny zapis.",
+          "during": "Sprawdź znak ostatniej zmiany przy pulpicie odpraw.",
+          "after": "Zapis kończy się poleceniem ręcznego otwarcia bramy. Dołączę je do raportu. Następna zmiana nie zostanie po złej stronie."
+        }
+      }
+    }
+  }
+}

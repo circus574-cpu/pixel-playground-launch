@@ -1928,6 +1928,235 @@
       "itemCount": 1,
       "factionId": "F-L",
       "factionAmount": 100
+    },
+    "frontier-verdant-listonoszka": {
+      "id": "frontier-verdant-listonoszka",
+      "title": "Listy, które nie odpłynęły",
+      "continent": "verdant",
+      "category": "side",
+      "minLevel": 3,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 80,
+      "coins": 35,
+      "frontierStages": [
+        [
+          {
+            "id": "frontier-verdant-listonoszka-clue",
+            "count": 1
+          }
+        ],
+        [
+          {
+            "id": "frontier-verdant-listonoszka-retrieve",
+            "count": 1,
+            "treasureId": "frontier-verdant-listonoszka-cache"
+          }
+        ]
+      ]
+    },
+    "frontier-verdant-studnia": {
+      "id": "frontier-verdant-studnia",
+      "title": "Drzewo rośnie w dół",
+      "continent": "verdant",
+      "category": "side",
+      "minLevel": 5,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 115,
+      "coins": 35,
+      "frontierStages": [
+        [
+          {
+            "id": "frontier-verdant-studnia-clue",
+            "count": 1
+          }
+        ],
+        [
+          {
+            "id": "frontier-verdant-studnia-trace",
+            "count": 1
+          }
+        ]
+      ]
+    },
+    "frontier-aether-igla": {
+      "id": "frontier-aether-igla",
+      "title": "Godzina wyjęta z nieba",
+      "continent": "aether",
+      "category": "side",
+      "minLevel": 5,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 115,
+      "coins": 35,
+      "frontierStages": [
+        [
+          {
+            "id": "frontier-aether-igla-clue",
+            "count": 1
+          },
+          {
+            "id": "frontier-aether-igla-hunt",
+            "count": 1,
+            "spawnId": "frontier-aether-igla-guard-1"
+          }
+        ],
+        [
+          {
+            "id": "frontier-aether-igla-retrieve",
+            "count": 1,
+            "treasureId": "frontier-aether-igla-cache"
+          }
+        ]
+      ]
+    },
+    "frontier-aether-zrodla": {
+      "id": "frontier-aether-zrodla",
+      "title": "Ciepło pod śniegiem",
+      "continent": "aether",
+      "category": "side",
+      "minLevel": 6,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 115,
+      "coins": 35,
+      "frontierStages": [
+        [
+          {
+            "id": "frontier-aether-zrodla-clue",
+            "count": 1
+          }
+        ],
+        [
+          {
+            "id": "frontier-aether-zrodla-trace",
+            "count": 1
+          }
+        ]
+      ]
+    },
+    "frontier-pyra-dzwon": {
+      "id": "frontier-pyra-dzwon",
+      "title": "Uderzenie po Ciszy",
+      "continent": "pyra",
+      "category": "side",
+      "minLevel": 5,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 115,
+      "coins": 35,
+      "frontierStages": [
+        [
+          {
+            "id": "frontier-pyra-dzwon-clue",
+            "count": 1
+          },
+          {
+            "id": "frontier-pyra-dzwon-hunt",
+            "count": 1,
+            "spawnId": "frontier-pyra-dzwon-guard-1"
+          }
+        ],
+        [
+          {
+            "id": "frontier-pyra-dzwon-retrieve",
+            "count": 1,
+            "treasureId": "frontier-pyra-dzwon-cache"
+          }
+        ]
+      ]
+    },
+    "frontier-pyra-karawana": {
+      "id": "frontier-pyra-karawana",
+      "title": "Cena jednego dzbana",
+      "continent": "pyra",
+      "category": "side",
+      "minLevel": 6,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 115,
+      "coins": 35,
+      "frontierStages": [
+        [
+          {
+            "id": "frontier-pyra-karawana-clue",
+            "count": 1
+          }
+        ],
+        [
+          {
+            "id": "frontier-pyra-karawana-retrieve",
+            "count": 1,
+            "treasureId": "frontier-pyra-karawana-cache"
+          }
+        ]
+      ]
+    },
+    "frontier-nexus-kanal": {
+      "id": "frontier-nexus-kanal",
+      "title": "Numer, którego brakowało",
+      "continent": "nexus",
+      "category": "side",
+      "minLevel": 6,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 115,
+      "coins": 35,
+      "frontierStages": [
+        [
+          {
+            "id": "frontier-nexus-kanal-clue",
+            "count": 1
+          }
+        ],
+        [
+          {
+            "id": "frontier-nexus-kanal-retrieve",
+            "count": 1,
+            "treasureId": "frontier-nexus-kanal-cache"
+          }
+        ]
+      ]
+    },
+    "frontier-nexus-obwod": {
+      "id": "frontier-nexus-obwod",
+      "title": "Odprawa po awarii",
+      "continent": "nexus",
+      "category": "side",
+      "minLevel": 5,
+      "prereqs": [],
+      "repeatable": false,
+      "stageCount": 2,
+      "xp": 115,
+      "coins": 35,
+      "frontierStages": [
+        [
+          {
+            "id": "frontier-nexus-obwod-clue",
+            "count": 1
+          },
+          {
+            "id": "frontier-nexus-obwod-hunt",
+            "count": 1,
+            "spawnId": "frontier-nexus-obwod-guard-1"
+          }
+        ],
+        [
+          {
+            "id": "frontier-nexus-obwod-retrieve",
+            "count": 1,
+            "treasureId": "frontier-nexus-obwod-cache"
+          }
+        ]
+      ]
     }
   },
   "speciesDrops": {

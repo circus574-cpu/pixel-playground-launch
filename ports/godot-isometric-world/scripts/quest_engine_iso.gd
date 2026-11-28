@@ -65,6 +65,12 @@ func load_data() -> void:
 	if not (parsed is Dictionary):
 		return
 	var d: Dictionary = parsed as Dictionary
+	var frontier_path := "res://data/quests_wilderness.json"
+	if FileAccess.file_exists(frontier_path):
+		var frontier: Variant = JSON.parse_string(FileAccess.get_file_as_string(frontier_path))
+		if frontier is Dictionary:
+			(d["quests"] as Array).append_array(frontier.get("quests", []))
+			(d["dialogues"] as Dictionary).merge(frontier.get("dialogues", {}))
 	for q_v: Variant in d.get("quests", []):
 		if not (q_v is Dictionary):
 			continue
@@ -72,7 +78,7 @@ func load_data() -> void:
 		if not bool(q.get("playableInCurrentRuntime", false)):
 			continue
 		var qid := str(q.get("id", ""))
-		if qid.is_empty():
+		if qid.is_empty() or quests_by_id.has(qid):
 			continue
 		quests_by_id[qid] = q
 		playable_quests.append(q)
@@ -229,7 +235,7 @@ func on_talk_to_npc(iso_actor_id: String, iso_name: String) -> Array[String]:
 		_refresh_npc_markers()
 	return advanced
 
-func on_monster_killed(actor_id: String, land: String) -> void:
+func on_monster_killed(actor_id: String, land: String, spawn_id: String = "") -> void:
 	if actor_id.is_empty():
 		return
 	var any_changed := false
@@ -248,6 +254,9 @@ func on_monster_killed(actor_id: String, land: String) -> void:
 				continue
 			var tid := str(ob.get("targetId", ""))
 			var ob_cont := str(ob.get("continent", ""))
+			var specific_spawn := str(ob.get("targetSpawnId", ""))
+			if not specific_spawn.is_empty() and (specific_spawn != spawn_id or ob_cont != land):
+				continue
 			if tid == actor_id or (tid.is_empty() and (ob_cont.is_empty() or ob_cont == land)):
 				counts[oid] = mini(need, int(counts.get(oid, 0)) + 1)
 				changed = true
@@ -271,7 +280,7 @@ func on_hero_position(pos: Vector2, land: String) -> void:
 		var changed := false
 		for ob: Dictionary in st.get("objectives", []):
 			var otype := str(ob.get("type", ""))
-			if otype != "discover" and otype != "visit":
+			if otype not in ["discover", "visit", "retrieve"]:
 				continue
 			var ob_cont := str(ob.get("continent", ""))
 			if not ob_cont.is_empty() and ob_cont != land:
@@ -280,12 +289,19 @@ func on_hero_position(pos: Vector2, land: String) -> void:
 			var need := maxi(1, int(ob.get("targetCount", 1)))
 			if int(counts.get(oid, 0)) >= need:
 				continue
-			var target_p := _resolve_objective_world_pos(ob, land)
-			if pos.distance_to(target_p) <= 135.0:
-				counts[oid] = need
-				changed = true
-				discovered_places[str(ob.get("targetId", oid))] = true
-				world.show_combat_toast("✦ Odkryto: %s!" % str(ob.get("description", "Lokacja")), Color(0.46, 0.98, 0.82))
+			var target_id := str(ob.get("targetId", oid))
+			if otype == "retrieve":
+				if not world.is_treasure_opened(target_id):
+					continue
+			else:
+				var radius := float(ob.get("activationRadius", 135.0))
+				if pos.distance_to(_resolve_objective_world_pos(ob, land)) > radius:
+					continue
+				discovered_places[target_id] = true
+			counts[oid] = need
+			changed = true
+			var feedback := "✦ Odzyskano przedmiot zadania" if otype == "retrieve" else "✦ Odkryto: %s!" % str(ob.get("description", "Lokacja"))
+			world.show_combat_toast(feedback, Color(0.46, 0.98, 0.82))
 		if changed:
 			any_changed = true
 			_check_stage_progression(qid)
@@ -327,12 +343,19 @@ func complete_quest(qid: String) -> bool:
 	if not active_quests.has(qid) or not quests_by_id.has(qid):
 		return false
 	var q: Dictionary = quests_by_id[qid]
+	if q.get("frontier", false) and not is_quest_ready_to_turn_in(qid):
+		return false
 	var aq: Dictionary = active_quests[qid]
 	var cont := str(q.get("continent", "pyra"))
 	var rew: Dictionary = q.get("rewards", {}) if q.get("rewards") is Dictionary else {}
 	var rxp := int(rew.get("xp", 120))
 	var rgold := int(rew.get("gold", 55))
 	var rep := int(rew.get("reputation", 25))
+	if q.get("frontier", false):
+		var reward: Dictionary = q.get("reward", {})
+		rxp = int(reward["xp"])
+		rgold = int(reward["coins"])
+		rep = 0
 	completed_quests[qid] = true
 	active_quests.erase(qid)
 	tracked_ids.erase(qid)

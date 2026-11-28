@@ -1,0 +1,98 @@
+{
+  "verdant": [
+    {
+      "key": "listonoszka", "hint": [-1120, 470], "level": 3,
+      "place": "Przeprawa Porzuconych Listów", "quest": "Listy, które nie odpłynęły",
+      "npc": "Ilyna", "role": "Listonoszka rzeczna", "actor": "verdant.npc.keeper",
+      "summary": "Ilyna odnalazła korespondencję z domów wykreślonych z planu doliny. Przy zwalonym przyczółku wciąż czeka worek z ostatniego kursu.",
+      "clue": "Obejrzyj kamień z nacięciami wskazującymi dawny poziom rzeki.",
+      "ending": "Teraz wiem, do kogo należał każdy list. Dostarczę je, choćbym miała przejść całą rzekę pieszo.",
+      "model": "prop_ruined_archway.webp", "decor": ["verdant_hollow_stump.webp", "verdant_moss_shrine.webp", "0df45d9a-verdantia-extra-cart.webp"],
+      "cache": "Worek z niedoręczoną pocztą", "material": "mat_amber", "focus": "recover",
+      "enemies": [["verdant-cierniowy-wilk", 3, false, "Wilk z porzuconej przeprawy"], ["verdant-mchowy-szlamak", 1, false, "Szlamak znad rozlewiska"]]
+    },
+    {
+      "key": "studnia", "hint": [1000, -405], "level": 5,
+      "place": "Studnia Długiego Korzenia", "quest": "Drzewo rośnie w dół",
+      "npc": "Lir", "role": "Opiekun zdziczałego sadu", "actor": "verdant.npc.hunter",
+      "summary": "W nieczynnym sadzie obręcze studni zarosły od środka. Lir chce sprawdzić, czy krzewy zasila rzeka, czy przestrzeń pod starym kamiennym kręgiem.",
+      "clue": "Porównaj układ korzeni przy obręczy studni i na odsłoniętej skarpie.",
+      "ending": "To nie studnia wyschła. Korzenie zabrały wodę do porzuconego sadu. Lepiej zapiszmy, gdzie wolno tu kopać.",
+      "model": "verdant_druid_dolmen.webp", "decor": ["verdant_sakura_lantern.webp", "verdant_glow_mushrooms.webp", "verdant_hollow_stump.webp"],
+      "cache": "Kapsuła nasion spod studni", "material": "mat_amber", "focus": "survey",
+      "enemies": [["verdant-lisciak-skrytobojca", 5, true, "Stróż Długiego Korzenia"]]
+    }
+  ],
+  "aether": [
+    {
+      "key": "igla", "hint": [-1150, 280], "level": 5,
+      "place": "Obserwatorium Czarnej Igły", "quest": "Godzina wyjęta z nieba",
+      "npc": "Natsue", "role": "Wędrowna astronomka", "actor": "aether.npc.keeper",
+      "summary": "Cień igły wskazuje od świtu tę samą godzinę. Natsue szuka starego zwierciadła, zanim kryształowy rój zmieni położenie jego odłamków.",
+      "clue": "Odczytaj znak kierunku na podstawie Czarnej Igły.",
+      "ending": "Zwierciadło nie zatrzymało czasu. Oszroniony pryzmat kładł drugi cień na podziałce. Zapiszmy obie godziny w dzienniku stacji.",
+      "model": "aether_snow_obelisk.webp", "decor": ["aether_astrolabe.webp", "aether_ice_crystals.webp", "aether-snow-shrine.webp"],
+      "cache": "Futerał zapasowego zwierciadła", "material": "mat_lightdust", "focus": "hunt",
+      "enemies": [["aether-krysztalowy-motyl", 5, true, "Lustrzany Motyl"], ["aether-pergaminowy-straznik", 3, false, "Starty Zapis z Obserwatorium"]]
+    },
+    {
+      "key": "zrodla", "hint": [520, 1050], "level": 6,
+      "place": "Źródło pod Szronem", "quest": "Ciepło pod śniegiem",
+      "npc": "Hakuo", "role": "Dozorca przewodów źródlanych", "actor": "aether.npc.hunter",
+      "summary": "Stary przewód grzewczy kończy się w oblodzonym kamieniu. Hakuo znalazł cieplejszy ślad na dolnym tarasie i potrzebuje drugiej pary oczu.",
+      "clue": "Sprawdź pierwszy wylot przewodu pod szronem. Porównaj go z zaworem na niższym tarasie.",
+      "ending": "Ciepło uciekało do odciętego skrzydła. Zamknę obejście, zanim pęknie kolejny przewód.",
+      "model": "aether_hot_spring.webp", "decor": ["aether_marble_aqueduct.webp", "aether_snow_gazebo.webp", "aether_ice_crystals.webp"],
+      "cache": "Puszka narzędzi Hakuo", "material": "mat_lightdust", "focus": "survey",
+      "enemies": [["aether-szmaragdowy-waz", 6, false, "Wąż z nagrzanego tarasu"]]
+    }
+  ],
+  "pyra": [
+    {
+      "key": "dzwon", "hint": [-545, -1020], "level": 5,
+      "place": "Czuwalnia Siódmego Dzwonu", "quest": "Uderzenie po Ciszy",
+      "npc": "Mavren", "role": "Dozorca dzwonów lawowych", "actor": "pyra.npc.warden",
+      "summary": "Z wygasłej czuwalni znów słychać dzwon. Mavren znalazł świeże ślady łap i metalową taśmę, której używano do alarmów o spływie lawy.",
+      "clue": "Obejrzyj podstawę dzwonnicy i prowadnicę sygnału.",
+      "ending": "Mechanizm odbija od pękniętej prowadnicy. Naprawię go przed następnym alarmem. Tym razem służba usłyszy prawdziwy sygnał.",
+      "model": "pyra_obsidian_monolith.webp", "decor": ["pyra_war_totem.webp", "pyra_charred_ironwood.webp", "pyra_magma_geyser.webp"],
+      "cache": "Skrzynka stroiciela dzwonu", "material": "mat_obsidian", "focus": "hunt",
+      "enemies": [["pyra-popielny-wilk", 5, true, "Popielny Wilk spod Dzwonnicy"], ["pyra-ognista-salamandra", 3, false, "Salamandra ze szczeliny"]]
+    },
+    {
+      "key": "karawana", "hint": [1140, 630], "level": 6,
+      "place": "Postój Pękniętych Cystern", "quest": "Cena jednego dzbana",
+      "npc": "Ressa", "role": "Wozaczka z Popielnego Szlaku", "actor": "pyra.npc.hunter",
+      "summary": "Wóz z wodą zniknął pod zielonym płomieniem siarki. Ressa odnalazła koło i rzemienie po wyładunku. Coś tu nie pasuje do opowieści o rabunku.",
+      "clue": "Rozpoznaj ślady osi i ślady przenoszenia dzbanów przy postoju.",
+      "ending": "Rozlali wodę na wrzący kamień, żeby uwolnić zaprzęg. Rozliczę przewóz jako akcję ratunkową. Nikt nie będzie za to płacił.",
+      "model": "043aaba1-pyra-continent-cart.webp", "decor": ["87b33732-pyra-continent-supplies.webp", "prop_camp_tent.webp", "pyra_sulfur_boulders.webp"],
+      "cache": "Zapieczętowana księga przewozowa", "material": "mat_ember", "focus": "recover",
+      "enemies": [["pyra-skalny-berserker", 6, false, "Berserker z siarkowego postoju"], ["pyra-popielny-wilk", 4, false, "Wilk z wyschniętego zbiornika"]]
+    }
+  ],
+  "nexus": [
+    {
+      "key": "kanal", "hint": [-1120, 460], "level": 6,
+      "place": "Kanał bez Sygnału", "quest": "Numer, którego brakowało",
+      "npc": "IRIS-12", "role": "Techniczka przekaźników terenowych", "actor": "nexus.npc.alchemist",
+      "summary": "Kanał zgłasza awarię z węzła, którego nie ma w rejestrze. IRIS-12 znalazła pętlę kabli i drugi rejestrator poza głównym obwodem.",
+      "clue": "Prześledź przewód od rozdzielnicy do starego rejestratora.",
+      "ending": "Numer należał do ekipy budowlanej. Ich sygnał zapiszę pod prawdziwymi imionami i przeniosę na aktualną listę alarmową.",
+      "model": "nexus_reactor_ruin.webp", "decor": ["006e9795-nexus-continent-terminal.webp", "nexus_plasma_pylon.webp", "nexus_cargo_stack.webp"],
+      "cache": "Bęben kopii dziennika technicznego", "material": "mat_coil", "focus": "recover",
+      "enemies": [["nexus-pajak-spawalniczy", 6, false, "Pająk ze zwartego obwodu"], ["nexus-pelzacz-serwisowy", 3, false, "Pełzacz zaślepki"]]
+    },
+    {
+      "key": "obwod", "hint": [1000, -545], "level": 5,
+      "place": "Stacja Ostatniej Zmiany", "quest": "Odprawa po awarii",
+      "npc": "KER-17", "role": "Opiekun zapisu zmian", "actor": "nexus.npc.hunter",
+      "summary": "Automaty wciąż zamykają bramę po odczytaniu spóźnionego meldunku z nieczynnej stacji. KER-17 chce rozpoznać autora i odzyskać sprawny zapis.",
+      "clue": "Sprawdź znak ostatniej zmiany przy pulpicie odpraw.",
+      "ending": "Zapis kończy się poleceniem ręcznego otwarcia bramy. Dołączę je do raportu. Następna zmiana nie zostanie po złej stronie.",
+      "model": "nexus_holo_monolith.webp", "decor": ["nexus_hover_wreck.webp", "nexus_solar_dish.webp", "nexus_cargo_stack.webp"],
+      "cache": "Archiwum odpraw z czarnej skrzynki", "material": "mat_plasma", "focus": "hunt",
+      "enemies": [["nexus-skaner-gasienicowy", 5, true, "Skaner Warty KER"], ["nexus-pelzacz-serwisowy", 2, false, "Pełzacz z terminala odpraw"]]
+    }
+  ]
+}

@@ -3802,6 +3802,34 @@
         -383.84,
         911.34
       ]
+    },
+    {
+      "id": "frontier-verdant-listonoszka",
+      "title": "Przeprawa Porzuconych Listów",
+      "role": "landmark",
+      "map_kind": "landmark",
+      "enterable": false,
+      "sprite": "res://assets/library/props/prop_ruined_archway.webp",
+      "w": 365,
+      "h": 390,
+      "footprint_r": 14.0,
+      "x": -1118.18,
+      "z": 284.56,
+      "y": 17.94
+    },
+    {
+      "id": "frontier-verdant-studnia",
+      "title": "Studnia Długiego Korzenia",
+      "role": "landmark",
+      "map_kind": "landmark",
+      "enterable": false,
+      "sprite": "res://assets/biomes/verdant_druid_dolmen.webp",
+      "w": 365,
+      "h": 390,
+      "footprint_r": 14.0,
+      "x": 1118.18,
+      "z": -541.06,
+      "y": 15.77
     }
   ],
   "npcs": [
@@ -4008,6 +4036,30 @@
       "z": -1043.54,
       "patrol_radius": 16.0,
       "quest_mark": ""
+    },
+    {
+      "id": "frontier-verdant-listonoszka-npc",
+      "quest_npc_id": "frontier-verdant-listonoszka-npc",
+      "actor_id": "verdant.npc.keeper",
+      "name": "Ilyna",
+      "role": "Listonoszka rzeczna",
+      "quest_mark": "",
+      "patrol_radius": 0.0,
+      "x": -1005.96,
+      "z": 180.35,
+      "y": 16.74
+    },
+    {
+      "id": "frontier-verdant-studnia-npc",
+      "quest_npc_id": "frontier-verdant-studnia-npc",
+      "actor_id": "verdant.npc.hunter",
+      "name": "Lir",
+      "role": "Opiekun zdziczałego sadu",
+      "quest_mark": "",
+      "patrol_radius": 0.0,
+      "x": 965.89,
+      "z": -573.12,
+      "y": 16.37
     }
   ],
   "exp_zones": [
@@ -7109,6 +7161,50 @@
       "z": -818.8,
       "y": 19.62,
       "patrol_radius": 28.0,
+      "is_elite": true,
+      "scale_mult": 1.38
+    },
+    {
+      "id": "frontier-verdant-listonoszka-guard-1",
+      "actor_id": "verdant-cierniowy-wilk",
+      "name": "Wilk z porzuconej przeprawy",
+      "level": 3,
+      "hp": 320,
+      "atk": 30,
+      "xp": 54,
+      "gold": 25,
+      "x": -1206.36,
+      "z": 380.74,
+      "y": 18.06,
+      "patrol_radius": 20.0
+    },
+    {
+      "id": "frontier-verdant-listonoszka-guard-2",
+      "actor_id": "verdant-mchowy-szlamak",
+      "name": "Szlamak znad rozlewiska",
+      "level": 1,
+      "hp": 145,
+      "atk": 15,
+      "xp": 28,
+      "gold": 14,
+      "x": -1278.5,
+      "z": 396.77,
+      "y": 17.94,
+      "patrol_radius": 20.0
+    },
+    {
+      "id": "frontier-verdant-studnia-guard-1",
+      "actor_id": "verdant-lisciak-skrytobojca",
+      "name": "Stróż Długiego Korzenia",
+      "level": 5,
+      "hp": 640,
+      "atk": 52,
+      "xp": 260,
+      "gold": 115,
+      "x": 1246.43,
+      "z": -525.03,
+      "y": 16.13,
+      "patrol_radius": 20.0,
       "is_elite": true,
       "scale_mult": 1.38
     }
@@ -41889,6 +41985,66 @@
       "x": -833.46,
       "z": 1256.46,
       "y": 15.77
+    },
+    {
+      "id": "frontier-verdant-listonoszka-prop-1",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/verdant_hollow_stump.webp",
+      "w": 172,
+      "h": 196,
+      "x": -1046.04,
+      "z": 388.76,
+      "y": 17.34
+    },
+    {
+      "id": "frontier-verdant-listonoszka-prop-2",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/verdant_moss_shrine.webp",
+      "w": 172,
+      "h": 196,
+      "x": -1166.28,
+      "z": 156.31,
+      "y": 18.77
+    },
+    {
+      "id": "frontier-verdant-listonoszka-prop-3",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/0df45d9a-verdantia-extra-cart.webp",
+      "w": 172,
+      "h": 196,
+      "x": -1102.15,
+      "z": 436.85,
+      "y": 18.18
+    },
+    {
+      "id": "frontier-verdant-studnia-prop-1",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/verdant_sakura_lantern.webp",
+      "w": 172,
+      "h": 196,
+      "x": 1158.26,
+      "z": -661.29,
+      "y": 15.89
+    },
+    {
+      "id": "frontier-verdant-studnia-prop-2",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/verdant_glow_mushrooms.webp",
+      "w": 172,
+      "h": 196,
+      "x": 1054.06,
+      "z": -444.87,
+      "y": 15.29
+    },
+    {
+      "id": "frontier-verdant-studnia-prop-3",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/verdant_hollow_stump.webp",
+      "w": 172,
+      "h": 196,
+      "x": 1230.4,
+      "z": -637.24,
+      "y": 16.01
     }
   ],
   "labyrinths": [
@@ -42247,6 +42403,30 @@
       "x": 290.89,
       "z": 855.53,
       "y": 18.66
+    },
+    {
+      "id": "frontier-verdant-listonoszka-cache",
+      "title": "Worek z niedoręczoną pocztą",
+      "lore": "Ilyna odnalazła korespondencję z domów wykreślonych z planu doliny. Przy zwalonym przyczółku wciąż czeka worek z ostatniego kursu.",
+      "min_level": 3,
+      "item_id": "mat_amber",
+      "gold": 25,
+      "xp": 32,
+      "x": -1254.45,
+      "z": 364.71,
+      "y": 17.94
+    },
+    {
+      "id": "frontier-verdant-studnia-cache",
+      "title": "Kapsuła nasion spod studni",
+      "lore": "W nieczynnym sadzie obręcze studni zarosły od środka. Lir chce sprawdzić, czy krzewy zasila rzeka, czy przestrzeń pod starym kamiennym kręgiem.",
+      "min_level": 5,
+      "item_id": "mat_amber",
+      "gold": 25,
+      "xp": 32,
+      "x": 1262.47,
+      "z": -476.93,
+      "y": 16.25
     }
   ],
   "gatherables": [

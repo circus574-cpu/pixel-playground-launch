@@ -3136,6 +3136,8 @@ export function applyAndroidAction(
     case "quest_accept": {
       const qdef = androidPlayableQuest(action.questId);
       if (!qdef) throw new AndroidEconomyError("UNKNOWN_ITEM", "Nieznane zadanie fabularne.");
+      if (qdef.frontierStages && qdef.continent !== land)
+        throw new AndroidEconomyError("INVALID_ACTION", "Ta wyprawa należy do innej krainy.");
       if (state.completedQuests[qdef.id] && !qdef.repeatable)
         throw new AndroidEconomyError(
           "QUEST_ALREADY_COMPLETED",
@@ -3165,9 +3167,13 @@ export function applyAndroidAction(
     case "quest_sync_progress": {
       const qdef = androidPlayableQuest(action.questId);
       if (!qdef) throw new AndroidEconomyError("UNKNOWN_ITEM", "Nieznane zadanie fabularne.");
+      if (qdef.frontierStages && qdef.continent !== land)
+        throw new AndroidEconomyError("INVALID_ACTION", "Ta wyprawa należy do innej krainy.");
       if (!state.activeQuests[qdef.id]) {
         if (state.completedQuests[qdef.id] && !qdef.repeatable)
           throw new AndroidEconomyError("QUEST_ALREADY_COMPLETED", "To zadanie już ukończono.");
+        if (qdef.frontierStages)
+          throw new AndroidEconomyError("GOAL_NOT_MET", "Najpierw przyjmij wyprawę u zwiadowcy.");
         if (level < qdef.minLevel)
           throw new AndroidEconomyError("GOAL_NOT_MET", `Wymagany poziom ${qdef.minLevel}.`);
         state.activeQuests[qdef.id] = { stage: 0, progress: {} };
@@ -3176,10 +3182,29 @@ export function applyAndroidAction(
       for (const [k, v] of Object.entries(action.progress).slice(0, 16)) {
         cleanProg[k] = clampInt(v, 0, 999, 0);
       }
-      state.activeQuests[qdef.id] = {
-        stage: clampInt(action.stage, 0, Math.max(0, qdef.stageCount - 1), 0),
-        progress: cleanProg,
-      };
+      let stage = clampInt(action.stage, 0, Math.max(0, qdef.stageCount - 1), 0);
+      let progress = cleanProg;
+      if (qdef.frontierStages) {
+        const saved = state.activeQuests[qdef.id]!;
+        stage = Math.max(stage, saved.stage);
+        progress = {};
+        if (action.complete && stage !== qdef.frontierStages.length - 1)
+          throw new AndroidEconomyError("GOAL_NOT_MET", "Wyprawa ma dalsze etapy.");
+        for (let index = 0; index < qdef.frontierStages.length; index += 1) {
+          for (const objective of qdef.frontierStages[index]!) {
+            const persisted = saved.progress[objective.id] ?? 0;
+            let count = Math.max(persisted, cleanProg[objective.id] ?? 0);
+            if (objective.spawnId) count = persisted;
+            if (objective.treasureId)
+              count = state.progress.openedTreasures.includes(objective.treasureId) ? 1 : 0;
+            if ((index < stage || action.complete) && count < objective.count)
+              throw new AndroidEconomyError("GOAL_NOT_MET", "Pozostały nieukończone cele wyprawy.");
+            if (index <= stage && count > 0)
+              progress[objective.id] = Math.min(count, objective.count);
+          }
+        }
+      }
+      state.activeQuests[qdef.id] = { stage, progress };
       if (action.complete) {
         const firstTime = !state.completedQuests[qdef.id];
         delete state.activeQuests[qdef.id];
@@ -3368,6 +3393,16 @@ export function applyAndroidAction(
             "Ten przeciwnik jeszcze się nie odrodził.",
           );
         recentDefeats[key] = nowMs;
+        if (action.targetId.startsWith("frontier-")) {
+          for (const [questId, active] of Object.entries(state.activeQuests)) {
+            const quest = androidPlayableQuest(questId);
+            const objective = quest?.frontierStages?.[active.stage]?.find(
+              (step) => step.spawnId === action.targetId,
+            );
+            if (objective && quest?.continent === land)
+              active.progress[objective.id] = objective.count;
+          }
+        }
       }
 
       const recent = state.progress.recentKillTimes.filter(

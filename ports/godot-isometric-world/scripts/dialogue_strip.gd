@@ -227,6 +227,10 @@ func open_dialogue(npc: Dictionary) -> void:
 		actor.hide_bubble()
 
 	var greeting := _greeting_for(n_name, n_role, land, bool(npc.get("is_interior", false)))
+	var authored := _authored_dialogue(str(npc.get("id", "")))
+	var greetings: Array = authored.get("greetings", [])
+	if not greetings.is_empty():
+		greeting = str(greetings[0])
 	if world != null and world.get("quest_engine") != null and not bool(npc.get("is_interior", false)):
 		var adv: Array = world.quest_engine.on_talk_to_npc(str(npc.get("id", "")), n_name)
 		if not adv.is_empty():
@@ -278,6 +282,11 @@ func _greeting_for(n_name: String, n_role: String, land: String, is_int: bool) -
 		return "Witaj ponownie! Jako %s czekam na wieści z okolicy. Jeśli sprawdziłeś już szlaki, odbierz swoją nagrodę." % n_role
 	return "Witaj, podróżniku! Jestem %s (%s). %s" % [n_name, n_role, pick_ambient_bark(land, n_role, n_name.length())]
 
+func _authored_dialogue(npc_id: String) -> Dictionary:
+	if world == null or world.get("quest_engine") == null:
+		return {}
+	return world.quest_engine.dialogues_by_npc.get(npc_id, {})
+
 func _rebuild_choices() -> void:
 	for ch in choices_vbox.get_children():
 		choices_vbox.remove_child(ch)
@@ -287,6 +296,8 @@ func _rebuild_choices() -> void:
 	var name_s := str(active_npc.get("name", ""))
 	var role_s := str(active_npc.get("role", ""))
 	var npc_id := str(active_npc.get("id", ""))
+	var authored := _authored_dialogue(npc_id)
+	var quest_lines: Dictionary = authored.get("quests", {})
 
 	# 1) Inside building: Direct pill to open the functional Service Window!
 	if bool(active_npc.get("is_interior", false)):
@@ -310,8 +321,10 @@ func _rebuild_choices() -> void:
 			b_done.text = "? ODBIERZ: %s" % qt_d
 			_style_pill(b_done, Color(0.12, 0.30, 0.16, 0.98), Color(0.46, 0.98, 0.68, 0.98))
 			b_done.pressed.connect(func() -> void:
-				world.quest_engine.complete_quest(qid_d)
-				_set_text("Dobra robota, wędrowcze! Zadanie \"%s\" zostało zapisane w kronice." % str(q_done.get("title", qid_d)))
+				if world.quest_engine.complete_quest(qid_d):
+					var lines: Dictionary = quest_lines.get(qid_d, {})
+					var fallback := "Dobra robota, wędrowcze! Zadanie \"%s\" zostało zapisane w kronice." % str(q_done.get("title", qid_d))
+					_set_text(str(lines.get("after", fallback)))
 				_rebuild_choices()
 			)
 			choices_vbox.add_child(b_done)
@@ -323,11 +336,20 @@ func _rebuild_choices() -> void:
 			b_av.text = "! PRZYJMIJ: %s" % qt_a
 			_style_pill(b_av, Color(0.28, 0.20, 0.06, 0.96), Color(1.0, 0.84, 0.30, 0.98))
 			b_av.pressed.connect(func() -> void:
-				world.quest_engine.accept_quest(qid_a)
-				_set_text("Przyjęto: %s — %s" % [str(q_av.get("title", qid_a)), str(q_av.get("summary", ""))])
+				if world.quest_engine.accept_quest(qid_a):
+					var lines: Dictionary = quest_lines.get(qid_a, {})
+					_set_text("Przyjęto: %s — %s" % [str(q_av.get("title", qid_a)), str(lines.get("before", q_av.get("summary", "")))])
 				_rebuild_choices()
 			)
 			choices_vbox.add_child(b_av)
+
+	var rumors: Array = authored.get("rumors", [])
+	if not rumors.is_empty():
+		var b_clue := Button.new()
+		b_clue.text = "ZAPYTAJ O ŚLADY"
+		_style_pill(b_clue, Color(0.12, 0.21, 0.25, 0.96), Color(0.53, 0.84, 0.91, 0.98))
+		b_clue.pressed.connect(func() -> void: _set_text(str(rumors[0])))
+		choices_vbox.add_child(b_clue)
 
 	# 1b) Onboarding Guide Topics for City Guides / Mentors & Trainers
 	if not bool(active_npc.get("is_interior", false)) and (_is_guide_npc(name_s, role_s) or _is_trainer_npc(name_s, role_s)):

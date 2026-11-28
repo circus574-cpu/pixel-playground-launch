@@ -191,7 +191,10 @@ func run(world: TestWorld) -> void:
 	# 4. 102 PLAYABLE CANONICAL QUESTS + 14 WORLD EVENTS
 	# ==========================================================================
 	expect(world.quest_engine != null, "quest_engine_iso initialized on world")
-	expect(world.quest_engine.playable_quests.size() == 102, "all 102 playable canonical quests loaded (got %d)" % world.quest_engine.playable_quests.size())
+	var frontier: Array = world.quest_engine.playable_quests.filter(func(q: Dictionary) -> bool: return q.get("frontier", false))
+	var canonical: int = world.quest_engine.playable_quests.size() - frontier.size()
+	expect(canonical == 102, "all 102 playable canonical quests loaded (got %d)" % canonical)
+	expect(frontier.size() == 8, "all eight frontier adventures loaded")
 	var first_q: Dictionary = world.quest_engine.playable_quests[0]
 	var fqid := str(first_q.get("id", ""))
 	expect(world.quest_engine.accept_quest(fqid), "accept canonical quest " + fqid)

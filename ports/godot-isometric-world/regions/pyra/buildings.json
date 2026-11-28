@@ -3002,6 +3002,34 @@
         1361.07,
         286.11
       ]
+    },
+    {
+      "id": "frontier-pyra-dzwon",
+      "title": "Czuwalnia Siódmego Dzwonu",
+      "role": "landmark",
+      "map_kind": "landmark",
+      "enterable": false,
+      "sprite": "res://assets/biomes/pyra_obsidian_monolith.webp",
+      "w": 365,
+      "h": 390,
+      "footprint_r": 14.0,
+      "x": -677.32,
+      "z": -380.74,
+      "y": 17.27
+    },
+    {
+      "id": "frontier-pyra-karawana",
+      "title": "Postój Pękniętych Cystern",
+      "role": "landmark",
+      "map_kind": "landmark",
+      "enterable": false,
+      "sprite": "res://assets/objects/043aaba1-pyra-continent-cart.webp",
+      "w": 365,
+      "h": 390,
+      "footprint_r": 14.0,
+      "x": -180.35,
+      "z": 669.31,
+      "y": 20.54
     }
   ],
   "npcs": [
@@ -3198,6 +3226,30 @@
       "z": -142.54,
       "patrol_radius": 16.0,
       "quest_mark": ""
+    },
+    {
+      "id": "frontier-pyra-dzwon-npc",
+      "quest_npc_id": "frontier-pyra-dzwon-npc",
+      "actor_id": "pyra.npc.warden",
+      "name": "Mavren",
+      "role": "Dozorca dzwonów lawowych",
+      "quest_mark": "",
+      "patrol_radius": 0.0,
+      "x": -549.07,
+      "z": -292.57,
+      "y": 22.05
+    },
+    {
+      "id": "frontier-pyra-karawana-npc",
+      "quest_npc_id": "frontier-pyra-karawana-npc",
+      "actor_id": "pyra.npc.hunter",
+      "name": "Ressa",
+      "role": "Wozaczka z Popielnego Szlaku",
+      "quest_mark": "",
+      "patrol_radius": 0.0,
+      "x": -76.15,
+      "z": 565.1,
+      "y": 22.43
     }
   ],
   "exp_zones": [
@@ -6301,6 +6353,64 @@
       "patrol_radius": 28.0,
       "is_elite": true,
       "scale_mult": 1.38
+    },
+    {
+      "id": "frontier-pyra-dzwon-guard-1",
+      "actor_id": "pyra-popielny-wilk",
+      "name": "Popielny Wilk spod Dzwonnicy",
+      "level": 5,
+      "hp": 640,
+      "atk": 52,
+      "xp": 260,
+      "gold": 115,
+      "x": -789.54,
+      "z": -444.87,
+      "y": 17.5,
+      "patrol_radius": 20.0,
+      "is_elite": true,
+      "scale_mult": 1.38
+    },
+    {
+      "id": "frontier-pyra-dzwon-guard-2",
+      "actor_id": "pyra-ognista-salamandra",
+      "name": "Salamandra ze szczeliny",
+      "level": 3,
+      "hp": 320,
+      "atk": 30,
+      "xp": 54,
+      "gold": 25,
+      "x": -813.59,
+      "z": -517.01,
+      "y": 16.92,
+      "patrol_radius": 20.0
+    },
+    {
+      "id": "frontier-pyra-karawana-guard-1",
+      "actor_id": "pyra-skalny-berserker",
+      "name": "Berserker z siarkowego postoju",
+      "level": 6,
+      "hp": 833,
+      "atk": 76,
+      "xp": 100,
+      "gold": 46,
+      "x": -244.48,
+      "z": 773.51,
+      "y": 19.72,
+      "patrol_radius": 20.0
+    },
+    {
+      "id": "frontier-pyra-karawana-guard-2",
+      "actor_id": "pyra-popielny-wilk",
+      "name": "Wilk z wyschniętego zbiornika",
+      "level": 4,
+      "hp": 440,
+      "atk": 39,
+      "xp": 70,
+      "gold": 32,
+      "x": -324.63,
+      "z": 805.57,
+      "y": 18.67,
+      "patrol_radius": 20.0
     }
   ],
   "fauna": [
@@ -28693,6 +28803,66 @@
       "x": 157.98,
       "z": 902.0,
       "y": 15.75
+    },
+    {
+      "id": "frontier-pyra-dzwon-prop-1",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/pyra_war_totem.webp",
+      "w": 172,
+      "h": 196,
+      "x": -757.48,
+      "z": -284.56,
+      "y": 19.72
+    },
+    {
+      "id": "frontier-pyra-dzwon-prop-2",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/pyra_charred_ironwood.webp",
+      "w": 172,
+      "h": 196,
+      "x": -573.12,
+      "z": -444.87,
+      "y": 17.62
+    },
+    {
+      "id": "frontier-pyra-dzwon-prop-3",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/pyra_magma_geyser.webp",
+      "w": 172,
+      "h": 196,
+      "x": -821.6,
+      "z": -332.65,
+      "y": 20.77
+    },
+    {
+      "id": "frontier-pyra-karawana-prop-1",
+      "kind": "landmark",
+      "sprite": "res://assets/objects/87b33732-pyra-continent-supplies.webp",
+      "w": 172,
+      "h": 196,
+      "x": -92.18,
+      "z": 757.48,
+      "y": 20.42
+    },
+    {
+      "id": "frontier-pyra-karawana-prop-2",
+      "kind": "landmark",
+      "sprite": "res://assets/library/props/prop_camp_tent.webp",
+      "w": 172,
+      "h": 196,
+      "x": -252.49,
+      "z": 557.09,
+      "y": 19.72
+    },
+    {
+      "id": "frontier-pyra-karawana-prop-3",
+      "kind": "landmark",
+      "sprite": "res://assets/biomes/pyra_sulfur_boulders.webp",
+      "w": 172,
+      "h": 196,
+      "x": -140.27,
+      "z": 813.59,
+      "y": 18.55
     }
   ],
   "labyrinths": [
@@ -29051,6 +29221,30 @@
       "x": -1169.58,
       "z": -680.14,
       "y": 23.57
+    },
+    {
+      "id": "frontier-pyra-dzwon-cache",
+      "title": "Skrzynka stroiciela dzwonu",
+      "lore": "Z wygasłej czuwalni znów słychać dzwon. Mavren znalazł świeże ślady łap i metalową taśmę, której używano do alarmów o spływie lawy.",
+      "min_level": 5,
+      "item_id": "mat_obsidian",
+      "gold": 25,
+      "xp": 32,
+      "x": -781.53,
+      "z": -492.96,
+      "y": 17.15
+    },
+    {
+      "id": "frontier-pyra-karawana-cache",
+      "title": "Zapieczętowana księga przewozowa",
+      "lore": "Wóz z wodą zniknął pod zielonym płomieniem siarki. Ressa odnalazła koło i rzemienie po wyładunku. Coś tu nie pasuje do opowieści o rabunku.",
+      "min_level": 6,
+      "item_id": "mat_ember",
+      "gold": 25,
+      "xp": 32,
+      "x": -300.59,
+      "z": 773.51,
+      "y": 21.47
     }
   ],
   "gatherables": [

@@ -1514,9 +1514,10 @@ func build_world_objects_and_actors() -> void:
 			continue
 		var adef: Dictionary = actors_db[aid]
 		var n_name := str(n.get("name", "Mieszkaniec"))
+		var npc_id := str(n.get("quest_npc_id", aid))
 		var qm := str(n.get("quest_mark", ""))
 		if quest_engine != null:
-			var dyn_qm: String = quest_engine.marker_for_npc(aid, n_name, current_land)
+			var dyn_qm: String = quest_engine.marker_for_npc(npc_id, n_name, current_land)
 			if not dyn_qm.is_empty():
 				qm = dyn_qm
 		var npc_actor := ActorScript.new()
@@ -1537,7 +1538,8 @@ func build_world_objects_and_actors() -> void:
 		ysort.add_child(npc_actor)
 		live_agents.append({
 			"kind": "npc",
-			"id": aid,
+			"id": npc_id,
+			"actor_id": aid,
 			"name": n_name,
 			"role": str(n.get("role", "Obywatel")),
 			"quest_mark": qm,
@@ -2729,7 +2731,7 @@ func _apply_damage_to_agent(h_idx: int, raw_dmg: int, is_crit: bool, race_k: Str
 			if world_events != null:
 				world_events.on_agent_killed(str(target.get("id", "")))
 			if quest_engine != null:
-				quest_engine.on_monster_killed(str(target.get("actor_id", "")), current_land)
+				quest_engine.on_monster_killed(str(target.get("actor_id", "")), current_land, str(target.get("id", "")))
 		return true
 	elif is_instance_valid(mnode) and mnode.has_method("play_action"):
 		mnode.play_action("hit", "hit", 0.28)

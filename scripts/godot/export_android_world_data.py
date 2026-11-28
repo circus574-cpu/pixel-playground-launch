@@ -233,6 +233,9 @@ if __name__ == "__main__":
 
     # Export canonical Stage 4 metadata (8 bosses, 14 world events, 102 playable quests, 41 monster species loot, 6 islands)
     quests_raw = json.loads((DATA_DIR / "quests.json").read_text())
+    wilderness = DATA_DIR / "quests_wilderness.json"
+    if wilderness.is_file():
+        quests_raw["quests"].extend(json.loads(wilderness.read_text())["quests"])
     monsters_raw = json.loads((DATA_DIR / "monsters.json").read_text())["monsters"]
 
     bosses_meta = {}
@@ -292,6 +295,16 @@ if __name__ == "__main__":
             **({"itemId": str(rew["itemId"]), "itemCount": int(rew.get("itemCount", 1))} if rew.get("itemId") else {}),
             **({"factionId": str(fr["factionId"]), "factionAmount": int(fr["amount"])} if isinstance(fr, dict) else {}),
         }
+        if q.get("frontier"):
+            quests_meta[q["id"]]["frontierStages"] = [
+                [
+                    {"id": obj["id"], "count": int(obj.get("targetCount", 1)),
+                     **({"treasureId": obj["targetId"]} if obj["type"] == "retrieve" else {}),
+                     **({"spawnId": obj["targetSpawnId"]} if obj.get("targetSpawnId") else {})}
+                    for obj in stage["objectives"]
+                ]
+                for stage in q["stages"]
+            ]
 
     species_drops = {}
     for mid, md in monsters_raw.items():
