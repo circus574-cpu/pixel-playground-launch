@@ -33,9 +33,7 @@ const AdminWorldEditor = lazy(() =>
   })),
 );
 
-const AdminWorldOverview = lazy(() =>
-  import("@/components/admin/AdminWorldOverview").then((m) => ({ default: m.AdminWorldOverview })),
-);
+const AdminSuperiorOverview = lazy(() => import("@/components/admin/AdminSuperiorOverview"));
 
 const ROLE_NAME: Record<AppRole, string> = { admin: "administrator", gm: "game master" };
 const when = (iso: string | null) => (iso ? new Date(iso).toLocaleString("pl-PL") : "—");
@@ -85,7 +83,7 @@ function AdminPage() {
               ["players", "Konta i role"],
               ["monitoring", "Serwer"],
               ["content", "Świat i zawartość"],
-              ...(isAdmin ? [["world-overview", "Świat — przegląd"] as const] : []),
+              ...(isAdmin ? [["world-overview", "Świat Superior"] as const] : []),
               ["android", "Gra Android"],
               ["audit", "Dziennik"],
               ["logins", "Logowania"],
@@ -128,7 +126,7 @@ function AdminPage() {
         {tab === "logins" && <Logins />}
         {tab === "world-overview" && isAdmin && (
           <Suspense fallback={<p role="status">Wczytywanie przeglądu świata…</p>}>
-            <AdminWorldOverview />
+            <AdminSuperiorOverview token={account.session.access_token} />
           </Suspense>
         )}
         {tab === "content" && (

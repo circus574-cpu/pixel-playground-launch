@@ -1,4 +1,6 @@
 import { test, expect, type Page } from "@playwright/test";
+import type { AndroidAtlasSnapshot } from "../src/game/world/androidOverviewTypes";
+import { androidAtlasQa } from "./fixtures/androidAtlas";
 const emptyAdminWorldOverrides = () => ({
   version: 1,
   updatedAt: "2026-11-12T00:00:00Z",
@@ -71,7 +73,7 @@ test("anonymous visitors cannot open the complete administrator atlas", async ({
   });
   await page.goto("/admin?view=world-overview");
   await expect(page.getByRole("heading", { name: "Brak dostępu" })).toBeVisible();
-  await expect(page.getByRole("tab", { name: "Świat — przegląd", exact: true })).toHaveCount(0);
+  await expect(page.getByRole("tab", { name: "Świat Superior", exact: true })).toHaveCount(0);
   expect(requested).toEqual([]);
 });
 test("GM cannot see the owner-only overview", async ({ page }) => {
@@ -80,7 +82,7 @@ test("GM cannot see the owner-only overview", async ({ page }) => {
   await expect(
     page.getByRole("heading", { name: "Panel administracyjny", exact: true }),
   ).toBeVisible();
-  await expect(page.getByRole("tab", { name: "Świat — przegląd", exact: true })).toHaveCount(0);
+  await expect(page.getByRole("tab", { name: "Świat Superior", exact: true })).toHaveCount(0);
   await expect(page.getByTestId("world-overview-canvas")).toHaveCount(0);
 });
 for (const viewport of [
@@ -103,10 +105,11 @@ for (const viewport of [
       if (new URL(r.url()).pathname.startsWith("/game/worlds/")) worldRequests.push(r.url());
     });
     await page.goto("/admin?view=world-overview");
-    await expect(page.getByRole("tab", { name: "Świat — przegląd", exact: true })).toHaveAttribute(
+    await expect(page.getByRole("tab", { name: "Świat Superior", exact: true })).toHaveAttribute(
       "aria-selected",
       "true",
     );
+    await page.getByRole("button", { name: "Przeglądarka · Phaser" }).click();
     await expect(page.getByText("10/10", { exact: true })).toBeVisible();
     const overview = page.getByRole("region", { name: "Świat — przegląd", exact: true });
     await expect(overview.locator(".ki-overview-stats")).toContainText(/8\s?752/);
@@ -123,8 +126,8 @@ for (const viewport of [
     await expect(result).toBeVisible();
     await result.click();
     await expect(page.getByRole("combobox", { name: "Ląd na mapie" })).toHaveValue("verdant");
-    await expect(overview.locator(".ki-overview-detail")).toContainText(/28\s688/);
-    await expect(overview.locator(".ki-overview-detail")).toContainText(/31\s888/);
+    await expect(overview.locator(".ki-overview-detail")).toContainText(/28\s448/);
+    await expect(overview.locator(".ki-overview-detail")).toContainText(/31\s584/);
     await expect(overview.locator(".ki-overview-detail")).toContainText("Odrodzenie: 25 s");
     await page.getByRole("textbox", { name: "Szukaj na mapie świata" }).fill("npc-mio");
     await overview.locator('[data-entry-layer="npcs"]').first().click();
@@ -167,6 +170,7 @@ test("source errors are explicit and retry loads the verified world", async ({ p
     broken ? r.fulfill({ status: 503, body: "Temporary local QA error" }) : r.continue(),
   );
   await page.goto("/admin?view=world-overview");
+  await page.getByRole("button", { name: "Przeglądarka · Phaser" }).click();
   await expect(page.getByRole("alert")).toContainText("503");
   broken = false;
   await page.getByRole("button", { name: "Ponów odczyt świata" }).click();
@@ -178,6 +182,7 @@ test("tools: bounded scenery, coordinates export, pan, pinch and cancellation", 
 }) => {
   await session(page, ["admin"]);
   await page.goto("/admin?view=world-overview");
+  await page.getByRole("button", { name: "Przeglądarka · Phaser" }).click();
   await expect(page.getByText("10/10", { exact: true })).toBeVisible();
   await page.getByRole("textbox", { name: "Szukaj na mapie świata" }).fill("verdant-spawn-0");
   await page.locator('[data-entry-layer="spawns"][data-entry-id="verdant-spawn-0"]').click();
@@ -197,7 +202,7 @@ test("tools: bounded scenery, coordinates export, pan, pinch and cancellation", 
   expect(exported.world).toBe("superior-v2");
   expect(
     exported.entries.find((e: { sourceId: string }) => e.sourceId === "verdant-spawn-0"),
-  ).toMatchObject({ x: 28688, y: 31888, land: "verdant" });
+  ).toMatchObject({ x: 28448, y: 31584, land: "verdant" });
   const canvas = page.getByTestId("world-overview-canvas");
   await canvas.scrollIntoViewIfNeeded();
   const b = (await canvas.boundingBox())!;
@@ -241,6 +246,7 @@ test("development activities expose conditional expedition areas rather than per
 }, info) => {
   await session(page, ["admin"]);
   await page.goto("/admin?view=world-overview");
+  await page.getByRole("button", { name: "Przeglądarka · Phaser" }).click();
   await expect(page.getByText("10/10", { exact: true })).toBeVisible();
   const overview = page.getByRole("region", { name: "Świat — przegląd", exact: true });
   await page.getByRole("textbox", { name: "Szukaj na mapie świata" }).fill("E-aether-22-single");
@@ -255,3 +261,61 @@ test("development activities expose conditional expedition areas rather than per
   await expect(overview.locator(".ki-overview-facts")).toContainText("HP");
   await overview.screenshot({ path: info.outputPath("conditional-expedition.png") });
 });
+
+for (const viewport of [
+  { width: 1280, height: 900 },
+  { width: 390, height: 844 },
+  { width: 320, height: 568 },
+  { width: 852, height: 393 },
+]) {
+  test(`Android Superior loads exact boss, quest and island data at ${viewport.width}px`, async ({
+    page,
+  }, info) => {
+    const { readFile } = await import("node:fs/promises");
+    const path = process.env["KI_ANDROID_OVERVIEW_QA_SNAPSHOT"];
+    const snapshot = path
+      ? (JSON.parse(await readFile(path, "utf8")) as AndroidAtlasSnapshot)
+      : androidAtlasQa;
+    const pyra = snapshot.regions["pyra"]!;
+    const boss = pyra.points.find((p) => p.kind === "boss")!;
+    const requestedRegions = new Set<string>();
+    const errors: string[] = [];
+    page.on("pageerror", (error) => errors.push(error.message));
+    await page.setViewportSize(viewport);
+    await session(page, ["admin"]);
+    await page.route("**/ws/world/android-superior*", async (route) => {
+      expect(route.request().headers()["authorization"]).toBe("Bearer local-qa-access-token");
+      const land = new URL(route.request().url()).searchParams.get("land");
+      requestedRegions.add(land ?? "planet");
+      await route.fulfill({ json: land ? snapshot.regions[land] : snapshot.index });
+    });
+    await page.goto("/admin?view=world-overview");
+    const atlas = page.getByRole("region", { name: "Świat Superior w Androidzie" });
+    await expect(
+      atlas.getByText(`aktualizacja ${snapshot.index.version}`, { exact: false }),
+    ).toBeVisible();
+    await expect(atlas.getByRole("button", { name: "Pyra", exact: true })).toBeVisible();
+    await atlas.getByRole("button", { name: "Pyra", exact: true }).click();
+    const map = atlas.getByTestId("android-superior-map");
+    await expect(map.locator("image")).toHaveAttribute("href", /\/pyra\.webp$/);
+    const image = await page.request.get("/game/admin/android-superior/pyra.webp");
+    expect(image.ok()).toBe(true);
+    await atlas.getByRole("textbox", { name: "Szukaj punktu" }).fill(boss.id);
+    await atlas.getByRole("button", { name: boss.title, exact: true }).click();
+    await expect(atlas.getByRole("region", { name: "Szczegóły punktu" })).toContainText(
+      "X " + boss.position[0].toLocaleString("pl-PL", { maximumFractionDigits: 2 }),
+    );
+    await atlas.getByRole("button", { name: "Przybliż" }).click();
+    await expect(map).not.toHaveAttribute("viewBox", "0 0 4096 4096");
+    await atlas.getByLabel("Zadania w krainie").selectOption({ index: 1 });
+    await expect(atlas.getByText(/Zleca /)).toBeVisible();
+    await atlas.screenshot({ path: info.outputPath("android-pyra-admin.png") });
+    await atlas.getByLabel("Obszar").selectOption("island-1");
+    await expect(atlas.getByText(/Podkład odtworzony/)).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+      viewport.width,
+    );
+    expect([...requestedRegions]).toEqual(["planet", "pyra", "island-1"]);
+    expect(errors).toEqual([]);
+  });
+}

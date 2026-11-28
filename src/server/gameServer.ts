@@ -29,6 +29,7 @@ import { resendMailer } from "./accounts/mailer";
 import { AccountService } from "./accounts/service";
 import { signingKey } from "./accounts/crypto";
 import { WorldOverrideService, worldHttp } from "./world/overrides";
+import { androidOverviewHttp } from "./world/androidOverview";
 import { collectRuntimeStatus, restartHttp, runtimeHttp } from "./runtimeStatus";
 import { ServiceAccess } from "./serviceAccess";
 
@@ -157,6 +158,11 @@ export class GameServer {
         online: () => this.godotLive.count(),
         settingsChanged: () => this.serviceAccess.invalidate(),
       });
+      return;
+    }
+
+    if (url.split("?")[0] === "/ws/world/android-superior") {
+      void androidOverviewHttp(req, res, (token) => this.adminSubject(token));
       return;
     }
 
