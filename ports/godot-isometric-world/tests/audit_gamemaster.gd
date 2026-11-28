@@ -63,7 +63,7 @@ func run() -> void:
 	var reg_disp_y: float = float(world.hero.display.y)
 	_check(reg_disp_y > 100.0, "Regular hero initialized (display.y=%.1f)" % reg_disp_y)
 
-	# 2b. Grant staff access and verify HUD exposes gm_form, gm_fly, gm_boost hitboxes
+	# 2b. Grant staff access and verify HUD exposes only gm_form and gm_boost before transformation
 	gm_state["allow"] = true
 	world._refresh_gm_access()
 	world.rpg_hud._refresh_visuals()
@@ -74,12 +74,19 @@ func run() -> void:
 	for hb: Dictionary in world.rpg_hud.util_hitboxes:
 		hud_ids.append(str(hb.get("id", "")))
 	_check("gm_form" in hud_ids, "HUD draws FORMA GM hitbox for staff")
-	_check("gm_fly" in hud_ids, "HUD draws LOT [L] hitbox for staff")
+	_check("gm_fly" not in hud_ids, "HUD hides LOT [L] before transformation")
 	_check("gm_boost" in hud_ids, "HUD draws TURBO [U] hitbox for staff")
 
 	# 2c. Activate GM Form and verify towering scale + celestial nameplate + GM clips
 	_check(world.toggle_gm_form(true), "Staff can activate GameMaster Form")
 	_check(bool(world.gm_form_active), "gm_form_active is true")
+	await process_frame
+	await process_frame
+	var flight_visible := false
+	for hb: Dictionary in world.rpg_hud.util_hitboxes:
+		if hb.get("id") == "gm_fly":
+			flight_visible = true
+	_check(flight_visible, "HUD draws LOT [L] after transformation")
 	_check(bool(world.hero.is_gm_avatar), "hero.is_gm_avatar is true")
 	_check(float(world.hero.display.y) >= reg_disp_y * 1.5, "GameMaster avatar display.y (%.1f) is >= 1.5x regular hero (%.1f)" % [float(world.hero.display.y), reg_disp_y])
 	_check(world.hero.label.text.begins_with("✦ [GM]"), "GameMaster nameplate shows ✦ [GM] prefix: %s" % world.hero.label.text)

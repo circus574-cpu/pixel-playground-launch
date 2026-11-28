@@ -6,14 +6,14 @@ import json
 import struct
 import subprocess
 import tempfile
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 from build_preview_update import _bucket_input_digest, _pack_items
 from prepare_service_preview import PREFIX, prepare
 
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "ports/godot-isometric-world"
-CHANGES = {
+DEFAULT_CHANGES = {
     "core-c101": (
         "data/quests_wilderness.json", "scripts/actor_view.gd", "scripts/boss_ai_iso.gd",
         "scripts/boss_visuals.gd", "scripts/dialogue_strip.gd", "scripts/quest_engine_iso.gd", "scripts/world.gd",
@@ -62,6 +62,8 @@ def main():
     p.add_argument("--from-version", required=True)
     p.add_argument("--version", required=True)
     p.add_argument("--base-ref", required=True)
+    p.add_argument("--replace", action="append", metavar="PACK=SOURCE_PATH",
+                   help="Replace a file relative to the isometric port; repeat for additional files")
     p.add_argument("base_packs", type=Path, help="Verified release files named by pack ID plus .pck")
     args = p.parse_args()
     base_dir = f"deliveries/godot-content-{args.from_version}"
@@ -71,14 +73,29 @@ def main():
 
     manifest = json.loads(tracked("manifest.json"))
     report = json.loads(tracked("preview-update.json"))
-    if manifest["version"] != args.from_version or len(CHANGES["world-monsters"]) != 8:
-        raise ValueError("Wrong base manifest or boss archive")
+    if manifest["version"] != args.from_version:
+        raise ValueError("Wrong base manifest")
+    changes = DEFAULT_CHANGES
+    if args.replace:
+        changes = {}
+        used_paths = set()
+        for change in args.replace:
+            pack_id, separator, rel = change.partition("=")
+            path = PurePosixPath(rel)
+            if (not separator or pack_id not in manifest["packs"] or not rel
+                    or path.is_absolute() or ".." in path.parts or path.as_posix() != rel
+                    or rel in used_paths or not (SOURCE / path).is_file()):
+                p.error(f"Invalid replacement: {change}")
+            changes.setdefault(pack_id, []).append(rel)
+            used_paths.add(rel)
+    elif len(changes["world-monsters"]) != 8:
+        raise ValueError("Wrong boss archive")
     out = ROOT / f"deliveries/godot-content-{args.version}"
     out.mkdir(parents=True, exist_ok=False)
     with tempfile.TemporaryDirectory(prefix="ki-ota-") as temp:
         work = Path(temp)
         staging = work / "source"
-        for paths in CHANGES.values():
+        for paths in changes.values():
             for rel in paths:
                 target = staging / rel
                 target.parent.mkdir(parents=True, exist_ok=True)
@@ -94,11 +111,13 @@ def main():
                 with path.open("rb") as source:
                     return hashlib.file_digest(source, "sha256").hexdigest()
 
-        for pack_id, paths in CHANGES.items():
+        for pack_id, paths in changes.items():
             previous = manifest["packs"][pack_id]
             members = read_pack(args.base_packs / (pack_id + ".pck"), previous)
             for rel in paths:
                 name = PREFIX + rel
+                if args.replace and name not in members:
+                    raise ValueError(f"File is not in {pack_id}: {rel}")
                 members[name] = (preview_dir / rel).read_bytes()
                 if rel.endswith(".gd"):
                     members[name + ".remap"] = f'[remap]\n\npath="{name}"\n'.encode()
@@ -124,7 +143,7 @@ def main():
                 report["world_pack_inputs"][pack_id] = _bucket_input_digest(entries)
                 report["world_packs"][pack_id] = packaged
     for pack_id, entry in manifest["packs"].items():
-        if pack_id in CHANGES:
+        if pack_id in changes:
             continue
         pointer = tracked(entry["file"])
         if not pointer.startswith(b"version https://git-lfs.github.com/spec/v1") or (
@@ -137,7 +156,7 @@ def main():
     report.update(version=args.version, base=args.from_version, unchanged_lands=True)
     for name, payload in [("manifest.json", manifest), ("preview-update.json", report)]:
         (out / name).write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
-    print(f"{args.version}: {len(CHANGES)} packs rebuilt and checked, {len(manifest['packs']) - len(CHANGES)} reused")
+    print(f"{args.version}: {len(changes)} packs rebuilt and checked, {len(manifest['packs']) - len(changes)} reused")
 
 
 if __name__ == "__main__":

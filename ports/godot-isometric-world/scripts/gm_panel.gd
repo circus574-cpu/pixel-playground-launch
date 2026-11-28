@@ -285,6 +285,7 @@ func refresh_content() -> void:
 			_style_btn(tb, Color(0.11, 0.09, 0.13, 0.94), Color(0.46, 0.38, 0.26, 0.80), 18)
 
 	for ch in content_vbox.get_children():
+		content_vbox.remove_child(ch)
 		ch.queue_free()
 
 	if active_tab == "teleport":
@@ -301,7 +302,6 @@ func _build_teleport_tab() -> void:
 	gm_row.add_theme_constant_override("separation", 10)
 	content_vbox.add_child(gm_row)
 	var gmf_on: bool = world != null and bool(world.gm_form_active)
-	var fly_on: bool = world != null and bool(world.gm_flying)
 	var bst_on: bool = world != null and bool(world.gm_boost_active)
 
 	var btn_form := Button.new()
@@ -312,21 +312,22 @@ func _build_teleport_tab() -> void:
 		if world != null and world.can_use_gm():
 			world.toggle_gm_form()
 			_set_status("Forma GameMastera: %s" % ("AKTYWNA" if bool(world.gm_form_active) else "WYŁĄCZONA"))
-			refresh_content()
 	)
 	gm_row.add_child(btn_form)
 
-	var btn_fly := Button.new()
-	btn_fly.text = "🕊 LOT NAD ZIEMIĄ: %s [L]" % ("LECISZ ✓" if fly_on else "WYŁ.")
-	btn_fly.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_style_mini_btn(btn_fly, "cyan" if fly_on else "slate", 17, 0.0, 52.0)
-	btn_fly.pressed.connect(func() -> void:
-		if world != null and world.can_use_gm():
-			world.toggle_gm_flight()
-			_set_status("Lot GameMastera: %s" % ("AKTYWNY" if bool(world.gm_flying) else "WYŁĄCZONY"))
-			refresh_content()
-	)
-	gm_row.add_child(btn_fly)
+	if gmf_on:
+		var fly_on: bool = bool(world.gm_flying)
+		var btn_fly := Button.new()
+		btn_fly.text = "🕊 LOT NAD ZIEMIĄ: %s [L]" % ("LECISZ ✓" if fly_on else "WYŁ.")
+		btn_fly.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_style_mini_btn(btn_fly, "cyan" if fly_on else "slate", 17, 0.0, 52.0)
+		btn_fly.pressed.connect(func() -> void:
+			if world != null and world.can_use_gm() and world.gm_form_active:
+				world.toggle_gm_flight()
+				_set_status("Lot GameMastera: %s" % ("AKTYWNY" if bool(world.gm_flying) else "WYŁĄCZONY"))
+				refresh_content()
+		)
+		gm_row.add_child(btn_fly)
 
 	var btn_boost := Button.new()
 	btn_boost.text = "⚡ PRZYSPIESZENIE 3.5×: %s [U]" % ("ON ✓" if bst_on else "OFF")

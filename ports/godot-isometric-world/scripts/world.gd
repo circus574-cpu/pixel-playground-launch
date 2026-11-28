@@ -3785,6 +3785,8 @@ func toggle_gm_form(force_on: Variant = null) -> bool:
 			if audio != null:
 				audio.play_gm_sfx("gm_boost_off", 0.72, 0.03)
 			show_combat_toast("Powrócono do zwykłej postaci bohatera.", Color(1.0, 0.88, 0.56))
+	if gm_open and gm_panel != null and gm_panel.active_tab == "teleport":
+		gm_panel.refresh_content()
 	if rpg_hud != null:
 		rpg_hud._refresh_visuals()
 	return gm_form_active

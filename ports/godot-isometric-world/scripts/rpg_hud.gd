@@ -565,6 +565,10 @@ func _on_resized() -> void:
 	_refresh_visuals()
 
 func _refresh_visuals() -> void:
+	for i in hotbar_icon_rects.size():
+		var unlocked := is_hotbar_skill_unlocked(i)
+		hotbar_icon_rects[i].visible = unlocked
+		hotbar_ring_rects[i].visible = i > 0 and unlocked
 	queue_redraw()
 	var fg := get_node_or_null("HudForeground") as Control
 	if fg != null:
@@ -1223,13 +1227,11 @@ func _refresh_hotbar_icons() -> void:
 			hotbar_icon_rects[i].texture = _load_tex("res://assets/ui/obsidian/btn_attack.webp")
 			hotbar_icon_rects[i].material = null
 			hotbar_icon_rects[i].stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			hotbar_ring_rects[i].visible = false
 		else:
 			var nid := get_hotbar_node(i)
 			hotbar_icon_rects[i].texture = _icon_tex("%s-%s.webp" % [rk, nid])
 			hotbar_icon_rects[i].material = hotbar_icon_mats[i]
 			hotbar_icon_rects[i].stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
-			hotbar_ring_rects[i].visible = true
 
 func set_region(land: String) -> void:
 	current_land = land
@@ -2089,10 +2091,15 @@ func _draw() -> void:
 	var wr_specs := _wild_rift_slot_specs()
 	if not wr_specs.is_empty():
 		var base_c: Vector2 = wr_specs[0]["center"]
-		draw_arc(base_c, 164.0 * sc, deg_to_rad(170.0), deg_to_rad(273.0), 40, Color(0.04, 0.03, 0.05, 0.58), 16.0 * sc, true)
-		draw_arc(base_c, 164.0 * sc, deg_to_rad(170.0), deg_to_rad(273.0), 40, Color(0.92, 0.70, 0.28, 0.62), 2.5, true)
-		draw_arc(base_c, 254.0 * sc, deg_to_rad(206.0), deg_to_rad(236.0), 18, Color(accent.r, accent.g, accent.b, 0.48), 2.2, true)
-		for spec: Dictionary in wr_specs:
+		if is_hotbar_skill_unlocked(1) or is_hotbar_skill_unlocked(2) or is_hotbar_skill_unlocked(3) or is_hotbar_skill_unlocked(4):
+			draw_arc(base_c, 164.0 * sc, deg_to_rad(170.0), deg_to_rad(273.0), 40, Color(0.04, 0.03, 0.05, 0.58), 16.0 * sc, true)
+			draw_arc(base_c, 164.0 * sc, deg_to_rad(170.0), deg_to_rad(273.0), 40, Color(0.92, 0.70, 0.28, 0.62), 2.5, true)
+		if is_hotbar_skill_unlocked(5):
+			draw_arc(base_c, 254.0 * sc, deg_to_rad(206.0), deg_to_rad(236.0), 18, Color(accent.r, accent.g, accent.b, 0.48), 2.2, true)
+		for i in wr_specs.size():
+			if not is_hotbar_skill_unlocked(i):
+				continue
+			var spec: Dictionary = wr_specs[i]
 			var sp_c: Vector2 = spec["center"]
 			var sr: float = float(spec["r"])
 			draw_circle(sp_c + Vector2(0.0, 4.0), sr + 7.0, Color(0.0, 0.0, 0.0, 0.54))
@@ -2469,45 +2476,46 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	# Staff-only GameMaster Ability Orbs: LOT [L] (Levitation Flight) & SZYBKOŚĆ [U] (Celestial Acceleration 3.5x)
 	if world != null and world.can_use_gm():
 		var gm_t := Time.get_ticks_msec() / 1000.0
-		var gm_fly_on: bool = bool(world.get("gm_flying"))
 		var gm_bst_on: bool = bool(world.get("gm_boost_active"))
 
-		# Orb A: LOT [L] — cleanly spaced above KI+ [X]
-		var fly_c := chan_c + Vector2(-10.0 * sc, -116.0 * sc)
-		var fly_r := 32.0 * sc
-		util_hitboxes.append({"rect": Rect2(fly_c - Vector2(fly_r, fly_r), Vector2(fly_r * 2.0, fly_r * 2.0)).grow(10.0), "id": "gm_fly"})
-		c.draw_circle(fly_c + Vector2(0.0, 3.0), fly_r + 3.0, Color(0.0, 0.0, 0.0, 0.55))
-		c.draw_circle(fly_c, fly_r, Color(0.05, 0.14, 0.22, 0.98) if gm_fly_on else Color(0.05, 0.07, 0.12, 0.96))
-		# Stylized celestial wings emblem drawn cleanly inside the orb
-		var wcol := Color(0.46, 0.98, 1.0, 1.0) if gm_fly_on else Color(1.0, 0.88, 0.48, 0.96)
-		var wing_l := PackedVector2Array([
-			fly_c + Vector2(-2.0, 5.0) * sc,
-			fly_c + Vector2(-18.0, -9.0) * sc,
-			fly_c + Vector2(-13.0, 2.0) * sc,
-			fly_c + Vector2(-20.0, 5.0) * sc,
-			fly_c + Vector2(-7.0, 10.0) * sc,
-		])
-		var wing_r := PackedVector2Array([
-			fly_c + Vector2(2.0, 5.0) * sc,
-			fly_c + Vector2(18.0, -9.0) * sc,
-			fly_c + Vector2(13.0, 2.0) * sc,
-			fly_c + Vector2(20.0, 5.0) * sc,
-			fly_c + Vector2(7.0, 10.0) * sc,
-		])
-		c.draw_colored_polygon(wing_l, wcol)
-		c.draw_colored_polygon(wing_r, wcol)
-		c.draw_circle(fly_c + Vector2(0.0, -6.0 * sc), 4.6 * sc, Color(1.0, 0.98, 0.86, 0.96))
-		if gm_fly_on:
-			var fp := 0.5 + 0.5 * sin(gm_t * 6.5)
-			c.draw_arc(fly_c, fly_r + 4.5 + fp * 2.5, 0.0, TAU, 32, Color(0.40, 0.96, 1.0, 0.95), 4.0, true)
-			c.draw_arc(fly_c, fly_r - 1.5, 0.0, TAU, 28, Color(1.0, 0.86, 0.34, 0.92), 2.4, true)
-		elif ring_cyan != null:
-			var rr_f := fly_r + 8.0 * sc
-			c.draw_texture_rect(ring_cyan, Rect2(fly_c - Vector2(rr_f, rr_f), Vector2(rr_f * 2.0, rr_f * 2.0)), false)
-		var f_lbl := "LECISZ [L]" if gm_fly_on else "LOT [L]"
-		var flw := f.get_string_size(f_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
-		c.draw_string_outline(f, fly_c + Vector2(-flw * 0.5, fly_r + 19.0), f_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.02, 0.01, 0.02, 0.98))
-		c.draw_string(f, fly_c + Vector2(-flw * 0.5, fly_r + 19.0), f_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.48, 0.98, 1.0) if gm_fly_on else Color(1.0, 0.92, 0.62))
+		if world.gm_form_active:
+			var gm_fly_on: bool = bool(world.gm_flying)
+			# Orb A: LOT [L] — cleanly spaced above KI+ [X]
+			var fly_c := chan_c + Vector2(-10.0 * sc, -116.0 * sc)
+			var fly_r := 32.0 * sc
+			util_hitboxes.append({"rect": Rect2(fly_c - Vector2(fly_r, fly_r), Vector2(fly_r * 2.0, fly_r * 2.0)).grow(10.0), "id": "gm_fly"})
+			c.draw_circle(fly_c + Vector2(0.0, 3.0), fly_r + 3.0, Color(0.0, 0.0, 0.0, 0.55))
+			c.draw_circle(fly_c, fly_r, Color(0.05, 0.14, 0.22, 0.98) if gm_fly_on else Color(0.05, 0.07, 0.12, 0.96))
+			# Stylized celestial wings emblem drawn cleanly inside the orb
+			var wcol := Color(0.46, 0.98, 1.0, 1.0) if gm_fly_on else Color(1.0, 0.88, 0.48, 0.96)
+			var wing_l := PackedVector2Array([
+				fly_c + Vector2(-2.0, 5.0) * sc,
+				fly_c + Vector2(-18.0, -9.0) * sc,
+				fly_c + Vector2(-13.0, 2.0) * sc,
+				fly_c + Vector2(-20.0, 5.0) * sc,
+				fly_c + Vector2(-7.0, 10.0) * sc,
+			])
+			var wing_r := PackedVector2Array([
+				fly_c + Vector2(2.0, 5.0) * sc,
+				fly_c + Vector2(18.0, -9.0) * sc,
+				fly_c + Vector2(13.0, 2.0) * sc,
+				fly_c + Vector2(20.0, 5.0) * sc,
+				fly_c + Vector2(7.0, 10.0) * sc,
+			])
+			c.draw_colored_polygon(wing_l, wcol)
+			c.draw_colored_polygon(wing_r, wcol)
+			c.draw_circle(fly_c + Vector2(0.0, -6.0 * sc), 4.6 * sc, Color(1.0, 0.98, 0.86, 0.96))
+			if gm_fly_on:
+				var fp := 0.5 + 0.5 * sin(gm_t * 6.5)
+				c.draw_arc(fly_c, fly_r + 4.5 + fp * 2.5, 0.0, TAU, 32, Color(0.40, 0.96, 1.0, 0.95), 4.0, true)
+				c.draw_arc(fly_c, fly_r - 1.5, 0.0, TAU, 28, Color(1.0, 0.86, 0.34, 0.92), 2.4, true)
+			elif ring_cyan != null:
+				var rr_f := fly_r + 8.0 * sc
+				c.draw_texture_rect(ring_cyan, Rect2(fly_c - Vector2(rr_f, rr_f), Vector2(rr_f * 2.0, rr_f * 2.0)), false)
+			var f_lbl := "LECISZ [L]" if gm_fly_on else "LOT [L]"
+			var flw := f.get_string_size(f_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
+			c.draw_string_outline(f, fly_c + Vector2(-flw * 0.5, fly_r + 19.0), f_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.02, 0.01, 0.02, 0.98))
+			c.draw_string(f, fly_c + Vector2(-flw * 0.5, fly_r + 19.0), f_lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.48, 0.98, 1.0) if gm_fly_on else Color(1.0, 0.92, 0.62))
 
 		# Orb B: SZYBKOŚĆ [U] — cleanly spaced above POWRÓT and clear of T Poz.20
 		var bst_c := rec_c + Vector2(-14.0 * sc, -120.0 * sc)
@@ -2555,13 +2563,14 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 	var wr_specs := _wild_rift_slot_specs()
 	var ki_active: bool = world != null and ("ki_mode_timer" in world) and float(world.ki_mode_timer) > 0.05
 	for i in mini(wr_specs.size(), HOTBAR_KEYS.size()):
+		if not is_hotbar_skill_unlocked(i):
+			hotbar_hitboxes.append(Rect2())
+			continue
 		var spec: Dictionary = wr_specs[i]
 		var center: Vector2 = spec["center"]
 		var r: float = float(spec["r"])
 		var hit_r := r + 10.0 * sc
 		hotbar_hitboxes.append(Rect2(center - Vector2(hit_r, hit_r), Vector2(hit_r * 2.0, hit_r * 2.0)))
-		var unlocked_skill := is_hotbar_skill_unlocked(i)
-		var slot_nid := get_hotbar_node(i)
 
 		# Glowing Ki-Mode transformation halo on [R] (idx == 5)
 		if i == 5 and ki_active:
@@ -2572,18 +2581,6 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			var ktw := f.get_string_size(kt_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
 			c.draw_string_outline(f, center + Vector2(-ktw * 0.5, -r - 22.0), kt_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 5, Color(0.02, 0.04, 0.08, 0.98))
 			c.draw_string(f, center + Vector2(-ktw * 0.5, -r - 22.0), kt_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.42, 0.98, 1.0))
-
-		if not unlocked_skill:
-			c.draw_circle(center, r - 1.0, Color(0.02, 0.02, 0.04, 0.80))
-			var lk_s := slot_nid
-			var req_lv := get_hotbar_skill_min_level(i)
-			var lv_s := "Poz.%d" % req_lv
-			var lkw := f.get_string_size(lk_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 17).x
-			var lvw := fb.get_string_size(lv_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
-			c.draw_string_outline(f, center + Vector2(-lkw * 0.5, -2.0), lk_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, 4, Color(0.02, 0.01, 0.02, 0.98))
-			c.draw_string(f, center + Vector2(-lkw * 0.5, -2.0), lk_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color(0.88, 0.82, 0.68, 0.98))
-			c.draw_string_outline(fb, center + Vector2(-lvw * 0.5, 17.0), lv_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 4, Color(0.02, 0.01, 0.02, 0.98))
-			c.draw_string(fb, center + Vector2(-lvw * 0.5, 17.0), lv_s, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.76, 0.42, 0.98) if i == 5 else Color(0.82, 0.80, 0.76, 0.96))
 
 		# Radial cooldown veil + BOLD 22px numeric timer
 		var cd := cooldowns[i]
@@ -2605,10 +2602,10 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			var k_pos := center + Vector2(0.0, r + 4.0)
 			var kr := 17.0 if bool(spec["keystone"]) else 15.5
 			c.draw_circle(k_pos, kr, Color(0.06, 0.04, 0.05, 0.98))
-			c.draw_arc(k_pos, kr, 0.0, TAU, 20, Color(0.98, 0.76, 0.32, 0.98) if unlocked_skill else Color(0.48, 0.46, 0.50, 0.90), 2.2, true)
+			c.draw_arc(k_pos, kr, 0.0, TAU, 20, Color(0.98, 0.76, 0.32, 0.98), 2.2, true)
 			var ksz := 17 if bool(spec["keystone"]) else 16
 			var kw := f.get_string_size(kb, HORIZONTAL_ALIGNMENT_LEFT, -1, ksz).x
-			c.draw_string(f, k_pos + Vector2(-kw * 0.5, float(ksz) * 0.36), kb, HORIZONTAL_ALIGNMENT_LEFT, -1, ksz, Color(1.0, 0.96, 0.76) if unlocked_skill else Color(0.68, 0.66, 0.64))
+			c.draw_string(f, k_pos + Vector2(-kw * 0.5, float(ksz) * 0.36), kb, HORIZONTAL_ALIGNMENT_LEFT, -1, ksz, Color(1.0, 0.96, 0.76))
 
 	# --- D2. BIG Readable FPS & Ping Performance Overlay (toggled in Menu -> GRA) ---
 	if is_perf_hud_enabled():
@@ -2688,7 +2685,7 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 						body_y += row_h + 4.0
 
 	# Hover tooltip anchored cleanly above bottom-right Wild Rift combat cluster
-	if hovered_hotbar_idx >= 0 and hovered_hotbar_idx < hotbar_nodes.size() and not (show_talents or show_character or hud_edit_mode):
+	if hovered_hotbar_idx >= 0 and is_hotbar_skill_unlocked(hovered_hotbar_idx) and not (show_talents or show_character or hud_edit_mode):
 		var h_nid := get_hotbar_node(hovered_hotbar_idx)
 		var h_nd := _node_by_id(h_nid)
 		if not h_nd.is_empty():
@@ -2697,10 +2694,9 @@ func _draw_hud_foreground(c: CanvasItem) -> void:
 			var tip_h := 106.0
 			var tip_r := Rect2(vs.x - tip_w - 22.0, vs.y - 404.0, tip_w, tip_h)
 			_draw_obsidian_plate(c, tip_r, Color(0.92, 0.72, 0.32, 0.94))
-			var locked_note := "" if is_hotbar_skill_unlocked(hovered_hotbar_idx) else " (ZABLOK. — [K])"
 			var ki_c := int(round(get_hotbar_skill_ki(hovered_hotbar_idx)))
 			var ki_note := (" • %d KI" % ki_c) if ki_c > 0 else ""
-			c.draw_string(f, tip_r.position + Vector2(18, 28), "%s [%s·%s]%s%s" % [str(h_nd.get("name", "")).to_upper(), str(HOTBAR_KEYS[hovered_hotbar_idx]), h_nid, ki_note, locked_note], HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.92, 0.56))
+			c.draw_string(f, tip_r.position + Vector2(18, 28), "%s [%s·%s]%s" % [str(h_nd.get("name", "")).to_upper(), str(HOTBAR_KEYS[hovered_hotbar_idx]), h_nid, ki_note], HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.92, 0.56))
 			c.draw_multiline_string(fb, tip_r.position + Vector2(18, 52), str(h_nd.get("effect", "")), HORIZONTAL_ALIGNMENT_LEFT, tip_w - 36.0, 15, 2, Color(0.94, 0.92, 0.88))
 
 	# --- E. Live On-Screen Drag-and-Drop HUD Editor Overlay ---
@@ -3542,7 +3538,7 @@ func _handle_primary_tap(p: Vector2) -> bool:
 
 	# Bottom-Right Wild Rift Right-Thumb Combat Orbs
 	for i in hotbar_hitboxes.size():
-		if hotbar_hitboxes[i].has_point(p):
+		if is_hotbar_skill_unlocked(i) and hotbar_hitboxes[i].has_point(p):
 			trigger_skill(i)
 			return true
 
@@ -3550,6 +3546,8 @@ func _handle_primary_tap(p: Vector2) -> bool:
 	for item: Dictionary in util_hitboxes:
 		if (item["rect"] as Rect2).has_point(p):
 			var uid := str(item["id"])
+			if uid == "gm_fly" and (world == null or not world.can_use_gm() or not world.gm_form_active):
+				continue
 			if world != null and world.get("audio") != null and not (uid in ["potion", "dodge", "channel"]):
 				world.audio.sfx("ui/click")
 			match uid:
@@ -3586,8 +3584,7 @@ func _handle_primary_tap(p: Vector2) -> bool:
 					if world != null and world.can_use_gm() and world.has_method("toggle_gm_form"):
 						world.toggle_gm_form()
 				"gm_fly":
-					if world != null and world.can_use_gm() and world.has_method("toggle_gm_flight"):
-						world.toggle_gm_flight()
+					world.toggle_gm_flight()
 				"gm_boost":
 					if world != null and world.can_use_gm() and world.has_method("toggle_gm_boost"):
 						world.toggle_gm_boost()
@@ -3688,7 +3685,7 @@ func _gui_input(event: InputEvent) -> void:
 			return
 		var new_hb := -1
 		for i in hotbar_hitboxes.size():
-			if hotbar_hitboxes[i].has_point(mp):
+			if is_hotbar_skill_unlocked(i) and hotbar_hitboxes[i].has_point(mp):
 				new_hb = i
 				break
 		if new_hb != hovered_hotbar_idx:

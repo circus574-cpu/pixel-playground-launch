@@ -48,3 +48,10 @@ Wydanie łączy przygody na rubieżach, nowe grafiki ośmiu aktywnych bossów i 
 - Kod serwera z SHA `3fadb73e5dc31f0bd4d81ba17033a522512158cd` przeszedł pełną bramkę i testy wdrożenia Aruba. [Przebieg wdrożenia](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/46153394825)
 - Zapisano atlas administratora na prywatnym woluminie i aktywowano OTA 1.14.39. Weryfikacja na serwerze objęła 38 paczek i zakończyła się bez różnic. [Przebieg publikacji OTA](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/46163287032)
 - Po publikacji odczytano dokładnie manifest 1.14.39 i pobrano trzy zmienione paczki z domeny produkcyjnej. Ich rozmiary i SHA-256 zgadzają się z manifestem. Żądanie do atlasu bez sesji administratora otrzymało HTTP 403. [Manifest Androida](https://kilegends.pl/ws/godot/manifest?client=101)
+
+## Android 1.14.40 — widoczność przycisków walki
+
+- HUD pokazuje atak podstawowy oraz odblokowane umiejętności przypisane do paska. Ikona, obwódka, oznaczenie klawisza i pole dotyku pojawiają się po odblokowaniu. Czas odnowienia i niski poziom KI zachowują widoczność przycisku.
+- Przycisk „Lot” na HUD-zie i w panelu GM pojawia się po aktywowaniu formy GameMastera. Zamknięcie formy usuwa przycisk i możliwość użycia jego wcześniejszego pola dotyku.
+- Test widoczności uruchomiony na paczce wydania w Godot 4.6.3 z rendererem OpenGL sprawdził cztery rasy, zapisane przypisania umiejętności oraz wejście i wyjście z formy GM. Zaliczono 60 z 60 asercji. Audyt GM zaliczył 98 z 98 asercji. Fizyczny telefon nie brał udziału w tych testach.
+- Do aktualizacji OTA przebudowano paczkę `core-c101` na bazie 1.14.39. Porównanie plików potwierdziło zmiany w trzech skryptach i wewnętrznym manifeście. Pozostałe 37 paczek zachowało identyczne hashe. Prywatny atlas administratora wygenerował się z paczek wydania.
