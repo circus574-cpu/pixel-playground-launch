@@ -1,0 +1,122 @@
+[
+  {
+    "id": "ygdrasha",
+    "name": "Ygdrasha — Matka Puszczy",
+    "task_id": "01a221ab-288d-75d3-981e-e28dba5d1be9",
+    "status": "SUCCEEDED",
+    "textured": true,
+    "geometry": "meshy-7.1",
+    "formats": [
+      "glb",
+      "fbx",
+      "obj",
+      "usdz",
+      "stl"
+    ]
+  },
+  {
+    "id": "thorgar",
+    "name": "Thorgar — Alfa Kłów",
+    "task_id": "01a221ab-3c2b-70ce-804e-56772733da0f",
+    "status": "SUCCEEDED",
+    "textured": true,
+    "geometry": "meshy-7.1",
+    "formats": [
+      "glb",
+      "fbx",
+      "obj",
+      "usdz",
+      "stl"
+    ]
+  },
+  {
+    "id": "arcykaplan-pustki",
+    "name": "Arcykapłan Pustki",
+    "task_id": "01a221ab-1354-779f-8217-f1cb3f99f9a5",
+    "status": "SUCCEEDED",
+    "textured": true,
+    "geometry": "meshy-7.1",
+    "formats": [
+      "glb",
+      "fbx",
+      "obj",
+      "usdz",
+      "stl"
+    ]
+  },
+  {
+    "id": "aurelith",
+    "name": "Aurelith — Smok Sanktuarium",
+    "task_id": "01a221ab-62ce-700f-ba44-0dc21f305cde",
+    "status": "SUCCEEDED",
+    "textured": true,
+    "geometry": "meshy-7.1",
+    "formats": [
+      "glb",
+      "fbx",
+      "obj",
+      "usdz",
+      "stl"
+    ]
+  },
+  {
+    "id": "arbiter-zero",
+    "name": "Arbiter Zero",
+    "task_id": "01a221ab-750f-7453-b3ff-054f91b2c6b4",
+    "status": "SUCCEEDED",
+    "textured": true,
+    "geometry": "meshy-7.1",
+    "formats": [
+      "glb",
+      "fbx",
+      "obj",
+      "usdz",
+      "stl"
+    ]
+  },
+  {
+    "id": "hydra-rdzen",
+    "name": "Hydra-Rdzeń",
+    "task_id": "01a221ab-4fbe-7732-be9d-f529f1494a4b",
+    "status": "SUCCEEDED",
+    "textured": true,
+    "geometry": "meshy-7.1",
+    "formats": [
+      "glb",
+      "fbx",
+      "obj",
+      "usdz",
+      "stl"
+    ]
+  },
+  {
+    "id": "kharzul",
+    "name": "Kharzul — Mistrz Areny",
+    "task_id": "01a221ab-976e-765f-aaba-b0b29fb45e50",
+    "status": "SUCCEEDED",
+    "textured": true,
+    "geometry": "meshy-7.1",
+    "formats": [
+      "glb",
+      "fbx",
+      "obj",
+      "usdz",
+      "stl"
+    ]
+  },
+  {
+    "id": "pyrrhax",
+    "name": "Pyrrhax — Smok Wulkanu",
+    "task_id": "01a221ab-85a7-754d-a79b-ad7d479f2dd8",
+    "status": "SUCCEEDED",
+    "textured": true,
+    "geometry": "meshy-7.1",
+    "formats": [
+      "glb",
+      "fbx",
+      "obj",
+      "usdz",
+      "stl"
+    ]
+  }
+]

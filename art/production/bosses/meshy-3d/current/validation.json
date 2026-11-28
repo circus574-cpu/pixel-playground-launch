@@ -1,0 +1,74 @@
+{
+  "arbiter-zero": {
+    "triangle_count": 30910,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 18676144,
+    "sha256": "fce4e8d3a82c5e005e6798e2762d3e83e5e8aa66df75fbba47da373954564810"
+  },
+  "arcykaplan-pustki": {
+    "triangle_count": 29916,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 13013100,
+    "sha256": "1d5e628dfdb613618b9cd20216a150c79cdff18df7e7471a1935cfd687a7a3db"
+  },
+  "aurelith": {
+    "triangle_count": 31081,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 16535388,
+    "sha256": "9aaced0c59487f09f7d5f92334399ef57d896b18b0aca5f9fb95c9bae02ee013"
+  },
+  "hydra-rdzen": {
+    "triangle_count": 30821,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 18674516,
+    "sha256": "553196caaff9cf05e62c97a80ba09867c7a87a7a63524da45b0b635333205988"
+  },
+  "kharzul": {
+    "triangle_count": 31012,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 15691744,
+    "sha256": "1356692eafae2d0f7916936b503e9e6a020bd69ecb475abf2115d4b3614466fc"
+  },
+  "pyrrhax": {
+    "triangle_count": 31202,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 15800152,
+    "sha256": "6222d47e77aa574c596269a597122b483f08fc2a502364913c01b0a2f54e369c"
+  },
+  "thorgar": {
+    "triangle_count": 31191,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 16294272,
+    "sha256": "9ad6dac96fe6488f6df3a66ad4dbc7ee8902094970d4a3d5b6187d3af7a85b27"
+  },
+  "ygdrasha": {
+    "triangle_count": 30767,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 16656412,
+    "sha256": "6db9118af08978dfcbf0d591acc825406a1ba0c6cc8f63fd79af3dd4c32cddf8"
+  }
+}

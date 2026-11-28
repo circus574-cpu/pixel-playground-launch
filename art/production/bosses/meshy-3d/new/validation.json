@@ -1,0 +1,92 @@
+{
+  "axiom-omega": {
+    "triangle_count": 24673,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 12313480,
+    "sha256": "18218fa355483ce4e1bce2f770980e7bbb22945c803ef2849e5bf0100e6c14ae"
+  },
+  "azh-kar": {
+    "triangle_count": 24753,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 8245132,
+    "sha256": "af889db7aaf48e487b68671cfd9b67aa4ea5429ff0147ff005e0f2eae24dc1c0"
+  },
+  "elaris": {
+    "triangle_count": 24727,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 12399912,
+    "sha256": "6a9f93bebc63f035ac22df6938593b8e00a981bb5f068a63de0cd9358578fe12"
+  },
+  "ghorum": {
+    "triangle_count": 24972,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 12054292,
+    "sha256": "764f33930896a4b849ade95c7d3e6631815181b1abbd7d02794c2824143ac5a7"
+  },
+  "leviatan-zero": {
+    "triangle_count": 24669,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 12997912,
+    "sha256": "ed7e20f0a316d22e790260867cee21a7877eefb6409f435f7f279f107abd8e11"
+  },
+  "morgath": {
+    "triangle_count": 24935,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 11130160,
+    "sha256": "f4afda18620d276ebab12041f819f618ed008e4bacd607068c5d25ff8dd09f34"
+  },
+  "nhar-rok": {
+    "triangle_count": 25005,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 12639208,
+    "sha256": "37a31c0482960c68ae810bbf44f021d7a90c66f4baf5de1650132a8cc2bb8d7c"
+  },
+  "shirokan": {
+    "triangle_count": 24439,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 13014740,
+    "sha256": "d4ba08ec2f549a0a327eabe504638f506525bee87df8457f4b14699055f8f5df"
+  },
+  "tenshu": {
+    "triangle_count": 24942,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 12347392,
+    "sha256": "de27ae5db9b96fa2ca66d99a6046690c87c86db03cf4473a2c2ecc7365a44799"
+  },
+  "varkessa": {
+    "triangle_count": 24791,
+    "texture_images": 3,
+    "normal_map": true,
+    "animations": 0,
+    "skins": 0,
+    "bytes": 12498700,
+    "sha256": "a752332fdfa3c57ec957cb1be133c56f955012536d2ab9838b3b29345c57c7fe"
+  }
+}

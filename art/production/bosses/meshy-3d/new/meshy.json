@@ -1,0 +1,72 @@
+[
+  {
+    "id": "azh-kar",
+    "name": "AZH’KAR — Władca Kaldery",
+    "meshTask": "01a221a1-1270-74d8-aefa-12bc16d54d03",
+    "request": "c4294351-0d6a-4ebc-8e52-878262186ef9",
+    "task": "01a221b3-63fd-7756-bb1c-33ef1d9c0060"
+  },
+  {
+    "id": "varkessa",
+    "name": "VARKESSA — Królowa Żelaznego Żaru",
+    "meshTask": "01a221a1-1bfc-764f-94a0-54a784dc8967",
+    "request": "894fe2c2-1c47-4acf-b78c-718ac1ecb080",
+    "task": "01a221b3-6f54-7451-a1b7-466283a6f065"
+  },
+  {
+    "id": "nhar-rok",
+    "name": "NHAR’ROK — Pożeracz Szczelin",
+    "meshTask": "01a221a1-08ba-7091-973a-ff33745f6623",
+    "request": "2a40e872-253a-4e82-8093-380c181883bc",
+    "task": "01a221b3-6959-7124-935d-2f40cc3467c0"
+  },
+  {
+    "id": "ghorum",
+    "name": "GHORUM — Pradawne Serce Lasu",
+    "meshTask": "01a221a1-3694-71d8-8463-50e08323cabd",
+    "request": "6f122f49-bbf0-4818-bf37-2884f9dd6243",
+    "task": "01a221b3-7c91-70bb-8862-29da7ac75a40"
+  },
+  {
+    "id": "elaris",
+    "name": "ELARIS — Łowczyni Szmaragdowego Księżyca",
+    "meshTask": "01a221a1-253d-77da-bd27-a0bc5f07126a",
+    "request": "434d1376-a02d-4f5c-bde6-cb3fc15c0c7e",
+    "task": "01a221b3-7501-77be-80ac-ac92290360cc"
+  },
+  {
+    "id": "morgath",
+    "name": "MORGATH — Władca Zatopionych Korzeni",
+    "meshTask": "01a221a1-2db9-7358-9eff-13e4e112c169",
+    "request": "9894e8d9-7fb6-40d4-8fc2-d6174bc6ce6a",
+    "task": "01a221b3-838a-738d-a5d4-69ecfb6eb1f0"
+  },
+  {
+    "id": "shirokan",
+    "name": "SHIROKAN — Cesarz Wiecznej Zimy",
+    "meshTask": "01a221a1-546a-7151-8ec3-d6dc8e2c3537",
+    "request": "8fb926e3-14fb-4359-b5c3-913a11fd9246",
+    "task": "01a221b3-8db2-7411-bddd-5cea60ee17fa"
+  },
+  {
+    "id": "tenshu",
+    "name": "TENSHU — Strażnik Tysiąca Źródeł",
+    "meshTask": "01a221a1-3f48-742b-a0e6-96756dc369b9",
+    "request": "a32036b4-32a7-415c-98ae-e3b93c8a6de5",
+    "task": "01a221b3-92e8-72fc-b880-bf76e89dd677"
+  },
+  {
+    "id": "axiom-omega",
+    "name": "AXIOM-OMEGA — Absolutny Egzekutor",
+    "meshTask": "01a221a1-48f9-733d-b5f4-91cd90d86e09",
+    "request": "49393a2c-d805-4f8e-bd35-fff0d89c4a2e",
+    "task": "01a221b3-890e-7674-8230-fc203ffa1b97"
+  },
+  {
+    "id": "leviatan-zero",
+    "name": "LEVIATAN ZERO — Ostatni Protokół",
+    "meshTask": "01a221a1-5d51-7314-9e1d-23c197e4b851",
+    "request": "540f95b4-3e29-42b0-8b6e-52631bac42c1",
+    "task": "01a221b3-99b5-7258-8637-33e110dbd83d"
+  }
+]
