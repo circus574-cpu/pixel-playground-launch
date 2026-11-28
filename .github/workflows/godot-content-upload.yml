@@ -20,6 +20,14 @@ on:
         description: Also make the release the active one (needs publish). Clients get it on their next start.
         type: boolean
         default: false
+      atlas:
+        description: Prepare the administrator-only atlas from these exact OTA packs
+        type: boolean
+        default: false
+      expected_active:
+        description: Refuse activation if a different public release is already active
+        type: string
+        default: ""
       test_base:
         description: Current active release required for test-only activation during maintenance
         type: string
@@ -39,11 +47,16 @@ jobs:
       PUBLISH: ${{ inputs.publish }}
       ACTIVATE: ${{ inputs.activate }}
       TEST_BASE: ${{ inputs.test_base }}
+      EXPECTED_ACTIVE: ${{ inputs.expected_active }}
     steps:
       - name: Check the version format
         run: |
           set -euo pipefail
           [[ "$VERSION" =~ ^[0-9A-Za-z][0-9A-Za-z._-]{0,39}$ ]] || { echo "::error::Bad version"; exit 1; }
+          if [ -n "$EXPECTED_ACTIVE" ]; then
+            [[ "$EXPECTED_ACTIVE" =~ ^[0-9A-Za-z][0-9A-Za-z._-]{0,39}$ ]] &&
+              [ "$PUBLISH" = true ] && [ "$ACTIVATE" = true ] || { echo '::error::Invalid activation guard'; exit 1; }
+          fi
           if [ -n "$TEST_BASE" ]; then
             [[ "$TEST_BASE" =~ ^[0-9A-Za-z][0-9A-Za-z._-]{0,39}$ ]] && [ "$TEST_BASE" != "$VERSION" ] &&
               [ "$PUBLISH" = true ] && [ "$ACTIVATE" = true ] || { echo '::error::Invalid test activation'; exit 1; }
@@ -53,6 +66,8 @@ jobs:
           lfs: true
           sparse-checkout: |
             deliveries/godot-content-${{ inputs.version }}
+            scripts/godot
+            ports/godot-isometric-world/scripts
           sparse-checkout-cone-mode: false
       - name: Verify every pack against its manifest
         run: |
@@ -70,6 +85,21 @@ jobs:
           print("version", m["version"], "packs", len(m["packs"]), "bad", bad)
           sys.exit(1 if bad or m["version"] != os.environ["VERSION"] else 0)
           PY
+      - name: Generate the private atlas from the verified Android packs
+        if: ${{ inputs.publish && inputs.atlas }}
+        run: |
+          set -euo pipefail
+          godot_dir="$RUNNER_TEMP/ki-godot"
+          mkdir -p "$godot_dir"
+          curl --fail --location --retry 3 --output "$godot_dir/godot.zip" \
+            https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/Godot_v4.6.3-stable_linux.x86_64.zip
+          unzip -q "$godot_dir/godot.zip" -d "$godot_dir"
+          ln -s "$godot_dir/Godot_v4.6.3-stable_linux.x86_64" "$godot_dir/godot"
+          python3 -m venv "$RUNNER_TEMP/ki-atlas-venv"
+          source "$RUNNER_TEMP/ki-atlas-venv/bin/activate"
+          python -m pip install --quiet Pillow==11.3.0
+          PATH="$godot_dir:$PATH" bash scripts/godot/prepare_release_atlas.sh \
+            "deliveries/godot-content-$VERSION" "$RUNNER_TEMP/admin-atlas.json"
       - name: Copy to the VPS staging directory
         env:
           SSH_PRIVATE_KEY: ${{ secrets.COOLIFY_SSH_KEY }}
@@ -98,9 +128,14 @@ jobs:
           ssh_opts=(-i "$key_file" -o BatchMode=yes -o ConnectTimeout=15 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$RUNNER_TEMP/coolify_known_hosts")
           activate=false
           if [ "$ACTIVATE" = "true" ]; then activate=true; fi
-          ssh "${ssh_opts[@]}" codex@85.235.150.189 "bash -s -- '$VERSION' '$activate' '$TEST_BASE'" <<'REMOTE'
+          if [ -s "$RUNNER_TEMP/admin-atlas.json" ]; then
+            ssh "${ssh_opts[@]}" codex@85.235.150.189 \
+              "umask 077; cat > \"\$HOME/ki-legends-aruba-staging/godot-content-incoming/$VERSION/admin-atlas.json\"" \
+              < "$RUNNER_TEMP/admin-atlas.json"
+          fi
+          ssh "${ssh_opts[@]}" codex@85.235.150.189 "bash -s -- '$VERSION' '$activate' '$TEST_BASE' '$EXPECTED_ACTIVE'" <<'REMOTE'
           set -euo pipefail
-          VERSION="$1"; ACTIVATE="$2"; TEST_BASE="$3"
+          VERSION="$1"; ACTIVATE="$2"; TEST_BASE="$3"; EXPECTED_ACTIVE="$4"
           SRC="$HOME/ki-legends-aruba-staging/godot-content-incoming/$VERSION"
           APP=app-xh4qbckykxsq1iofxdoe5t3h
           test -s "$SRC/manifest.json"
@@ -117,16 +152,38 @@ jobs:
           sys.exit(1 if bad else 0)
           PY
           docker exec -u root "$APP" mkdir -p "/data/godot-content/releases/$VERSION"
-          docker cp "$SRC/." "$APP:/data/godot-content/releases/$VERSION/"
+          for file in "$SRC/manifest.json" "$SRC/"*.pck; do
+            docker cp "$file" "$APP:/data/godot-content/releases/$VERSION/"
+          done
+          if [ -s "$SRC/admin-atlas.json" ]; then
+            docker exec -u root "$APP" install -d -m 0700 -o node -g node /data/godot-content/admin-atlas
+            docker cp "$SRC/admin-atlas.json" "$APP:/data/godot-content/admin-atlas/$VERSION.json.tmp"
+            docker exec -u root "$APP" sh -eu -c '
+              file="/data/godot-content/admin-atlas/$1.json"
+              chown node:node "$file.tmp"
+              chmod 600 "$file.tmp"
+              mv "$file.tmp" "$file"
+            ' sh "$VERSION"
+            rm -f "$SRC/admin-atlas.json"
+          fi
           docker exec -u root "$APP" chown -R node:node /data/godot-content
           cd "$HOME/ki-multiplayer-db"
           docker compose -p ki-multiplayer-db -f compose.yml exec -T db psql -U ki_owner -d ki_multiplayer \
-            -v ON_ERROR_STOP=1 -v m="$(cat "$SRC/manifest.json")" -v v="$VERSION" -v act="$ACTIVATE" -v test_base="$TEST_BASE" <<'SQL'
+            -v ON_ERROR_STOP=1 -v m="$(cat "$SRC/manifest.json")" -v v="$VERSION" -v act="$ACTIVATE" -v test_base="$TEST_BASE" -v current="$EXPECTED_ACTIVE" <<'SQL'
           BEGIN;
           SELECT set_config('ki.expected_test_base', :'test_base', true);
+          SELECT set_config('ki.expected_active', :'current', true);
           DO $guard$
-          DECLARE expected text := current_setting('ki.expected_test_base');
+          DECLARE
+            expected text := current_setting('ki.expected_test_base');
+            current_release text := current_setting('ki.expected_active');
           BEGIN
+            IF current_release <> '' THEN
+              PERFORM 1 FROM godot_android.settings WHERE id = 1 AND active_version = current_release FOR UPDATE;
+              IF NOT FOUND THEN
+                RAISE EXCEPTION 'Expected active release %', current_release;
+              END IF;
+            END IF;
             IF expected <> '' THEN
               PERFORM 1 FROM godot_android.settings
               WHERE id = 1 AND maintenance AND active_version = expected
