@@ -42,3 +42,9 @@ Każda lokacja ma własne dialogi i skrytkę. Łącznie dodano 14 punktów spawn
 ## Kandydat do wydania Android 1.14.39
 
 Wydanie łączy przygody na rubieżach, nowe grafiki ośmiu aktywnych bossów i atlas administratora. Zmieniono trzy paczki OTA (kod, regiony i potwory), a 35 wcześniejszych zachowuje identyczne sumy kontrolne. Dane atlasu są generowane z tych samych paczek i umieszczane w prywatnym katalogu woluminu serwera. Endpoint wybiera atlas według aktualnie aktywnej wersji OTA. Plik atlasu nie jest częścią plików statycznych ani commita.
+
+### Publikacja 1.14.39 na produkcji
+
+- Kod serwera z SHA `3fadb73e5dc31f0bd4d81ba17033a522512158cd` przeszedł pełną bramkę i testy wdrożenia Aruba. [Przebieg wdrożenia](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/46153394825)
+- Zapisano atlas administratora na prywatnym woluminie i aktywowano OTA 1.14.39. Weryfikacja na serwerze objęła 38 paczek i zakończyła się bez różnic. [Przebieg publikacji OTA](https://github.com/circus574-cpu/pixel-playground-launch/actions/runs/46163287032)
+- Po publikacji odczytano dokładnie manifest 1.14.39 i pobrano trzy zmienione paczki z domeny produkcyjnej. Ich rozmiary i SHA-256 zgadzają się z manifestem. Żądanie do atlasu bez sesji administratora otrzymało HTTP 403. [Manifest Androida](https://kilegends.pl/ws/godot/manifest?client=101)
