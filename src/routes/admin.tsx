@@ -30,11 +30,7 @@ const AdminServerStatus = lazy(() =>
 const AdminGodotPanel = lazy(() => import("@/components/admin/AdminGodotPanel"));
 const AdminAndroidCharacters = lazy(() => import("@/components/admin/AdminAndroidCharacters"));
 const ServerCharacterManager = lazy(() => import("@/components/admin/ServerCharacterManager"));
-const AdminSuperiorWorld = lazy(() =>
-  import("@/components/admin/AdminSuperiorWorld").then((m) => ({
-    default: m.AdminSuperiorWorld,
-  })),
-);
+const AdminSuperiorOverview = lazy(() => import("@/components/admin/AdminSuperiorOverview"));
 
 const ROLE_NAME: Record<AppRole, string> = { admin: "administrator", gm: "game master" };
 const when = (iso: string | null) => (iso ? new Date(iso).toLocaleString("pl-PL") : "—");
@@ -85,7 +81,7 @@ function AdminPage() {
               ["server-chars", "Postacie (live)"],
               ["players", "Konta i role"],
               ["monitoring", "Serwer"],
-              ["superior-world", "Świat Superior"],
+              ...(isAdmin ? [["superior-world", "Świat Superior"] as const] : []),
               ["android", "Gra Android"],
               ["audit", "Dziennik"],
               ["logins", "Logowania"],
@@ -127,9 +123,9 @@ function AdminPage() {
           </>
         )}
         {tab === "logins" && <Logins />}
-        {tab === "superior-world" && (
+        {tab === "superior-world" && isAdmin && (
           <Suspense fallback={<p role="status">Wczytywanie rzeczywistej mapy Świata Superior…</p>}>
-            <AdminSuperiorWorld />
+            <AdminSuperiorOverview token={account.session.access_token} />
           </Suspense>
         )}
         {tab === "coder" && (

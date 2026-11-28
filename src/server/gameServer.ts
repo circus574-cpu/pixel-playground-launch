@@ -7,6 +7,7 @@
  * wsadowy zapis pozycji i telemetrii do PostgreSQL 17 (Schema v2).
  */
 import http from "node:http";
+import { join } from "node:path";
 import postgres from "postgres";
 import { WebSocket, WebSocketServer } from "ws";
 import type {
@@ -24,11 +25,12 @@ import { accountHttp } from "./accounts/http";
 import { godotHttp } from "./godot/http";
 import { GodotLive } from "./godot/live";
 import { GodotStore } from "./godot/store";
-import { ContentFiles } from "./godot/contentFiles";
+import { ContentFiles, VERSION_PATTERN } from "./godot/contentFiles";
 import { resendMailer } from "./accounts/mailer";
 import { AccountService } from "./accounts/service";
 import { signingKey } from "./accounts/crypto";
 import { WorldOverrideService, worldHttp } from "./world/overrides";
+import { androidOverviewHttp, loadAndroidOverview } from "./world/androidOverview";
 import { collectRuntimeStatus, restartHttp, runtimeHttp } from "./runtimeStatus";
 import { ServiceAccess } from "./serviceAccess";
 
@@ -161,6 +163,28 @@ export class GameServer {
         broadcast: (text) => this.godotLive.broadcastSystem(text),
         settingsChanged: () => this.serviceAccess.invalidate(),
       });
+      return;
+    }
+
+    if (url.split("?")[0] === "/ws/world/android-superior") {
+      void androidOverviewHttp(
+        req,
+        res,
+        (token) => this.adminSubject(token),
+        async () => {
+          const override = process.env["KI_ANDROID_OVERVIEW_PATH"];
+          if (override) return loadAndroidOverview(override);
+          const store = this.godot;
+          const version = (await store?.settings())?.activeVersion;
+          if (!store || !version || !VERSION_PATTERN.test(version))
+            throw Error("No active Android atlas");
+          const snapshot = await loadAndroidOverview(
+            join(store.files.root, "admin-atlas", version + ".json"),
+          );
+          if (snapshot.index.version !== version) throw Error("Android atlas version mismatch");
+          return snapshot;
+        },
+      );
       return;
     }
 

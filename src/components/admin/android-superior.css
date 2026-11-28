@@ -1,0 +1,197 @@
+.ki-android-atlas,
+.ki-android-atlas-switch {
+  --atlas-line: #3a4d5c;
+  --atlas-panel: #111c25;
+  --atlas-text: #e7edf1;
+  --atlas-muted: #b7c5cf;
+  color: var(--atlas-text);
+  min-width: 0;
+}
+
+.ki-android-atlas-switch,
+.ki-android-region-links,
+.ki-android-atlas-toolbar,
+.ki-android-atlas-layers,
+.ki-android-atlas-pages {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.45rem;
+}
+
+.ki-android-atlas-switch {
+  margin: 0.9rem 0;
+}
+
+.ki-android-atlas {
+  padding: clamp(0.5rem, 2vw, 1.2rem);
+  border: 1px solid var(--atlas-line);
+  border-radius: 0.65rem;
+  background: #0c141b;
+  overflow-wrap: anywhere;
+}
+
+.ki-android-atlas header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+  margin-bottom: 0.8rem;
+}
+.ki-android-atlas h2,
+.ki-android-atlas h3 {
+  color: #f1d590;
+  margin: 0 0 0.25rem;
+}
+.ki-android-atlas p {
+  margin: 0.3rem 0 0.6rem;
+}
+.ki-android-atlas small,
+.ki-android-atlas header p {
+  color: var(--atlas-muted);
+}
+
+.ki-android-atlas button,
+.ki-android-atlas-switch button,
+.ki-android-atlas select,
+.ki-android-atlas input:not([type="checkbox"]) {
+  min-height: 44px;
+  min-width: 44px;
+  max-width: 100%;
+  padding: 0.4rem 0.66rem;
+  border: 1px solid var(--atlas-line);
+  border-radius: 0.4rem;
+  background: var(--atlas-panel);
+  color: var(--atlas-text);
+  font: inherit;
+}
+.ki-android-atlas button,
+.ki-android-atlas-switch button,
+.ki-android-atlas summary {
+  cursor: pointer;
+}
+.ki-android-atlas button[aria-pressed="true"],
+.ki-android-atlas-switch button[aria-pressed="true"] {
+  border-color: #b79456;
+  color: #fff1cc;
+}
+.ki-android-atlas button:disabled {
+  opacity: 0.46;
+  cursor: default;
+}
+.ki-android-atlas label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  color: var(--atlas-muted);
+  min-width: 0;
+}
+.ki-android-atlas label:has(input[type="checkbox"]) {
+  flex-direction: row;
+  align-items: center;
+  min-height: 44px;
+}
+
+.ki-android-planet > svg,
+.ki-android-land {
+  display: block;
+  width: 100%;
+  background: #102738;
+  border: 1px solid var(--atlas-line);
+  border-radius: 0.45rem;
+}
+.ki-android-planet svg text {
+  fill: #fff1cb;
+  stroke: #162b33;
+  stroke-width: 6px;
+  paint-order: stroke;
+  font-size: 42px;
+  font-weight: bold;
+  text-anchor: middle;
+}
+.ki-android-planet circle,
+.ki-android-atlas-continent,
+.ki-android-atlas-planet-boss,
+.ki-android-land g {
+  cursor: pointer;
+}
+.ki-android-planet circle:hover,
+.ki-android-atlas-continent:hover,
+.ki-android-atlas-planet-boss:hover {
+  filter: brightness(1.3);
+}
+.ki-android-region-links,
+.ki-android-atlas-layers {
+  margin: 0.65rem 0;
+}
+.ki-android-land {
+  aspect-ratio: 1;
+  cursor: crosshair;
+}
+.android-road {
+  fill: none;
+  stroke: #edcd94;
+  stroke-width: 1px;
+  stroke-opacity: 0.58;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+.android-road-highway {
+  stroke-width: 2px;
+}
+.ki-android-atlas-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 0.8rem;
+}
+.ki-android-atlas-content aside {
+  min-width: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+.ki-android-atlas-list,
+.ki-android-atlas-selection {
+  padding: 0.65rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--atlas-line);
+  background: var(--atlas-panel);
+}
+.ki-android-atlas-list {
+  display: grid;
+  gap: 0.3rem;
+  overflow-y: auto;
+  max-height: 23rem;
+}
+.ki-android-atlas-point {
+  width: 100%;
+  text-align: start;
+}
+.ki-android-atlas-selection dl {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.2rem 0.5rem;
+}
+.ki-android-atlas-selection dd {
+  margin: 0;
+}
+.ki-android-atlas-selection pre {
+  overflow: auto;
+  font: 0.8rem monospace;
+  color: #ead4a3;
+}
+.ki-android-atlas-error {
+  color: #ffc2aa;
+}
+
+@media (max-width: 48rem) {
+  .ki-android-atlas-content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ki-android-atlas-toolbar label:has(input:not([type="checkbox"])) {
+    flex: 1 0 100%;
+  }
+  .ki-android-atlas header label {
+    width: 100%;
+  }
+}

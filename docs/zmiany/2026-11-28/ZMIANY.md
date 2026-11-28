@@ -38,3 +38,7 @@ Rozmieszczono osiem nowych lokacji na obrzeżach czterech kontynentów, 665–17
 Każda lokacja ma własne dialogi i skrytkę. Łącznie dodano 14 punktów spawnów, w tym cztery nazwane elity. Zlecenia korzystają ze wspólnego dziennika, zapisów i świata Androida. Serwer zalicza wskazane pokonanie strażnika i potwierdzone otwarcie skrytki. Nagrody questów i skrytek są jednorazowe. Zmiana nie wymaga migracji formatu zapisów.
 
 Źródłem jest `scripts/godot/wilderness_adventures.json`. Regeneracja przebiega przez `python scripts/godot/add_wilderness_adventures.py` oraz `python scripts/godot/export_android_world_data.py`. Test rozmieszczenia i danych wykonuje tryb `--check` pierwszego skryptu. Weryfikacja na Godocie 4.6.3 objęła 237/237 sprawdzeń rozmów, tras, celów i nagród oraz 96/96 w audycie etapu 4. Testy ekonomii i zapisów serwera zaliczyły 21/21. Telefon fizyczny pozostaje niezweryfikowany.
+
+## Kandydat do wydania Android 1.14.39
+
+Wydanie łączy przygody na rubieżach, nowe grafiki ośmiu aktywnych bossów i atlas administratora. Zmieniono trzy paczki OTA (kod, regiony i potwory), a 35 wcześniejszych zachowuje identyczne sumy kontrolne. Dane atlasu są generowane z tych samych paczek i umieszczane w prywatnym katalogu woluminu serwera. Endpoint wybiera atlas według aktualnie aktywnej wersji OTA. Plik atlasu nie jest częścią plików statycznych ani commita.
