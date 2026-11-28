@@ -2,6 +2,8 @@ extends RefCounted
 ## Stage 4: 41-Monster Differentiated AI, Elemental Weaknesses, Ground Telegraphs,
 ## Persistent Hazard Zones, Hero Debuffs, and 8 Multi-Phase Canonical Bosses.
 
+const BossVisuals := preload("res://scripts/boss_visuals.gd")
+
 var world: Node2D
 var bosses_db: Array[Dictionary] = []
 var active_telegraphs: Array[Dictionary] = []
@@ -222,7 +224,7 @@ func spawn_region_bosses(land: String) -> void:
 		if not world.monsters_db.has(guardian_id):
 			continue
 		var m_entry: Dictionary = world.monsters_db[guardian_id]
-		var m_actor_def: Dictionary = m_entry.get("actor", {})
+		var m_actor_def := BossVisuals.actor_definition(bid, m_entry.get("actor", {}))
 		if m_actor_def.is_empty():
 			continue
 		var arena_arr: Array = b.get("arenaPos", [])
